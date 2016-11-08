@@ -1,0 +1,25 @@
+MongoDB for Airbnb
+Property Uploads
+{
+	_id:(property_id),
+	prop_images:[blob_image],
+	prop_videos:[videos_blob]
+}
+
+Reviews and Ratings
+{
+	_id:(trip_id),
+	user_id:(user_id),
+	host_id:(host_id),
+	user_ratings:(ratings of user),
+	host_ratings: (ratings of host)
+}
+
+User Profile Image
+{
+	_id:(user_id),
+	user_profile: [blob image]
+}
+
+
+
