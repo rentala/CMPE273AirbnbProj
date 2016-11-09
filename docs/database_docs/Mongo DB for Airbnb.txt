@@ -25,6 +25,7 @@ ratings :
 		  guest_email_id : (email_id of the user ),
 		  rating_stars : ()		
 		  rating_comments :	
+		  photos : []
 		}
 	]
 }
@@ -56,6 +57,7 @@ ratings :[
 			rating_comments :
 		}
 	]
+is_active : (represents if the user is active or deleted)	
 }
 
 
