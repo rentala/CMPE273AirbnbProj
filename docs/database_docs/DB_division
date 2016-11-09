@@ -1,0 +1,6 @@
+		
+User					MongoDB				id in sql tables
+property				MongoDB				id in sql tables
+trips					MySQL				nothing in mongo
+bidding					MySQL				nothing in mongo
+bidding details			MySQL				nothing in mongo
