@@ -1,25 +1,61 @@
-MongoDB for Airbnb
-Property Uploads
+MongoDB for Airbnb:
+
+Property collection:
 {
-	_id:(property_id),
-	prop_images:[blob_image],
-	prop_videos:[videos_blob]
+_id:
+host_id: (id from reference table)
+category:
+quantity:
+street:
+city:
+state:
+zipcode:
+description:
+per_night_price:
+per_week_price: (can be null)
+per_month_price: (can be null)
+listed_time:
+start_date :
+end_date :
+prop_images : [](array)
+prop_videos : [](array)
+ratings :
+	[
+		{
+		  guest_email_id : (email_id of the user ),
+		  rating_stars : ()		
+		  rating_comments :	
+		}
+	]
 }
 
-Reviews and Ratings
-{
-	_id:(trip_id),
-	user_id:(user_id),
-	host_id:(host_id),
-	user_ratings:(ratings of user),
-	host_ratings: (ratings of host)
-}
 
-User Profile Image
+User Collection:
 {
-	_id:(user_id),
-	user_profile: [blob image]
+_id :
+first_name :
+last_name :
+street :
+city :
+state :
+zipcode :
+is_host :
+email_id :
+passwd :
+ssn :
+phone_no :
+birthdate :
+credit_card_no :
+exp_date : (credit card exp date)
+cvv : (credit security code)
+profile_image :
+ratings :[
+		{
+			host_email_id :
+			rating_starts  :
+			rating_comments :
+		}
+	]
 }
-
 
 
