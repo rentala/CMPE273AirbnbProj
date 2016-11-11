@@ -10,7 +10,7 @@ var mongoStore = require("connect-mongo")(session);
 var flash = require('connect-flash');
 var http = require('http');
 var index = require('./routes/index');
-var users = require('./routes/users');
+var host = require('./routes/host');
 var authentication = require('./routes/authentication');
 
 var app = express();
@@ -40,7 +40,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/host', host);
 app.use('/auth', authentication);
 app.all('*', assertAuthentication);
 function assertAuthentication(req, res, next) {
