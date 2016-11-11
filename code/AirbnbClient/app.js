@@ -10,16 +10,17 @@ var mongoStore = require("connect-mongo")(session);
 var flash = require('connect-flash');
 var http = require('http');
 var index = require('./routes/index');
-var host = require('./routes/host');
+//var host = require('./routes/host');
 var authentication = require('./routes/authentication');
 
 var app = express();
 
-app.use(session({secret: 'cmpe273'}));
 app.use(session({
   secret: "CMPE273_passport",
   duration: 30 * 60 * 1000,
   activeDuration: 5 * 6 * 1000,
+  saveUninitialized: false,
+  resave: false,
   store: new mongoStore({ url: 'mongodb://localhost/airbnb' })
 }));
 require('./config/passport')(passport);
@@ -40,7 +41,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/host', host);
+//app.use('/host', host);
 app.use('/auth', authentication);
 app.all('*', assertAuthentication);
 function assertAuthentication(req, res, next) {
