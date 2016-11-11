@@ -12,6 +12,9 @@ var login = {
 			function(err, user, id){
 				console.log("User is ")
 				console.log(user);
+				if(err){
+					tool.logError(err);
+				}
 				if (user) {
 					res.code = "200";
 					res.value = user;
