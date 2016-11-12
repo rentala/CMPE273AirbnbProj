@@ -10,16 +10,18 @@ var mongoStore = require("connect-mongo")(session);
 var flash = require('connect-flash');
 var http = require('http');
 var index = require('./routes/index');
-var users = require('./routes/users');
+var host = require('./routes/host');
+//var host = require('./routes/host');
 var authentication = require('./routes/authentication');
 
 var app = express();
 
-app.use(session({secret: 'cmpe273'}));
 app.use(session({
   secret: "CMPE273_passport",
   duration: 30 * 60 * 1000,
   activeDuration: 5 * 6 * 1000,
+  saveUninitialized: false,
+  resave: false,
   store: new mongoStore({ url: 'mongodb://localhost/airbnb' })
 }));
 require('./config/passport')(passport);
@@ -40,17 +42,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/host', host);
+//app.use('/host', host);
 app.use('/auth', authentication);
-app.all('*', assertAuthentication);
-function assertAuthentication(req, res, next) {
-   if(req.session.user != null && req.session.user != undefined){
-     next();
-   } else{
-     req.flash("Unauthorized", "You must login or sign up!")
-     res.redirect('/auth/signin')
-   }
-}
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

@@ -1,7 +1,7 @@
 //super simple rpc server example
 var amqp = require('amqp'),
 	util = require('util'),
-	mongoURL = "mongodb://localhost:27017/ebay",
+	mongoURL = "mongodb://localhost:27017/airbnb",
 	mongo = require("./db/mongo"),
 	cnn = amqp.createConnection({host:'127.0.0.1'}),
 	mysql = require("./db/mysql.js"),
