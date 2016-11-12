@@ -11,14 +11,10 @@
                 </button>
                 <a class="navbar-brand" href="#"><img src="/images/airbnb.png" width="150" height="100" style="margin-top:-40px"></img></a>
             </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li style="border-left:solid;border-width:0.5px;border-color:#D3D3D3"><a onclick="popup()" id="myBtn">Sign Up</a></li>
-                    <li style="border-left:solid;border-width:0.5px;border-color:#D3D3D3"><a onclick="popup1()" id="myBtn1">Log In</a></li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
+            <div style="float:right">
+            <button type="button" class="btn btn-info btn-lg" style="background-color: transparent;border-color:transparent;" data-toggle="modal" data-target="#myModal"><label style="color: #0f0f0f">Sign Up</label></button>
+            <button type="button" class="btn btn-info btn-lg" style="background-color: transparent;border-color:transparent;" data-toggle="modal" data-target="#myModal1"><label style="color: #0f0f0f">Log In</label></button>
+            </div>
         </div><!-- /.container-fluid -->
 
         <!--Sign Up-->
@@ -72,7 +68,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <span style="float: left;">Don't have an account?</span><button type="button" id="myBtn" class="btn btn-danger" style="float:right;" onclick="popup()">Sign Up</button>
+                        <span style="float: left;">Don't have an account?</span><button type="button" id="myBtn2" class="btn btn-danger" style="float:right;" onclick="popup()">Sign Up</button>
                     </div>
                 </div>
             </div>
@@ -81,19 +77,3 @@
     </nav>
 </div>
 
-<script>
-    function popup(){
-        $(document).ready(function(){
-            $("#myBtn").click(function(){
-                $("#myModal").modal();
-            });
-        });
-    }
-    function popup1(){
-        $(document).ready(function(){
-            $("#myBtn1").click(function(){
-                $("#myModal1").modal();
-            });
-        });
-    }
-</script>
