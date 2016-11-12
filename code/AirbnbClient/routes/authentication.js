@@ -6,12 +6,13 @@ var router = express.Router();
 var passport = require('passport');
 
 router.post('/signInUser', function (req, res, next)  {
+    var json_responses;
     passport.authenticate('login', function (err, user, info) {
         if(err){
             return next(err);
         }
         if(!user){
-            return res.redirect('/auth/sigin')
+            json_responses={"status_code":401};
         } else{
             req.logIn(user,{session:false}, function(err) {
                 if(err) {
@@ -20,14 +21,18 @@ router.post('/signInUser', function (req, res, next)  {
 
                 console.log("Got the user");
                 req.session.user = user;
-                return res.redirect('/');
+
+                json_responses = {
+                    "status_code" : 200,
+                    "user" : JSON.stringify(user)
+                };
+                //return res.redirect('/');
             })
         }
+        res.send(json_responses);
+        res.end();
     })(req, res, next);
 
 });
 
-router.get('/signIn', function (req, res) {
-    res.render('./authentication/signIn.ejs');
-})
 module.exports = router;

@@ -9,9 +9,12 @@ var login = {
 		console.log("Coll is users");
 		coll.findOne({email: msg.email},
 			//handles async and sync errors and logs them
-			tool.executeAsyncCode(err, user, function(err, user, id){
+			function(err, user, id){
 				console.log("User is ")
 				console.log(user);
+				if(err){
+					tool.logError(err);
+				}
 				if (user) {
 					res.code = "200";
 					res.value = user;
@@ -20,7 +23,8 @@ var login = {
 					res.value = id;
 				}
 				callback(null, res);
-			}));
+			});
+
 
 	}
 }
