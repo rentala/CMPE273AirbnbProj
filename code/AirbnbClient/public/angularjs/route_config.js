@@ -48,6 +48,6 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/login');
 });
 
-ebay.run([ '$state', function($state) {
+app.run([ '$state', function($state) {
     $state.transitionTo('login');
 } ]);

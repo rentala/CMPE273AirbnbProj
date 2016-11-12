@@ -43,15 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 //app.use('/host', host);
 app.use('/auth', authentication);
-app.all('*', assertAuthentication);
-function assertAuthentication(req, res, next) {
-   if(req.session.user != null && req.session.user != undefined){
-     next();
-   } else{
-     req.flash("Unauthorized", "You must login or sign up!")
-     res.redirect('/auth/signin')
-   }
-}
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
