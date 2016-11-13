@@ -23,6 +23,10 @@ cnn.on('ready', function(){
 	cnn.queue('login_queue', function(q){
 		subscriber(q, auth.login );
 	});
+	// registration queue
+	cnn.queue('register_queue', function(q){
+		subscriber(q, auth.register );
+	});
 });
 
 var subscriber = function(q, module){
@@ -31,8 +35,6 @@ var subscriber = function(q, module){
 		util.log("Message: "+JSON.stringify(message));
 		util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
 		module.handle_request(connection, message, function(err,res){
-
-			//return index sent
 			cnn.publish(m.replyTo, res, {
 				contentType:'application/json',
 				contentEncoding:'utf-8',

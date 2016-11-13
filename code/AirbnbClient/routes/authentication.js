@@ -35,4 +35,37 @@ router.post('/signInUser', function (req, res, next)  {
 
 });
 
+
+router.post('/signUpUser', function (req, res, next)  {
+    var json_responses;
+    console.log("inside signUpUser");
+    passport.authenticate('signup', function (err, user, info) {
+        if(err){
+        	console.log("err::" + err);
+            return next(err);
+        }
+        if(!user){
+            json_responses={"status_code":401};
+        } else{
+            req.logIn(user,{session:false}, function(err) {
+                if(err) {
+                    return next(err);
+                }
+
+                console.log("Got the user");
+                req.session.user = user;
+
+                json_responses = {
+                    "status_code" : 200,
+                    "user" : JSON.stringify(user)
+                };
+                //return res.redirect('/');
+            })
+        }
+        res.send(json_responses);
+        res.end();
+    })(req, res, next);
+
+});
+
 module.exports = router;

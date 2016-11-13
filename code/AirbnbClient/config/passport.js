@@ -37,4 +37,52 @@ module.exports = function(passport){
                 return done(null, results.value);
             });
         }));
+    
+    passport.use(
+            'signup',
+            new LocalStrategy({
+                usernameField : 'email',
+                passwordField : 'password',
+                passReqToCallback : true
+            },
+            function(req, username, password,  done) {
+            	var firstName = req.param("firstName");
+            	var lastName = req.param("lastName");
+            	var email = req.param("email");
+            	var password = req.param("password");
+            	var Dob = req.param("Dob");
+            	var street = req.param("street");
+            	var aptNum = req.param("aptNum");
+            	var city = req.param("city");
+            	var state = req.param("state");
+            	var zipCode = req.param("zipCode");
+            	var phoneNumber = req.param("phoneNumber");            	
+            	var ssn = req.param("ssn");            	
+        		//logger.event("new user registration", { email: email, first_name: firstName});
+        		console.log("new user registration", { email: email, firstName: firstName, lastName:lastName});
+        		
+        		
+        		var msg_payload = { "email": email, "password": password, "firstName": firstName, "lastName": lastName,"Dob":Dob,"street":street,
+        				"aptNum":aptNum,"city":city,"state":state,"zipCode":zipCode,"phoneNumber":phoneNumber,"ssn":ssn};
+            	
+            	mq_client.make_request('register_queue',msg_payload, function(err,results){
+        			if(err){
+        				return done(null, "error");
+        			}
+        			else 
+        			{
+        				if(results.statusCode == 200){
+        					req.session.last_ts = "";
+            				req.session.user_id = results.user_id;
+            				req.session.first_nm = results.first_nm ;
+            				return done(null, "done");
+        				}
+        				else {    
+        					return done(null, "error");
+        				}
+        			}  
+        		});
+            })
+        );
+    
 }
