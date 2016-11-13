@@ -71,11 +71,13 @@ module.exports = function(passport){
         			}
         			else 
         			{
-        				if(results.statusCode == 200){
+        				if (results.code == 401)
+                            return done(null, false, req.flash('signupMessage', 'Email already exists'));
+        				else if(results.code == 200){
         					req.session.last_ts = "";
             				req.session.user_id = results.user_id;
             				req.session.first_nm = results.first_nm ;
-            				return done(null, "done");
+            				return done(null, "success");
         				}
         				else {    
         					return done(null, "error");

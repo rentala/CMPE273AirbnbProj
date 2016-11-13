@@ -33,11 +33,12 @@ var register = {
 			var res = {};
 			var coll = connection.mongoConn.collection('users');
 			try{
+				//initially check if email already registered
 	    		coll.findOne({
 	    			"email": msg.email
 	    		}, function(err, user){
 	    			if(user != null){
-	    				res.statusCode ="400";
+	    				res.code ="401";
 	        			callback(null, res);
 	    			}	
 	    			else{	
@@ -54,17 +55,18 @@ var register = {
 	        				"zipcode":msg.zipCode,
 	        				"phone":msg.phoneNumber,
 	        				"ssn":msg.ssn,
+	        				"is_host":"N",
 			    			"date":new Date()
 			    		}, function(err, user){
 			    			if(err){
-			    				res.statusCode ="400";
+			    				res.code ="400";
 			        			callback(null, res);
 			    			}
 			    			else
 			    			{
 			    				res.user_id = user.insertedIds,
 			    				res.first_nm = user.first_name ;
-			    				res.statusCode ="200";
+			    				res.code ="200";
 			        			callback(null, res);
 			    			}
 			    		});
