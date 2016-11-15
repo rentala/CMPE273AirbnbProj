@@ -8,6 +8,7 @@ var amqp = require('amqp'),
 	connMgr = new mysql.connectionManager(500);
 
 var auth = require('./services/authentication');
+var profile = require('./services/profile');
 var mongoConn;
 var connection = { mongoConn: mongoConn, sqlConn: connMgr  };
 mongo.connect(mongoURL, function(db){
@@ -26,6 +27,10 @@ cnn.on('ready', function(){
 	// registration queue
 	cnn.queue('register_queue', function(q){
 		subscriber(q, auth.register );
+	});
+	
+	cnn.queue('update_profile_queue', function(q){
+		subscriber(q, profile.updateProfile );
 	});
 });
 

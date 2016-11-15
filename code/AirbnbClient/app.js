@@ -13,6 +13,7 @@ var index = require('./routes/index');
 var host = require('./routes/host');
 //var host = require('./routes/host');
 var authentication = require('./routes/authentication');
+var profile = require('./routes/profile');
 
 var app = express();
 
@@ -45,6 +46,7 @@ app.use('/', index);
 app.use('/host', host);
 //app.use('/host', host);
 app.use('/auth', authentication);
+app.use('/profile', profile);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
