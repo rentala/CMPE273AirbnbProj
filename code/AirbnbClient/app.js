@@ -14,6 +14,7 @@ var host = require('./routes/host');
 //var host = require('./routes/host');
 var authentication = require('./routes/authentication');
 var profile = require('./routes/profile');
+var property = require('./routes/property');
 
 var app = express();
 
