@@ -27,7 +27,6 @@ app.use(session({
 }));
 require('./config/passport')(passport);
 app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // view engine setup
@@ -51,6 +50,7 @@ app.use('/', index);
 app.use('/api/auth', authentication);
 app.use('/api/host', host);
 app.use('/api/profile', profile);
+app.use('/api/property',property);
 
 
 // catch 404 and forward to error handler
