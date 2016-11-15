@@ -35,6 +35,16 @@ router.post('/signInUser', function (req, res, next)  {
 
 });
 
+router.get('/test', function (req, res, next)  {
+    var json_responses;
+    json_responses = {
+        "status_code" : 200,
+        "user" : "test"
+    };
+    //return res.redirect('/');
+    res.send(json_responses);
+    res.end();
+});
 
 router.post('/signUpUser', function (req, res, next)  {
     var json_responses;

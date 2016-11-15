@@ -42,11 +42,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+//USE '/routeName' for all page renders/redirection
 app.use('/', index);
-app.use('/host', host);
-//app.use('/host', host);
-app.use('/auth', authentication);
-app.use('/profile', profile);
+
+//USE '/api/routName' for all JSON response apis
+app.use('/api/auth', authentication);
+app.use('/api/host', host);
+app.use('/api/profile', profile);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
