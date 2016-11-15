@@ -32,6 +32,9 @@ cnn.on('ready', function(){
 	cnn.queue('update_profile_queue', function(q){
 		subscriber(q, profile.updateProfile );
 	});
+	cnn.queue('userinfo_queue', function(q){
+		subscriber(q, profile.userInfo );
+	});
 });
 
 var subscriber = function(q, module){

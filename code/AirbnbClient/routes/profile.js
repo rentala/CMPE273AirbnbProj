@@ -7,8 +7,8 @@ var mq_client = require('../rpc/client');
 
 router.post('/updateProfile', function (req, res, next)  {
     var json_responses;
-//    var user_id = req.session.user_id;
-    var user_id = req.param("user_id");
+    var user_id = req.session.user_id;
+   // var user_id = req.param("user_id");
 	var firstName = req.param("firstName");
 	var lastName = req.param("lastName");
 	var email = req.param("email");
@@ -21,7 +21,6 @@ router.post('/updateProfile', function (req, res, next)  {
 	var zipCode = req.param("zipCode");
 	var phoneNumber = req.param("phoneNumber");            	
 	var ssn = req.param("ssn");            	
-	//logger.event("new user registration", { email: email, first_name: firstName});
 	console.log("user updation", { email: email, firstName: firstName, lastName:lastName});
 	
 	
@@ -34,51 +33,64 @@ router.post('/updateProfile', function (req, res, next)  {
 		}
 		else 
 		{
-			if (results.code == 401)
+			if (results.code == 401){
                 return done(null, false, req.flash('updateProfileMessage', 'Error updating profile'));
+                json_responses = {
+	                    "status_code" : results.code
+	                };
+			}
 			else if(results.code == 200){
-				return done(null, "success");
+				json_responses = {
+	                    "status_code" : results.code
+	                };
 			}
 			else {    
 				return done(null, "error");
 			}
+			res.send(json_responses);
+	        res.end();
 		}  
 	});
-
-
 });
 
-
-router.post('/dummy', function (req, res, next)  {
+router.get('/userDetails', function (req, res, next)  {
     var json_responses;
-    console.log("inside signUpUser");
-    passport.authenticate('signup', function (err, user, info) {
-        if(err){
-        	console.log("err::" + err);
-            return next(err);
-        }
-        if(!user){
-            json_responses={"status_code":401};
-        } else{
-            req.logIn(user,{session:false}, function(err) {
-                if(err) {
-                    return next(err);
-                }
-
-                console.log("Got the user");
-                req.session.user = user;
-
-                json_responses = {
-                    "status_code" : 200,
-                    "user" : JSON.stringify(user)
+    var user_id = req.param("user_id");
+	
+	var msg_payload = { "user_id":user_id};
+	
+	mq_client.make_request('userinfo_queue',msg_payload, function(err,results){
+		if(err){
+			json_responses = {
+                    "status_code" : results.code,
+                    "userInfoMessage": "Error getting user info"
                 };
-                //return res.redirect('/');
-            })
-        }
-        res.send(json_responses);
-        res.end();
-    })(req, res, next);
-
+		}
+		else 
+		{
+			if (results.code == 400){
+				json_responses = {
+	                    "status_code" : results.code,
+	                    "userInfoMessage": "Error getting user info"
+	                };
+			}
+			else if(results.code == 200){
+				var data = results.user;
+				json_responses = {
+	                    "status_code" : results.code,
+	                    "user" : data
+	                };
+			}
+			else {    
+				json_responses = {
+	                    "status_code" : results.code,
+	                    "userInfoMessage": "Error getting user info"
+	                };
+			}
+		} 
+		 res.send(json_responses);
+	        res.end();
+	});
 });
 
 module.exports = router;

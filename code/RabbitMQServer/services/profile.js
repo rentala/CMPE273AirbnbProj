@@ -3,7 +3,6 @@ ObjectID = require('mongodb').ObjectID;
 
 var updateProfile = {
 		handle_request : function (connection, msg, callback){
-		console.log("inside update profile");
 		var res = {};
 		var obj_id = new ObjectID(msg.user_id);
 		var coll = connection.mongoConn.collection('users');
@@ -25,17 +24,45 @@ var updateProfile = {
 				}
 			}, function(err, user){
 				if(err){
-					console.log("inside update profile err" + err);
-					res.statusCode= "400";
+					res.code= "400";
 					callback(null, res);
 				}
 				else
 				{
-					console.log("inside update profile success");
-					res.statusCode= "200";
+					res.code= "200";
 					callback(null, res);
 				}
 			});
+		}
+		catch(err){
+			res.code = "500";
+			callback(null, res);
+		}
+	}
+}
+
+var userInfo = {
+		handle_request : function (connection, msg, callback){
+		var res = {};
+		var obj_id = new ObjectID(msg.user_id);
+		var coll = connection.mongoConn.collection('users');
+		try{
+			coll.findOne({"_id":obj_id}, function(err, user){
+				if(err){
+					res.code ="401";
+					callback(null, res);
+		    			}
+				else if(user != null)
+	    			{
+					res.code ="200";
+					res.user = user;
+					callback(null, res);
+		    			}
+				else{
+					res.code ="500";
+					callback(null, res);
+				}
+    		});
 		}
 		catch(err){
 			res.statusCode = "400";
@@ -44,4 +71,6 @@ var updateProfile = {
 	}
 }
 
+
 exports.updateProfile = updateProfile;
+exports.userInfo =userInfo ;
