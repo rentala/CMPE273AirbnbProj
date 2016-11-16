@@ -1,6 +1,8 @@
 //super simple rpc server example
 var amqp = require('amqp'),
 	util = require('util'),
+	//mongoURL = "mongodb://rentala:team5password@ds155097.mlab.com:55097/airbnb",
+	// uncomment above and comment below line to make it work on mLab
 	mongoURL = "mongodb://localhost:27017/airbnb",
 	mongo = require("./db/mongo"),
 	cnn = amqp.createConnection({host:'127.0.0.1'}),
