@@ -37,15 +37,15 @@ var searchProperty = {
         var res = {};
         try{
             var coll = connection.mongoConn.collection('property');
-            coll.find({city: msg.city,state:msg.state,zipcode:msg.zipcode,category:msg.category},function(err, records){
+            coll.find({city: msg.city,state:msg.state,zipcode:msg.zipcode,category:msg.category,start_date:{$lte:new Date(msg.start_date)},end_date:{$gte:new Date(msg.end_date)}},function(err, records){
                 if(err){
                     res.code = "400";
                     tool.logError(err);
                     callback(null, res);
                 }
                 records.toArray(function (e,recs) {
+                    console.log(recs);
                     if (recs) {
-                        console.log("inside else if");
                         res.code = "200";
                         res.value = recs;
                         callback(null, res);
