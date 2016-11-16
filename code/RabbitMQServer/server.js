@@ -48,6 +48,9 @@ cnn.on('ready', function(){
 	cnn.queue('approve_host_queue', function(q){
 		subscriber(q, admin.approveHost );
 	});
+	cnn.queue('delete_user_queue', function(q){
+		subscriber(q, profile.deleteUser );
+	});
 });
 
 var subscriber = function(q, module){

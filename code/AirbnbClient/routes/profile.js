@@ -93,4 +93,41 @@ router.get('/userDetails', function (req, res, next)  {
 	});
 });
 
+router.post('/deleteUser', function (req, res, next)  {
+    var json_responses;
+    //var user_id = req.session.user_id;
+    var user_id = req.param("user_id");
+	           	
+	console.log("user removal");
+	
+	
+	var msg_payload = { "user_id":user_id};
+	
+	mq_client.make_request('delete_user_queue',msg_payload, function(err,results){
+		if(err){
+			return done(null, "error");
+		}
+		else 
+		{
+			if (results.code == 401){
+                return done(null, false, req.flash('deleteUserMessage', 'Error deleting user'));
+                json_responses = {
+	                    "status_code" : results.code
+	                };
+			}
+			else if(results.code == 200){
+				json_responses = {
+	                    "status_code" : results.code
+	                };
+			}
+			else {    
+				return done(null, "error");
+			}
+			res.send(json_responses);
+	        res.end();
+		}  
+	});
+});
+
+
 module.exports = router;
