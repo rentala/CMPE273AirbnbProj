@@ -12,9 +12,11 @@ city:
 state:
 zipcode:
 description:
-per_night_price:
-per_week_price: (can be null)
-per_month_price: (can be null)
+price: {
+per_night:
+per_week: (can be null)
+per_month: (can be null)
+}
 listed_time:
 start_date :
 end_date :
