@@ -7,7 +7,6 @@ Property collection:
 _id:
 host_id: (id from reference table)
 category:
-quantity:
 street:
 city:
 state:
