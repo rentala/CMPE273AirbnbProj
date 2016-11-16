@@ -30,15 +30,14 @@ var listProperty = {
             callback(null, res);
         }
     }
-}
+};
 
 var searchProperty = {
     handle_request : function (connection,msg,callback) {
         var res = {};
-        console.log(msg.city);
         try{
             var coll = connection.mongoConn.collection('property');
-            coll.find({city: msg.city},function(err, records){
+            coll.find({city: msg.city,state:msg.state,zipcode:msg.zipcode,category:msg.category},function(err, records){
                 if(err){
                     res.code = "400";
                     tool.logError(err);
@@ -67,6 +66,7 @@ var searchProperty = {
         }
     }
 };
+
 
 exports.searchProperty = searchProperty;
 exports.listProperty = listProperty;
