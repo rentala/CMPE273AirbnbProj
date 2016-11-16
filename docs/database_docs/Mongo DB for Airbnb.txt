@@ -7,21 +7,30 @@ Property collection:
 _id:
 host_id: (id from reference table)
 category:
-street:
-city:
-state:
-zipcode:
+address:{
+	address:
+	street:
+	city:
+	state:
+	zipcode:
+}
+coordinates: {
+	x:
+	y:
+}
 description:
 price: {
-per_night:
-per_week: (can be null)
-per_month: (can be null)
+	per_night:
+	per_week: (can be null)
+	per_month: (can be null)
 }
+guests: 
+bedrooms:
 listed_time:
 start_date :
 end_date :
-prop_images : [](array)
-prop_videos : [](array)
+images : [](array)
+videos : [](array)
 ratings :
 	[
 		{
