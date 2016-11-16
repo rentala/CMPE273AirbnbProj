@@ -40,23 +40,28 @@ var searchProperty = {
             var coll = connection.mongoConn.collection('property');
             coll.find({city: msg.city},function(err, records){
                 if(err){
-                    tool.logError(err);
-                }
-                else if (records) {
-                    console.log("inside else if");
-                    res.code = "200";
-                    res.value = records;
-                    callback(null, res);
-                }
-                else {
                     res.code = "400";
-                    res.value = id;
+                    tool.logError(err);
                     callback(null, res);
                 }
+                records.toArray(function (e,recs) {
+                    if (recs) {
+                        console.log("inside else if");
+                        res.code = "200";
+                        res.value = recs;
+                        callback(null, res);
+                    }
+                    else {
+                        res.code = "400";
+                        callback(null, res);
+                    }
+                });
+
             });
         }
         catch(err)
         {
+            tool.logError(err);
             res.code = "500";
             callback(null, res);
         }
