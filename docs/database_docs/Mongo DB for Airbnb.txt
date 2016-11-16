@@ -1,3 +1,5 @@
+Note: Lower case naming convention for collection naming
+
 MongoDB for Airbnb:
 
 Property collection:
@@ -5,20 +7,29 @@ Property collection:
 _id:
 host_id: (id from reference table)
 category:
-quantity:
-street:
-city:
-state:
-zipcode:
+address:{
+	street:
+	city:
+	state:
+	zipcode:
+}
+coordinates: {
+	x:
+	y:
+}
 description:
-per_night_price:
-per_week_price: (can be null)
-per_month_price: (can be null)
+price: {
+	per_night:
+	per_week: (can be null)
+	per_month: (can be null)
+}
+guests: 
+bedrooms:
 listed_time:
 start_date :
 end_date :
-prop_images : [](array)
-prop_videos : [](array)
+images : [](array)
+videos : [](array)
 ratings :
 	[
 		{
