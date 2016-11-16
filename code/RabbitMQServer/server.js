@@ -12,6 +12,7 @@ var amqp = require('amqp'),
 var auth = require('./services/authentication');
 var profile = require('./services/profile');
 var property = require('./services/property');
+var admin = require('./services/admin');
 var mongoConn;
 var connection = { mongoConn: mongoConn, sqlConn: connMgr  };
 mongo.connect(mongoURL, function(db){
@@ -43,6 +44,9 @@ cnn.on('ready', function(){
 	});
 	cnn.queue('search_property_queue', function(q){
 		subscriber(q, property.searchProperty );
+	});
+	cnn.queue('approve_host_queue', function(q){
+		subscriber(q, admin.approveHost );
 	});
 });
 
