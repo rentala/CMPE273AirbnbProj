@@ -40,22 +40,20 @@ router.get('/searchProperty',function (req,res,next) {
 
 
 
-router.post('/listProperty', function (req, res, next)  {
-    var hostId = 1,
-        category = req.param("category"),
+router.post('/list', function (req, res, next)  {
+    /*var hostId = 1,
+        category = req.body.category,
         guests = req.param("guests"),
         street = req.param("street"),
-        address = req.param("address"),
         zip_code = req.param("zip_code"),
         bedrooms = req.param("bedrooms"),
         coordinates = req.param("coordinates"),
         state = req.param("state"),
         zipCode = req.param("zipCode");
-
+        */
     var json_responses;
 
-    var msg_payload = { "hostId": hostId, "category": category, "guests": guests, "street": street,
-        "address": address,"zip_code":zip_code,"bedrooms":bedrooms, "coordinates":coordinates,"state":state,"zipCode":zipCode };
+    var msg_payload = req.body;
 
     mq_client.make_request('list_property_queue', msg_payload, function(err,results){
         if(err){

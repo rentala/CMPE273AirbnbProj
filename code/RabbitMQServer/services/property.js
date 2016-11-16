@@ -6,25 +6,22 @@ var tool = require("../utili/common");
 
 var listProperty = {
     handle_request : function (connection, msg, callback){
-        var res = {};
-        var coll = connection.mongoConn.collection('property');
         try{
-            //initially check if email already registered
+            var res = {};
+            var coll = connection.mongoConn.collection('property');
             coll.insert(msg, function(err, user){
-                    coll.insert(msg, function(err, user){
-                        if(err){
-                            tool.logError(err);
-                            res.code ="400";
-                            callback(null, res);
-                        }
-                        else
-                        {
-                            res.user_id = user.insertedIds,
-                                res.first_nm = user.first_name ;
-                            res.code ="200";
-                            callback(null, res);
-                        }
-                    });
+                if(err){
+                    tool.logError(err);
+                    res.code ="400";
+                    callback(null, res);
+                }
+                else
+                {
+                    res.user_id = user.insertedIds,
+                        res.first_nm = user.first_name ;
+                    res.code ="200";
+                    callback(null, res);
+                }
             });
         }
         catch(err){
