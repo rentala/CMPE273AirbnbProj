@@ -1,3 +1,5 @@
+Note: Lower case naming convention for collection naming
+
 MongoDB for Airbnb:
 
 Property collection:
