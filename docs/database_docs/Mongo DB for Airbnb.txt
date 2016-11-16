@@ -8,7 +8,6 @@ _id:
 host_id: (id from reference table)
 category:
 address:{
-	address:
 	street:
 	city:
 	state:
