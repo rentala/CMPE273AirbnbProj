@@ -9,6 +9,8 @@ var amqp = require('amqp'),
 
 var auth = require('./services/authentication');
 var profile = require('./services/profile');
+var property = require('./services/property');
+
 var mongoConn;
 var connection = { mongoConn: mongoConn, sqlConn: connMgr  };
 mongo.connect(mongoURL, function(db){
@@ -35,6 +37,10 @@ cnn.on('ready', function(){
 	cnn.queue('userinfo_queue', function(q){
 		subscriber(q, profile.userInfo );
 	});
+
+	cnn.queue('search_property_queue', function(q){
+		subscriber(q, property.searchProperty );
+	});
 });
 
 var subscriber = function(q, module){
@@ -43,6 +49,7 @@ var subscriber = function(q, module){
 		util.log("Message: "+JSON.stringify(message));
 		util.log("DeliveryInfo: "+JSON.stringify(deliveryInfo));
 		module.handle_request(connection, message, function(err,res){
+            console.log("inside server callback with response" + res);
 			cnn.publish(m.replyTo, res, {
 				contentType:'application/json',
 				contentEncoding:'utf-8',
@@ -50,5 +57,5 @@ var subscriber = function(q, module){
 			});
 		});
 	});
-}
+};
 
