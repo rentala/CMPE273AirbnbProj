@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
 
+//POST method to approve host
 router.post('/approveHost', function (req, res)  {
     
 	console.log("Request Data  : " + JSON.stringify(req.body));
