@@ -9,7 +9,7 @@ var listProperty = {
         try{
             var res = {};
             var coll = connection.mongoConn.collection('property');
-            coll.insert(msg, function(err, user){
+            coll.insert(msg, function(err, prop){
                 if(err){
                     tool.logError(err);
                     res.code ="400";
@@ -17,8 +17,7 @@ var listProperty = {
                 }
                 else
                 {
-                    res.user_id = user.insertedIds,
-                        res.first_nm = user.first_name ;
+                    res.user_id = prop.insertedIds,
                     res.code ="200";
                     callback(null, res);
                 }

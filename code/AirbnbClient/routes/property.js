@@ -25,57 +25,12 @@ router.get('/search',function (req,res,next) {
         res.end();
     });
 
-
-
-
-
-
-
-
-
-
-
-    /*mq_client.make_request('search_property_queue',msg_payload,function (err,results) {
-        if(err)
-        {
-            json_responses = {
-                "failed" : results.result
-            };
-        }
-        else{
-            console.log('back to client without error');
-            json_responses = {
-                "product_id" : results.value
-            };
-        }
-        res.send(json_responses);
-        res.end();
-    });*/
-
-
-    /*“state”: “CA”,
-     “zipcode”: 34234,
-     “start_date”: “12/12/2019”,
-     “end_date”: “12/19/2019”
-     “category”: “APT”*/
-
-
 });
 
 
 
 
 router.post('/list', function (req, res, next)  {
-    /*var hostId = 1,
-        category = req.body.category,
-        guests = req.param("guests"),
-        street = req.param("street"),
-        zip_code = req.param("zip_code"),
-        bedrooms = req.param("bedrooms"),
-        coordinates = req.param("coordinates"),
-        state = req.param("state"),
-        zipCode = req.param("zipCode");
-        */
     var json_responses;
 
     var msg_payload = req.body;
@@ -83,16 +38,15 @@ router.post('/list', function (req, res, next)  {
     mq_client.make_request('list_property_queue', msg_payload, function(err,results){
         if(err){
             json_responses = {
-                "failed" : results.result
+                "failed" : "failed"
             };
         } else {
             json_responses = {
-                "product_id" : results.product_id
+                "propertyId" : results.insertedIds[0]
             };
         }
         res.statusCode = results.code;
         res.send(json_responses);
-        res.end();
     });
 });
 

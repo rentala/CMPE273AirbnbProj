@@ -49,7 +49,7 @@ app.use('/', index);
 
 //USE '/api/routName' for all JSON response apis
 app.use('/api/auth', authentication);
-app.use('/api/host', host);
+app.use('/host', host);
 app.use('/api/profile', profile);
 app.use('/api/property',property);
 
