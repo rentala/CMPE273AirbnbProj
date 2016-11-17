@@ -2,6 +2,7 @@
  * Created by Rentala on 09-11-2016.
  */
 var mysql = require('mysql');//importing module mysql
+//test
 var sqlPool;
 exports.getPool = function getPool(connLimit) {
     var pool  = mysql.createPool({
