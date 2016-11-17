@@ -51,6 +51,9 @@ cnn.on('ready', function(){
 	cnn.queue('pending_hosts_for_approval_queue', function(q){
 		subscriber(q, admin.pendingHostsForApproval );
 	});
+	cnn.queue('delete_user_queue', function(q){
+		subscriber(q, profile.deleteUser );
+	});
 });
 
 var subscriber = function(q, module){
