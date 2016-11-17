@@ -73,7 +73,7 @@ var searchProperty = {
                                     callback(null, res);
                                 }
                                 else {
-                                    res = {"statusCode":400,"errMsg":"Error While retrieving rows from MySQL"};
+                                    res = {"statusCode":400,"errMsg":"There is no matching row in MySQL"};
                                     callback(null, res);
                                 }
                             }

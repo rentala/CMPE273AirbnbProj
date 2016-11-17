@@ -16,6 +16,7 @@ var authentication = require('./routes/authentication');
 var profile = require('./routes/profile');
 var property = require('./routes/property');
 var admin = require('./routes/admin');
+var trip = require('./routes/trip');
 
 var app = express();
 
@@ -54,6 +55,7 @@ app.use('/api/host', host);
 app.use('/api/profile', profile);
 app.use('/api/property',property);
 app.use('/api/admin',admin);
+app.use('/api/trip',trip);
 
 
 // catch 404 and forward to error handler

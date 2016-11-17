@@ -13,6 +13,7 @@ var auth = require('./services/authentication');
 var profile = require('./services/profile');
 var property = require('./services/property');
 var admin = require('./services/admin');
+var trip = require('./services/trip');
 var mongoConn;
 var connection;
 
@@ -60,6 +61,12 @@ cnn.on('ready', function(){
 	cnn.queue('delete_user_queue', function(q){
 		subscriber(q, profile.deleteUser );
 	});
+    cnn.queue('trip_details_queue', function(q){
+        subscriber(q, trip.tripDetails );
+    });
+    cnn.queue('delete_trip_queue', function(q){
+        subscriber(q, trip.deleteTrip );
+    });
 });
 
 var subscriber = function(q, module){
