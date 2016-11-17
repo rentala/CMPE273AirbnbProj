@@ -33,6 +33,30 @@ router.post('/search',function (req,res,next) {
     });
 });
 
+router.get('/prop',function (req,res) {
+
+    var prop_id = req.param("prop_id");
+    var json_responses;
+
+    var msg_payload={"prop_id":prop_id};
+
+    mq_client.make_request('get_property_by_id_queue',msg_payload,function (err,results) {
+        if(err){
+            throw err;
+        }
+        else {
+            if(results.statusCode == 200){
+                json_responses = {"status_code":results.statusCode,"prop_array":results.prop_array};
+            }
+            else {
+                json_responses = {"status_code":results.statusCode,"msg":results.errMsg};
+            }
+        }
+        res.send(json_responses);
+        res.end();
+    });
+});
+
 router.post('/list', function (req, res, next)  {
     /*var hostId = 1,
         category = req.body.category,

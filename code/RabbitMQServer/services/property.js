@@ -4,6 +4,7 @@
 var tool = require("../utili/common");
 var sql_queries = require('../db/sql_queries');
 var mysql = require('../db/mysql');
+var ObjectID = require('mongodb').ObjectID;
 var listProperty = {
     handle_request : function (connection, msg, callback){
         try{
@@ -41,7 +42,7 @@ var searchProperty = {
             var coll = connection.mongoConn.collection('property');
             coll.find({city: msg.city,state:msg.state,zipcode:msg.zipcode,category:msg.category,start_date:{$gte:new Date(msg.start_date)},end_date:{$lt:new Date(msg.end_date)}},function(err, records){
                 if(err){
-                    res = {"statusCode":401,"errMsg":"Error While retrieving record from MongoDB"};
+                    res = {"statusCode":401,"errMsg":err};
                     tool.logError(err);
                     callback(null, res);
                 }
@@ -50,6 +51,7 @@ var searchProperty = {
                         available_property = getPropertyArray(recs);
                         mysql.fetchTripDates(function (err, result) {
                             if(err){
+                                //need to handle error.
                                 throw err;
                             }
                             else {
@@ -95,6 +97,41 @@ var searchProperty = {
     }
 };
 
+var getPropertyById = {
+    handle_request: function (connection, msg, callback) {
+        var res = {};
+
+        try{
+            var coll = connection.mongoConn.collection('property');
+            coll.find({_id:ObjectID(msg.prop_id)}).toArray(function (err,records) {
+                if(err)
+                {
+                    res = {"statusCode":401,"errMsg":err};
+                    tool.logError(err);
+                    callback(null, res);
+                }
+                else {
+                    if(records.length>0){
+                        res = {"statusCode":200,"prop_array":records};
+                        callback(null, res);
+                    }
+                    else {
+                        res = {"statusCode":402,"errMsg":"Sorry there are no matching records in the document"};
+                        callback(null, res);
+                    }
+                }
+
+            });
+        }
+        catch(err){
+            tool.logError(err);
+            res = {"statusCode":500,"errMsg":err};
+            callback(null, res);
+        }
+
+    }
+};
+
 function  getPropertyArray(records) {
     var propArray = [];
     for(var i=0;i<records.length;i++){
@@ -106,3 +143,4 @@ function  getPropertyArray(records) {
 
 exports.searchProperty = searchProperty;
 exports.listProperty = listProperty;
+exports.getPropertyById = getPropertyById;

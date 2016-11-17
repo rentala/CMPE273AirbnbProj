@@ -48,6 +48,9 @@ cnn.on('ready', function(){
 	cnn.queue('search_property_queue', function(q){
 		subscriber(q, property.searchProperty );
 	});
+    cnn.queue('get_property_by_id_queue', function(q){
+        subscriber(q, property.getPropertyById );
+    });
 	cnn.queue('approve_host_queue', function(q){
 		subscriber(q, admin.approveHost );
 	});
