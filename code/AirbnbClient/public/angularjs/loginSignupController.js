@@ -26,7 +26,7 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
                 if (data.status_code=="200") {
                     $rootScope.user_dtls = JSON.parse(data.user);
                     $state.go('home');
-                    console.log("Sign Up successful");
+                   // console.log("Sign Up successful");
                 }
                 else if(data.statusCode=="400"){
                     $scope.signUpError="User already exists please use different username";
@@ -47,7 +47,8 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
             }
         }).success(function(data){
             if(data.statusCode=="200"){
-                console.log("Login successful");
+                //console.log("Login successful");
+            	 $state.go('home');
             }
             else if(data.statusCode=="400"){
                 $scope.loginError="Wrong email address or password";

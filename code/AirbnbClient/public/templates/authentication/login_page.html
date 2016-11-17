@@ -26,20 +26,20 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <form class="form-group">
-                            <input type="text" class="form-control" placeholder="First Name" style="margin-top:20px" ng-model="firstName"></input>
-                            <input type="text" class="form-control" placeholder="Last Name" style="margin-top:10px" ng-model="lastName"></input>
-                            <input type="text" class="form-control" placeholder="Email Address" style="margin-top:10px" ng-model="email"></input>
-                            <input type="text" class="form-control" placeholder="New Password" style="margin-top:10px;margin-bottom:10px" ng-model="password"></input>
+                        <form action="/auth/signUpUser" method="post" class="form-group">
+                            <input type="text" class="form-control" placeholder="First Name" name= "firstName" style="margin-top:20px" ng-model="firstName"></input>
+                            <input type="text" class="form-control" placeholder="Last Name" name= "lastName" style="margin-top:10px" ng-model="lastName"></input>
+                            <input type="text" class="form-control" placeholder="Email Address" name= "email" style="margin-top:10px" ng-model="email"></input>
+                            <input type="password" class="form-control" placeholder="New Password" name= "password" style="margin-top:10px;margin-bottom:10px" ng-model="password"></input>
                             <span>Birthday</span>
-                            <input placeholder="Date of Birth" class="form-control" type="text" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="Dob"  ng-model="Dob">
-                            <input type="text" class="form-control" placeholder="Street" style="margin-top:10px" ng-model="street"></input>
-                            <input type="text" class="form-control" placeholder="Apartment Number" style="margin-top:10px" ng-model="aptNum"></input>
-                            <input type="text" class="form-control" placeholder="City" style="margin-top:10px" ng-model="city"></input>
-                            <input type="text" class="form-control" placeholder="State" style="margin-top:10px" ng-model="state"></input>
-                            <input type="number" class="form-control" placeholder="Zip Code" style="margin-top:10px" ng-model="zipCode"></input>
-                            <input type="number" class="form-control" placeholder="Phone Number" max="9999999999" style="margin-top:10px" ng-model="phoneNumber"></input>
-                            <input type="number" class="form-control" placeholder="SSN" max="999999999" style="margin-top:10px" ng-model="ssn"></input>
+                            <input placeholder="Date of Birth" class="form-control" type="text" name= "Dob" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="Dob"  ng-model="Dob">
+                            <input type="text" class="form-control" placeholder="Street" name= "street" style="margin-top:10px" ng-model="street"></input>
+                            <input type="text" class="form-control" placeholder="Apartment Number" name= "aptNum" style="margin-top:10px" ng-model="aptNum"></input>
+                            <input type="text" class="form-control" placeholder="City" style="margin-top:10px" name= "city" ng-model="city"></input>
+                            <input type="text" class="form-control" placeholder="State" style="margin-top:10px"  name= "state" ng-model="state"></input>
+                            <input type="number" class="form-control" placeholder="Zip Code" style="margin-top:10px"  name= "zipCode" ng-model="zipCode"></input>
+                            <input type="number" class="form-control" placeholder="Phone Number" max="9999999999" style="margin-top:10px" name= "phoneNumber"  ng-model="phoneNumber"></input>
+                            <input type="number" class="form-control" placeholder="SSN" max="999999999" style="margin-top:10px" name= "ssn"  ng-model="ssn"></input>
                             <span>By signing up, I agree to Airbnb’s Terms of Service, Nondiscrimination Policy, Payments Terms of Service, Privacy Policy, Guest Refund Policy, and Host Guarantee Terms.</span>
                             <button class="btn btn-danger" style="width:100%;margin-top: 10px" ng-click="signUp()">Sign Up</button>
                             <!--<p style="color:red">{{signUpError}}</p>-->

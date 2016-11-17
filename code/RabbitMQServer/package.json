@@ -11,8 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "amqp": "0.2.6",
+    "bcrypt-nodejs": "*",
     "mongodb": "2.2.11",
     "mysql": "2.12.0",
+    "node-constants": "0.0.2",
     "winston": "2.3.0"
   }
 }

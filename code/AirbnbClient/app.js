@@ -13,6 +13,9 @@ var index = require('./routes/index');
 var host = require('./routes/host');
 //var host = require('./routes/host');
 var authentication = require('./routes/authentication');
+var profile = require('./routes/profile');
+var property = require('./routes/property');
+var admin = require('./routes/admin');
 
 var app = express();
 
@@ -26,7 +29,6 @@ app.use(session({
 }));
 require('./config/passport')(passport);
 app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // view engine setup
@@ -41,10 +43,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+//USE '/routeName' for all page renders/redirection
 app.use('/', index);
-app.use('/host', host);
-//app.use('/host', host);
-app.use('/auth', authentication);
+
+//USE '/api/routName' for all JSON response apis
+app.use('/api/auth', authentication);
+app.use('/api/host', host);
+app.use('/api/profile', profile);
+app.use('/api/property',property);
+app.use('/api/admin',admin);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
