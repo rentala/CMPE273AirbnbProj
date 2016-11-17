@@ -26,7 +26,7 @@ var login = {
 				callback(null, res);
 			});
 	}
-}
+};
 
 var register = {
 		handle_request : function (connection, msg, callback){
