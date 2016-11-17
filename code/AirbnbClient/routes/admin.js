@@ -27,6 +27,7 @@ router.post('/approveHost', function (req, res)  {
 
 //POST method for getting pending host approval request
 
+
 router.post('/pendingHostsForApproval', function (req, res)  {
    
 	console.log("Request Data  : " + JSON.stringify(req.body));
