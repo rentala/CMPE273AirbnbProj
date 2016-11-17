@@ -25,6 +25,7 @@ router.post('/approveHost', function (req, res)  {
 });
 
 
+
 router.post('/pendingHostsForApproval', function (req, res)  {
    
 	console.log("Request Data  : " + JSON.stringify(req.body));
@@ -48,6 +49,8 @@ router.post('/pendingHostsForApproval', function (req, res)  {
 		}  
 	});
 });
+
+//End of admin routes.
 
 
 module.exports = router;
