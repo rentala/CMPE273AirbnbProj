@@ -5,5 +5,5 @@ var constants  =  require('node-constants');
 
 constants.define(exports, {
 
-    FETCH_TRIP_DATES : "SELECT trip.checkin_date,trip.checkout_date from airbnb.trip where property_id IN (?)"
+    FETCH_TRIP_DATES : "SELECT trip.property_id,trip.checkin_date,trip.checkout_date from airbnb.trip where property_id IN (?)"
 });

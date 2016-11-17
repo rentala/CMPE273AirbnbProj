@@ -37,12 +37,11 @@ var searchProperty = {
         var res = {};
         var available_property = [];
         var valid_property = [];
-        console.log("")
         try{
             var coll = connection.mongoConn.collection('property');
             coll.find({city: msg.city,state:msg.state,zipcode:msg.zipcode,category:msg.category,start_date:{$gte:new Date(msg.start_date)},end_date:{$lt:new Date(msg.end_date)}},function(err, records){
                 if(err){
-                    res.code = "400";
+                    res = {"statusCode":401,"errMsg":"Error While retrieving record from MongoDB"};
                     tool.logError(err);
                     callback(null, res);
                 }
@@ -57,25 +56,30 @@ var searchProperty = {
                                 if(result.length>0){
                                     for(var i=0;i<result.length;i++){
                                         if((new Date(msg.start_date))>=result[i].checkin_date && (new Date(msg.end_date))<=result[i].checkout_date){
+                                            // Deleting dates within trip dates.
                                             if(i != -1) {
-                                                result.splice(i, 1);
+                                                var invalid_property_index = recs.indexOf(result[i].property_id);
+
+                                                if(invalid_property_index!=-1){
+                                                    recs.splice(invalid_property_index,1);
+                                                }
                                             }
                                         }
                                     }
-                                    valid_property = result;
-                                    res.code = "200";
-                                    res.value = valid_property;
+                                    valid_property = recs;
+                                    res = {"statusCode":200,"valid_property":recs};
                                     callback(null, res);
                                 }
                                 else {
-                                    res.code = "400";
+                                    res = {"statusCode":400,"errMsg":"Error While retrieving rows from MySQL"};
                                     callback(null, res);
                                 }
                             }
                         },sql_queries.FETCH_TRIP_DATES,[available_property]);
                     }
                     else {
-                        res.code = "400";
+                        //No Matching Dates.
+                        res = {"statusCode":402,"errMsg":"Sorry there are no matching records in the document"};
                         callback(null, res);
                     }
                 });
@@ -85,7 +89,7 @@ var searchProperty = {
         catch(err)
         {
             tool.logError(err);
-            res.code = "500";
+            res = {"statusCode":500,"errMsg":err};
             callback(null, res);
         }
     }

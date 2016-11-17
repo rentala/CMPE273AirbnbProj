@@ -3,7 +3,7 @@ var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
 
-router.get('/search',function (req,res,next) {
+router.post('/search',function (req,res,next) {
     var city = req.param("city");
     var state = req.param("state");
     var zipcode = req.param("zipcode");
@@ -18,50 +18,20 @@ router.get('/search',function (req,res,next) {
 
     mq_client.make_request('search_property_queue', msg_payload, function(err,results){
         if(err){
-            json_responses = {"status_code":400};
+            //Need to handle this error.
+            throw err;
         } else {
-            json_responses = {"status_code":200};
+            if(results.statusCode == 200){
+                json_responses = {"status_code":results.statusCode,"valid_property":results.valid_property};
+            }
+            else{
+                json_responses = {"status_code":results.statusCode,"msg":results.errMsg};
+            }
         }
-        res.statusCode = results.code;
         res.send(json_responses);
         res.end();
     });
-
-
-
-
-
-
-
-
-
-
-
-    /*mq_client.make_request('search_property_queue',msg_payload,function (err,results) {
-        if(err)
-        {
-            json_responses = {
-                "failed" : results.result
-            };
-        }
-        else{
-            console.log('back to client without error');
-            json_responses = {
-                "product_id" : results.value
-            };
-        }
-        res.send(json_responses);
-        res.end();
-    });*/
-
-
-
-
-
 });
-
-
-
 
 router.post('/list', function (req, res, next)  {
     /*var hostId = 1,
