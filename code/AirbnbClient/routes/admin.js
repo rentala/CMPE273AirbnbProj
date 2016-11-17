@@ -25,6 +25,7 @@ router.post('/approveHost', function (req, res)  {
 	});
 });
 
+//POST method for getting pending host approval request
 
 router.post('/pendingHostsForApproval', function (req, res)  {
    
@@ -49,6 +50,8 @@ router.post('/pendingHostsForApproval', function (req, res)  {
 		}  
 	});
 });
+
+//End of admin routes.
 
 
 module.exports = router;
