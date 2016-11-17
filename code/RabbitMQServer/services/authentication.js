@@ -6,7 +6,7 @@ var login = {
 		var res = {};
 		console.log(msg);
 		var coll = connection.mongoConn.collection('users');
-		coll.findOne({email: msg.email},
+		coll.findOne({email: msg.email, "is_active": "Y"},
 			function(err, user, id){
 				if(err){
 					tool.logError(err);
@@ -15,7 +15,7 @@ var login = {
 					res.code = "200";
 					res.value = user;
 				} 
-				else if (!bcrypt.compareSync(msg.password, user.password)){
+				else if (user!= null && !bcrypt.compareSync(msg.password, user.password)){
 					res.code = "200";
 					res.value = user;
 				}
@@ -56,7 +56,8 @@ var register = {
 	        				"phone":msg.phoneNumber,
 	        				"ssn":msg.ssn,
 	        				"is_host":"N",
-			    			"date":new Date()
+			    			"date":new Date(),
+			    			"is_active": "Y"
 			    		}, function(err, user){
 			    			if(err){
 			    				res.code ="400";
@@ -79,28 +80,6 @@ var register = {
 			}
 		}
 	}
-
-
-function encrypt(text){
-	var algorithm = 'aes-256-ctr';
-	var password = 'd6F3Efeq';
-	
-	var cipher = crypto.createCipher(algorithm,password)
-	  var crypted = cipher.update(text,'utf8','hex')
-	  crypted += cipher.final('hex');
-	return crypted;
-}
-
-function decrypt(text){
-		var algorithm = 'aes-256-ctr';
-		var password = 'd6F3Efeq';
-		
-	  var decipher = crypto.createDecipher(algorithm,password)
-	  var dec = decipher.update(text,'hex','utf8')
-	  dec += decipher.final('utf8');
-	  return dec;
-	}
-
 
 exports.login = login;
 exports.register = register;

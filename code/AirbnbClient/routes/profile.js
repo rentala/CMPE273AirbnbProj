@@ -95,12 +95,7 @@ router.get('/userDetails', function (req, res, next)  {
 
 router.post('/deleteUser', function (req, res, next)  {
     var json_responses;
-    //var user_id = req.session.user_id;
     var user_id = req.param("user_id");
-	           	
-	console.log("user removal");
-	
-	
 	var msg_payload = { "user_id":user_id};
 	
 	mq_client.make_request('delete_user_queue',msg_payload, function(err,results){

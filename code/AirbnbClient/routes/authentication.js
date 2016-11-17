@@ -18,8 +18,6 @@ router.post('/signInUser', function (req, res, next)  {
                 if(err) {
                     return next(err);
                 }
-
-                console.log("Got the user");
                 req.session.user = user;
 
                 json_responses = {
@@ -48,7 +46,6 @@ router.get('/test', function (req, res, next)  {
 
 router.post('/signUpUser', function (req, res, next)  {
     var json_responses;
-    console.log("inside signUpUser");
     passport.authenticate('signup', function (err, user, info) {
         if(err){
         	console.log("err::" + err);
@@ -61,8 +58,6 @@ router.post('/signUpUser', function (req, res, next)  {
                 if(err) {
                     return next(err);
                 }
-
-                console.log("Got the user");
                 req.session.user = user;
 
                 json_responses = {
