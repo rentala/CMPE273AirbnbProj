@@ -12,6 +12,7 @@ var amqp = require('amqp'),
 var auth = require('./services/authentication');
 var profile = require('./services/profile');
 var property = require('./services/property');
+var admin = require('./services/admin');
 var mongoConn;
 var connection;
 
@@ -46,6 +47,15 @@ cnn.on('ready', function(){
 	});
 	cnn.queue('search_property_queue', function(q){
 		subscriber(q, property.searchProperty );
+	});
+	cnn.queue('approve_host_queue', function(q){
+		subscriber(q, admin.approveHost );
+	});
+	cnn.queue('pending_hosts_for_approval_queue', function(q){
+		subscriber(q, admin.pendingHostsForApproval );
+	});
+	cnn.queue('delete_user_queue', function(q){
+		subscriber(q, profile.deleteUser );
 	});
 });
 
