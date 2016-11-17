@@ -4,6 +4,7 @@
 var map;
 var infoWindow;
 
+//some edit by pranjal
 // markersData variable stores the information necessary to each marker
 var markersData = [
     {
