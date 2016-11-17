@@ -20,7 +20,7 @@ router.get('/search',function (req,res,next) {
         if(err){
             json_responses = {"status_code":400};
         } else {
-            json_responses = {"status_code":200,"result":results.value[0].city};
+            json_responses = {"status_code":200};
         }
         res.statusCode = results.code;
         res.send(json_responses);

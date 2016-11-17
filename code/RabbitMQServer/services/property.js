@@ -36,17 +36,18 @@ var searchProperty = {
     handle_request : function (connection,msg,callback) {
         var res = {};
         var available_property = [];
+        var valid_property = [];
+        console.log("")
         try{
             var coll = connection.mongoConn.collection('property');
-            coll.find({city: msg.city,state:msg.state,zipcode:msg.zipcode,category:msg.category,start_date:{$lte:new Date(msg.start_date)},end_date:{$gte:new Date(msg.end_date)}},function(err, records){
+            coll.find({city: msg.city,state:msg.state,zipcode:msg.zipcode,category:msg.category,start_date:{$gte:new Date(msg.start_date)},end_date:{$lt:new Date(msg.end_date)}},function(err, records){
                 if(err){
                     res.code = "400";
                     tool.logError(err);
                     callback(null, res);
                 }
                 records.toArray(function (e,recs) {
-                    console.log(recs);
-                    if (recs){
+                    if (recs.length>0){
                         available_property = getPropertyArray(recs);
                         mysql.fetchTripDates(function (err, result) {
                             if(err){
@@ -54,8 +55,16 @@ var searchProperty = {
                             }
                             else {
                                 if(result.length>0){
+                                    for(var i=0;i<result.length;i++){
+                                        if((new Date(msg.start_date))>=result[i].checkin_date && (new Date(msg.end_date))<=result[i].checkout_date){
+                                            if(i != -1) {
+                                                result.splice(i, 1);
+                                            }
+                                        }
+                                    }
+                                    valid_property = result;
                                     res.code = "200";
-                                    res.value = result;
+                                    res.value = valid_property;
                                     callback(null, res);
                                 }
                                 else {
@@ -87,7 +96,6 @@ function  getPropertyArray(records) {
     for(var i=0;i<records.length;i++){
         propArray.push(records[i]._id);
     }
-    console.log(propArray);
     return propArray;
 }
 
