@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `airbnb`.`bidding_dtl` (
   `bidder_id` VARCHAR(50) NULL,
   `bid_price` DOUBLE NULL,
   `bid_time` DATETIME NULL DEFAULT now(),
+  `property_id` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `bid_id`
     FOREIGN KEY (`bid_id`)
