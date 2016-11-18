@@ -2,18 +2,17 @@
 app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
 
     $scope.signUp = function(){
-        alert("requested signUp");
 
         if($scope.firstName!="" && $scope.lastName!="" && $scope.email!="" && $scope.password!="" && $scope.Dob!="" && $scope.street!="" && $scope.city!="" && $scope.state!="" && $scope.zipCode!="" && $scope.phoneNumber!="" && $scope.ssn!="" && $scope.aptNum!=""){
             $http({
                 method:"POST",
-                url:"/registerUser",
+                url:"/api/auth/signUpUser",
                 data:{
                     "firstName":$scope.firstName,
                     "lastName":$scope.lastName,
                     "email":$scope.email,
                     "password":$scope.password,
-                    "birthdate":$scope.Dob,
+                    "Dob":$scope.Dob,
                     "street":$scope.street,
                     "address":$scope.aptNum,
                     "city":$scope.city,
@@ -24,9 +23,10 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
                 }
             }).success(function(data){
                 if (data.status_code=="200") {
+                    $('.modal-backdrop').remove();
                     $rootScope.user_dtls = JSON.parse(data.user);
                     $state.go('home');
-                   // console.log("Sign Up successful");
+                    // console.log("Sign Up successful");
                 }
                 else if(data.statusCode=="400"){
                     $scope.signUpError="User already exists please use different username";
@@ -40,15 +40,16 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
     $scope.logIn = function(){
         $http({
             method:"POST",
-            url:"/logIn",
+            url:"/api/auth/signInUser",
             data:{
                 "email":$scope.emailAddress,
                 "password":$scope.password
             }
         }).success(function(data){
             if(data.statusCode=="200"){
+                $('.modal-backdrop').remove();
                 //console.log("Login successful");
-            	 $state.go('home');
+                $state.go('home');
             }
             else if(data.statusCode=="400"){
                 $scope.loginError="Wrong email address or password";

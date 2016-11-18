@@ -29,21 +29,34 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         controller : 'homeController'
     });
 
-    /*$stateProvider.state('msg_disp', {
-        url : '/msgDisp/:msg',
+    $stateProvider.state('admin', {
+        url : '/admin',
         views : {
             'header' : {
-                templateUrl : 'templates/home_header.html',
-                controller : 'headerCntrl'
+                templateUrl : 'templates/home/admin_header.html',
             },
             'content' : {
-                templateUrl : 'templates/list_msg_display.html',
-                controller : 'homeCntrl',
-                params :['msg']
+                templateUrl : 'templates/home/admin.html',
             }
-        }
+        },
+        controller : 'adminController'
+    });
 
-    });*/
+    /*$stateProvider.state('msg_disp', {
+     url : '/msgDisp/:msg',
+     views : {
+     'header' : {
+     templateUrl : 'templates/home_header.html',
+     controller : 'headerCntrl'
+     },
+     'content' : {
+     templateUrl : 'templates/list_msg_display.html',
+     controller : 'homeCntrl',
+     params :['msg']
+     }
+     }
+
+     });*/
 
     $urlRouterProvider.otherwise('/login');
 });
