@@ -36,5 +36,22 @@ exports.fetchTripDates = function(callback, sqlQuery, options) {
     });
 };
 
+exports.insertquery = function (callback,sqlQuery,options) {
+	sqlPool.getConnection(function(err, connection) {
+		var query = connection.query(sqlQuery, options, function(err,rows, result) {
+		if(err){
+			console.log("ERROR: " + err.message);
+			callback(err, rows);
+		}
+		else
+		{ 
+		callback(err, rows);
+		}
+		});
+		connection.release();
+	});	
+}
+
+
 exports.getPool = getPool;
 
