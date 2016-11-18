@@ -27,30 +27,6 @@ router.get('/search',function (req,res,next) {
 
 });
 
-
-
-
-router.post('/list', function (req, res, next)  {
-    var json_responses;
-
-    var msg_payload = req.body;
-
-    mq_client.make_request('list_property_queue', msg_payload, function(err,results){
-        if(err){
-            json_responses = {
-                "failed" : "failed"
-            };
-        } else {
-            json_responses = {
-                "propertyId" : results.insertedIds[0]
-            };
-        }
-        res.statusCode = results.code;
-        res.send(json_responses);
-    });
-});
-
-
 router.post('/list', function (req, res, next)  {
 
     var storage = multer.diskStorage({
