@@ -16,7 +16,10 @@
     "express": "~4.14.0",
     "express-session": "1.14.2",
     "morgan": "~1.7.0",
+<<<<<<< HEAD
     "multer": "1.2.0",
+=======
+>>>>>>> 9d25c00263a2b8591f170c43cfd23a3b62f900ca
     "passport": "0.3.2",
     "passport-local": "1.0.0",
     "serve-favicon": "~2.3.0"
