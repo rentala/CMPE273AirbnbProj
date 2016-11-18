@@ -80,7 +80,6 @@ router.post('/list', function (req, res, next)  {
         }
         var msg_payload = mapReqToPayLoad(req);
 
-
         mq_client.make_request('list_property_queue', msg_payload, function(err,results){
             if(err){
                 json_responses = {
@@ -88,7 +87,8 @@ router.post('/list', function (req, res, next)  {
                 };
             } else {
                 json_responses = {
-                    "propertyId" : results.insertedIds[0]
+                    "propertyId" : results.propertyId[0],
+                    "statusCode" : results.code
                 };
             }
             res.statusCode = results.code;
@@ -120,6 +120,8 @@ function mapReqToPayLoad(req) {
     msg_payload.bedrooms = req.body.bedrooms;
     msg_payload.start_date = req.body.start_date;
     msg_payload.end_date = req.body.end_date;
+    msg_payload.price = req.body.price;
+    msg_payload.is_auction = req.body.is_auction;
     return msg_payload;
 }
 
