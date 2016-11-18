@@ -77,6 +77,7 @@ CREATE TABLE IF NOT EXISTS `airbnb`.`bidding` (
   `max_bid_price` DOUBLE NULL,
   `max_bid_user_id` VARCHAR(50) NULL,
   `property_id` VARCHAR(50) NOT NULL,
+  `prop_desc` VARCHAR(100) NULL,
   PRIMARY KEY (`bid_id`))
 ENGINE = InnoDB;
 
