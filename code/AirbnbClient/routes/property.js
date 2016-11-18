@@ -88,9 +88,11 @@ router.post('/list', function (req, res, next)  {
                     "failed" : "failed"
                 };
             } else {
-                json_responses = {
-                    "propertyId" : results.insertedIds[0]
-                };
+            	json_responses = {
+            			//uncomment and add to session if required.
+            			//"propertyId" : results.propertyId
+                    	"status_code": 	results.code
+                    };
             }
             res.statusCode = results.code;
             res.send(json_responses);
