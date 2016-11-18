@@ -5,7 +5,8 @@ var passport = require('passport');
 
 
 
-//POST method to approve host...making changes in this admin file
+//POST method to approve host...making changes in this admin file...varsha....pranjal
+
 router.post('/approveHost', function (req, res)  {
     
 	console.log("Request Data  : " + JSON.stringify(req.body));
