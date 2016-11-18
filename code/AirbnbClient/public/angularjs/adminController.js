@@ -1,4 +1,6 @@
-
+/**
+ * Created by krishna.r.k on 11/18/2016.
+ */
 app.controller('adminController',function($scope,$http,$state,$rootScope){
 
     $scope.logIn = function(){
@@ -21,6 +23,4 @@ app.controller('adminController',function($scope,$http,$state,$rootScope){
         })
     }
 });
-/**
- * Created by krishna.r.k on 11/18/2016.
- */
+
