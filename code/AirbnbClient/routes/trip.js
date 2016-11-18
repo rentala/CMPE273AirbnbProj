@@ -106,7 +106,7 @@ router.post('/delete',function (req,res) {
 router.post('/createTrip', function(req, res){
 	var property_id = req.body.property_id;
 	var host_id = req.body.host_id;
-	var user_id = req.session.user._id;
+	var user_id = req.body.user_id/*req.session.user._id*/;
 	var city_nm = req.body.city_nm;
 	var state = req.body.state;
 	var start_date = req.body.start_date;
@@ -114,12 +114,12 @@ router.post('/createTrip', function(req, res){
 	var price = req.body.price;
 	var guest = req.body.guest;
 	var country = req.body.country;
-	var payment_details = {
+	/*var payment_details = {
 		"mode" : req.body.mode,
 		"card_number" : req.body.card_number,
 		"cvv" : req.body.cvv,
 		"expiry_date" : req.body.expiry_date
-	};
+	};*/
 	var msg_payload = {
 		"property_id" : property_id,
 		"host_id" : host_id,
@@ -130,9 +130,10 @@ router.post('/createTrip', function(req, res){
 		"end_date" : end_date,
 		"price" : price,
 		"guest" : guest,
-		"country" : country,
-		"payment_details" : payment_details
+		"country" : country
+		//"payment_details" : payment_details
 	};
+	console.log(msg_payload);
 	mq_client.make_request('createTrip_queue', msg_payload, function (err,results) {
         if(err){
             throw err;
@@ -140,13 +141,11 @@ router.post('/createTrip', function(req, res){
         else {
             if(results.statusCode == 200)
             {
-                json_responses = {"status_code":200};
+                res.send({"status_code":200});
             }
             else {
-                json_responses = {"status_code":401};
+                res.send({"status_code":401});
             }
-            res.send(json_responses);
-            res.end();
         }
     });
 });
