@@ -2,7 +2,6 @@
 app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
 
     $scope.signUp = function(){
-        alert("requested signUp");
 
         if($scope.firstName!="" && $scope.lastName!="" && $scope.email!="" && $scope.password!="" && $scope.Dob!="" && $scope.street!="" && $scope.city!="" && $scope.state!="" && $scope.zipCode!="" && $scope.phoneNumber!="" && $scope.ssn!="" && $scope.aptNum!=""){
             $http({
