@@ -72,7 +72,7 @@ var searchProperty = {
                                     callback(null, res);
                                 }
                                 else {
-                                    res = {"statusCode":400,"errMsg":"There is no matching row in MySQL"};
+                                    res = {"statusCode":402,"errMsg":"There is no matching property for your query."};
                                     callback(null, res);
                                 }
                             }
@@ -80,7 +80,7 @@ var searchProperty = {
                     }
                     else {
                         //No Matching Dates.
-                        res = {"statusCode":402,"errMsg":"Sorry there are no matching records in the document"};
+                        res = {"statusCode":403,"errMsg":"Sorry there are no matching records in the document"};
                         callback(null, res);
                     }
                 });

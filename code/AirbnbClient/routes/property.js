@@ -3,11 +3,11 @@ var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
 
-router.get('/search',function (req,res,next) {
-    var city = req.param("city");
-    var start_date = req.param("start_date");
-    var end_date = req.param("end_date");
-    var guests = req.param("guests");
+router.post('/search',function (req,res,next) {
+    var city = req.body.city;
+    var start_date = req.body.start_date;
+    var end_date = req.body.end_date;
+    var guests = req.body.guests;
 
 
     var json_responses;
@@ -32,7 +32,29 @@ router.get('/search',function (req,res,next) {
 
 });
 
+router.get('/prop',function (req,res) {
 
+    var prop_id = req.param("prop_id");
+    var json_responses;
+
+    var msg_payload={"prop_id":prop_id};
+
+    mq_client.make_request('get_property_by_id_queue',msg_payload,function (err,results) {
+        if(err){
+            throw err;
+        }
+        else {
+            if(results.statusCode == 200){
+                json_responses = {"status_code":results.statusCode,"prop_array":results.prop_array};
+            }
+            else {
+                json_responses = {"status_code":results.statusCode,"msg":results.errMsg};
+            }
+        }
+        res.send(json_responses);
+        res.end();
+    });
+});
 
 
 router.post('/list', function (req, res, next)  {
@@ -65,7 +87,5 @@ router.get('/test', function (req, res, next)  {
     res.send(json_responses);
     res.end();
 });
-
-module.exports = router;
 
 module.exports = router;
