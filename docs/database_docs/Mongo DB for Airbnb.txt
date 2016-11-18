@@ -12,6 +12,7 @@ address:{
 	city:
 	state:
 	zipcode:
+	country:
 }
 coordinates: {
 	x:
