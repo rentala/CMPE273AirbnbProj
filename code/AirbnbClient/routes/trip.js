@@ -5,9 +5,6 @@ var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
 
-<<<<<<< HEAD
-=======
-
 router.get('/tripDetails',function (req,res) {
 
     var json_responses;
@@ -90,4 +87,3 @@ router.post('/delete',function (req,res) {
 
 
 module.exports = router;
->>>>>>> 1b93eeed19f13d378e2c81e3d620db30f5d858a0
