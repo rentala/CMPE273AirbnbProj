@@ -20,10 +20,10 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         url : '/home',
         views : {
             'header' : {
-                templateUrl : 'templates/home/home_header.html',
+                templateUrl : 'templates/home/home_header.html'
             },
             'content' : {
-                templateUrl : 'templates/home/home.html',
+                templateUrl : 'templates/home/home.html'
             }
         },
         controller : 'homeController'
@@ -33,13 +33,26 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         url : '/admin',
         views : {
             'header' : {
-                templateUrl : 'templates/home/admin_header.html',
+                templateUrl : 'templates/home/admin_header.html'
             },
             'content' : {
-                templateUrl : 'templates/home/admin.html',
+                templateUrl : 'templates/home/admin.html'
             }
         },
         controller : 'adminController'
+    });
+
+    $stateProvider.state('analytics', {
+        url : '/analytics',
+        views : {
+            'header' : {
+
+            },
+            'content' : {
+                templateUrl : 'templates/analytics/admin_analytics.html'
+            }
+        },
+        controller : 'analyticsController'
     });
 
     /*$stateProvider.state('msg_disp', {
