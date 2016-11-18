@@ -133,6 +133,29 @@ var pendingHostsForApproval = {
 		}
 	};
 
+var checkLogin = {
+	handle_request: function(connection, msg, callback) {
+		console.log("reached checkLogin");
+		var res = {};
+		var json_resp = {};
+		console.log(msg);
+		
+		if(msg.email == "admin" && msg.password == "admin"){
+			res.statusCode = 200;
+			res.message = "Success";
+			console.log("response message = " + res.message);
+	    	callback(null, res);
+		}
+		else{
+			res.statusCode = 400;
+			res.adminEmailId = msg.email;
+			res.message = "Username or Password is wrong!";
+			console.log("response message = " + res.message);
+			callback(null, res);
+		}
+	}
+}
 
-exports.pendingHostsForApproval = pendingHostsForApproval
+exports.pendingHostsForApproval = pendingHostsForApproval;
 exports.approveHost = approveHost;
+exports.checkLogin = checkLogin;

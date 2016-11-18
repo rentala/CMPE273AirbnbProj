@@ -5,7 +5,6 @@ var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
 
-
 router.get('/tripDetails',function (req,res) {
 
     var json_responses;

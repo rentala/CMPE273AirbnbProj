@@ -39,7 +39,7 @@ var searchProperty = {
         var valid_property = [];
         try{
             var coll = connection.mongoConn.collection('property');
-            coll.find({city: msg.city,state:msg.state,zipcode:msg.zipcode,category:msg.category,start_date:{$gte:new Date(msg.start_date)},end_date:{$lt:new Date(msg.end_date)}},function(err, records){
+            coll.find({city: msg.city,start_date:{$gte:new Date(msg.start_date)},end_date:{$lt:new Date(msg.end_date)},guests:{$gte:msg.guests}},function(err, records){
                 if(err){
                     res = {"statusCode":401,"errMsg":err};
                     tool.logError(err);
@@ -72,7 +72,7 @@ var searchProperty = {
                                     callback(null, res);
                                 }
                                 else {
-                                    res = {"statusCode":400,"errMsg":"There is no matching row in MySQL"};
+                                    res = {"statusCode":402,"errMsg":"There is no matching property for your query."};
                                     callback(null, res);
                                 }
                             }
@@ -80,7 +80,7 @@ var searchProperty = {
                     }
                     else {
                         //No Matching Dates.
-                        res = {"statusCode":402,"errMsg":"Sorry there are no matching records in the document"};
+                        res = {"statusCode":403,"errMsg":"Sorry there are no matching records in the document"};
                         callback(null, res);
                     }
                 });

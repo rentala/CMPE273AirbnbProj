@@ -10,33 +10,32 @@ module.exports = function(passport){
             usernameField : 'email',
             passwordField : 'password',
             passReqToCallback : true // allows  us to pass back the entire request to the callback
-        },
-        function(req, email, password, done) {
-            var msg_payload = { "email": email, "password": password };
+    },
+    function(req, email, password, done) {
+        var msg_payload = { "email": email, "password": password };
+        console.log("In POST Request = UserName:"+ email+" "+password);
 
-            console.log("In POST Request = UserName:"+ email+" "+password);
+        mq_client.make_request('login_queue',msg_payload, function(err,results){
 
-            mq_client.make_request('login_queue',msg_payload, function(err,results){
+            console.log(results);
+            if (err)
+                return done(err);
+            console.log(results.code);
+            // if no user is found, return the message
+            if (results.code == 400)
+                return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
 
-                console.log(results);
-                if (err)
-                    return done(err);
-                console.log(results.code);
-                // if no user is found, return the message
-                if (results.code == 400)
-                    return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
-
-                // if the user is found but the password is wrong
-                //chnage to compare encrypted forms
-                console.log(msg_payload.password + " " + results.value.password);
-                if (!msg_payload.password == results.value.password){
-                    console.log("Password is good");
-                    return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
-                }
-                // all is well, return successful user
-                return done(null, results.value);
-            });
-        }));
+            // if the user is found but the password is wrong
+            //chnage to compare encrypted forms
+            console.log(msg_payload.password + " " + results.value.password);
+            if (!msg_payload.password == results.value.password){
+                console.log("Password is good");
+                return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+            }
+            // all is well, return successful user
+            return done(null, results.value);
+        });
+    }));
     
     passport.use(
             'signup',
@@ -86,5 +85,24 @@ module.exports = function(passport){
         		});
             })
         );
+
+    passport.use('adminLoginRequest', new LocalStrategy(function(username, password, done) {
+        var msg_payload = { "email": username, "password": password };
+        console.log("message payload sending from passport= " + msg_payload);
+        console.log("In POST Request = UserName:"+ username+" "+password);
+
+        mq_client.make_request('adminLoginRequest_queue',msg_payload, function(err,results){
+
+            console.log(results);
+            if (err)
+                return done(err);
+            if (results.statusCode == 400){
+                return done(null, false);
+            }
+            else if (results.statusCode == 200){
+                return done(null, results);
+            }            
+        });
+    }));
     
-}
+};

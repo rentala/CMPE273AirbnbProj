@@ -1,6 +1,14 @@
-
-
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXlm3qIBZRDRWEkMOfmv9e71WLMQkStak&callback=initMap" type="text/javascript"></script>
+<!DOCTYPE html>
+<html ng-app="searchApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <title>search</title>
+  <script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
   <script type="text/javascript">
     var map;
     var infoWindow;
@@ -27,6 +35,7 @@
         lat: 40.6247167,
         lng: -8.7129167,
         name: "Camping Gafanha da Nazaré",
+        address1:"Rua dos Balneários do Complexo Desportivo",
         address2: "Gafanha da Nazaré",
         postalCode: "3830-225 Gafanha da Nazaré" // don't insert comma in the last item of each marker
       } // don't insert comma in the last item
@@ -111,9 +120,44 @@
       });
     }
     var searchController = angular.module();
-</script>
 
+  </script>
+</head>
+<body ng-controller="searchController">
+<nav class="navbar navbar-default" style="background-color:white; ">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#" ><img src="/images/airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
+    </div>
 
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
+      <form class="navbar-form navbar-left" style="border-left:solid;border-width:0.5px;border-color:#D3D3D9">
+        <div class="form-group">
+          <input type="text" placeholder="Where to?" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px"></span></input>
+        </div>
+        <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
+        <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ng-click="hostPage()">host</button>
+        <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ng-click="trips()">Trips<span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
+        <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
+
+      </form>
+
+      <ul class="nav navbar-nav navbar-right" style="margin-top:1px">
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">firstName <span class="caret"></span></a><!--Add first Name-->
+          <ul class="dropdown-menu">
+            <li><a href="#">Edit Profile</a></li>
+            <li><a href="#">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container-fluid -->
+</nav>
 <!--end of advertisements-->
 <div class="col-sm-7">
   <div class="container-fluid" style="margin-top:30px;border-bottom:1px solid #c4c4c4">
@@ -144,21 +188,24 @@
       <center>Shared Room:<input type="checkbox" style="margin-bottom: 40px"></center>
     </div>
   </div>
-  <div class="col-sm-6" ng-repeat="x in valid_property">
+  <div class="col-sm-6" ng-repeat="x in results">
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="panel-image hide-panel-body"><img src="/images/rome.png" class="panel-image-preview" width="100%" height="100%"></div>
-        <div>{{x.property_name}}</div>
+        <div>{{x.prd_price}}</div>
       </div>
       <div class="panel-footer">
       </div>
     </div>
   </div>
+  <div class="col-sm-6" ng-repeat="y in results">
 
+  </div>
 </div>
 <div class="col-sm-5">
   <div id="map-canvas" style="width: 100%; height: 800px;"></div>
 </div>
-
+</body>
+</html>
 
 

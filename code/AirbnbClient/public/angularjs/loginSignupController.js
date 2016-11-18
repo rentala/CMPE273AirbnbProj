@@ -1,10 +1,9 @@
 
 app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
 
-    /*$scope.signUp = function(){
+    $scope.signUp = function(){
         alert("requested signUp");
-        //data.status_code="200";
-        var status_code = "200";
+
         if($scope.firstName!="" && $scope.lastName!="" && $scope.email!="" && $scope.password!="" && $scope.Dob!="" && $scope.street!="" && $scope.city!="" && $scope.state!="" && $scope.zipCode!="" && $scope.phoneNumber!="" && $scope.ssn!="" && $scope.aptNum!=""){
             $http({
                 method:"POST",
@@ -24,8 +23,7 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
                     "ssn":$scope.ssn
                 }
             }).success(function(data){
-                //if (data.status_code=="200") {
-                  if (status_code=="200"){  
+                if (data.status_code=="200") {
                     $rootScope.user_dtls = JSON.parse(data.user);
                     $state.go('home');
                    // console.log("Sign Up successful");
@@ -38,10 +36,9 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
         else{
             $scope.error="please enter all the field contents";
         }
-    };*/
+    };
     $scope.logIn = function(){
-
-        /*$http({
+        $http({
             method:"POST",
             url:"/logIn",
             data:{
@@ -51,19 +48,11 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
         }).success(function(data){
             if(data.statusCode=="200"){
                 //console.log("Login successful");
-                 $rootScope.user_dtls = JSON.parse(data.user);
             	 $state.go('home');
             }
             else if(data.statusCode=="400"){
-                 $scope.loginError="Wrong email address or password";
+                $scope.loginError="Wrong email address or password";
             }
-        })*/
-        $('.modal-backdrop').remove();
-        $state.go('home');
-       console.log("entered the signup controller");
-
-
+        })
     }
-   
-
 });

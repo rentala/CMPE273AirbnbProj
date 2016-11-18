@@ -77,4 +77,3 @@ var deleteTrip = {
 
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
-

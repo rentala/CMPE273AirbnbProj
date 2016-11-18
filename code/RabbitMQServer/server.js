@@ -61,6 +61,10 @@ cnn.on('ready', function(){
 	cnn.queue('delete_user_queue', function(q){
 		subscriber(q, profile.deleteUser );
 	});
+	cnn.queue('adminLoginRequest_queue', function(q){
+		subscriber(q, admin.checkLogin);
+	});
+
     cnn.queue('trip_details_queue', function(q){
         subscriber(q, trip.tripDetails );
     });
