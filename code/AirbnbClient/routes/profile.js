@@ -6,8 +6,8 @@ var router = express.Router();
 var mq_client = require('../rpc/client');
 
 
-//Varsha..testing github
-//Updated for comments
+//Varsha..testing github...pranjal
+
 router.post('/updateProfile', function (req, res, next)  {
     var json_responses;
     var user_id = req.session.user_id;
