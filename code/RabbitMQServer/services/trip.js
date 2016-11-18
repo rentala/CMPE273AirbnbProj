@@ -92,7 +92,7 @@ var createTrip = {
         console.log("MESSAGE = " + msg);
         mysql.execute_query(function(err, result){
 
-        }, sql_queries.CREATE_TRIP, [msg.])
+        }, sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, msg.host_id, msg.start_date, msg.end_date, msg.guest, 'PENDING'])
 
     }
 }
