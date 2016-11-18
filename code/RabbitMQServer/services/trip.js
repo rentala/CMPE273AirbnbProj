@@ -8,7 +8,7 @@ var tripDetails = {
         var res = {};
         try{
             if(msg.user_id!=null){
-                mysql.fetchTripDetails(function (err,result) {
+                mysql.execute_query(function (err,result) {
                     if(err){
                         res = {"statusCode":401,"errMsg":err};
                         tool.logError(err);
@@ -29,7 +29,7 @@ var tripDetails = {
                 },sql_queries.FETCH_USER_TRIP_DETAILS,[msg.user_id]);
             }
             else {
-                mysql.fetchTripDetails(function (err,result) {
+                mysql.execute_query(function (err,result) {
                     if(err){
                         res = {"statusCode":401,"errMsg":err};
                         tool.logError(err);
@@ -61,7 +61,7 @@ var tripDetails = {
 var deleteTrip = {
     handle_request: function (connection, msg, callback) {
         var res = {};
-        mysql.deleteTrip(function (err, result) {
+        mysql.execute_query(function (err, result) {
             if(err){
                 res = {"statusCode":401,"errMsg":err};
                 tool.logError(err);
@@ -74,6 +74,28 @@ var deleteTrip = {
         },sql_queries.DELETE_TRIP,[msg.trip_id]);
     }
 };
+/*"property_id" : property_id,
+        "host_id" : host_id,
+        "user_id" : user_id,
+        "city_nm" : city_nm,
+        "state" : state,
+        "start_date" : start_date,
+        "end_date" : end_date,
+        "price" : price,
+        "guest" : guest,
+        "country" : country,
+        "payment_details" : payment_details*/
 
+var createTrip = {
+    handle_request: function (connection, msg, callback) {
+        var res = {};
+        console.log("MESSAGE = " + msg);
+        mysql.execute_query(function(err, result){
+
+        }, sql_queries.CREATE_TRIP, [msg.])
+
+    }
+}
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
+exports.createTrip = createTrip;
