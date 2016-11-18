@@ -5,7 +5,10 @@ var passport = require('passport');
 
 
 
+
 //POST method to approve host...making changes in this admin file...krishna...smitha
+
+
 
 router.post('/approveHost', function (req, res)  {
     
