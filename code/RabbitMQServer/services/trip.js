@@ -91,11 +91,18 @@ var createTrip = {
         var res = {};
         console.log("MESSAGE = " + msg);
         mysql.execute_query(function(err, result){
-
-        }, sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, msg.host_id, msg.start_date, msg.end_date, msg.guest, 'PENDING'])
-
+            if(err){
+                res = {"statusCode" : 401, "errMsg" : err};
+                callback(null, res);
+            }
+            else{
+                res = {"statusCode" : 200};
+                callback(null, res);
+            }
+        }, sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, msg.host_id, msg.start_date, msg.end_date, msg.guest, 'PENDING']);
     }
-}
+};
+
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
 exports.createTrip = createTrip;
