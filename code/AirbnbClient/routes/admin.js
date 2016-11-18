@@ -6,7 +6,7 @@ var passport = require('passport');
 
 
 
-//POST method to approve host...making changes in this admin file...krishna...smitha
+//POST method to approve host...making changes in this admin file...pranjal.....
 
 
 
