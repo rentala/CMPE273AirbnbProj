@@ -4,7 +4,7 @@ var mq_client = require('../rpc/client');
 var passport = require('passport');
 
 
-//POST method to approve host...making changes in this admin file...varsha
+//POST method to approve host..
 
 router.post('/approveHost', function (req, res)  {
     
