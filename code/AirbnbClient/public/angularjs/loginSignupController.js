@@ -28,7 +28,7 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
                     $state.go('home');
                     // console.log("Sign Up successful");
                 }
-                else if(data.statusCode=="400"){
+                else if(data.status_code=="400"){
                     $scope.signUpError="User already exists please use different username";
                 }
             })
@@ -46,12 +46,13 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
                 "password":$scope.password
             }
         }).success(function(data){
-            if(data.statusCode=="200"){
+            if(data.status_code=="200"){
                 $('.modal-backdrop').remove();
+                $rootScope.user_dtls = JSON.parse(data.user);
                 //console.log("Login successful");
                 $state.go('home');
             }
-            else if(data.statusCode=="400"){
+            else if(data.status_code=="400"){
                 $scope.loginError="Wrong email address or password";
             }
         })

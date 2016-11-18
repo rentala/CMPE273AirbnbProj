@@ -12,12 +12,12 @@ app.controller('adminController',function($scope,$http,$state,$rootScope){
                 "password":$scope.password
             }
         }).success(function(data){
-            if(data.statusCode=="200"){
+            if(data.status_sode=="200"){
                 $('.modal-backdrop').remove();
                 //console.log("Login successful");
                 $state.go('home');
             }
-            else if(data.statusCode=="400"){
+            else if(data.status_code=="400"){
                 $scope.loginError="Wrong email address or password";
             }
         })
