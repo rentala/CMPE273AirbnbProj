@@ -31,7 +31,6 @@ router.post('/search',function (req,res,next) {
         res.send(json_responses);
         res.end();
     });
-
 });
 
 router.get('/prop',function (req,res) {
