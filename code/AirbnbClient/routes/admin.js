@@ -5,6 +5,7 @@ var passport = require('passport');
 
 
 //POST method to approve a host for listing properties on Airbnb....varsha2
+//POST method to approve a host for listing properties on Airbnb....testing 2
 router.post('/approveHost', function (req, res)  {
     
 	console.log("Request Data  : " + JSON.stringify(req.body));
