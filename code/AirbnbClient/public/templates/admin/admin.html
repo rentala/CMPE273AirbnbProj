@@ -1,21 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Admin</title>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script> 
-    var adminApp = angular.module('adminApp',[]);
-    adminApp.controller('adminController',function($scope,$http){
-    	
-    })
-    </script>
-</head>
-<body>
+<div ng-controller="adminController">
+    <!--Sign In-->
+    <div class="modal fade" id="myModal1" style="margin-top:50px" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group">
+                        <input type="text" class="form-control" name="email" placeholder="Email Address" style="margin-top:30px" ng-model="emailAddress"></input>
+                        <input type="text" class="form-control" name="password" placeholder="Password" style="margin-top:10px;margin-bottom:10px" ng-model="password"></input>
+                        <!--<p style="color:red">{{loginError}}</p>-->
+                        <button class="btn btn-danger" style="width:100%" ng-click="logIn()">Log In</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <span style="float: left;">Don't have an account?</span><button type="button" id="myBtn2" class="btn btn-danger" style="float:right;" onclick="popup()">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Sign In-->
 
-</body>
-</html>
+</div>
+
