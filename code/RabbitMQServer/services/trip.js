@@ -103,6 +103,24 @@ var createTrip = {
     }
 };
 
+var updateTrip = {
+	    handle_request: function (connection, msg, callback) {
+	        var res = {};
+	        mysql.execute_query(function (err, result) {
+	            if(err){
+	                res = {"statusCode":400,"errMsg":err};
+	                tool.logError(err);
+	                callback(null, res);
+	            }
+	            else {
+	                res = {"statusCode":200};
+	                callback(null, res);
+	            }
+	        },sql_queries.UPDATE_TRIP,[msg.status, msg.trip_id]);
+	    }
+	};
+
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
 exports.createTrip = createTrip;
+exports.updateTrip = updateTrip;
