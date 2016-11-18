@@ -3,7 +3,11 @@ var router = express.Router();
 var mq_client = require('../rpc/client');
 var passport = require('passport');
 
-//POST method to approve host...making changes in this admin file
+
+
+
+
+//POST method to approve host...making changes in this admin file...anudeep
 router.post('/approveHost', function (req, res)  {
     
 	console.log("Request Data  : " + JSON.stringify(req.body));
