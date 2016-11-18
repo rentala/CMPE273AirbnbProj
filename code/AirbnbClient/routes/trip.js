@@ -106,7 +106,7 @@ router.post('/delete',function (req,res) {
 router.post('/createTrip', function(req, res){
 	var property_id = req.body.property_id;
 	var host_id = req.body.host_id;
-	var user_id = req.session.user_id/*req.session.user._id*/;
+	var user_id = req.body.user_id/*req.session.user._id*/;
 	var city_nm = req.body.city_nm;
 	var state = req.body.state;
 	var start_date = req.body.start_date;
@@ -133,6 +133,7 @@ router.post('/createTrip', function(req, res){
 		"country" : country
 		//"payment_details" : payment_details
 	};
+	console.log(msg_payload);
 	mq_client.make_request('createTrip_queue', msg_payload, function (err,results) {
         if(err){
             throw err;

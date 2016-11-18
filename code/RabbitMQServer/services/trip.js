@@ -89,7 +89,7 @@ var deleteTrip = {
 var createTrip = {
     handle_request: function (connection, msg, callback) {
         var res = {};
-        console.log("MESSAGE = " + msg);
+        console.log("MESSAGE = " + JSON.stringify(msg));
         mysql.execute_query(function(err, result){
             if(err){
                 res = {"statusCode" : 401, "errMsg" : err};
