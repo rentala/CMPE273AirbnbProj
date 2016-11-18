@@ -3,7 +3,7 @@ var router = express.Router();
 var mq_client = require('../rpc/client');
 var passport = require('passport');
 
-//POST method to approve a host for listing properties on Airbnb.
+//POST method to approve a host for listing properties on Airbnb.....done by Varsha
 router.post('/approveHost', function (req, res)  {
     
 	console.log("Request Data  : " + JSON.stringify(req.body));
