@@ -30,7 +30,7 @@ router.get('/search',function (req,res,next) {
 
 
 
-router.post('/list', function (req, res, next)  {
+router.post('/listProperty', function (req, res, next)  {
     var json_responses;
 
     var msg_payload = req.body;
