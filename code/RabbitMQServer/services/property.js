@@ -20,7 +20,6 @@ var listProperty = {
 	                else
 	                {
 	                	if(msg.is_auction == "Y"){
-	                	var insertproduct="insert into airbnb.bidding set ? ";
 	                	var options = {host_min_amt:msg.price, max_bid_price: msg.price, prop_desc: msg.description};
 	                	mysql.insertquery(function (err,result) {
 	                         if(err){
@@ -33,7 +32,7 @@ var listProperty = {
 	                                 res.code ="200";
 	                                 callback(null, res);
 	                             }
-	                     },insertproduct,options);
+	                     },sql_queries.INSERT_PRODUCT_IN_BIDDING,options);
 	                	}
 	                	 else
 	                     {
