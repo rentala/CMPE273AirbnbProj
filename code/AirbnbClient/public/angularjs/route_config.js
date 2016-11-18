@@ -29,19 +29,6 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         controller : 'homeController'
     });
 
-    $stateProvider.state('admin', {
-        url : '/admin',
-        views : {
-            'header' : {
-                templateUrl : 'templates/home/admin_header.html',
-            },
-            'content' : {
-                templateUrl : 'templates/home/admin.html',
-            }
-        },
-        controller : 'adminController'
-    });
-
     /*$stateProvider.state('msg_disp', {
         url : '/msgDisp/:msg',
         views : {

@@ -108,7 +108,7 @@
 <div class="col-sm-1"></div>
 <div class="col-sm-11">
     <div class="col-sm-7">
-        <form action="/api/property/list"  enctype = "multipart/form-data" method="post">
+        <form enctype="multipart/form-data" action="/api/property/list" method="post">
             <div class="col-sm-9">
                 <h2>Hi, Username! Lets get you ready to become a host.</h2>
                 <br>
@@ -177,11 +177,12 @@
                 <!--end of map related data-->
                 <h3>Photos</h3>
                 <div class="col-md-12">
-                    <input type="file" accept="image/*" name="file" multiple value="Upload upto 12 Images" />
+                    <input type="file" name="photos" value="upload" multiple>
                 </div>
                 <input type="submit" value="Submit">
             </div>
             <div class="col-sm-3"></div>
+
         </form>
 
     </div>

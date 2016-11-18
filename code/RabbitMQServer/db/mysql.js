@@ -8,9 +8,8 @@ function getPool(connLimit) {
         connectionLimit : connLimit,
         host            : 'localhost',
         user            : 'root',
-        password        : '2994',
+        password        : 'root',
         database        : 'airbnb',
-        port            : 3306,
         multipleStatements : true
     });
     sqlPool = pool;
@@ -20,7 +19,7 @@ function getPool(connLimit) {
 
 //find below example of mysql call in property.js.
 
-exports.execute_query = function(callback, sqlQuery, options) {
+exports.fetchTripDates = function(callback, sqlQuery, options) {
     console.log("\nSQL Query::" + sqlQuery);
 
     sqlPool.getConnection(function(err, connection) {
