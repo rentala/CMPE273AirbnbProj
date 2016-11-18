@@ -6,31 +6,50 @@ var sql_queries = require('../db/sql_queries');
 var mysql = require('../db/mysql');
 var ObjectID = require('mongodb').ObjectID;
 var listProperty = {
-    handle_request : function (connection, msg, callback){
-        try{
-            var res = {};
-            var coll = connection.mongoConn.collection('property');
-            coll.insert(msg, function(err, prop){
-                if(err){
-                    tool.logError(err);
-                    res.code ="400";
-                    callback(null, res);
-                }
-                else
-                {
-                    res.user_id = prop.insertedIds,
-                    res.code ="200";
-                    callback(null, res);
-                }
-            });
-        }
-        catch(err){
-            tool.logError(err);
-            res.statusCode = "500";
-            callback(null, res);
-        }
-    }
-};
+	    handle_request : function (connection, msg, callback){
+	        try{
+	            var res = {};
+	           // console.log(msg);
+	            var coll = connection.mongoConn.collection('property');
+	            coll.insert(msg, function(err, prop){
+	                if(err){
+	                    tool.logError(err);
+	                    res.code ="400";
+	                    callback(null, res);
+	                }
+	                else
+	                {
+	                	if(msg.is_auction == "Y"){
+	                	var insertproduct="insert into airbnb.bidding set ? ";
+	                	var options = {host_min_amt:msg.price, max_bid_price: msg.price, prop_desc: msg.description};
+	                	mysql.insertquery(function (err,result) {
+	                         if(err){
+	                        	 tool.logError(err);
+	                             res.code ="400";
+	                             callback(null, res);
+	                         }
+	                         else {
+	                                 res.propertyId = prop.insertedIds;
+	                                 res.code ="200";
+	                                 callback(null, res);
+	                             }
+	                     },insertproduct,options);
+	                	}
+	                	 else
+	                     {
+	                         res.code ="200";
+	                         callback(null, res);
+	                     }
+	                }
+	            });
+	        }
+	        catch(err){
+	            tool.logError(err);
+	            res.statusCode = "500";
+	            callback(null, res);
+	        }
+	    }
+	};
 
 var searchProperty = {
     handle_request : function (connection,msg,callback) {
@@ -39,7 +58,7 @@ var searchProperty = {
         var valid_property = [];
         try{
             var coll = connection.mongoConn.collection('property');
-            coll.find({city: msg.city,state:msg.state,zipcode:msg.zipcode,category:msg.category,start_date:{$gte:new Date(msg.start_date)},end_date:{$lt:new Date(msg.end_date)}},function(err, records){
+            coll.find({city: msg.city,start_date:{$gte:new Date(msg.start_date)},end_date:{$lt:new Date(msg.end_date)},guests:{$gte:msg.guests}},function(err, records){
                 if(err){
                     res = {"statusCode":401,"errMsg":err};
                     tool.logError(err);
@@ -72,7 +91,7 @@ var searchProperty = {
                                     callback(null, res);
                                 }
                                 else {
-                                    res = {"statusCode":400,"errMsg":"There is no matching row in MySQL"};
+                                    res = {"statusCode":402,"errMsg":"There is no matching property for your query."};
                                     callback(null, res);
                                 }
                             }
@@ -80,7 +99,7 @@ var searchProperty = {
                     }
                     else {
                         //No Matching Dates.
-                        res = {"statusCode":402,"errMsg":"Sorry there are no matching records in the document"};
+                        res = {"statusCode":403,"errMsg":"Sorry there are no matching records in the document"};
                         callback(null, res);
                     }
                 });
