@@ -3,7 +3,7 @@ var router = express.Router();
 var mq_client = require('../rpc/client');
 var passport = require('passport');
 
-//POST method to approve host...making changes
+//POST method to approve host...making changes in this admin file
 router.post('/approveHost', function (req, res)  {
     
 	console.log("Request Data  : " + JSON.stringify(req.body));
