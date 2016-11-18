@@ -6,31 +6,50 @@ var sql_queries = require('../db/sql_queries');
 var mysql = require('../db/mysql');
 var ObjectID = require('mongodb').ObjectID;
 var listProperty = {
-    handle_request : function (connection, msg, callback){
-        try{
-            var res = {};
-            var coll = connection.mongoConn.collection('property');
-            coll.insert(msg, function(err, prop){
-                if(err){
-                    tool.logError(err);
-                    res.code ="400";
-                    callback(null, res);
-                }
-                else
-                {
-                    res.user_id = prop.insertedIds,
-                    res.code ="200";
-                    callback(null, res);
-                }
-            });
-        }
-        catch(err){
-            tool.logError(err);
-            res.statusCode = "500";
-            callback(null, res);
-        }
-    }
-};
+	    handle_request : function (connection, msg, callback){
+	        try{
+	            var res = {};
+	            var localMsg = JSON.stringify(msg);
+	            var coll = connection.mongoConn.collection('property');
+	            coll.insert(msg, function(err, prop){
+	                if(err){
+	                    tool.logError(err);
+	                    res.code ="400";
+	                    callback(null, res);
+	                }
+	                else
+	                {
+	                	if(msg.is_auction == "Y"){
+	                	var options = {host_min_amt:localMsg.price, max_bid_price: localMsg.price, property_name: localMsg.description,property_id:prop.insertedIds};
+	                	mysql.execute_query(function (err,result) {
+	                         if(err){
+	                        	 tool.logError(err);
+	                             res.code ="400";
+	                             callback(null, res);
+	                         }
+	                         else {
+                                 res.propertyId = prop.insertedIds;
+                                 res.code ="200";
+                                 callback(null, res);
+	                             }
+	                     },sql_queries.INSERT_PRODUCT_IN_BIDDING,options);
+	                	}
+	                	 else
+	                     {
+	                		 res.propertyId = prop.insertedIds;
+	                         res.code ="200";
+	                         callback(null, res);
+	                     }
+	                }
+	            });
+	        }
+	        catch(err){
+	            tool.logError(err);
+	            res.statusCode = "500";
+	            callback(null, res);
+	        }
+	    }
+	};
 
 var searchProperty = {
     handle_request : function (connection,msg,callback) {
