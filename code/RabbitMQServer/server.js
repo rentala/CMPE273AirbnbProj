@@ -2,9 +2,9 @@
 
 var amqp = require('amqp'),
 	util = require('util'),
-	//mongoURL = "mongodb://rentala:team5password@ds155097.mlab.com:55097/airbnb",
+	mongoURL = "mongodb://rentala:team5password@ds155097.mlab.com:55097/airbnb",
 	// uncomment above and comment below line to make it work on mLab
-	mongoURL = "mongodb://localhost:27017/airbnb",
+	//mongoURL = "mongodb://localhost:27017/airbnb",
 	mongo = require("./db/mongo"),
     mysql = require("./db/mysql"),
 	cnn = amqp.createConnection({host:'127.0.0.1'});
@@ -13,6 +13,7 @@ var auth = require('./services/authentication');
 var profile = require('./services/profile');
 var property = require('./services/property');
 var admin = require('./services/admin');
+var trip = require('./services/trip');
 var mongoConn;
 var connection;
 
@@ -61,9 +62,15 @@ cnn.on('ready', function(){
 		subscriber(q, profile.deleteUser );
 	});
 	cnn.queue('adminLoginRequest_queue', function(q){
-		console.log("HITTED adminLoginRequest_queue");
 		subscriber(q, admin.checkLogin);
 	});
+
+    cnn.queue('trip_details_queue', function(q){
+        subscriber(q, trip.tripDetails );
+    });
+    cnn.queue('delete_trip_queue', function(q){
+        subscriber(q, trip.deleteTrip );
+    });
 });
 
 var subscriber = function(q, module){

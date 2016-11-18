@@ -39,7 +39,7 @@ var updateProfile = {
 			callback(null, res);
 		}
 	}
-}
+};
 
 var userInfo = {
 		handle_request : function (connection, msg, callback){
@@ -69,7 +69,7 @@ var userInfo = {
 			callback(null, res);
 		}
 	}
-}
+};
 
 
 exports.updateProfile = updateProfile;

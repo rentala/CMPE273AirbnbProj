@@ -3,6 +3,7 @@ var router = express.Router();
 var mq_client = require('../rpc/client');
 var passport = require('passport');
 
+//POST method to approve host
 router.post('/approveHost', function (req, res)  {
     
 	console.log("Request Data  : " + JSON.stringify(req.body));
@@ -24,6 +25,8 @@ router.post('/approveHost', function (req, res)  {
 		}  
 	});
 });
+
+//POST method for getting pending host approval request
 
 
 router.post('/pendingHostsForApproval', function (req, res)  {
@@ -77,5 +80,6 @@ router.post('/adminCheckLogin', function(req, res, next){
 		}
 	})(req, res, next);
 });
+//End of admin routes.
 
 module.exports = router;
