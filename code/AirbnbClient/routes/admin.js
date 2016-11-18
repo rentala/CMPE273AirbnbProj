@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
+var passport = require('passport');
 
 router.post('/approveHost', function (req, res)  {
     
@@ -49,5 +50,32 @@ router.post('/pendingHostsForApproval', function (req, res)  {
 	});
 });
 
+router.post('/adminCheckLogin', function(req, res, next){
+	var email = req.body.username;
+	var password = req.body.password;
+	console.log("email = " + email + " password = " + password);
+	passport.authenticate('adminLoginRequest', function(err, admin, info) {
+	    if(err) {
+	      return next(err);
+	    }
+	    if(!admin) {
+	    	return res.send({
+	    		"status_code" : 400
+	    	});
+	    }
+	    else{
+		    req.logIn(admin, {session:false}, function(err) {
+	            if(err) {
+	            return next(err);
+	            }
+	            req.session.admin = admin.adminEmailId;
+	            console.log("session initialized = " + req.session.admin);
+	            return res.send({
+	            	"status_code" : 200
+	            });
+		    });
+		}
+	})(req, res, next);
+});
 
 module.exports = router;

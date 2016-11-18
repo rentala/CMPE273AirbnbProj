@@ -54,6 +54,7 @@ app.use('/api/host', host);
 app.use('/api/profile', profile);
 app.use('/api/property',property);
 app.use('/api/admin',admin);
+app.use('/api/trip', trip);
 
 
 // catch 404 and forward to error handler

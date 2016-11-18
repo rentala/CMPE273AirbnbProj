@@ -60,6 +60,10 @@ cnn.on('ready', function(){
 	cnn.queue('delete_user_queue', function(q){
 		subscriber(q, profile.deleteUser );
 	});
+	cnn.queue('adminLoginRequest_queue', function(q){
+		console.log("HITTED adminLoginRequest_queue");
+		subscriber(q, admin.checkLogin);
+	});
 });
 
 var subscriber = function(q, module){

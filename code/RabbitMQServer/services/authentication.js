@@ -7,24 +7,24 @@ var login = {
 		console.log(msg);
 		var coll = connection.mongoConn.collection('users');
 		coll.findOne({email: msg.email},
-			function(err, user, id){
-				if(err){
-					tool.logError(err);
-				}
-				if (user) {
-					res.code = "200";
-					res.value = user;
-				} 
-				else if (!bcrypt.compareSync(msg.password, user.password)){
-					res.code = "200";
-					res.value = user;
-				}
-				else {
-					res.code = "400";
-					res.value = id;
-				}
-				callback(null, res);
-			});
+		function(err, user, id){
+			if(err){
+				tool.logError(err);
+			}
+			if (user) {
+				res.code = "200";
+				res.value = user;
+			} 
+			else if (!bcrypt.compareSync(msg.password, user.password)){
+				res.code = "200";
+				res.value = user;
+			}
+			else {
+				res.code = "400";
+				res.value = id;
+			}
+			callback(null, res);
+		});
 	}
 }
 
