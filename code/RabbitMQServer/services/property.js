@@ -39,7 +39,7 @@ var searchProperty = {
         var valid_property = [];
         try{
             var coll = connection.mongoConn.collection('property');
-            coll.find({city: msg.city,state:msg.state,zipcode:msg.zipcode,category:msg.category,start_date:{$gte:new Date(msg.start_date)},end_date:{$lt:new Date(msg.end_date)}},function(err, records){
+            coll.find({city: msg.city,start_date:{$gte:new Date(msg.start_date)},end_date:{$lt:new Date(msg.end_date)},guests:{$gte:msg.guests}},function(err, records){
                 if(err){
                     res = {"statusCode":401,"errMsg":err};
                     tool.logError(err);
