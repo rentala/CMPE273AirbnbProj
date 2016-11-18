@@ -29,6 +29,18 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         controller : 'homeController'
     });
 
+    $stateProvider.state('propertySearch', {
+        url : '/home',
+        views : {
+            'header' : {
+                templateUrl : 'templates/home/searchResult_header.html',
+            },
+            'content' : {
+                templateUrl : 'templates/home/searchResult.html',
+            }
+        },
+        controller : 'propertySearchController'
+    });
     /*$stateProvider.state('msg_disp', {
         url : '/msgDisp/:msg',
         views : {
