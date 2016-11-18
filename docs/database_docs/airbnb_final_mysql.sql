@@ -103,6 +103,17 @@ CREATE TABLE IF NOT EXISTS `airbnb`.`bidding_dtl` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Trigger `airbnb`.`bidding`
+-- Update the max bid and bidding user in bidding table if submitted bid on a property is greater than earlier bid
+-- -----------------------------------------------------
+create TRIGGER airbnb.bidding AFTER INSERT on airbnb.bidding_dtl
+FOR EACH ROW
+	update airbnb.bidding b set b.host_min_amt = new.bid_price, b.max_bid_price = new.bid_price, b.max_bid_user_id = new.bidder_id where 
+    b.max_bid_price < new.bid_price and b.property_id = new.property_id
+    
+    
+
 SHOW WARNINGS;
 CREATE INDEX `bid_id_idx` ON `airbnb`.`bidding_dtl` (`bid_id` ASC);
 
