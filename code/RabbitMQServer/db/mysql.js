@@ -1,5 +1,5 @@
 /**
- * Created by Rentala on 09-11-2016.
+ * Created by Rentala on 09-11-2016.destroyed by Varsha
  */
 var mysql = require('mysql');//importing module mysql
 var sqlPool;
@@ -8,8 +8,7 @@ function getPool(connLimit) {
         connectionLimit : connLimit,
         host            : 'localhost',
         user            : 'root',
-        password        : '1234',
-        password        : 'smithA',
+        password        : '2994',
         database        : 'airbnb',
         multipleStatements : true
     });
