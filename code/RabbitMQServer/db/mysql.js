@@ -1,6 +1,7 @@
 /**
- * Created by Rentala on 09-11-2016.
+ * Created by Rentala on 09-11-2016. this is mysql setup
  */
+
 var mysql = require('mysql');//importing module mysql
 var sqlPool;
 function getPool(connLimit) {
@@ -8,9 +9,7 @@ function getPool(connLimit) {
         connectionLimit : connLimit,
         host            : 'localhost',
         user            : 'root',
-        password        : '3000',
-        password        : '1234',
-        password        : 'smithA',
+        password        : '2994',
         database        : 'airbnb',
         multipleStatements : true
     });
