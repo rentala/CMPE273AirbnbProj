@@ -5,10 +5,10 @@ var mq_client = require('../rpc/client');
 var multer = require('multer');
 
 router.post('/search',function (req,res,next) {
-    var city = req.body.city;
-    var start_date = req.body.start_date;
-    var end_date = req.body.end_date;
-    var guests = req.body.guests;
+    var city = req.param("city");
+    var start_date = req.param("start_date");
+    var end_date = req.param("end_date");
+    var guests = req.param("guests");
 
 
     var json_responses;
@@ -20,14 +20,13 @@ router.post('/search',function (req,res,next) {
             //Need to handle this error.
             throw err;
         } else {
-            if(results.statusCode == 200){
-                json_responses = {"status_code":results.statusCode,"valid_property":results.valid_property};
+            if (results.statusCode == 200) {
+                json_responses = {"status_code": results.statusCode, "valid_property": results.valid_property};
             }
-            else{
-                json_responses = {"status_code":results.statusCode,"msg":results.errMsg};
+            else {
+                json_responses = {"status_code": results.statusCode, "msg": results.errMsg};
             }
         }
-        res.statusCode = results.code;
         res.send(json_responses);
         res.end();
     });
@@ -39,14 +38,22 @@ router.get('/prop',function (req,res) {
     var json_responses;
 
     var msg_payload={"prop_id":prop_id};
-
+    var ratings_array = [];
+    var total_ratings=0;
+    var avg_ratings;
     mq_client.make_request('get_property_by_id_queue',msg_payload,function (err,results) {
         if(err){
             throw err;
         }
         else {
             if(results.statusCode == 200){
-                json_responses = {"status_code":results.statusCode,"prop_array":results.prop_array};
+                ratings_array = results.prop_array[0].ratings;
+                console.log(ratings_array);
+                for(var i=0;i<ratings_array.length;i++){
+                    total_ratings += ratings_array[i].rating_stars;
+                }
+                avg_ratings = (total_ratings/ratings_array.length);
+                json_responses = {"status_code":results.statusCode,"prop_array":results.prop_array,"avg_ratings":avg_ratings};
             }
             else {
                 json_responses = {"status_code":results.statusCode,"msg":results.errMsg};

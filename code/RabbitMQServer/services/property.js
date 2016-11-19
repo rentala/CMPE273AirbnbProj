@@ -48,7 +48,7 @@ var searchProperty = {
                 records.toArray(function (e,recs) {
                     if (recs.length>0){
                         available_property = getPropertyArray(recs);
-                        mysql.fetchTripDates(function (err, result) {
+                        mysql.execute_query(function (err, result) {
                             if(err){
                                 //need to handle error.
                                 throw err;
@@ -127,7 +127,6 @@ var getPropertyById = {
             res = {"statusCode":500,"errMsg":err};
             callback(null, res);
         }
-
     }
 };
 
@@ -139,7 +138,7 @@ function  getPropertyArray(records) {
     return propArray;
 }
 
-
+exports.getPropertyArray = getPropertyArray;
 exports.searchProperty = searchProperty;
 exports.listProperty = listProperty;
 exports.getPropertyById = getPropertyById;
