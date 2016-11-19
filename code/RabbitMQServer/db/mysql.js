@@ -8,7 +8,7 @@ function getPool(connLimit) {
         connectionLimit : connLimit,
         host            : 'localhost',
         user            : 'root',
-        password        : 'root',
+        password        : '2994',
         database        : 'airbnb',
         multipleStatements : true
     });
