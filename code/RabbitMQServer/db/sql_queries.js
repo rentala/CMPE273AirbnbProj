@@ -11,4 +11,5 @@ constants.define(exports, {
     DELETE_TRIP : "delete from airbnb.trip where trip.trip_id=?;",
     CREATE_TRIP : "INSERT into airbnb.trip (user_id, property_id, host_id, checkin_date, checkout_date, no_of_guests, trip_status) VALUES (?, ?, ?, ?, ?, ?, ?);",
     INSERT_PRODUCT_IN_BIDDING : "insert into airbnb.bidding set ? ",
+    UPDATE_TRIP : "update airbnb.trip set trip_status = ?, trip_approved_time = CURRENT_TIMESTAMP where trip.trip_id=?"
 });
