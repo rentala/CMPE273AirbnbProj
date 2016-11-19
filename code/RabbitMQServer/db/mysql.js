@@ -19,7 +19,7 @@ function getPool(connLimit) {
 
 //find below example of mysql call in property.js.
 
-exports.fetchTripDates = function(callback, sqlQuery, options) {
+exports.execute_query = function(callback, sqlQuery, options) {
     console.log("\nSQL Query::" + sqlQuery);
 
     sqlPool.getConnection(function(err, connection) {
