@@ -14,6 +14,7 @@ var profile = require('./services/profile');
 var property = require('./services/property');
 var admin = require('./services/admin');
 var trip = require('./services/trip');
+var host = require('./services/host');
 var mongoConn;
 var connection;
 
@@ -77,6 +78,9 @@ cnn.on('ready', function(){
     cnn.queue('update_trip_queue', function(q){
         subscriber(q, trip.updateTrip );
     });
+	cnn.queue('delete_host_queue', function(q){
+		subscriber(q, host.deleteHost );
+	});
 });
 
 var subscriber = function(q, module){
