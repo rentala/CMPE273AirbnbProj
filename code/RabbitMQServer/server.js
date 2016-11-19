@@ -84,6 +84,9 @@ cnn.on('ready', function(){
 	cnn.queue('delete_host_queue', function(q){
 		subscriber(q, host.deleteHost );
 	});
+    cnn.queue('review_user_queue', function(q){
+        subscriber(q, host.reviewUser );
+    });
 });
 
 var subscriber = function(q, module){

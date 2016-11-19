@@ -11,6 +11,7 @@ var listProperty = {
 	            var res = {};
 	            var localMsg = JSON.stringify(msg);
 	            var coll = connection.mongoConn.collection('property');
+                msg.reviews = [];
 	            coll.insert(msg, function(err, prop){
 	                if(err){
 	                    tool.logError(err);
