@@ -78,6 +78,9 @@ cnn.on('ready', function(){
     cnn.queue('update_trip_queue', function(q){
         subscriber(q, trip.updateTrip );
     });
+    cnn.queue('create_trip_review_queue', function(q){
+        subscriber(q, trip.createTripReview );
+    });
 	cnn.queue('delete_host_queue', function(q){
 		subscriber(q, host.deleteHost );
 	});

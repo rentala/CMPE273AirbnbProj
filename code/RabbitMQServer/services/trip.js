@@ -139,3 +139,4 @@ exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
 exports.createTrip = createTrip;
 exports.updateTrip = updateTrip;
+exports.createTripReview = createTripReview;
