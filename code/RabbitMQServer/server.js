@@ -2,9 +2,9 @@
 
 var amqp = require('amqp'),
 	util = require('util'),
-	mongoURL = "mongodb://rentala:team5password@ds155097.mlab.com:55097/airbnb",
+	//mongoURL = "mongodb://rentala:team5password@ds155097.mlab.com:55097/airbnb",
 	// uncomment above and comment below line to make it work on mLab
-	//mongoURL = "mongodb://localhost:27017/airbnb",
+	mongoURL = "mongodb://localhost:27017/airbnb",
 	mongo = require("./db/mongo"),
     mysql = require("./db/mysql"),
 	cnn = amqp.createConnection({host:'127.0.0.1'});
@@ -14,6 +14,7 @@ var profile = require('./services/profile');
 var property = require('./services/property');
 var admin = require('./services/admin');
 var trip = require('./services/trip');
+var analytics = require('./services/analytics');
 var mongoConn;
 var connection;
 
@@ -29,20 +30,23 @@ mongo.connect(mongoURL, function(db){
 cnn.on('ready', function(){
 	console.log("listening on all queues");
 
+    //register - login queues
 	cnn.queue('login_queue', function(q){
 		subscriber(q, auth.login );
 	});
-	// registration queue
 	cnn.queue('register_queue', function(q){
 		subscriber(q, auth.register );
 	});
-	
+
+    //User queues
 	cnn.queue('update_profile_queue', function(q){
 		subscriber(q, profile.updateProfile );
 	});
 	cnn.queue('userinfo_queue', function(q){
 		subscriber(q, profile.userInfo );
 	});
+
+    //Property queues
 	cnn.queue('list_property_queue', function(q){
 		subscriber(q, property.listProperty );
 	});
@@ -52,6 +56,8 @@ cnn.on('ready', function(){
     cnn.queue('get_property_by_id_queue', function(q){
         subscriber(q, property.getPropertyById );
     });
+
+    //Host queues
 	cnn.queue('approve_host_queue', function(q){
 		subscriber(q, admin.approveHost );
 	});
@@ -61,10 +67,13 @@ cnn.on('ready', function(){
 	cnn.queue('delete_user_queue', function(q){
 		subscriber(q, profile.deleteUser );
 	});
+
+    //admin queues
 	cnn.queue('adminLoginRequest_queue', function(q){
 		subscriber(q, admin.checkLogin);
 	});
 
+    //Trip related queues
     cnn.queue('trip_details_queue', function(q){
         subscriber(q, trip.tripDetails );
     });
@@ -76,6 +85,17 @@ cnn.on('ready', function(){
     });
     cnn.queue('update_trip_queue', function(q){
         subscriber(q, trip.updateTrip );
+    });
+
+    //Analytics Queues
+	cnn.queue('top_property_queue', function(q){
+		subscriber(q, analytics.topProp );
+	});
+    cnn.queue('city_wise_data_queue', function(q){
+        subscriber(q, analytics.cityWiseData );
+    });
+    cnn.queue('top_host_queue', function(q){
+        subscriber(q, analytics.topHost );
     });
 });
 
