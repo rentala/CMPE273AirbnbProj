@@ -109,6 +109,32 @@ var updateTrip = {
         }
     };
 
+var createTripReview ={
+    handle_request : function(connection, msg, callback) {
+        var res = {};
+        try {
+            var coll = connection.mongoConn.collection('property');
+            coll.updateOne({_id: new ObjectId(msg.property_id) }, {$push : { reviews: msg.review}}, function(err, results) {
+
+                if (err) {
+                    tool.logError(err);
+                    res.code = 400;
+                    callback(null, res);
+                } else {
+                    res.code=200;
+                    //res.result = results;
+                    callback(null, res);
+                }
+
+            });
+        } catch (err) {
+            res.code = 400;
+            tool.logError(err);
+            callback(null, res);
+        }
+
+    }
+}
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
 exports.createTrip = createTrip;
