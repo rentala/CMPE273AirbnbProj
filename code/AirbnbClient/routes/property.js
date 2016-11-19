@@ -110,9 +110,9 @@ function mapReqToPayLoad(req) {
     }
     msg_payload.host_id = 1; //stub
     msg_payload.category = req.body.category
-    msg_payload.cooredinates = {
-        x: req.body.cooredinatesX,
-        y: req.body.cooredinatesY
+    msg_payload.coordinates = {
+        x: req.body.coordinatesX,
+        y: req.body.coordinateY
     }
     msg_payload.description = req.body.description;
     msg_payload.guests = req.body.guests;

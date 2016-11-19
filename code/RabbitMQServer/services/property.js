@@ -10,6 +10,7 @@ var listProperty = {
         try{
             var res = {};
             var coll = connection.mongoConn.collection('property');
+            msg.reviews = [];
             coll.insert(msg, function(err, prop){
                 if(err){
                     tool.logError(err);
