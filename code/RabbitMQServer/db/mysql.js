@@ -1,5 +1,9 @@
 /**
+<<<<<<< HEAD
  * Created by Rentala on 09-11-2016. this is mysql setup
+=======
+ * Created by Rentala on 09-11-2016.destroyed by Varsha
+>>>>>>> branch 'master' of https://github.com/varsha-kankariya/CMPE273AirbnbProj.git
  */
 
 var mysql = require('mysql');//importing module mysql
