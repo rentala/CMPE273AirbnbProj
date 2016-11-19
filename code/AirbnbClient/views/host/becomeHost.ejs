@@ -108,7 +108,7 @@
 <div class="col-sm-1"></div>
 <div class="col-sm-11">
     <div class="col-sm-7">
-        <form enctype="multipart/form-data" action="/api/property/list" method="post">
+        <form action="/api/property/list"  enctype = "multipart/form-data" method="post">
             <div class="col-sm-9">
                 <h2>Hi, Username! Lets get you ready to become a host.</h2>
                 <br>
@@ -158,6 +158,19 @@
                     </div>
 
                 </div>
+
+
+                <!--photos-->
+                <h3>When can guests check in?</h3>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <h4>Start Date</h4>
+                        <input placeholder="start Date" class="form-control" type="text" name= "start_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="start_date"  ng-model="start_date">
+                        <h4>End Date</h4>
+                        <input placeholder="end Date" class="form-control" type="text" name= "end_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="end_date"  ng-model="end_date">
+                    </div>
+                </div>
+
                 <h3>Where is your place located?</h3>
                 <div class="col-sm-12">
                     <div class="form-group">
@@ -175,14 +188,39 @@
                     <div id="map"></div>
                 </div>
                 <!--end of map related data-->
+                <!--photos-->
                 <h3>Photos</h3>
                 <div class="col-md-12">
-                    <input type="file" name="photos" value="upload" multiple>
+                    <div class="form-group">
+                        <input type="file" class="btn btn-primary" accept="image/*" name="file" multiple value="Upload upto 12 Images" />
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                    </div>
                 </div>
-                <input type="submit" value="Submit">
+                <!--end of photos-->
+                <!--type of hosting-->
+                <h3>Type of Hosting?</h3>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <ul class="list-group">
+                            <li class="list-group-item">Bidding<input type="checkbox" value="Bidding" style="float:right;"></li>
+                            <li class="list-group-item">Normal<input type="checkbox" value="Normal" style="float:right;"></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--end of type of hosting-->
+                <!--cost per day per week per month-->
+                <h3>Enter Cost</h3>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Cost per night" style="margin-top: 5px;" data-ng-model="per_night">
+                        <input class="form-control" placeholder="Cost per week" style="margin-top: 5px;" data-ng-model="per_week">
+                        <input class="form-control" placeholder="Cost per month" style="margin-top: 5px;" data-ng-model="per_month">
+                    </div>
+                </div>
+
+
             </div>
             <div class="col-sm-3"></div>
-
         </form>
 
     </div>
