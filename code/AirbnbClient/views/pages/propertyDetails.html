@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Airbnb</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script>
+	var app = angular.module('airbnbApp',[]);
+	app.controller('propertyDetailsController',function($scope,$http){
+		$scope.image = "paris.jpg";
+		$scope.profile = function(){
+			alert("krishna");
+		}
+		$scope.logout = function(){
+			alert("skdafhaskdjlfhksdjfhksdfhsfsdhf");
+		}
+		$scope.description = "Nice clean room in downtown San Jose";
+		var address = [{street:"Alameda",state:"CA",city:"San Jose"}];
+		$scope.address = address;
+		$scope.ratings = "3.5/5";
+		$scope.bedrooms = "2";
+		$scope.guests = "3";
+	})
+
+		
+
+	</script>
+</head>
+<body data-ng-app="airbnbApp" data-ng-controller="propertyDetailsController">
+	    <nav class="navbar navbar-default" style="background-color:white; ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" ><img src="airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
+                <form class="navbar-form navbar-left" style="border-left:solid;border-width:0.5px;border-color:#D3D3D9">
+                    <div class="form-group">
+                        <input type="text" placeholder="Where to?" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px"></span></input>
+                    </div>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ng-click="hostPage()">host</button>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ng-click="trips()">Trips<span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
+       
+				</form>
+    
+                <ul class="nav navbar-nav navbar-right" style="margin-top:1px">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">firstName <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a ng-click="profile()">Edit Profile</a></li>
+                            <li><a ng-click="logout()">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <div style="margin-top:-18px">
+    	<img ng-src="{{image}}" width="100%" height="400px">
+    </div>
+
+    <!--start of property details-->
+    <div class="col-sm-1"></div>
+    <div class="col-sm-7">
+    	<div class="col-sm-12" ><h1>{{description}}</h1></div>
+    	<div class="col-sm-12" style="border-bottom:solid;border-width:0.5px;border-color:black">{{address[0].city}},{{address[0].state}}<span style="float:right">Rating:{{ratings}}</span></div>
+    	
+    	<div class="col-sm-6" style="margin-top:25px;border-bottom:solid;border-width:0.5px;border-color:black" >
+    		<center><span class="glyphicon glyphicon-home" style="font-size:30px"></span></center><br>
+    		<center>{{bedrooms}} bedrooms</center>
+    	</div>
+    	
+    	<div class="col-sm-6" style="margin-top:25px;border-bottom:solid;border-width:0.5px;border-color:black">
+    		<center><span class="glyphicon glyphicon-user" style="font-size:30px"></span></center><br>
+    		<center>{{guests}} guests</center>
+    	</div>
+
+    	<div class="col-sm-12" style="margin-top:10px;border-bottom:solid;border-width:0.5px;border-color:black">
+    		<div class="col-sm-2" style="float:left;"><h3>The Space</h3></div>
+    		<div class="col-sm-10">
+    			<div class="col-sm-6" style="margin-top:10px">
+    				<span style="float:left;font-size:20px">Accommodates : <b>{{guests}}</b></span><br><br>
+    				<span style="float:left;font-size: 20px">Bedrooms : <b>{{bedrooms}}</b></span><br>
+    			</div>
+    			<div class="col-sm-6" style="margin-top:10px">
+    				<span style="float:left;font-size: 20px">Check in : <b>Flexible</b></span><br><br>
+    				<span style="float:left;font-size: 20px">Price per day : <b>{{price[0].per_night}}</b></span><br>
+    			</div>
+    		</div>
+    	</div>
+    	<div class="col-sm-12" style="margin-top:10px;border-bottom:solid;border-width:0.5px;border-color:black">
+    		<div class="col-sm-2" style="float:left;"><h3>Amenities</h3></div>
+    		<div class="col-sm-10">
+    			<div class="col-sm-6" style="margin-top:10px">
+    				<span style="float:left;font-size:20px">Wifi : <b><span class="glyphicon glyphicon-signal"></span></b></span><br><br>
+    				<span style="float:left;font-size: 20px">No Pets</span><br>
+    			</div>
+    			<div class="col-sm-6" style="margin-top:10px">
+    				<span style="float:left;font-size: 20px">TV : <b><span class="glyphicon glyphicon-blackboard"></span></b></span><br><br>
+    				<span style="float:left;font-size: 20px">No Smoking</span><br>
+    			</div>
+    		</div>
+    	</div>
+    	<div class="col-sm-12" style="margin-top:10px;border-bottom:solid;border-width:0.5px;border-color:black">
+    		<div class="col-sm-2" style="float:left;"><h3>About</h3></div>
+    		<div class="col-sm-10">
+    			<span style="float:left;font-size: 20px">very well maintained place and has all the required amenities. It is near to light station, shark tank, children's discovery museum and airport </span>
+    		</div>
+    	</div>
+
+    </div>
+    <div class="col-sm-3" style="border:solid;border-width:0.5px;border-color:black">
+    	
+    </div>
+    <div class="col-sm-1"></div>
+</body>
+</html>
