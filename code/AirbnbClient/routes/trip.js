@@ -88,6 +88,7 @@ router.post('/createTrip', function(req, res){
   var property_id = req.body.property_id;
   var host_id = req.body.host_id;
   var user_id = req.body.user_id/*req.session.user._id*/;
+  var property_name = req.body.property_name;
   var city_nm = req.body.city_nm;
   var state = req.body.state;
   var start_date = req.body.start_date;
@@ -104,6 +105,7 @@ router.post('/createTrip', function(req, res){
   var msg_payload = {
     "property_id" : property_id,
     "host_id" : host_id,
+    "property_name" : property_name,
     "user_id" : user_id,
     "city_nm" : city_nm,
     "state" : state,
