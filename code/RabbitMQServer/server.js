@@ -129,5 +129,3 @@ var subscriber = function(q, module) {
 	});
 }
 
-);
-
