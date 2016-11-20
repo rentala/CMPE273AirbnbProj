@@ -96,7 +96,7 @@ var searchProperty = {
                                     callback(null, res);
                                 }
                             }
-                        },sql_queries.FETCH_TRIP_DATES,[available_property]);
+                        },sql_queries.FETCH_TRIP_DATES,[available_property,msg.user_id]);
                     }
                     else {
                         //No Matching Dates.

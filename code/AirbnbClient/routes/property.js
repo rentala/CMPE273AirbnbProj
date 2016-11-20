@@ -9,11 +9,12 @@ router.post('/search',function (req,res,next) {
     var start_date = req.param("start_date");
     var end_date = req.param("end_date");
     var guests = req.param("guests");
+    var user_id=4; //stub - get user id from req.session.user_id
 
 
     var json_responses;
 
-    var msg_payload = {"city":city,"start_date":start_date,"end_date":end_date,"guests":guests};
+    var msg_payload = {"city":city,"start_date":start_date,"end_date":end_date,"guests":guests,"user_id":user_id};
 
     mq_client.make_request('search_property_queue', msg_payload, function(err,results){
         if(err){
