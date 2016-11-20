@@ -27,7 +27,7 @@ app.use(session({
   activeDuration: 5 * 6 * 1000,
   saveUninitialized: false,
   resave: false,
-  store: new mongoStore({ url: 'mongodb://localhost/airbnb' })
+  store: new mongoStore({ url: 'mongodb://rentala:team5password@ds155097.mlab.com:55097/airbnb' })
 }));
 require('./config/passport')(passport);
 app.use(passport.initialize());
