@@ -96,8 +96,6 @@ cnn.on('ready', function(){
     cnn.queue('create_trip_review_queue', function(q){
         subscriber(q, trip.createTripReview );
     });
-<<<<<<< HEAD
-
     //Analytics Queues
 	cnn.queue('top_property_queue', function(q){
 		subscriber(q, analytics.topProp );
@@ -108,7 +106,6 @@ cnn.on('ready', function(){
     cnn.queue('top_host_queue', function(q){
         subscriber(q, analytics.topHost );
     });
-=======
 	cnn.queue('delete_host_queue', function(q){
 		subscriber(q, host.deleteHost );
 	});
@@ -116,7 +113,6 @@ cnn.on('ready', function(){
         subscriber(q, host.reviewUser );
     });
 });
->>>>>>> 371a7bc634087a51b7a706c8ec4f317f6a452dd1
 
 var subscriber = function(q, module) {
 	q.subscribe(function (message, headers, deliveryInfo, m) {
@@ -133,5 +129,5 @@ var subscriber = function(q, module) {
 	});
 }
 
-});
+);
 
