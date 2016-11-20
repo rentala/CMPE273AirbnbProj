@@ -51,7 +51,7 @@ street :
 city :
 state :
 zipcode :
-is_host :
+host_status : (“NA”, “REQUESTED”,”REJECTED”,”ACCEPTED”)
 email_id :
 passwd :
 ssn :

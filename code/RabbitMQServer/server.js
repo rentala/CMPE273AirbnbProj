@@ -71,10 +71,12 @@ cnn.on('ready', function(){
 	cnn.queue('pending_hosts_for_approval_queue', function(q){
 		subscriber(q, admin.pendingHostsForApproval );
 	});
-    cnn.queue('delete_host_queue', function(q){
-        subscriber(q, host.deleteHost );
-    });
-
+	cnn.queue('delete_host_queue', function(q){
+		subscriber(q, host.deleteHost );
+	});
+	cnn.queue('review_user_queue', function(q){
+		subscriber(q, host.reviewUser );
+	});
     //admin queues
 	cnn.queue('adminLoginRequest_queue', function(q){
 		subscriber(q, admin.checkLogin);
@@ -106,12 +108,7 @@ cnn.on('ready', function(){
     cnn.queue('top_host_queue', function(q){
         subscriber(q, analytics.topHost );
     });
-	cnn.queue('delete_host_queue', function(q){
-		subscriber(q, host.deleteHost );
-	});
-    cnn.queue('review_user_queue', function(q){
-        subscriber(q, host.reviewUser );
-    });
+
 });
 
 var subscriber = function(q, module) {
