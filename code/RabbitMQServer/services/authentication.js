@@ -11,11 +11,7 @@ var login = {
 			if(err){
 				tool.logError(err);
 			}
-			if (user) {
-				res.code = "200";
-				res.value = user;
-			} 
-			else if (!bcrypt.compareSync(msg.password, user.password)){
+			if (user && bcrypt.compareSync(msg.password, user.password)){
 				res.code = "200";
 				res.value = user;
 			}
