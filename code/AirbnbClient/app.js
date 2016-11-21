@@ -18,6 +18,7 @@ var property = require('./routes/property');
 var admin = require('./routes/admin');
 var trip = require('./routes/trip');
 var analytics = require('./routes/analytics');
+var billing = require("./routes/billing");
 
 var app = express();
 
@@ -58,6 +59,7 @@ app.use('/api/property',property);
 app.use('/api/admin',admin);
 app.use('/api/trip',trip);
 app.use('/api/analytics',analytics);
+app.use('/api/billing',billing);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

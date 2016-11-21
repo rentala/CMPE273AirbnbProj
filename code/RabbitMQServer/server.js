@@ -16,6 +16,8 @@ var admin = require('./services/admin');
 var trip = require('./services/trip');
 var analytics = require('./services/analytics');
 var host = require('./services/host');
+var billing = require('./services/billing');
+
 var mongoConn;
 var connection;
 
@@ -107,6 +109,10 @@ cnn.on('ready', function(){
     });
     cnn.queue('top_host_queue', function(q){
         subscriber(q, analytics.topHost );
+    });
+	//Billing queues
+    cnn.queue('get_bill_queue',function (q) {
+        subscriber(q,billing.view);
     });
 
 });
