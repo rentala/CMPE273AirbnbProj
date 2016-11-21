@@ -5,7 +5,6 @@ var property = require('./property');
 
 var topProp = {
     handle_request: function (connection,msg,callback) {
-        console.log(msg.no_of_props);
         var res={};
         mysql.execute_query(function (err,result) {
             if(err){
