@@ -28,4 +28,29 @@ router.get('/view',function (req,res) {
     });
 });
 
+router.post('/delete',function (req, res) {
+
+    var json_responses;
+    var bill_id = req.param("bill_id");
+    var msg_payload = {"bill_id":bill_id};
+
+    mq_client.make_request('delete_bill_queue',msg_payload,function (err,results) {
+       if(err){
+           throw err;
+           json_responses = {"status_code":500};
+       }
+       else
+       {
+           if(results.statusCode==200){
+               json_responses={"status_code":200};
+           }
+           else {
+               json_responses = {"status_code":results.statusCode};
+           }
+       }
+        res.send(json_responses);
+        res.end();
+    });
+});
+
 module.exports = router;

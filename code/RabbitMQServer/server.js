@@ -100,6 +100,9 @@ cnn.on('ready', function(){
     cnn.queue('create_trip_review_queue', function(q){
         subscriber(q, trip.createTripReview );
     });
+    cnn.queue('pending_trips_queue',function (q) {
+        subscriber(q,trip.pendingTripsForApproval);
+    });
     //Analytics Queues
 	cnn.queue('top_property_queue', function(q){
 		subscriber(q, analytics.topProp );
@@ -113,6 +116,9 @@ cnn.on('ready', function(){
 	//Billing queues
     cnn.queue('get_bill_queue',function (q) {
         subscriber(q,billing.view);
+    });
+    cnn.queue('delete_bill_queue',function (q) {
+        subscriber(q,billing.deleteBill);
     });
     cnn.queue('edit_trip_queue',function (q) {
         subscriber(q,trip.editTrip);

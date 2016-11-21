@@ -44,4 +44,23 @@ var view = {
     }
 };
 
+var deleteBill = {
+    handle_request:function (connection,msg,callback) {
+        var res={};
+
+        mysql.execute_query(function (err,result) {
+            if(err){
+                tool.logError(err);
+                res = {"statusCode":401};
+                callback(null,res);
+            }
+            else {
+                res = {"statusCode":200};
+                callback(null, res);
+            }
+        },sql_queries.DELETE_BILL,[msg.bill_id]);
+    }
+};
+
+exports.deleteBill = deleteBill;
 exports.view = view;

@@ -245,5 +245,31 @@ router.post('/editTrip',function (req,res) {
     });
 });
 
+router.get('/pendingTripsForApproval',function (req,res) {
+    var json_responses;
+
+    var host_id = req.param("host_id");
+
+    var msg_payload = {"host_id":host_id};
+
+    mq_client.make_request('pending_trips_queue',msg_payload,function (err,results) {
+        if(err){
+            throw err;
+            json_responses = {"status_code":500};
+        }
+        else {
+            if(results.statusCode == 200)
+            {
+                json_responses = {"status_code":results.statusCode,"pending_trips":results.pending_trips};
+            }
+            else
+            {
+                json_responses = {"status_code":results.statusCode};
+            }
+        }
+        res.send(json_responses);
+        res.end();
+    });
+});
 
 module.exports = router;
