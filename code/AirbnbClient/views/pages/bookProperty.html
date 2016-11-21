@@ -3,149 +3,149 @@
 <head>
 	<title>Airbnb</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
-	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script>
-		var app = angular.module('airbnbApp',[]);
-		app.controller('bookPropertyController',function($scope,$http){
-			$scope.hostName = "Krishna";
-			$scope.image = "paris.jpg";
-			$scope.ratings = "3.5";
-			$scope.description = "nice place in downtown San Jose";
-			var checkInDate = new Date();
-			var checkOutDate = new Date();
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+    	var app = angular.module('airbnbApp',[]);
+    	app.controller('bookPropertyController',function($scope,$http){
+    		$scope.hostName = "Krishna";
+    		$scope.image = "paris.jpg";
+    		$scope.ratings = "3.5";
+    		$scope.description = "nice place in downtown San Jose";
+    		var checkInDate = new Date();
+    		var checkOutDate = new Date();
 			$scope.checkInDate=checkInDate.toISOString().split('T')[0];
-			$scope.checkOutDate=checkOutDate.toISOString().split('T')[0];
-			var noOfdays = checkInDate.getDate()-checkOutDate.getDate();
-			$scope.noOfdays = noOfdays;
+    		$scope.checkOutDate=checkOutDate.toISOString().split('T')[0];
+    		var noOfdays = checkInDate.getDate()-checkOutDate.getDate(); 
+    		$scope.noOfdays = noOfdays;
 
-			var price = [{per_night:2,per_week:4,per_month:5}];
-			$scope.price=price;
-			$scope.totalPrice = price[0].per_night * noOfdays;
+    		var price = [{per_night:2,per_week:4,per_month:5}];
+    		$scope.price=price;
+    		$scope.totalPrice = price[0].per_night * noOfdays;
 
 
 
-			var credit_card_no =null;
-			if (credit_card_no!=null){
-				$scope.credit_card_no=credit_card_no;
-				$scope.card1 = !$scope.card1;
-			}
-			else{
-				console.log("sdfsdfsd");
-				$scope.card = !$scope.card;
-			}
-			$scope.cardUpdate = function(){
+    		var credit_card_no =null;
+    		if (credit_card_no!=null){
+    			$scope.credit_card_no=credit_card_no;
+    			$scope.card1 = !$scope.card1;
+      		}
+      		else{
+      			console.log("sdfsdfsd");
+      			$scope.card = !$scope.card;
+      		}
+      		$scope.cardUpdate = function(){
 
-			}
-		})
-	</script>
+      		}
+    	})
+    </script>
 </head>
 <body data-ng-app="airbnbApp" data-ng-controller="bookPropertyController">
-<nav class="navbar navbar-default" style="background-color:white; ">
-	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#" ><img src="airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
-		</div>
+	<nav class="navbar navbar-default" style="background-color:white; ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" ><img src="airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
+            </div>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
-			<form class="navbar-form navbar-left" style="border-left:solid;border-width:0.5px;border-color:#D3D3D9">
-				<div class="form-group">
-					<input type="text" placeholder="Where to?" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px"></span></input>
-				</div>
-				<button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
-				<button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ng-click="hostPage()">host</button>
-				<button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ng-click="trips()">Trips<span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
-				<button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
+                <form class="navbar-form navbar-left" style="border-left:solid;border-width:0.5px;border-color:#D3D3D9">
+                    <div class="form-group">
+                        <input type="text" placeholder="Where to?" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px"></span></input>
+                    </div>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ng-click="hostPage()">host</button>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ng-click="trips()">Trips<span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
+       
+				</form>
+    
+                <ul class="nav navbar-nav navbar-right" style="margin-top:1px">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">firstName <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a ng-click="profile()">Edit Profile</a></li>
+                            <li><a ng-click="logout()">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
 
-			</form>
-
-			<ul class="nav navbar-nav navbar-right" style="margin-top:1px">
-				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">firstName <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a ng-click="profile()">Edit Profile</a></li>
-						<li><a ng-click="logout()">Logout</a></li>
-					</ul>
-				</li>
-			</ul>
-		</div>
-		<!-- /.navbar-collapse -->
-	</div>
-	<!-- /.container-fluid -->
-</nav>
-
-<div class="col-sm-1"></div>
-<div class="col-sm-6">
-	<div class="col-sm-12"><h2>1. About Your Trip</h2></div>
-	<div class="col-sm-12" style="border:solid;border-color:black;border-width:0.5px;background-color:#f9f9f9"><p style="margin-top:15px;margin-bottom:15px">Hi! Thanks for booking with us. My goal is to have all my guests have a comfortable stay here in my house. Please let us know if we can do anything for you!</p>
-	</div>
-	<div class="col-sm-12" style="margin-top:20px;margin-bottom:20px">Your host, {{hostName}}</div>
-	<div class="col-sm-12" style="background-color:#f9f9f9;margin-bottom:20px">
-		<center><div class="col-sm-12">
-			<img src="home.png">
-		</div></center>
-		<center><div class="col-sm-12"><h3>{{hostName}}'s House Rules</h3></div></center>
-		<div class="col-sm-12">
-			<ul>
-				<li style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>No smoking</h3></li>
-				<li style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>Not suitable for pets </h3></li>
-				<li style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>No parties or events </h3></li>
-				<li style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>No loud noise throughout the house all day</h3></li>
-				<li style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>No illegal drugs users</h3></li>
-			</ul>
-		</div>
-	</div>
-	<div class="col-sm-12" style="margin-bottom:20px"><h2>2. Payment Details</h2></div>
-	<div class="col-sm-12">
-		<div data-ng-hide="card" style="background-color:#f9f9f9">
-			<div class="form-group">
-				<label>Your card details:</label><br>
-				<label>Card Number: {{credit_card_no}}</label>
-			</div>
-		</div>
-		<div data-ng-hide="card1" style="background-color: #f9f9f9">
-			<div class="form-group">
-				<h4>Enter Your Card Details</h4>
-				<input class="form-control" type="text" placeholder="Card Number" data-ng-model="creditCardNo" style="margin-bottom:5px">
-				<input placeholder="Expiration Date" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" style="margin-bottom:5px" data-ng-model="cardExpiration">
-				<input class="form-control" type="text" placeholder="CVV" style="margin-bottom:5px" data-ng-model="cardCVV">
-				<input type="button" class="btn btn-primary" value="submit Card" data-ng-click="cardUpdate()">
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-12" style="margin-top:10px">
-		I agree to the House Rules, Cancellation Policy, and to the Guest Refund Policy. I also agree to pay the total amount shown, which includes Occupancy Taxes and Service Fees. Airbnb now collects and remits government-imposed Occupancy Taxes in this location.<br>
-		<input type="button" class="btn btn-danger" value="continue" style="margin-top:10px;width:100%;margin-bottom:50px" data-ng-click="bookProperty()">
-	</div>
-</div>
-<div class="col-sm-4">
-	<img ng-src="{{image}}" width="100%" height="150px">
-	<div class="col-sm-12" style="border:solid;border-color:black;border-width:0.5px">
-		<div class="col-sm-12" style="margin-top:15px;border-bottom:solid;border-width:0.5px;border-color:black">
-			Hosted by {{hostName}}<br>
-			rating: {{ratings}}/5
-		</div>
-		<div class="col-sm-12" style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>{{description}}</h3></div>
-		<div class="col-sm-12" style="border-bottom:solid;border-color:black;border-width:0.5px;margin-top:15px">
-			<div class="col-sm-5"><label style="float:left;">Check in</label> <br><label style="float:left;">{{checkInDate}}</label></div>
-			<div class="col-sm-2" style="float:left;"><h4><label style="float:left;">---></label></h4></div>
-			<div class="col-sm-5"><label style="float:right;">check out</label> <br><label style="float:right;">{{checkOutDate}}</label></div>
-		</div>
-		<div class="col-sm-12" style="border-bottom:solid;border-color:black;border-width:0.5px">
-			<div class="col-sm-6" style="margin-top:15px"><label style="float:left;">${{price[0].per_night}}*{{noOfdays}} nights</label></div>
-			<div class="col-sm-6" style="margin-top:15px;"><label style="float:right;">{{totalPrice}}$</label></div>
-		</div>
-		<div class="col-sm-12">
-			<div class="col-sm-6"><h3><label>Total</label></h3></div>
-			<div class="col-sm-6"><h3><label style="float:right;">{{totalPrice}}$</label></h3></div>
-		</div>
-	</div>
-</div>
-<div class="col-sm-1"></div>
+    <div class="col-sm-1"></div>
+    <div class="col-sm-6">
+    	<div class="col-sm-12"><h2>1. About Your Trip</h2></div>
+    	<div class="col-sm-12" style="border:solid;border-color:black;border-width:0.5px;background-color:#f9f9f9"><p style="margin-top:15px;margin-bottom:15px">Hi! Thanks for booking with us. My goal is to have all my guests have a comfortable stay here in my house. Please let us know if we can do anything for you!</p>
+    	</div>
+    	<div class="col-sm-12" style="margin-top:20px;margin-bottom:20px">Your host, {{hostName}}</div>
+    	<div class="col-sm-12" style="background-color:#f9f9f9;margin-bottom:20px">
+    		<center><div class="col-sm-12">
+    			<img src="home.png">
+    		</div></center>
+    		<center><div class="col-sm-12"><h3>{{hostName}}'s House Rules</h3></div></center>
+    		<div class="col-sm-12">
+                <ul>
+                    <li style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>No smoking</h3></li>
+                    <li style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>Not suitable for pets </h3></li>
+                    <li style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>No parties or events </h3></li>
+                    <li style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>No loud noise throughout the house all day</h3></li>
+                    <li style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>No illegal drugs users</h3></li>
+                </ul>
+    		</div>
+    	</div>
+    	<div class="col-sm-12" style="margin-bottom:20px"><h2>2. Payment Details</h2></div>
+    	<div class="col-sm-12">
+    		<div data-ng-hide="card" style="background-color:#f9f9f9">
+    			<div class="form-group">
+    				<label>Your card details:</label><br>
+    				<label>Card Number: {{credit_card_no}}</label>
+    			</div>
+    		</div>
+    		<div data-ng-hide="card1" style="background-color: #f9f9f9">
+    			<div class="form-group">
+    				<h4>Enter Your Card Details</h4>
+    				<input class="form-control" type="text" placeholder="Card Number" data-ng-model="creditCardNo" style="margin-bottom:5px">
+    				<input placeholder="Expiration Date" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" style="margin-bottom:5px" data-ng-model="cardExpiration">
+    				<input class="form-control" type="text" placeholder="CVV" style="margin-bottom:5px" data-ng-model="cardCVV">
+    				<input type="button" class="btn btn-primary" value="submit Card" data-ng-click="cardUpdate()">
+    			</div>
+    		</div>
+    	</div>
+    	<div class="col-sm-12" style="margin-top:10px">
+    		I agree to the House Rules, Cancellation Policy, and to the Guest Refund Policy. I also agree to pay the total amount shown, which includes Occupancy Taxes and Service Fees. Airbnb now collects and remits government-imposed Occupancy Taxes in this location.<br>
+    		<input type="button" class="btn btn-danger" value="continue" style="margin-top:10px;width:100%;margin-bottom:50px" data-ng-click="bookProperty()">
+    	</div>
+    </div>
+    <div class="col-sm-4">
+    	<img ng-src="{{image}}" width="100%" height="150px">
+    	<div class="col-sm-12" style="border:solid;border-color:black;border-width:0.5px">
+    		<div class="col-sm-12" style="margin-top:15px;border-bottom:solid;border-width:0.5px;border-color:black">
+    			Hosted by {{hostName}}<br>
+    			rating: {{ratings}}/5
+    		</div>
+    		<div class="col-sm-12" style="border-bottom:solid;border-color:black;border-width:0.5px"><h3>{{description}}</h3></div>
+    		<div class="col-sm-12" style="border-bottom:solid;border-color:black;border-width:0.5px;margin-top:15px">
+    			<div class="col-sm-5"><label style="float:left;">Check in</label> <br><label style="float:left;">{{checkInDate}}</label></div>
+    			<div class="col-sm-2" style="float:left;"><h4><label style="float:left;">---></label></h4></div>
+    			<div class="col-sm-5"><label style="float:right;">check out</label> <br><label style="float:right;">{{checkOutDate}}</label></div>
+    		</div>
+    		<div class="col-sm-12" style="border-bottom:solid;border-color:black;border-width:0.5px">
+	    		<div class="col-sm-6" style="margin-top:15px"><label style="float:left;">${{price[0].per_night}}*{{noOfdays}} nights</label></div>
+	    		<div class="col-sm-6" style="margin-top:15px;"><label style="float:right;">{{totalPrice}}$</label></div>
+    		</div>
+    		<div class="col-sm-12">
+	    		<div class="col-sm-6"><h3><label>Total</label></h3></div>
+	    		<div class="col-sm-6"><h3><label style="float:right;">{{totalPrice}}$</label></h3></div>
+    		</div>
+    	</div>
+    </div>
+    <div class="col-sm-1"></div>
 </body>
 </html>
