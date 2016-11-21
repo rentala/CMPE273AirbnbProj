@@ -78,17 +78,34 @@ var deleteTrip = {
 var createTrip = {
     handle_request: function (connection, msg, callback) {
         var res = {};
+        var trip_price;
         console.log("MESSAGE = " + JSON.stringify(msg));
+        //console.log("DATE = " + typeof(msg.start_date));
+        //console.log("date difference = " + (msg.start_date.getDate() - msg.end_date.getDate()));
+        var some = "select datediff('" + msg.end_date + "', '" + msg.start_date + "') as stayDuration";
         mysql.execute_query(function(err, result){
-            if(err){
+        	if(err){
                 res = {"statusCode" : 401, "errMsg" : err};
                 callback(null, res);
             }
             else{
-                res = {"statusCode" : 200};
-                callback(null, res);
+            	if(result.length > 0){
+            		console.log("timer = " + (result[0].stayDuration));
+            		trip_price = (result[0].stayDuration) * Number(msg.price);
+            		console.log("Trip Price = " + trip_price);
+            		mysql.execute_query(function(err, result){
+                        if(err){
+                            res = {"statusCode" : 401, "errMsg" : err};
+                            callback(null, res);
+                        }
+                        else{
+                            res = {"statusCode" : 200};
+                            callback(null, res);
+                        }
+                    }, sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, msg.property_name, msg.host_id, msg.start_date, msg.end_date, msg.guest, 'PENDING', trip_price]);
+            	}
             }
-        }, sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, msg.host_id, msg.start_date, msg.end_date, msg.guest, 'PENDING']);
+        }, some);
     }
 };
 
