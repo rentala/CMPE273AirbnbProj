@@ -100,6 +100,9 @@ cnn.on('ready', function(){
     cnn.queue('create_trip_review_queue', function(q){
         subscriber(q, trip.createTripReview );
     });
+    cnn.queue('pending_trips_queue',function (q) {
+        subscriber(q,trip.pendingTripsForApproval);
+    });
     //Analytics Queues
 	cnn.queue('top_property_queue', function(q){
 		subscriber(q, analytics.topProp );

@@ -222,9 +222,37 @@ var editTrip = {
 	        }
 	    }
 	};
+
+
+var pendingTripsForApproval = {
+    handle_request:function (connection,msg,callback) {
+        var res = {};
+
+        mysql.execute_query(function (err,result) {
+           if(err){
+               tool.logError(err);
+               res = {"statusCode":401};
+               callback(null,res);
+           }
+           else{
+               if(result.length>0){
+                    res = {"statusCode":200,"pending_trips":result};
+                    callback(null,res);
+               }
+               else
+               {
+                   res = {"statusCode":402};
+                   callback(null,res);
+               }
+           }
+        },sql_queries.FETCH_PENDING_TRIPS,[msg.host_id]);
+    }
+};
+
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
 exports.createTrip = createTrip;
 exports.updateTrip = updateTrip;
 exports.createTripReview = createTripReview;
 exports.editTrip = editTrip;
+exports.pendingTripsForApproval = pendingTripsForApproval;
