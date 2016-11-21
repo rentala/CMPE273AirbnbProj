@@ -2,6 +2,7 @@
 var constants  =  require('node-constants');
 
 constants.define(exports, {
+    FETCH_BILLING_DTLS:"select trip.user_id, trip.property_id, trip.property_name,trip.billing_id,trip.trip_price,trip.checkin_date,trip.checkout_date,trip.no_of_guests from trip where trip.trip_id=?;",
     FETCH_CITY_WISE_DATA: "SELECT property_id, SUM(trip.trip_price) as total_revenue,YEAR(date(trip.trip_approved_time)) as trip_year FROM trip WHERE trip.property_id IN (?) and trip.trip_status = 'ACCEPTED' GROUP BY trip.property_id , trip_year ORDER BY trip_year limit ?;",
     FETCH_TOP_HOST:"SELECT trip.host_id as host_id, sum(trip.trip_price) AS total_revenue FROM trip WHERE trip.trip_status = 'ACCEPTED' and month(date(trip.trip_approved_time)) = month(now()-interval 1 month) GROUP BY host_id ORDER BY total_revenue DESC LIMIT ?;",
     FETCH_TOP_PROP: "SELECT trip.property_id AS property_id, year(date(trip.trip_approved_time)) as trip_year,SUM(trip.trip_price) AS property_revenue FROM airbnb.trip WHERE trip.trip_status = 'ACCEPTED' GROUP BY trip.property_id , trip_year ORDER BY property_revenue DESC LIMIT ?;",
