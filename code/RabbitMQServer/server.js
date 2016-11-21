@@ -114,6 +114,9 @@ cnn.on('ready', function(){
     cnn.queue('get_bill_queue',function (q) {
         subscriber(q,billing.view);
     });
+    cnn.queue('delete_bill_queue',function (q) {
+        subscriber(q,billing.deleteBill);
+    });
     cnn.queue('edit_trip_queue',function (q) {
         subscriber(q,trip.editTrip);
     });
