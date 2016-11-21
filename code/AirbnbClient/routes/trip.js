@@ -160,7 +160,6 @@ router.post('/updateTrip',function (req,res) {
     });
 });
 
-
 router.post('/review/:propertyId', function (req, res, next)  {
 
     var storage = multer.diskStorage({
@@ -216,6 +215,35 @@ function buildPayLoad(req) {
     return msg_payload;
 }
 
+router.post('/editTrip',function (req,res) {
+    var json_responses;
+
+    var trip_id = req.param("trip_id");
+    var user_id = req.param("user_id");
+    var property_id = req.param("property_id");
+    var guests = req.param("guests");
+    var start_date = req.param("start_date");
+    var end_date = req.param("end_date");
+
+    var msg_payload = {"trip_id":trip_id, "user_id": user_id,"property_id": property_id, "guests": guests, "start_date":start_date, "end_date":end_date};
+
+    mq_client.make_request('edit_trip_queue',msg_payload,function (err,results) {
+        if(err){
+            throw err;
+        }
+        else {
+            if(results.statusCode == 200)
+            {
+                json_responses = {"status_code":200};
+            }
+            else {
+                json_responses = {"status_code":400};
+            }
+            res.send(json_responses);
+            res.end();
+        }
+    });
+});
 
 
 module.exports = router;

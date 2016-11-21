@@ -89,7 +89,7 @@ var createTrip = {
                 callback(null, res);
             }
             else{
-            	if(result.length > 0){
+            	if(result.length > 0 && result[0].stayDuration > 0){
             		console.log("timer = " + (result[0].stayDuration));
             		trip_price = (result[0].stayDuration) * Number(msg.price);
             		console.log("Trip Price = " + trip_price);
@@ -103,6 +103,10 @@ var createTrip = {
                             callback(null, res);
                         }
                     }, sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, msg.property_name, msg.host_id, msg.start_date, msg.end_date, msg.guest, 'PENDING', trip_price]);
+            	}
+            	else{
+            		res = {"statusCode" : 400, "errMsg" : err};
+                    callback(null, res);
             	}
             }
         }, some);
@@ -152,8 +156,75 @@ var createTripReview ={
 
     }
 }
+
+
+var editTrip = {
+	    handle_request: function (connection, msg, callback) {
+	        var res = {};
+	        var start_date;
+	        var end_date;
+	        var coll = connection.mongoConn.collection('property');
+	        var tripStart = new Date(msg.start_date);
+	        var tripEnd = new Date(msg.end_date);
+	        var newTripPrice;
+	        var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000));
+	        //if new trip duration is less than 1, return back without performing any operations 
+	        if(stayDuration <1){
+	        	res = {"statusCode":400,"errMsg":"Sorry cannot update property"};
+                callback(null, res);
+	        }
+	        else
+	        {	
+	        coll.findOne({"_id":ObjectID(msg.property_id)}, function (err,record) {
+                if(err)
+                {
+                    res = {"statusCode":400,"errMsg":err};
+                    tool.logError(err);
+                    callback(null, res);
+                }
+                else {
+                    if(record != null){
+                    	start_date = record.start_date;
+                    	end_date = record.end_date;
+                    	//calculating new trip price
+                    	newTripPrice = eval(stayDuration * parseInt(record.price));
+                    	
+                    	var propStart = new Date(start_date);
+            	        var propEnd = new Date(end_date);
+            	        //Verifying if new trip duration falls under the property listing dates, return back without performing any operations if dates are out of listing dates
+                    	if(propStart<= tripStart && propEnd >= tripEnd){
+	                    	mysql.execute_query(function (err, result) {
+	                            if(err){
+	                                res = {"statusCode":400,"errMsg":err};
+	                                tool.logError(err);
+	                                callback(null, res);
+	                            }
+	                            else {
+	                                res = {"statusCode":200};
+	                                callback(null, res);
+	                            }
+	                        },sql_queries.UPDATE_TRIP_DATES,[msg.start_date, msg.end_date, msg.guests,newTripPrice, msg.trip_id]);
+                    	}
+                    	else{
+                    		res = {"statusCode":400,"errMsg":"Sorry cannot update property"};
+                            callback(null, res);
+                    	}
+                    }
+                    else {
+                        res = {"statusCode":400,"errMsg":"Sorry cannot update property"};
+                        callback(null, res);
+                    }
+                }
+
+            });
+	        
+	        
+	        }
+	    }
+	};
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
 exports.createTrip = createTrip;
 exports.updateTrip = updateTrip;
 exports.createTripReview = createTripReview;
+exports.editTrip = editTrip;
