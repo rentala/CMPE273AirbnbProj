@@ -6,7 +6,8 @@ Property collection:
 {
 _id:
 host_id: (id from reference table)
-category:
+category: (home/apartment/villa)
+type: (Entire/Private/Shared)
 address:{
 	street:
 	city:
@@ -28,6 +29,7 @@ bedrooms:
 listed_time:
 start_date :
 end_date :
+forBid: true or false
 images : [](array)
 videos : [](array)
 ratings :
