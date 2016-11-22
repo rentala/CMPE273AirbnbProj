@@ -86,11 +86,11 @@ router.post('/signUpUser', function (req, res, next)  {
 router.get('/home', function (req, res, next)  {
 	console.log("assadsdsadsa"+JSON.stringify(req.session.user));
 	//user_dtls = JSON.parse(data.user)
-	var j = JSON.stringify(req.session.user);
+	/*var j = JSON.stringify(req.session.user);
 	j = JSON.parse(j);
-	console.log("first_name"+j.first_name);
+	console.log("first_name"+j.first_name);*/
 	//console.log("assads"+ JSON.parse(req.session.user));
-	ejs.renderFile('./views/views/home.ejs',{ user_dtls: j},function(err, result) {
+	ejs.renderFile('./views/views/home.ejs',{ user_dtls: ""},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);
