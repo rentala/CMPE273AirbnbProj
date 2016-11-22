@@ -9,7 +9,7 @@ res.end(result);
 }
 // render or error
 else {
-	 tool.logError(err);
+tool.logError(err);
 res.end('An error occurred');
 console.log(err);
 }

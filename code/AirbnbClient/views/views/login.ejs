@@ -8,252 +8,83 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!--map related data-->
-    <style>
-        /* Always set the map height explicitly to define the size of the div
-         * element that contains the map. */
-        #map {
-            height: 300px;
-        }
-        /* Optional: Makes the sample page fill the window. */
-        .controls {
-            margin-top: 10px;
-            border: 1px solid transparent;
-            border-radius: 2px 0 0 2px;
-            box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            height: 32px;
-            outline: none;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        }
-
-        #pac-input {
-            background-color: #fff;
-            font-family: Roboto;
-            font-size: 15px;
-            font-weight: 300;
-            margin-left: 12px;
-            padding: 0 11px 0 13px;
-            text-overflow: ellipsis;
-            width: 300px;
-        }
-
-        #type-selector {
-            color: #fff;
-            background-color: #4d90fe;
-            padding: 5px 11px 0px 11px;
-        }
-
-        #type-selector label {
-            font-family: Roboto;
-            font-size: 13px;
-            font-weight: 300;
-        }
-        #target {
-            width: 345px;
-        }
-    </style>
-    <script>
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
-                center: {lat: -34.397, lng: 150.644}
-            });
-            var geocoder = new google.maps.Geocoder();
-
-            document.getElementById('submit').addEventListener('click', function() {
-                geocodeAddress(geocoder, map);
-            });
-        }
-        function geocodeAddress(geocoder, resultsMap) {
-            var address = document.getElementsByName('address')[0].value;
-            var street = document.getElementsByName('street')[0].value;
-            var city = document.getElementsByName('city')[0].value;
-            var country = document.getElementsByName('country')[0].value;
-            var fullAddress = street + ", " + address + ", " + city + ", " + country;
-            if(fullAddress != "   "){
-                geocoder.geocode({'address': fullAddress}, function(results, status) {
-                    if (status === 'OK') {
-                        resultsMap.setCenter(results[0].geometry.location);
-                        var marker = new google.maps.Marker({
-                            map: resultsMap,
-                            position: results[0].geometry.location,
-                            zoom: 20
-                        });
-                    } else {
-                        //alert('Geocode was not successful for the following reason: ' + status);
-                    }
-                });
-            }
-
-        }
-    </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXlm3qIBZRDRWEkMOfmv9e71WLMQkStak&callback=initMap">
-    </script>
-    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWlhSOzoAYUi3wmo6rbzJRBV4yohQvXBY&libraries=places&callback=initAutocomplete"
-         async defer></script>-->
-    <!--end of map related data-->
-
+    <script src="/angularjs/loginSignupController.js"></script>
 </head>
-<body>
-<nav class="navbar navbar-default" style="background-color:white; ">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#" ><img src="/images/airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
-            <form class="navbar-form navbar-left" style="border-left:solid;border-width:0.5px;border-color:#D3D3D9">
-                <div class="form-group">
-                    <input type="text" placeholder="Where to?" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px"></span></input>
-                </div>
-                <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
-                <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ng-click="hostPage()">host</button>
-                <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ng-click="trips()">Trips<span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
-                <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
-
-            </form>
-
-            <ul class="nav navbar-nav navbar-right" style="margin-top:1px">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">firstName <span class="caret"></span></a><!--Add first Name-->
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Edit Profile</a></li>
-                        <li><a href="#">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-</nav>
-<div class="col-sm-1"></div>
-<div class="col-sm-11">
-    <div class="col-sm-7">
-        <form action="/api/property/list"  enctype = "multipart/form-data" method="post">
-            <div class="col-sm-9">
-                <h2>Hi, Username! Lets get you ready to become a host.</h2>
-                <br>
-                <h3>What Kind of place do you have?</h3>
-                <div class="col-sm-12">
-                    <div class="form-group"  >
-                        <select class="form-control" id="category">
-                            <option value="House" selected>House</option>
-                            <option value="Apartment">Apartment</option>
-                            <option value="Bed & Breakfast">Bed & Breakfast</option>
-                            <option value="Dorm">Dorm</option>
-                            <option value="Villa">Villa</option>
-                            <option value="Hotel">Hotel</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                </div>
-                <h3>What kind of place are you listing?</h3>
-                <div class="col-sm-12">
-                    <div>
-                        <ul class="list-group">
-                            <li class="list-group-item">Entire Place<input type="checkbox" value="Entire Place" style="float:right;"></li>
-                            <li class="list-group-item">Private Room<input type="checkbox" value="Entire Place" style="float:right;"></li>
-                            <li class="list-group-item">Shared Room<input type="checkbox" value="Entire Place" style="float:right;"></li>
-                        </ul>
-                    </div>
-                </div>
-                <h3>How many guests can your place accomodate?</h3>
-                <div class="col-sm-12">
-                    <div class="row">
-                        <div class="form-group col-md-6" >
-                            <div class="input-group input-group-md">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <div class="icon-addon addon-md">
-                                    <input type="number" class="form-control" min="1" value="1"></input>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group col-md-6" >
-                            <div class="input-group input-group-md">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-bed"></i></span>
-                                <div class="icon-addon addon-md">
-                                    <input type="number" class="form-control" min="1" value="1"></input>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <!--photos-->
-                <h3>When can guests check in?</h3>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <h4>Start Date</h4>
-                        <input placeholder="start Date" class="form-control" type="text" name= "start_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="start_date"  ng-model="start_date">
-                        <h4>End Date</h4>
-                        <input placeholder="end Date" class="form-control" type="text" name= "end_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="end_date"  ng-model="end_date">
-                    </div>
-                </div>
-
-                <h3>Where is your place located?</h3>
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <input type="text" class="form-control" name="country" placeholder="Country" ng-model="country"></input>
-                        <input type="text" class="form-control" name="address" placeholder="Street Address" style="margin-top:5px" ng-model="streetAddress"></input>
-                        <input type="text" class="form-control" name="street" placeholder="Apt, Suite, Bldg." style="margin-top:5px" ng-model="aptNo"></input>
-                        <input type="text" class="form-control" name="city" placeholder="City" style="margin-top:5px" ng-model="city"></input>
-                    </div>
-                </div>
-
-                <!--map related-->
-                <div class="col-sm-12" style="margin-bottom: 15px">
-                    <input id="submit" class="form-control"  type="button" value="Find the address on the map below.">
-                    <br>
-                    <div id="map"></div>
-                </div>
-                <!--end of map related data-->
-                <!--photos-->
-                <h3>Photos</h3>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <input type="file" class="btn btn-primary" accept="image/*" name="file" multiple value="Upload upto 12 Images" />
-                        <input type="submit" class="btn btn-primary" value="Submit">
-                    </div>
-                </div>
-                <!--end of photos-->
-                <!--type of hosting-->
-                <h3>Type of Hosting?</h3>
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <ul class="list-group">
-                            <li class="list-group-item">Bidding<input type="checkbox" value="Bidding" style="float:right;"></li>
-                            <li class="list-group-item">Normal<input type="checkbox" value="Normal" style="float:right;"></li>
-                        </ul>
-                    </div>
-                </div>
-                <!--end of type of hosting-->
-                <!--cost per day per week per month-->
-                <h3>Enter Cost</h3>
-                <div class="col-sm-12">
-                    <div class="form-group">
-                        <input class="form-control" placeholder="Cost per night" style="margin-top: 5px;" data-ng-model="per_night">
-                        <input class="form-control" placeholder="Cost per week" style="margin-top: 5px;" data-ng-model="per_week">
-                        <input class="form-control" placeholder="Cost per month" style="margin-top: 5px;" data-ng-model="per_month">
-                    </div>
-                </div>
-
-
+<body ng-app = "airbnbApp" ng-controller="loginSignupController">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img src="/images/airbnb.png" width="150" height="100" style="margin-top:-40px"></img></a>
             </div>
-            <div class="col-sm-3"></div>
-        </form>
+            <div style="float:right">
+                <button type="button" class="btn btn-info btn-lg" style="background-color: transparent;border-color:transparent;" data-toggle="modal" data-target="#myModal"><label style="color: #0f0f0f">Sign Up</label></button>
+                <button type="button" class="btn btn-info btn-lg" style="background-color: transparent;border-color:transparent;" data-toggle="modal" data-target="#myModal1"><label style="color: #0f0f0f">Log In</label></button>
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+        <!--Sign Up-->
+        <div class="modal fade" id="myModal" style="margin-top:50px " role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-group">
+                            <input type="text" class="form-control" placeholder="First Name" name= "firstName" style="margin-top:20px" ng-model="firstName"></input>
+                            <input type="text" class="form-control" placeholder="Last Name" name= "lastName" style="margin-top:10px" ng-model="lastName"></input>
+                            <input type="text" class="form-control" placeholder="Email Address" name= "email" style="margin-top:10px" ng-model="email"></input>
+                            <input type="password" class="form-control" placeholder="New Password" name= "password" style="margin-top:10px;margin-bottom:10px" ng-model="password"></input>
+                            <span>Birthday</span>
+                            <input placeholder="Date of Birth" class="form-control" type="text" name= "Dob" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="Dob"  ng-model="Dob">
+                            <input type="text" class="form-control" placeholder="Street" name= "street" style="margin-top:10px" ng-model="street"></input>
+                            <input type="text" class="form-control" placeholder="Apartment Number" name= "aptNum" style="margin-top:10px" ng-model="aptNum"></input>
+                            <input type="text" class="form-control" placeholder="City" style="margin-top:10px" name= "city" ng-model="city"></input>
+                            <input type="text" class="form-control" placeholder="State" style="margin-top:10px"  name= "state" ng-model="state"></input>
+                            <input type="number" class="form-control" placeholder="Zip Code" style="margin-top:10px"  name= "zipCode" ng-model="zipCode"></input>
+                            <input type="number" class="form-control" placeholder="Phone Number" max="9999999999" style="margin-top:10px" name= "phoneNumber"  ng-model="phoneNumber"></input>
+                            <input type="number" class="form-control" placeholder="SSN" max="999999999" style="margin-top:10px" name= "ssn"  ng-model="ssn"></input>
+                            <span>By signing up, I agree to Airbnb’s Terms of Service, Nondiscrimination Policy, Payments Terms of Service, Privacy Policy, Guest Refund Policy, and Host Guarantee Terms.</span>
+                            <button class="btn btn-danger" style="width:100%;margin-top: 10px" ng-click="signUp()">Sign Up</button>
+                            <p style="color:red">{{signUpError}}</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Sign Up-->
 
-    </div>
-    <div class="col-sm-5">
-        <img src="/images/becomeHost.png" style="width: 100%" height="700">
-    </div>
 
-</div>
+        <!--Sign In-->
+        <div class="modal fade" id="myModal1" style="margin-top:50px" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-group">
+                            <input type="text" class="form-control" name="email" placeholder="Email Address" style="margin-top:30px" ng-model="emailAddress"></input>
+                            <input type="text" class="form-control" name="password" placeholder="Password" style="margin-top:10px;margin-bottom:10px" ng-model="password"></input>
+                            <p style="color:red">{{loginError}}</p>
+                            <button class="btn btn-danger" style="width:100%" ng-click="logIn()">Log In</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <span style="float: left;">Don't have an account?</span><button type="button" id="myBtn2" class="btn btn-danger" style="float:right;" onclick="popup()">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Sign In-->
 </body>
 </html>
