@@ -83,6 +83,32 @@ router.get('/topHost',function (req,res) {
 
 });
 
+router.get('/propRatings',function (req,res) {
+    var property_id= req.param("property_id");
+    console.log("In AirbnbClient  : analytics.js  : propRatings : "+property_id);
+    var json_responses;
+    var msg_payload = {"property_id":property_id};
+
+    mq_client.make_request('prop_ratings_queue',msg_payload,function (err,results) {
+
+        if(err){
+            console.log("In AirbnbClient : analytics.js : Property ratings : Error : " +err);
+            tool.logError(err);
+            var json_resp = {
+                "status_code" : 400
+            };
+            res.send(json_resp);
+            res.end();
+
+        }else{
+
+            res.send(results.json_resp);
+            res.end();
+        }
+
+    });
+
+});
 
 
 module.exports =router;

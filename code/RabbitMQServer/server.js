@@ -68,6 +68,9 @@ cnn.on('ready', function(){
 	cnn.queue('get_all_property_queue', function(q){
 		subscriber(q, property.propList );
 	});
+	cnn.queue('prop_ratings_queue',function (q) {
+		subscriber(q,analytics.propertyRatings);
+	});
 
     //Host queues
 	cnn.queue('approve_host_queue', function(q){

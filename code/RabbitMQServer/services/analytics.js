@@ -92,8 +92,69 @@ var topHost = {
     }
 };
 
+var propertyRatings = {
+
+    handle_request : function(connection, msg, callback) {
+        var res = {};
+        var json_resp = {};
+        try {
+
+            var coll = connection.mongoConn.collection('property');
+
+            console.log("In RabbitMQ Server : admin.js : propertyRatings : property_id : " + msg.property_id);
+
+            var searchCriteria = {
+                "_id" : ObjectID(msg.property_id)
+            };
+            var projection_para = {'_id' : 0 ,'ratings' : 1};
+
+            coll.find(searchCriteria,projection_para).toArray(function(err, propertyRatings) {
+
+                if (err) {
+                    console.log("RabbitMQ server : analytics.js : propertyRatings : error :"+err);
+                    //tool.logError(err);
+                    json_resp = {
+                        "status_code" : 400
+                    };
+                    res = {
+                        "json_resp" : json_resp
+                    };
+                    callback(null, res);
+                } else {
+                    if (propertyRatings.length>0) {
+                        json_resp = {
+                            "status_code" : 200,
+                            "property_ratings_dtls" : propertyRatings[0].ratings
+                        };
+                    } else {
+                        console.log("RabbitMQ server : analytics.js :propertyRatings: No record to fetch");
+                        json_resp = {
+                            "status_code" : 401
+                        };
+                    }
+                    res = {
+                        "json_resp" : json_resp
+                    };
+                    callback(null, res);
+                }
+            });
+
+        } catch (err) {
+            tool.logError(err);
+            json_resp = {
+                "status_code" : 400
+            };
+            res = {
+                "json_resp" : json_resp
+            };
+            callback(null, res);
+        }
+
+    }
+};
 
 
+exports.propertyRatings = propertyRatings;
 exports.topProp = topProp;
 exports.cityWiseData = cityWiseData;
 exports.topHost = topHost;
