@@ -16,7 +16,7 @@ router.post('/signInUser', function (req, res, next)  {
             return next(err);
         }
         if(!user){
-            json_responses = {"status_code":401};
+            json_responses = {"status_code":400};
         } else{
             req.logIn(user,{session:false}, function(err) {
                 if(err) {

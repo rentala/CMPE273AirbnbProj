@@ -129,6 +129,9 @@ cnn.on('ready', function(){
     cnn.queue('bid_property_queue',function (q) {
         subscriber(q,property.bidProperty);
     });
+    cnn.queue('delete_user_queue', function(q){
+		subscriber(q, profile.deleteUser );
+    });
 });
 
 var subscriber = function(q, module) {

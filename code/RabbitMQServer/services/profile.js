@@ -71,6 +71,33 @@ var userInfo = {
 	}
 };
 
+var deleteUser = {
+		handle_request : function (connection, msg, callback){
+		var res = {};
+		var obj_id = new ObjectID(msg.user_id);
+		var coll = connection.mongoConn.collection('users');
+		try{
+			coll.update({"_id" :obj_id},{$set:{
+				"is_active": "N"}
+			}, function(err, user){
+				if(err){
+					res.code= "400";
+					callback(null, res);
+				}
+				else
+				{
+					res.code= "200";
+					callback(null, res);
+				}
+			});
+		}
+		catch(err){
+			res.statusCode = "400";
+			callback(null, res);
+		}
+	}
+}
 
 exports.updateProfile = updateProfile;
 exports.userInfo =userInfo ;
+exports.deleteUser = deleteUser;
