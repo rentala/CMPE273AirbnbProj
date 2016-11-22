@@ -96,6 +96,15 @@ CREATE TABLE IF NOT EXISTS `airbnb`.`billing` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+-- -----------------------------------------------------
+-- Trigger `airbnb`.`billing`
+-- -----------------------------------------------------
+create TRIGGER airbnb.bidding AFTER INSERT on airbnb.bidding_dtl
+FOR EACH ROW
+	update airbnb.bidding b set b.max_bid_price = new.bid_price, b.max_bid_user_id = new.bidder_id where 
+    b.max_bid_price < new.bid_price and b.property_id = new.property_id
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
