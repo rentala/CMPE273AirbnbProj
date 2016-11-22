@@ -8,21 +8,6 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>
-        var app = angular.module('myListing',[]);
-        app.controller('myListingController',function($scope,$http){
-            $scope.list1 = true;
-            $scope.list = false;
-            $scope.yourListing = function(){
-                $scope.list=false;
-                $scope.list1=true;
-            }
-            $scope.yourReservations = function(){
-                $scope.list1 = false;
-                $scope.list = true;
-            }
-        })
-    </script>
 </head>
 <body ng-app="myListing" ng-controller="myListingController">
 	<nav class="navbar navbar-default" style="background-color:white; ">
@@ -64,58 +49,13 @@
 			    <ul class="nav navbar-nav">
 				    <li><a data-ng-click="dashboard()">Dashboard</a></li>
 				    <li><a data-ng-click="inbox()">Inbox</a></li> 
-				    <li class="active"><a data-ng-click="yourListing()">Your Listings</a></li> 
-				    <li><a data-ng-click="yourTrip()">Your Trips</a></li> 
+				    <li><a data-ng-click="yourListing()">Your Listings</a></li> 
+				    <li class="active"><a data-ng-click="yourTrip">Your Trips</a></li> 
 				    <li><a data-ng-click="profile()">Profile</a></li>
 			    </ul>
 			</div>
 		</nav>
 	</div>
-
-    <!--start of trip related code-->
-
-    <div class="col-sm-1"></div>
-    <div class="col-sm-2">
-        <a class="active" data-ng-click="yourListing()"><h4>Your Listings</h4></a>
-        <a data-ng-click="yourReservations()"><h4>Your Reservations</h4></a>
-    </div>
-    <div data-ng-hide="list">
-        <div class="col-sm-7" style="border:0.5px solid black">
-           <!-- <div data-ng-repeat="x in results">-->
-                <div class="col-sm-12" style="border-bottom:0.5px solid black">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="col-sm-4"><img src="rome.jpg" class="panel-image-preview" width="100%" height="100%"></div>
-                        
-                            <div>{{x.prd_price}}</div>
-                        </div>
-                        <div class="panel-footer">          
-                        </div>
-                    </div>
-                </div>
-            <!--/div-->
-        </div>
-    </div>
-
-    <div data-ng-hide="list1">
-        <div class="col-sm-7" style="border:0.5px solid black">
-           <!-- <div data-ng-repeat="x in results">-->
-                <div class="col-sm-12" style="border-bottom:0.5px solid black">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="col-sm-4"><img src="lisbon.jpg" class="panel-image-preview" width="100%" height="100%"></div>
-                        
-                            <div>{{x.prd_price}}</div>
-                        </div>
-                        <div class="panel-footer">          
-                        </div>
-                    </div>
-                </div>
-            <!--/div-->
-        </div>
-    </div>
-
-    <div class="col-sm-2"></div>
 
 	
 </body>

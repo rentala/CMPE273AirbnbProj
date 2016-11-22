@@ -18,14 +18,15 @@ router.post('/search',function (req,res,next) {
 
     mq_client.make_request('search_property_queue', msg_payload, function(err,results){
         if(err){
-            //Need to handle this error.
-            throw err;
+            //Need to add tool to log error.
+            //tool.logError(err);
+            json_responses = {"status_code":400};
         } else {
             if (results.statusCode == 200) {
                 json_responses = {"status_code": results.statusCode, "valid_property": results.valid_property};
             }
             else {
-                json_responses = {"status_code": results.statusCode, "msg": results.errMsg};
+                json_responses = {"status_code": results.statusCode};
             }
         }
         res.send(json_responses);
@@ -44,7 +45,9 @@ router.get('/prop',function (req,res) {
     var avg_ratings;
     mq_client.make_request('get_property_by_id_queue',msg_payload,function (err,results) {
         if(err){
-            throw err;
+            //Need to add tool to log error.
+            //tool.logError(err);
+            json_responses = {"status_code":400};
         }
         else {
             if(results.statusCode == 200){
@@ -57,7 +60,31 @@ router.get('/prop',function (req,res) {
                 json_responses = {"status_code":results.statusCode,"prop_array":results.prop_array,"avg_ratings":avg_ratings};
             }
             else {
-                json_responses = {"status_code":results.statusCode,"msg":results.errMsg};
+                json_responses = {"status_code":results.statusCode};
+            }
+        }
+        res.send(json_responses);
+        res.end();
+    });
+});
+
+router.get('/propList',function (req,res) {
+    var json_responses;
+
+    var msg_payload = {};
+
+    mq_client.make_request('get_all_property_queue',msg_payload,function (err,results) {
+        if(err){
+            //Need to add tool to log error.
+            //tool.logError(err);
+            json_responses = {"status_code":400};
+        }
+        else {
+            if(results.statusCode == 200){
+                json_responses = {"status_code":results.statusCode,"prop_array":results.prop_array};
+            }
+            else {
+                json_responses = {"status_code":results.statusCode};
             }
         }
         res.send(json_responses);
@@ -67,7 +94,6 @@ router.get('/prop',function (req,res) {
 
 
 router.post('/list', function (req, res, next)  {
-
     var storage = multer.diskStorage({
         destination: function (req, file, cb) {
             cb(null, '../AirbnbClient/public/uploads');
