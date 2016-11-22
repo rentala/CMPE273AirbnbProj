@@ -76,6 +76,8 @@ module.exports = function(passport){
         					req.session.last_ts = "";
             				req.session.user_id = results.user_id;
             				req.session.first_nm = results.first_nm ;
+            				req.session.user = results.user.ops[0];
+            				console.log("req.session.user"+ JSON.stringify(results.user.ops[0]));
             				return done(null, "success");
         				}
         				else {    

@@ -1,3 +1,4 @@
+var ejs = require("ejs");
 //Contains APIs related to Property
 var express = require('express');
 var router = express.Router();
@@ -25,6 +26,7 @@ router.post('/search',function (req,res,next) {
         } else {
             if (results.statusCode == 200) {
                 json_responses = {"status_code": results.statusCode, "valid_property": results.valid_property};
+                req.session.valid_property = results.valid_property
             }
             else {
                 json_responses = {"status_code": results.statusCode};
@@ -202,4 +204,32 @@ router.post('/bidProperty', function (req, res, next)  {
         res.send(json_responses);
     });
 });
+
+router.get('/searchResult', function (req, res, next)  {
+	console.log("assadsdsadsa"+JSON.stringify(req.session.user));
+	//user_dtls = JSON.parse(data.user)
+	/*var j = JSON.stringify(req.session.user);
+	j = JSON.parse(j);
+	console.log("first_name"+j.first_name);*/
+	//console.log("assads"+ JSON.parse(req.session.user));
+	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: ""},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
+router.post('/getResults', function (req, res, next)  {
+	console.log("assadsdsadsa"+JSON.stringify(req.session.user));
+	res.send({"valid_property":req.session.valid_property});
+});
+
+
 module.exports = router;

@@ -67,8 +67,8 @@ router.post('/signUpUser', function (req, res, next)  {
                     return next(err);
                 }
 
-                console.log("Got the user");
-                req.session.user = user;
+                console.log("Got the user22" + JSON.stringify(user));
+                //req.session.user = user;
 
                 json_responses = {
                     "status_code" : 200,
@@ -88,7 +88,7 @@ router.get('/home', function (req, res, next)  {
 	//user_dtls = JSON.parse(data.user)
 	var j = JSON.stringify(req.session.user);
 	j = JSON.parse(j);
-	console.log("first_name"+j.first_name);
+	console.log("dsadasdsadsfirst_name"+j.first_name);
 	//console.log("assads"+ JSON.parse(req.session.user));
 	ejs.renderFile('./views/views/home.ejs',{ user_dtls: j},function(err, result) {
 		// render on success

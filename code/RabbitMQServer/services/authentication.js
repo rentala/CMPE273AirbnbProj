@@ -63,6 +63,7 @@ var register = {
 			    				res.user_id = user.insertedIds,
 			    				res.first_nm = user.first_name ;
 			    				res.code ="200";
+			    				res.user = user;
 			        			callback(null, res);
 			    			}
 			    		});
