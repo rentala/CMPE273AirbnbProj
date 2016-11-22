@@ -2,6 +2,7 @@ var tool = require("../utili/common");
 var sql_queries = require('../db/sql_queries');
 var mysql = require('../db/mysql');
 var property = require('./property');
+var ObjectID = require('mongodb').ObjectId;
 
 var topProp = {
     handle_request: function (connection,msg,callback) {
@@ -153,7 +154,31 @@ var propertyRatings = {
     }
 };
 
+var bidInfo = {
+    handle_request:function (connection, msg, callback) {
+        var res = {};
 
+        mysql.execute_query(function (err,result) {
+            if(err) {
+                res = {"statusCode": 400};
+                tool.logError(err);
+                callback(null, res);
+            }
+            else{
+                if(result.length>0){
+                    res = {"statusCode":200,"bid_info":result};
+                    callback(null, res);
+                }
+                else {
+                    res = {"statusCode":401};
+                    callback(null,res);
+                }
+            }
+        },sql_queries.FETCH_BID_INFO,[msg.prop_id]);
+    }
+};
+
+exports.bidInfo = bidInfo;
 exports.propertyRatings = propertyRatings;
 exports.topProp = topProp;
 exports.cityWiseData = cityWiseData;

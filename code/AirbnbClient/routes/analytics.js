@@ -86,7 +86,6 @@ router.get('/topHost',function (req,res) {
 router.get('/propRatings',function (req,res) {
     var property_id= req.param("property_id");
     console.log("In AirbnbClient  : analytics.js  : propRatings : "+property_id);
-    var json_responses;
     var msg_payload = {"property_id":property_id};
 
     mq_client.make_request('prop_ratings_queue',msg_payload,function (err,results) {
@@ -105,6 +104,35 @@ router.get('/propRatings',function (req,res) {
             res.send(results.json_resp);
             res.end();
         }
+
+    });
+
+});
+
+router.get('/bidInfo',function (req,res) {
+
+    var json_responses;
+    var prop_id=req.param("prop_id");
+    var msg_payload = {"prop_id":prop_id};
+
+    mq_client.make_request('analytics_bid_info_queue',msg_payload,function (err,results) {
+
+        if(err)
+        {
+            tool.logError(err);
+            json_responses={"status_code":400};
+        }
+        else
+        {
+            if(results.statusCode==200){
+                json_responses = {"status_code":results.statusCode,"bid_info":results.bid_info};
+            }
+            else {
+                json_responses = {"status_code":results.statusCode};
+            }
+        }
+        res.send(json_responses);
+        res.end();
 
     });
 

@@ -68,9 +68,7 @@ cnn.on('ready', function(){
 	cnn.queue('get_all_property_queue', function(q){
 		subscriber(q, property.propList );
 	});
-	cnn.queue('prop_ratings_queue',function (q) {
-		subscriber(q,analytics.propertyRatings);
-	});
+
 
     //Host queues
 	cnn.queue('approve_host_queue', function(q){
@@ -119,6 +117,13 @@ cnn.on('ready', function(){
     cnn.queue('top_host_queue', function(q){
         subscriber(q, analytics.topHost );
     });
+    cnn.queue('prop_ratings_queue',function (q) {
+        subscriber(q,analytics.propertyRatings);
+    });
+    cnn.queue('analytics_bid_info_queue',function (q) {
+        subscriber(q,analytics.bidInfo);
+    });
+
 	//Billing queues
     cnn.queue('get_bill_queue',function (q) {
         subscriber(q,billing.view);
