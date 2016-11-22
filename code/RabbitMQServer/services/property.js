@@ -61,7 +61,7 @@ var searchProperty = {
             var coll = connection.mongoConn.collection('property');
             coll.find({city: msg.city,start_date:{$gte:new Date(msg.start_date)},end_date:{$lt:new Date(msg.end_date)},guests:{$gte:msg.guests}},function(err, records){
                 if(err){
-                    res = {"statusCode":401,"errMsg":err};
+                    res = {"statusCode":400};
                     tool.logError(err);
                     callback(null, res);
                 }
@@ -70,8 +70,9 @@ var searchProperty = {
                         available_property = getPropertyArray(recs);
                         mysql.execute_query(function (err, result) {
                             if(err){
-                                //need to handle error.
-                                throw err;
+                                tool.logError(err);
+                                res = {"statusCode":400};
+                                callback(null, res);
                             }
                             else {
                                 if(result.length>0){
@@ -92,7 +93,7 @@ var searchProperty = {
                                     callback(null, res);
                                 }
                                 else {
-                                    res = {"statusCode":402,"errMsg":"There is no matching property for your query."};
+                                    res = {"statusCode":401,"errMsg":"There is no matching property for your query."};
                                     callback(null, res);
                                 }
                             }
@@ -100,7 +101,7 @@ var searchProperty = {
                     }
                     else {
                         //No Matching Dates.
-                        res = {"statusCode":403,"errMsg":"Sorry there are no matching records in the document"};
+                        res = {"statusCode":401};
                         callback(null, res);
                     }
                 });
@@ -110,7 +111,7 @@ var searchProperty = {
         catch(err)
         {
             tool.logError(err);
-            res = {"statusCode":500,"errMsg":err};
+            res = {"statusCode":400};
             callback(null, res);
         }
     }
@@ -125,7 +126,7 @@ var getPropertyById = {
             coll.find({_id:ObjectID(msg.prop_id)}).toArray(function (err,records) {
                 if(err)
                 {
-                    res = {"statusCode":401,"errMsg":err};
+                    res = {"statusCode":400};
                     tool.logError(err);
                     callback(null, res);
                 }
@@ -135,7 +136,7 @@ var getPropertyById = {
                         callback(null, res);
                     }
                     else {
-                        res = {"statusCode":402,"errMsg":"Sorry there are no matching records in the document"};
+                        res = {"statusCode":401};
                         callback(null, res);
                     }
                 }
@@ -144,7 +145,40 @@ var getPropertyById = {
         }
         catch(err){
             tool.logError(err);
-            res = {"statusCode":500,"errMsg":err};
+            res = {"statusCode":400};
+            callback(null, res);
+        }
+    }
+};
+
+var propList = {
+    handle_request:function (connection,msg,callback) {
+        var res={};
+
+        try{
+            var coll = connection.mongoConn.collection('property');
+            coll.find().toArray(function (err,records) {
+                if(err)
+                {
+                    res = {"statusCode":400};
+                    tool.logError(err);
+                    callback(null, res);
+                }
+                else {
+                    if(records.length>0){
+                        res = {"statusCode":200,"prop_array":records};
+                        callback(null, res);
+                    }
+                    else {
+                        res = {"statusCode":401};
+                        callback(null, res);
+                    }
+                }
+            });
+        }
+        catch(err){
+            tool.logError(err);
+            res = {"statusCode":400};
             callback(null, res);
         }
     }
@@ -158,6 +192,7 @@ function  getPropertyArray(records) {
     return propArray;
 }
 
+exports.propList = propList;
 exports.getPropertyArray = getPropertyArray;
 exports.searchProperty = searchProperty;
 exports.listProperty = listProperty;
