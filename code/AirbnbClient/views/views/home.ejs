@@ -64,23 +64,23 @@
         <div class="col-sm-4" style="height:100px;border:1px solid #000">
             <div class="col-sm-12"><h4>Where</h4></div>
             <div class="col-sm-12">
-                <input type="text" placeholder="Destination, city, address" style="width:100%;border-color:transparent;margin-top:10px" />
+                <input type="text" placeholder="Destination, city, address" ng-model="whereTo" style="width:100%;border-color:transparent;margin-top:10px" />
             </div>
         </div>
         <div class="col-sm-4" style="height:100px;border-top:1px solid #000;border-bottom:1px solid #000">
             <div class="col-sm-12"><h4>When</h4></div>
             <div class="col-sm-6">
-                <input placeholder="From" type="text" style="border-color:transparent;margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" ng-model="fromDate">
+                <input placeholder="From" type="text" style="border-color:transparent;margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" ng-model="start_date">
             </div>
             <div class="col-sm-6">
-                <input placeholder="To" type="text" style="border-color:transparent;margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" ng-model="toDate">
+                <input placeholder="To" type="text" style="border-color:transparent;margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" ng-model="end_date">
             </div>
         </div>
         <div class="col-sm-4" style="height:100px;border:1px solid #000">
             <div class="col-sm-6">
                 <div class="col-sm-12"><h4>Guests</h4></div>
                 <div class="col-sm-12">
-                    <input type="number" placeholder="Number of Guests?" min="1" style="border-color:transparent;margin-top:10px"></input>
+                    <input type="number" placeholder="Number of Guests?" min="1" style="border-color:transparent;margin-top:10px" ng-model="guests"></input>
                 </div>
             </div>
             <div class="col-sm-6">
