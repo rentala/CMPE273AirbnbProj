@@ -3,7 +3,7 @@ app.controller('loginSignupController',function($scope,$http){
 
     $scope.signUp = function(){
 
-        if($scope.firstName!= null && $scope.lastName!=null && $scope.email!=null && $scope.password!=null && $scope.Dob!=null && $scope.street!=null && $scope.city!=null && $scope.state!=null && $scope.zipCode!=null && $scope.phoneNumber!="" && $scope.ssn!="" && $scope.aptNum!=null){
+        if($scope.firstName!= null && $scope.lastName!=null && $scope.email!=null && $scope.password!=null && $scope.Dob!=null && $scope.street!=null && $scope.city!=null && $scope.state!=null && $scope.zipCode!=null && $scope.phoneNumber!=null && $scope.ssn!=null && $scope.aptNum!=null){
             $http({
                 method:"POST",
                 url:"/api/auth/signUpUser",
