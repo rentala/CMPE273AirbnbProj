@@ -126,7 +126,9 @@ cnn.on('ready', function(){
     cnn.queue('edit_trip_queue',function (q) {
         subscriber(q,trip.editTrip);
     });
-
+    cnn.queue('bid_property_queue',function (q) {
+        subscriber(q,property.bidProperty);
+    });
 });
 
 var subscriber = function(q, module) {

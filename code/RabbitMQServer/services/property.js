@@ -191,9 +191,29 @@ function  getPropertyArray(records) {
     }
     return propArray;
 }
+var bidProperty = {
+	    handle_request: function (connection, msg, callback) {
+	        var res = {};
+	        console.log("MESSAGE = " + JSON.stringify(msg));
+	        
+    		mysql.execute_query(function(err, result){
+                if(err){
+                	console.log("err"+ err);
+                    res = {"statusCode" : 401, "errMsg" : err};
+                    callback(null, res);
+                }
+                else{
+                	console.log("success");
+                    res = {"statusCode" : 200};
+                    callback(null, res);
+                }
+            }, sql_queries.INSERT_BID, [msg.bid_id, msg.user_id, msg.bid_amount, msg.property_id]);
+	    }
+	};
 
 exports.propList = propList;
 exports.getPropertyArray = getPropertyArray;
 exports.searchProperty = searchProperty;
 exports.listProperty = listProperty;
 exports.getPropertyById = getPropertyById;
+exports.bidProperty = bidProperty;
