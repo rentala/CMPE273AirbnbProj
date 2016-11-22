@@ -13,7 +13,7 @@ app.controller('homeController',function($scope,$http){
 			}
         }).success(function(data){
             if(data.status_code=="200"){
-                //$('.modal-backdrop').remove();
+                $('.modal-backdrop').remove();
                // $rootScope.user_dtls = JSON.parse(data.user);
                // alert("inside"+ data.valid_property);
                 //console.log("Login successful");

@@ -1,6 +1,7 @@
 /**
  * Created by Rentala on 09-11-2016.
  */
+var ejs = require("ejs");
 var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
@@ -129,6 +130,25 @@ router.post('/deleteUser', function (req, res, next)  {
 	        res.end();
 		}  
 	});
+});
+
+router.get('/editProfile', function (req, res, next)  {
+	ejs.renderFile('./views/views/profile.ejs',function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
+router.post('/loadProfile', function (req, res, next)  {
+	res.send({user:req.session.user});
 });
 
 
