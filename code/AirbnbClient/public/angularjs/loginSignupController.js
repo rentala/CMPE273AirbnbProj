@@ -1,9 +1,9 @@
-
-app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
+var app = angular.module('airbnbApp',[]);
+app.controller('loginSignupController',function($scope,$http){
 
     $scope.signUp = function(){
 
-        if($scope.firstName!="" && $scope.lastName!="" && $scope.email!="" && $scope.password!="" && $scope.Dob!="" && $scope.street!="" && $scope.city!="" && $scope.state!="" && $scope.zipCode!="" && $scope.phoneNumber!="" && $scope.ssn!="" && $scope.aptNum!=""){
+        if($scope.firstName!= null && $scope.lastName!=null && $scope.email!=null && $scope.password!=null && $scope.Dob!=null && $scope.street!=null && $scope.city!=null && $scope.state!=null && $scope.zipCode!=null && $scope.phoneNumber!=null && $scope.ssn!=null && $scope.aptNum!=null){
             $http({
                 method:"POST",
                 url:"/api/auth/signUpUser",
@@ -24,9 +24,10 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
             }).success(function(data){
                 if (data.status_code=="200") {
                     $('.modal-backdrop').remove();
-                    $rootScope.user_dtls = JSON.parse(data.user);
-                    $state.go('home');
+                    //$rootScope.user_dtls = JSON.parse(data.user);
+                    //$state.go('home');
                     // console.log("Sign Up successful");
+                    window.location.assign("/api/auth/home");
                 }
                 else if(data.status_code=="400"){
                     $scope.signUpError="User already exists please use different username";
@@ -48,9 +49,7 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
         }).success(function(data){
             if(data.status_code=="200"){
                 $('.modal-backdrop').remove();
-                $rootScope.user_dtls = JSON.parse(data.user);
-                //console.log("Login successful");
-                $state.go('home');
+                window.location.assign("/api/auth/home");
             }
             else if(data.status_code=="400"){
                 $scope.loginError="Wrong email address or password";

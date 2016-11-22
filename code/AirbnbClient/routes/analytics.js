@@ -2,6 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
+var tool = require("../utili/common");
 
 router.get('/topProp',function (req,res) {
     var no_of_props= req.param("no_of_props");
@@ -12,6 +13,7 @@ router.get('/topProp',function (req,res) {
 
         if(err)
         {
+      	   tool.logError(err);
             json_responses = {"status_code":400};
         }
         else{
@@ -38,6 +40,7 @@ router.get('/cityWiseData',function (req,res) {
     mq_client.make_request('city_wise_data_queue',msg_payload,function (err,results) {
 
         if(err){
+      	   tool.logError(err);
             json_responses = {"status_code":400};
         }
         else {
@@ -63,6 +66,7 @@ router.get('/topHost',function (req,res) {
 
         if(err)
         {
+      	   tool.logError(err);
             json_responses = {"status_code":400};
         }
         else{

@@ -20,8 +20,10 @@ router.get('/tripDetails',function (req,res) {
             console.log(results);
            if(err){
                //Need to add tool to log error.
-               //tool.logError(err);
+               tool.logError(err);
                json_responses = {"status_code":400};
+               res.send(json_responses);
+               res.end();
            }
            else {
                if(results.statusCode == 200){
@@ -42,7 +44,10 @@ router.get('/tripDetails',function (req,res) {
         mq_client.make_request('trip_details_queue',msg_payload,function (err,results) {
             console.log(results);
             if(err){
-                throw err;
+            	tool.logError(err);
+            	json_responses = {"status_code":400};
+            	  res.send(json_responses);
+                 res.end();
             }
             else {
                 if(results.statusCode == 200){
@@ -71,8 +76,10 @@ router.post('/delete',function (req,res) {
     mq_client.make_request('delete_trip_queue',msg_payload,function (err,results) {
         if(err){
             //Need to add tool to log error.
-            //tool.logError(err);
+            tool.logError(err);
             json_responses = {"status_code":400};
+            res.send(json_responses);
+            res.end();
         }
         else {
             if(results.statusCode == 200)
@@ -124,8 +131,10 @@ router.post('/createTrip', function(req, res){
   mq_client.make_request('createTrip_queue', msg_payload, function (err,results) {
         if(err){
             //Need to add tool to log error.
-            //tool.logError(err);
+            tool.logError(err);
             json_responses = {"status_code":400};
+            res.send(json_responses);
+            res.end();
         }
         else {
             if(results.statusCode == 200)

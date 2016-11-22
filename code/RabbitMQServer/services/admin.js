@@ -24,7 +24,6 @@ var approveHost = {
 			coll.updateOne(searchCriteria, data, function(err, results) {
 
 				if (err) {
-					//TODO: need to handle error
 					console.log("RabbitMQ server : admin.js : error :"+err);
 					tool.logError(err);
 					json_resp = {
@@ -42,7 +41,7 @@ var approveHost = {
 					} else {
 						console.log("RabbitMQ server : admin.js : No erro but record was not updated : host_id : " +msg.host_id);
 						json_resp = {
-							"status_code" : 400
+							"status_code" : 401
 						};
 					}
 					res = {
@@ -85,7 +84,6 @@ var pendingHostsForApproval = {
 				coll.find(searchCriteria).toArray(function(err, userDtls) {
 					
 					if (err) {
-						//TODO: need to handle error
 						console.log("RabbitMQ server : admin.js : pendingHostsForApproval : error :"+err);
 						tool.logError(err);
 						json_resp = {
@@ -102,9 +100,9 @@ var pendingHostsForApproval = {
 								"userDtls" : userDtls
 							};
 						} else {
-							console.log("RabbitMQ server : admin.js : No erro but record was not updated : host_id : " +host_id);
+							console.log("RabbitMQ server : admin.js : No record to fetch");
 							json_resp = {
-								"status_code" : 400
+								"status_code" : 401
 							};
 						}
 						res = {
@@ -112,17 +110,12 @@ var pendingHostsForApproval = {
 						};
 						callback(null, res);
 					}
-
-					
 				});
 
-					
-				
-				
 			} catch (err) {
 				tool.logError(err);
 				json_resp = {
-					"status_code" : 400,
+					"status_code" : 400
 				};
 				res = {
 					"json_resp" : json_resp

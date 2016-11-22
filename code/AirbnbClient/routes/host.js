@@ -4,6 +4,7 @@
 var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
+var tool = require("../utili/common");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -16,6 +17,7 @@ router.post('/delete/:id', function(req, res, next) {
     var msg_payload = {"id":req.param("id")};
     mq_client.make_request('delete_host_queue', msg_payload, function(err,results){
         if(err){
+      	  tool.logError(err);
             json_responses = {
                 "failed" : "failed",
                 "result" : results.result
@@ -47,6 +49,7 @@ router.post('/review/:userId/:propertyId', function (req, res, next)  {
     var json_responses;
     upload(req,res,function(err) {
         if (err) {
+      	  tool.logError(err);
             res.json({error_code: 1, err_desc: err});
             return;
         }

@@ -1,8 +1,10 @@
+var ejs = require("ejs");
 //Contains APIs related to Property
 var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
 var multer = require('multer');
+var tool = require("../utili/common");
 
 router.post('/search',function (req,res,next) {
     var city = req.param("city");
@@ -19,11 +21,12 @@ router.post('/search',function (req,res,next) {
     mq_client.make_request('search_property_queue', msg_payload, function(err,results){
         if(err){
             //Need to add tool to log error.
-            //tool.logError(err);
+            tool.logError(err);
             json_responses = {"status_code":400};
         } else {
             if (results.statusCode == 200) {
                 json_responses = {"status_code": results.statusCode, "valid_property": results.valid_property};
+                req.session.valid_property = results.valid_property
             }
             else {
                 json_responses = {"status_code": results.statusCode};
@@ -46,7 +49,7 @@ router.get('/prop',function (req,res) {
     mq_client.make_request('get_property_by_id_queue',msg_payload,function (err,results) {
         if(err){
             //Need to add tool to log error.
-            //tool.logError(err);
+            tool.logError(err);
             json_responses = {"status_code":400};
         }
         else {
@@ -76,7 +79,7 @@ router.get('/propList',function (req,res) {
     mq_client.make_request('get_all_property_queue',msg_payload,function (err,results) {
         if(err){
             //Need to add tool to log error.
-            //tool.logError(err);
+            tool.logError(err);
             json_responses = {"status_code":400};
         }
         else {
@@ -109,6 +112,7 @@ router.post('/list', function (req, res, next)  {
     var json_responses;
     upload(req,res,function(err) {
         if (err) {
+      	  tool.logError(err);
             res.json({error_code: 1, err_desc: err});
             return;
         }
@@ -116,6 +120,7 @@ router.post('/list', function (req, res, next)  {
 
         mq_client.make_request('list_property_queue', msg_payload, function(err,results){
             if(err){
+            	tool.logError(err);
                 json_responses = {
                     "failed" : "failed"
                 };
@@ -151,11 +156,10 @@ function mapReqToPayLoad(req) {
     msg_payload.description = req.body.description;
     msg_payload.guests = req.body.guests;
     msg_payload.bedrooms = req.body.bedrooms;
-    msg_payload.bedrooms = req.body.bedrooms;
+    msg_payload.for_bid = req.body.forBid == 1 ? true: false;
     msg_payload.start_date = req.body.start_date;
     msg_payload.end_date = req.body.end_date;
-    msg_payload.price = req.body.price;
-    msg_payload.is_auction = req.body.is_auction;
+    msg_payload.price = { per_night: req.body.per_night, per_week:  req.body.per_week,  per_month:  req.body.per_month };
     return msg_payload;
 }
 
@@ -175,5 +179,57 @@ router.get('/test', function (req, res, next)  {
     res.send(json_responses);
     res.end();
 });
+
+router.post('/bidProperty', function (req, res, next)  {
+    var json_responses;
+    
+    var msg_payload;
+    var user_id = req.param("user_id");
+    var property_id = req.param("property_id");
+    var bid_id = req.param("bid_id");
+    var bid_amount = req.param("bid_amount");
+
+    msg_payload = {"user_id":user_id,"property_id":property_id, "bid_id":bid_id, "bid_amount":bid_amount};
+    mq_client.make_request('bid_property_queue', msg_payload, function(err,results){
+        if(err){
+			tool.logError(err);
+        	json_responses = {
+                    "status_code" : results.statusCode
+                };
+        } else {
+        	json_responses = {
+                    "status_code" : results.statusCode
+                };
+        }
+        res.send(json_responses);
+    });
+});
+
+router.get('/searchResult', function (req, res, next)  {
+	console.log("assadsdsadsa"+JSON.stringify(req.session.user));
+	//user_dtls = JSON.parse(data.user)
+	/*var j = JSON.stringify(req.session.user);
+	j = JSON.parse(j);
+	console.log("first_name"+j.first_name);*/
+	//console.log("assads"+ JSON.parse(req.session.user));
+	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: ""},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
+router.post('/getResults', function (req, res, next)  {
+	console.log("assadsdsadsa"+JSON.stringify(req.session.user));
+	res.send({"valid_property":req.session.valid_property});
+});
+
 
 module.exports = router;

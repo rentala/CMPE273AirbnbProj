@@ -6,7 +6,7 @@ var login = {
 		var res = {};
 		console.log(msg);
 		var coll = connection.mongoConn.collection('users');
-		coll.findOne({email: msg.email},
+		coll.findOne({email: msg.email, is_active:{$ne:"N"}},
 		function(err, user, id){
 			if(err){
 				tool.logError(err);
@@ -63,6 +63,7 @@ var register = {
 			    				res.user_id = user.insertedIds,
 			    				res.first_nm = user.first_name ;
 			    				res.code ="200";
+			    				res.user = user;
 			        			callback(null, res);
 			    			}
 			    		});
