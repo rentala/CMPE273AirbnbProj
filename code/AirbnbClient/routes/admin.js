@@ -2,11 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
 var passport = require('passport');
-
-
-
-
-
+var tool = require("../utili/common");
 //POST method to approve host...making changes in this admin file...anudeep
 router.post('/approveHost', function (req, res)  {
     
@@ -20,7 +16,12 @@ router.post('/approveHost', function (req, res)  {
 	
 	mq_client.make_request('approve_host_queue',msg_payload, function(err,results){
 		if(err){
-			//TODO : Need to handle error
+			tool.logError(err);
+			var json_resp = {
+					"status_code" : 400 
+			};
+			res.send(json_resp);
+			res.end();
 		}
 		else{
 			
@@ -47,7 +48,12 @@ router.post('/pendingHostsForApproval', function (req, res)  {
 	
 	mq_client.make_request('pending_hosts_for_approval_queue',msg_payload, function(err,results){
 		if(err){
-			//TODO : Need to handle error
+			tool.logError(err);
+			var json_resp = {
+					"status_code" : 400 
+			};
+			res.send(json_resp);
+			res.end();
 		}
 		else{
 			
