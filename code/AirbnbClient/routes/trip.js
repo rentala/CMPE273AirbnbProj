@@ -19,7 +19,9 @@ router.get('/tripDetails',function (req,res) {
         mq_client.make_request('trip_details_queue',msg_payload,function (err,results) {
             console.log(results);
            if(err){
-               throw err;
+               //Need to add tool to log error.
+               //tool.logError(err);
+               json_responses = {"status_code":400};
            }
            else {
                if(results.statusCode == 200){
@@ -27,7 +29,7 @@ router.get('/tripDetails',function (req,res) {
                    json_responses = {"status_code":results.statusCode,"userTrips":results.userTrips};
                }
                else {
-                   json_responses = {"status_code":results.statusCode,"msg":results.errMsg};
+                   json_responses = {"status_code":results.statusCode};
                }
                res.send(json_responses);
                res.end();
@@ -48,7 +50,7 @@ router.get('/tripDetails',function (req,res) {
                     json_responses = {"status_code":results.statusCode,"hostTrips":results.hostTrips};
                 }
                 else {
-                    json_responses = {"status_code":results.statusCode,"msg":results.errMsg};
+                    json_responses = {"status_code":results.statusCode};
                 }
                 res.send(json_responses);
                 res.end();
@@ -68,7 +70,9 @@ router.post('/delete',function (req,res) {
 
     mq_client.make_request('delete_trip_queue',msg_payload,function (err,results) {
         if(err){
-            throw err;
+            //Need to add tool to log error.
+            //tool.logError(err);
+            json_responses = {"status_code":400};
         }
         else {
             if(results.statusCode == 200)
@@ -119,7 +123,9 @@ router.post('/createTrip', function(req, res){
   console.log(msg_payload);
   mq_client.make_request('createTrip_queue', msg_payload, function (err,results) {
         if(err){
-            throw err;
+            //Need to add tool to log error.
+            //tool.logError(err);
+            json_responses = {"status_code":400};
         }
         else {
             if(results.statusCode == 200)
@@ -143,7 +149,9 @@ router.post('/updateTrip',function (req,res) {
 
     mq_client.make_request('update_trip_queue',msg_payload,function (err,results) {
         if(err){
-            throw err;
+            //Need to add tool to log error.
+            //tool.logError(err);
+            json_responses = {"status_code":400};
         }
         else {
             if(results.statusCode == 200)

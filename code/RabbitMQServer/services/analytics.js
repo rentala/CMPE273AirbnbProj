@@ -8,7 +8,7 @@ var topProp = {
         var res={};
         mysql.execute_query(function (err,result) {
             if(err){
-                res = {"statusCode":401};
+                res = {"statusCode":400};
                 tool.logError(err);
                 callback(null, res);
             }
@@ -35,7 +35,7 @@ var cityWiseData = {
           var coll=connection.mongoConn.collection('property');
           coll.find({"city":msg.city}).toArray(function (err, records) {
               if(err){
-                  res = {"statusCode":401};
+                  res = {"statusCode":400};
                   tool.logError(err);
                   callback(null,res);
               }
@@ -45,7 +45,7 @@ var cityWiseData = {
                       console.log(city_wise_property);
                       mysql.execute_query(function (err,result) {
                           if(err){
-                              res = {"statusCode":402};
+                              res = {"statusCode":400};
                               tool.logError(err);
                               callback(null,res);
                           }
@@ -55,14 +55,14 @@ var cityWiseData = {
                           }
                       },sql_queries.FETCH_CITY_WISE_DATA,[city_wise_property]);
                   }else {
-                      res = {"statusCode":403};
+                      res = {"statusCode":401};
                       callback(null,res);
                   }
               }
           });
       }
       catch (err){
-          res = {"statusCode":500};
+          res = {"statusCode":400};
           tool.logError(err);
           callback(null,res);
       }
@@ -74,7 +74,7 @@ var topHost = {
         var res={};
         mysql.execute_query(function (err,result) {
             if(err){
-                res = {"statusCode":401};
+                res = {"statusCode":400};
                 tool.logError(err);
                 callback(null, res);
             }

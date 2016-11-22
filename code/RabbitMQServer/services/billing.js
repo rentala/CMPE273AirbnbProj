@@ -22,7 +22,7 @@ var view = {
                         console.log(records);
                         if(err){
                             tool.logError(err);
-                            res = {"statusCode":401};
+                            res = {"statusCode":400};
                             callback(null,res);
                         }
                         else {
@@ -33,7 +33,7 @@ var view = {
                             }
                             else
                             {
-                                res = {"statusCode":402};
+                                res = {"statusCode":401};
                                 callback(null,res);
                             }
                         }
@@ -51,7 +51,7 @@ var deleteBill = {
         mysql.execute_query(function (err,result) {
             if(err){
                 tool.logError(err);
-                res = {"statusCode":401};
+                res = {"statusCode":400};
                 callback(null,res);
             }
             else {

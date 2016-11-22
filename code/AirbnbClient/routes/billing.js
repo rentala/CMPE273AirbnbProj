@@ -11,9 +11,9 @@ router.get('/view',function (req,res) {
 
     mq_client.make_request('get_bill_queue',msg_payload,function (err,results) {
         if(err){
-            throw err;
+            //Need to add tool to log error.
             //tool.logError(err);
-            json_responses = {"status_code":500};
+            json_responses = {"status_code":400};
         }
         else {
             if(results.statusCode==200){
@@ -28,7 +28,7 @@ router.get('/view',function (req,res) {
     });
 });
 
-router.post('/delete',function (req, res) {
+router.post('/deleteBill',function (req, res) {
 
     var json_responses;
     var bill_id = req.param("bill_id");
@@ -36,8 +36,9 @@ router.post('/delete',function (req, res) {
 
     mq_client.make_request('delete_bill_queue',msg_payload,function (err,results) {
        if(err){
-           throw err;
-           json_responses = {"status_code":500};
+           //Need to add tool to log error.
+           //tool.logError(err);
+           json_responses = {"status_code":400};
        }
        else
        {
