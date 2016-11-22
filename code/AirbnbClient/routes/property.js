@@ -179,4 +179,28 @@ router.get('/test', function (req, res, next)  {
     res.end();
 });
 
+router.post('/bidProperty', function (req, res, next)  {
+    var json_responses;
+    
+    var msg_payload;
+    var user_id = req.param("user_id");
+    var property_id = req.param("property_id");
+    var bid_id = req.param("bid_id");
+    var bid_amount = req.param("bid_amount");
+
+    msg_payload = {"user_id":user_id,"property_id":property_id, "bid_id":bid_id, "bid_amount":bid_amount};
+    mq_client.make_request('bid_property_queue', msg_payload, function(err,results){
+        if(err){
+			tool.logError(err);
+        	json_responses = {
+                    "status_code" : results.statusCode
+                };
+        } else {
+        	json_responses = {
+                    "status_code" : results.statusCode
+                };
+        }
+        res.send(json_responses);
+    });
+});
 module.exports = router;
