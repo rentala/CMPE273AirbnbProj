@@ -1,6 +1,7 @@
 /**
  * Created by Rentala on 09-11-2016.
  */
+var ejs = require("ejs");
 var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
@@ -13,11 +14,10 @@ router.post('/updateProfile', function (req, res, next)  {
     var json_responses;
     var user_id = req.session.user_id;
    // var user_id = req.param("user_id");
-	var firstName = req.param("firstName");
-	var lastName = req.param("lastName");
+	var firstName = req.param("first_name");
+	var lastName = req.param("last_name");
 	var email = req.param("email");
-	var password = req.param("password");
-	var Dob = req.param("Dob");
+	var Dob = req.param("dob");
 	var street = req.param("street");
 	var aptNum = req.param("aptNum");
 	var city = req.param("city");
@@ -28,9 +28,9 @@ router.post('/updateProfile', function (req, res, next)  {
 	console.log("user updation", { email: email, firstName: firstName, lastName:lastName});
 	
 	
-	var msg_payload = { "user_id":user_id, "email": email, "password": password, "firstName": firstName, "lastName": lastName,"Dob":Dob,"street":street,
+	var msg_payload = { "user_id":user_id, "email": email, "firstName": firstName, "lastName": lastName,"Dob":Dob,"street":street,
 			"aptNum":aptNum,"city":city,"state":state,"zipCode":zipCode,"phoneNumber":phoneNumber,"ssn":ssn};
-	
+	console.log("inside"+ msg_payload);
 	mq_client.make_request('update_profile_queue',msg_payload, function(err,results){
 		if(err){
 			tool.logError(err);
@@ -38,6 +38,7 @@ router.post('/updateProfile', function (req, res, next)  {
 		}
 		else 
 		{
+			console.log("inside success");
 			if (results.code == 401){
                 return done(null, false, req.flash('updateProfileMessage', 'Error updating profile'));
                 json_responses = {
@@ -129,6 +130,25 @@ router.post('/deleteUser', function (req, res, next)  {
 	        res.end();
 		}  
 	});
+});
+
+router.get('/editProfile', function (req, res, next)  {
+	ejs.renderFile('./views/views/profile.ejs',function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
+router.post('/loadProfile', function (req, res, next)  {
+	res.send({user:req.session.user});
 });
 
 

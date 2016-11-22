@@ -9,7 +9,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/angularjs/homeController.js"></script>
 
-    <title>Sign in or Register | eBay</title>
+    <title>Sign in or Register | AirBnb</title>
 </head>
 <body data-ng-app="airbnbHome" data-ng-controller= "homeController">
     <nav class="navbar navbar-default" style="background-color:white;"  >
@@ -35,7 +35,7 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=user_dtls.first_name%> <span class="caret"></span></a><!--Add first Name-->
                         <ul class="dropdown-menu">
-                            <li><a href="#">Edit Profile</a></li>
+                            <li><a href="/api/profile/editProfile">Edit Profile</a></li>
                             <li><a href="#">Logout</a></li>
                         </ul>
                     </li>
