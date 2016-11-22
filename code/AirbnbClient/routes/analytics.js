@@ -67,7 +67,7 @@ router.get('/topHost',function (req,res) {
         if(err)
         {
             //Add utili tool
-            json_responses={"status_code":500};
+            json_responses={"status_code":400};
             //tool.logError(err);
         }
         else{
