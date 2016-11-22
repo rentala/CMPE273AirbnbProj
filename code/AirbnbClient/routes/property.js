@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
 var multer = require('multer');
+var tool = require("../utili/common");
 
 router.post('/search',function (req,res,next) {
     var city = req.param("city");
@@ -19,7 +20,7 @@ router.post('/search',function (req,res,next) {
     mq_client.make_request('search_property_queue', msg_payload, function(err,results){
         if(err){
             //Need to add tool to log error.
-            //tool.logError(err);
+            tool.logError(err);
             json_responses = {"status_code":400};
         } else {
             if (results.statusCode == 200) {
@@ -46,7 +47,7 @@ router.get('/prop',function (req,res) {
     mq_client.make_request('get_property_by_id_queue',msg_payload,function (err,results) {
         if(err){
             //Need to add tool to log error.
-            //tool.logError(err);
+            tool.logError(err);
             json_responses = {"status_code":400};
         }
         else {
@@ -76,7 +77,7 @@ router.get('/propList',function (req,res) {
     mq_client.make_request('get_all_property_queue',msg_payload,function (err,results) {
         if(err){
             //Need to add tool to log error.
-            //tool.logError(err);
+            tool.logError(err);
             json_responses = {"status_code":400};
         }
         else {
@@ -109,6 +110,7 @@ router.post('/list', function (req, res, next)  {
     var json_responses;
     upload(req,res,function(err) {
         if (err) {
+      	  tool.logError(err);
             res.json({error_code: 1, err_desc: err});
             return;
         }
@@ -116,6 +118,7 @@ router.post('/list', function (req, res, next)  {
 
         mq_client.make_request('list_property_queue', msg_payload, function(err,results){
             if(err){
+            	tool.logError(err);
                 json_responses = {
                     "failed" : "failed"
                 };

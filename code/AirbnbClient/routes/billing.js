@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
+var tool = require("../utili/common");
 
 router.get('/view',function (req,res) {
 
@@ -12,7 +13,7 @@ router.get('/view',function (req,res) {
     mq_client.make_request('get_bill_queue',msg_payload,function (err,results) {
         if(err){
             //Need to add tool to log error.
-            //tool.logError(err);
+            tool.logError(err);
             json_responses = {"status_code":400};
         }
         else {
@@ -37,7 +38,7 @@ router.post('/deleteBill',function (req, res) {
     mq_client.make_request('delete_bill_queue',msg_payload,function (err,results) {
        if(err){
            //Need to add tool to log error.
-           //tool.logError(err);
+           tool.logError(err);
            json_responses = {"status_code":400};
        }
        else

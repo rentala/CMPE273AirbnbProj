@@ -6,11 +6,13 @@ var ejs = require("ejs");
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var tool = require("../utili/common");
 
 router.post('/signInUser', function (req, res, next)  {
     var json_responses;
     passport.authenticate('login', function (err, user, info) {
         if(err){
+      	   tool.logError(err);
             return next(err);
         }
         if(!user){
@@ -53,7 +55,7 @@ router.post('/signUpUser', function (req, res, next)  {
     console.log("inside signUpUser");
     passport.authenticate('signup', function (err, user, info) {
         if(err){
-        	console.log("err::" + err);
+      	  tool.logError(err);
             return next(err);
         }
         if(!user){
@@ -61,6 +63,7 @@ router.post('/signUpUser', function (req, res, next)  {
         } else{
             req.logIn(user,{session:false}, function(err) {
                 if(err) {
+               	 tool.logError(err);
                     return next(err);
                 }
 
@@ -94,6 +97,7 @@ router.get('/home', function (req, res, next)  {
 		}
 		// render or error
 		else {
+			tool.logError(err);
 		res.end('An error occurred');
 		console.log(err);
 		}

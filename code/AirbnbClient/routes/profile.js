@@ -4,6 +4,7 @@
 var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
+var tool = require("../utili/common");
 
 
 //Varsha..testing github
@@ -32,6 +33,7 @@ router.post('/updateProfile', function (req, res, next)  {
 	
 	mq_client.make_request('update_profile_queue',msg_payload, function(err,results){
 		if(err){
+			tool.logError(err);
 			return done(null, "error");
 		}
 		else 
@@ -64,6 +66,7 @@ router.get('/userDetails', function (req, res, next)  {
 	
 	mq_client.make_request('userinfo_queue',msg_payload, function(err,results){
 		if(err){
+			tool.logError(err);
 			json_responses = {
                     "status_code" : results.code,
                     "userInfoMessage": "Error getting user info"
