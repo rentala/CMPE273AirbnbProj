@@ -154,11 +154,10 @@ function mapReqToPayLoad(req) {
     msg_payload.description = req.body.description;
     msg_payload.guests = req.body.guests;
     msg_payload.bedrooms = req.body.bedrooms;
-    msg_payload.bedrooms = req.body.bedrooms;
+    msg_payload.for_bid = req.body.forBid == 1 ? true: false;
     msg_payload.start_date = req.body.start_date;
     msg_payload.end_date = req.body.end_date;
-    msg_payload.price = req.body.price;
-    msg_payload.is_auction = req.body.is_auction;
+    msg_payload.price = { per_night: req.body.per_night, per_week:  req.body.per_week,  per_month:  req.body.per_month };
     return msg_payload;
 }
 

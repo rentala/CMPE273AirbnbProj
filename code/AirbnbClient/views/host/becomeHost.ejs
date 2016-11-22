@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Become a Host and Rent Out Your Rooms</title>
     <meta charset="utf-8">
@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--map related data-->
     <style>
         /* Always set the map height explicitly to define the size of the div
@@ -67,10 +68,9 @@
         }
         function geocodeAddress(geocoder, resultsMap) {
             var address = document.getElementsByName('address')[0].value;
-            var street = document.getElementsByName('street')[0].value;
             var city = document.getElementsByName('city')[0].value;
             var country = document.getElementsByName('country')[0].value;
-            var fullAddress = street + ", " + address + ", " + city + ", " + country;
+            var fullAddress = address + ", " + city + ", " + country;
             if(fullAddress != "   "){
                 geocoder.geocode({'address': fullAddress}, function(results, status) {
                     if (status === 'OK') {
@@ -141,7 +141,7 @@
                 <h3>What Kind of place do you have?</h3>
                 <div class="col-sm-12">
                     <div class="form-group"  >
-                        <select class="form-control" id="category">
+                        <select name="category" required class="form-control" id="category">
                             <option value="House" selected>House</option>
                             <option value="Apartment">Apartment</option>
                             <option value="Bed & Breakfast">Bed & Breakfast</option>
@@ -156,9 +156,9 @@
                 <div class="col-sm-12">
                     <div>
                         <ul class="list-group">
-                            <li class="list-group-item">Entire Place<input type="checkbox" value="Entire Place" style="float:right;"></li>
-                            <li class="list-group-item">Private Room<input type="checkbox" value="Entire Place" style="float:right;"></li>
-                            <li class="list-group-item">Shared Room<input type="checkbox" value="Entire Place" style="float:right;"></li>
+                            <li class="list-group-item">Entire Place<input name="type" required type="radio" value="Entire Place" style="float:right;"></li>
+                            <li class="list-group-item">Private Room<input name="type" required type="radio" value="Private Room" style="float:right;"></li>
+                            <li class="list-group-item">Shared Room<input name="type" required type="radio" value="Shared Room" style="float:right;"></li>
                         </ul>
                     </div>
                 </div>
@@ -169,7 +169,7 @@
                             <div class="input-group input-group-md">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                 <div class="icon-addon addon-md">
-                                    <input type="number" class="form-control" min="1" value="1"></input>
+                                    <input name="guests" required type="number" class="form-control" min="1" max="10" value="1"></input>
                                 </div>
                             </div>
                         </div>
@@ -177,7 +177,7 @@
                             <div class="input-group input-group-md">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-bed"></i></span>
                                 <div class="icon-addon addon-md">
-                                    <input type="number" class="form-control" min="1" value="1"></input>
+                                    <input name="bedrooms" required type="number" class="form-control" min="1"  max="10"  value="1"></input>
                                 </div>
                             </div>
                         </div>
@@ -191,21 +191,34 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <h4>Start Date</h4>
-                        <input placeholder="start Date" class="form-control" type="text" name= "start_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="start_date"  ng-model="start_date">
+                        <input placeholder="start Date" required class="form-control" type="text" name= "start_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="start_date"  ng-model="start_date">
                         <h4>End Date</h4>
-                        <input placeholder="end Date" class="form-control" type="text" name= "end_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="end_date"  ng-model="end_date">
+                        <input placeholder="end Date" required class="form-control" type="text" name= "end_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="end_date"  ng-model="end_date">
                     </div>
+                </div>
+                <h3>Tell us about your place !</h3>
+                <div class="col-sm-12">
+                    <textarea name="description" rows="4" cols="50" required/></textarea>
                 </div>
 
                 <h3>Where is your place located?</h3>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="country" placeholder="Country" ng-model="country"></input>
-                        <input type="text" class="form-control" name="address" placeholder="Street Address" style="margin-top:5px" ng-model="streetAddress"></input>
-                        <input type="text" class="form-control" name="street" placeholder="Apt, Suite, Bldg." style="margin-top:5px" ng-model="aptNo"></input>
-                        <input type="text" class="form-control" name="city" placeholder="City" style="margin-top:5px" ng-model="city"></input>
+                        <input type="text" class="form-control" name="country" placeholder="Country" required ></input>
+                        <input type="text" class="form-control" name="address" placeholder="Street Address" style="margin-top:5px" required></input>
+                        <input type="text" class="form-control" name="city" placeholder="City" style="margin-top:5px" required></input>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="state" placeholder="State" style="margin-top:5px" required></input>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="zipcode" placeholder="Zip Code" style="margin-top:5px" required></input>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+
 
                 <!--map related-->
                 <div class="col-sm-12" style="margin-bottom: 15px">
@@ -218,8 +231,8 @@
                 <h3>Photos</h3>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <input type="file" class="btn btn-primary" accept="image/*" name="file" multiple value="Upload upto 12 Images" />
-                        <input type="submit" class="btn btn-primary" value="Submit">
+                        <input type="file" class="" accept="image/*" name="file" multiple value="Upload upto 12 Images" />
+
                     </div>
                 </div>
                 <!--end of photos-->
@@ -228,8 +241,8 @@
                 <div class="col-sm-12">
                     <div class="form-group">
                         <ul class="list-group">
-                            <li class="list-group-item">Bidding<input type="checkbox" value="Bidding" style="float:right;"></li>
-                            <li class="list-group-item">Normal<input type="checkbox" value="Normal" style="float:right;"></li>
+                            <li class="list-group-item">Bidding<input type="radio" name="forBid" value="1" style="float:right;" required></li>
+                            <li class="list-group-item">Normal<input type="radio" name="forBid" value="0" style="float:right;" required></li>
                         </ul>
                     </div>
                 </div>
@@ -238,11 +251,40 @@
                 <h3>Enter Cost</h3>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Cost per night" style="margin-top: 5px;" data-ng-model="per_night">
-                        <input class="form-control" placeholder="Cost per week" style="margin-top: 5px;" data-ng-model="per_week">
-                        <input class="form-control" placeholder="Cost per month" style="margin-top: 5px;" data-ng-model="per_month">
+                        <div class="row">
+                            <div class=" input-group input-group-md">
+                                <span class="input-group-addon"><i style="font-size:20px" class="fa">&#xf155;</i></span>
+                                <div class="icon-addon addon-md">
+                                    <input type="number" name="per_night" class="form-control" placeholder="Cost per night" style="" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class=" input-group input-group-md">
+                                <span class="input-group-addon"><i style="font-size:20px" class="fa">&#xf155;</i></span>
+                                <div class="icon-addon addon-md">
+                                    <input type="number" name="per_week" class="form-control" placeholder="Cost per week" style="" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-group  input-group-md">
+                                <span class="input-group-addon"><i style="font-size:20px" class="fa">&#xf155;</i></span>
+                                <div class="icon-addon addon-md">
+                                    <input type="number" name="per_month" class="form-control" placeholder="Cost per month" style="" required>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                </div>
+                <div class="col-md-12">
+
+                </div>
+
 
 
             </div>
