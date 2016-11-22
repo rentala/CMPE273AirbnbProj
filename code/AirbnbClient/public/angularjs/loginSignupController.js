@@ -48,9 +48,10 @@ app.controller('loginSignupController',function($scope,$http,$state,$rootScope){
         }).success(function(data){
             if(data.status_code=="200"){
                 $('.modal-backdrop').remove();
-                $rootScope.user_dtls = JSON.parse(data.user);
+               // $rootScope.user_dtls = JSON.parse(data.user);
+                
                 //console.log("Login successful");
-                $state.go('home');
+                window.location.assign("/api/auth/home");
             }
             else if(data.status_code=="400"){
                 $scope.loginError="Wrong email address or password";

@@ -9,11 +9,17 @@ app.controller('homeController',function($scope,$http,$state,$rootScope){
 
         })
     }
-
     $scope.trips=function(){
         $http({
             "method":"POST",
             "url":"/trips"
+        })
+    }
+    
+    $scope.search=function(){
+        $http({
+            "method":"POST",
+            "url":"/api/property/search"
         })
     }
 });

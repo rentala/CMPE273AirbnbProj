@@ -16,7 +16,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
         controller : 'loginSignupController'
     });
 
-    $stateProvider.state('home', {
+    /*$stateProvider.state('home', {
         url : '/home',
         views : {
             'header' : {
@@ -27,7 +27,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
             }
         },
         controller : 'homeController'
-    });
+    });*/
 
     $stateProvider.state('admin', {
         url : '/admin',
