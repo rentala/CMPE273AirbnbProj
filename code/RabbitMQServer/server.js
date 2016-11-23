@@ -107,6 +107,11 @@ cnn.on('ready', function(){
     cnn.queue('pending_trips_queue',function (q) {
         subscriber(q,trip.pendingTripsForApproval);
     });
+    cnn.queue('user_completed_trips',function (q) {
+       subscriber(q,trip.user_completed_trips);
+   });
+    
+    
     //Analytics Queues
 	cnn.queue('top_property_queue', function(q){
 		subscriber(q, analytics.topProp );

@@ -289,4 +289,33 @@ router.get('/pendingTripsForApproval',function (req,res) {
     });
 });
 
+
+//POST method to fetch user's completed trips 
+router.post('/userCompletdTrips', function (req, res)  {
+   
+	console.log("Request Data  : " + JSON.stringify(req.body));
+	
+	var user_id = req.param("user_id");
+
+	console.log("In AirbnbClient : admin.js : approveHost: User ID :"+ user_id);
+	
+	var msg_payload = { "user_id" : user_id };
+	
+	mq_client.make_request('user_completed_trips',msg_payload, function(err,results){
+		if(err){
+			tool.logError(err);
+			var json_resp = {
+					"status_code" : 400 
+			};
+			res.send(json_resp);
+			res.end();
+		}
+		else{
+			
+			res.send(results.json_resp);
+			res.end();
+		}  
+	});
+});
+
 module.exports = router;
