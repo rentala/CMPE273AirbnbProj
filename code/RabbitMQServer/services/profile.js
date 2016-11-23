@@ -125,8 +125,29 @@ var uploadPic = {
 		}
 	}
 };
+var reloadUser = {
+		handle_request : function (connection, msg, callback){
+			var res = {};
+			console.log(msg);
+			var obj_id = new ObjectID(msg.user_id);
+			
+			var coll = connection.mongoConn.collection('users');
+			coll.findOne({"_id" :obj_id},
+			function(err, user, id){
+				if(err){
+					tool.logError(err);
+				}
+				else {
+					res.code = "200";
+					res.value = user;
+				}
+				callback(null, res);
+			});
+		}
+	};
 
 exports.updateProfile = updateProfile;
 exports.userInfo =userInfo ;
 exports.deleteUser = deleteUser;
 exports.uploadPic =uploadPic;
+exports.reloadUser = reloadUser;
