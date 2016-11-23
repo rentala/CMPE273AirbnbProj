@@ -23,9 +23,10 @@ router.post('/signInUser', function (req, res, next)  {
                     return next(err);
                 }
 
-                console.log("Got the user");
+                console.log("Got the user"+user._id);
                 req.session.user = user;
-
+                req.session.user_id = user._id;
+                
                 json_responses = {
                     "status_code" : 200,
                     "user" : JSON.stringify(user)

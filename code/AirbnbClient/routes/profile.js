@@ -7,6 +7,7 @@ var router = express.Router();
 var mq_client = require('../rpc/client');
 var tool = require("../utili/common");
 
+var multer = require('multer');
 
 //Varsha..testing github
 //Updated for comments
@@ -151,5 +152,54 @@ router.post('/loadProfile', function (req, res, next)  {
 	res.send({user:req.session.user});
 });
 
+
+router.post('/uploadPic', function (req, res, next)  {
+	console.log("inside");
+    var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, '../AirbnbClient/public/uploads');
+        },
+        filename: function (req, file, cb) {
+            var datetimestamp = Date.now();
+            imagePath = getID() + '.'
+                + file.originalname.split('.')[file.originalname.split('.').length -1];
+            console.log("imagePath"+imagePath);
+            console.log("file.originalname"+ file.originalname);
+            cb(null, imagePath);
+        }
+    });
+    var upload = multer({ storage: storage}).array('file');
+    var json_responses;
+    upload(req,res,function(err) {
+        if (err) {
+      	  tool.logError(err);
+            res.json({error_code: 1, err_desc: err});
+            return;
+        }
+        var msg_payload = {"picture_path":req.files, "user_id" : req.session.user_id};
+
+        mq_client.make_request('upload_pic_queue', msg_payload, function(err,results){
+            if(err){
+            	tool.logError(err);
+                json_responses = {
+                    "failed" : "failed",
+                    "statusCode" : results.code
+                };
+            } else {
+                json_responses = {
+                    "statusCode" : results.code
+                };
+            }
+            res.send(json_responses);
+        });
+    });
+
+});
+var getID = function () {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+    });
+};
 
 module.exports = router;

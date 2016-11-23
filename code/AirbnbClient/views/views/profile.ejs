@@ -142,6 +142,7 @@
 		</div>
 	</div>
 	<div data-ng-hide="card1">
+	<form action="/api/profile/uploadPic"  enctype = "multipart/form-data" method="post">
 		<div class="col-sm-7">
 			<div class="col-sm-12" style="border:0.5px solid black">
 				<div style="background-color:#f9f9f9;border-bottom:0.5px solid black"><h2>Profile Image</h2></div><br>
@@ -149,8 +150,9 @@
 					<img data-ng-src="paris.jpg" style="height:150px;width:150px;border-radius:50%;margin-top:15px;margin-bottom:15px">
 				</div>
 				<div class="col-sm-9"><p style="margin-top:15px">Clear frontal face photos are an important way for hosts and guests to learn about each other. It’s not much fun to host a landscape! Please upload a photo that clearly shows your face.</p><br>
-					<input type="file" title=" "><br>
-					<input type="button" class="btn btn-danger" style="margin-bottom:10px" value="upload" data-ng-click="uploadImg()">
+					<input type="file" title=" " accept="image/*" name="file"><br>
+					<input type="submit" class="btn btn-primary" value="upload">
+			<!-- 		<input type="button" class="btn btn-danger" style="margin-bottom:10px" value="upload" data-ng-click="uploadImg()"> -->
 				</div>
 			</div>
 			<div class="col-sm-12" style="border:0.5px solid black;margin-top:20px">
@@ -166,6 +168,7 @@
 				</div>
 			</div>
 		</div>
+		</form>
 	</div>
 	<div class="col-sm-2"></div>
 </body>
