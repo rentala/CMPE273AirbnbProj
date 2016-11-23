@@ -140,7 +140,19 @@ cnn.on('ready', function(){
     cnn.queue('delete_user_queue', function(q){
 		subscriber(q, profile.deleteUser );
     });
-
+	cnn.queue('upload_pic_queue', function(q){
+		subscriber(q, profile.uploadPic );
+    });
+    cnn.queue('reload_user_queue', function(q){
+		subscriber(q, profile.reloadUser );
+    });
+    cnn.queue('user_completed_trips',function (q) {
+    	       subscriber(q,trip.user_completed_trips);
+    });
+    cnn.queue('my_listings_queue',function (q) {
+	       subscriber(q,property.myListings);
+    });
+    
     //Inbox
     cnn.queue('inbox_queue', function(q){
     	subscriber(q, inbox.inbox);

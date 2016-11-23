@@ -265,6 +265,34 @@ var pendingTripsForApproval = {
     }
 };
 
+
+
+var user_completed_trips = {
+	    handle_request: function (connection, msg, callback) {
+	        var res = {};
+	        var json_resp = {};
+	        mysql.execute_query(function (err, result) {
+	            if(err){
+	                json_resp= {"status_code":401,"errMsg":err};
+	                tool.logError(err);
+	                res = {"json_resp" : json_resp};
+	                callback(null, res );
+	            }
+	            else {
+	            	if(result.length>0){
+
+	            		json_resp= {"status_code":200,"trip_dtls" : result};
+	            	}else{
+	            		
+	            		json_resp= {"status_code":401};
+	            	}
+	            	res = {"json_resp" : json_resp};
+	               callback(null, res );
+	            }
+	        },sql_queries.USER_COMPLETED_TRIPS,[msg.user_id]);
+	    }
+	};
+
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
 exports.createTrip = createTrip;
@@ -272,3 +300,4 @@ exports.updateTrip = updateTrip;
 exports.createTripReview = createTripReview;
 exports.editTrip = editTrip;
 exports.pendingTripsForApproval = pendingTripsForApproval;
+exports.user_completed_trips = user_completed_trips;

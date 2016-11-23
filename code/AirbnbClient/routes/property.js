@@ -147,7 +147,8 @@ function mapReqToPayLoad(req) {
         zipcode: req.body.zipcode,
         country: req.body.country
     }
-    msg_payload.host_id = 1; //stub
+    //msg_payload.host_id = 1; //stub
+    msg_payload.host_id = req.session.user_id; 
     msg_payload.category = req.body.category
     msg_payload.coordinates = {
         x: req.body.coordinatesX,
@@ -206,6 +207,12 @@ router.post('/bidProperty', function (req, res, next)  {
 });
 
 router.get('/searchResult', function (req, res, next)  {
+	
+	if(req.session.user){
+		res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+		res.redirect('/');
+	}
+	else{
 	var msg = req.session.msg;
 	console.log("end_date: "+ msg.end_date);
 	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: req.session.user,start_date:msg.start_date,end_date: msg.end_date, guests: msg.guests},function(err, result) {
@@ -220,11 +227,34 @@ router.get('/searchResult', function (req, res, next)  {
 		console.log(err);
 		}
 		});
+	}
 });
 
 router.post('/getResults', function (req, res, next)  {
 	console.log("assadsdsadsa"+JSON.stringify(req.session.user));
 	res.send({"valid_property":req.session.valid_property});
+});
+
+router.get('/myListings', function (req, res, next)  {
+	
+	var user_id = req.session.user_id;
+	console.log("user_id: "+ user_id);
+	var msg_payload = {"host_id":user_id};
+    mq_client.make_request('my_listings_queue', msg_payload, function(err,results){
+        if(err){
+			tool.logError(err);
+        	json_responses = {
+                    "status_code" : results.statusCode
+                };
+        } else {
+        	console.log(JSON.stringify(results.records));
+        	json_responses = {
+                    "status_code" : results.statusCode,
+                    "records":results.records
+                };
+        }
+        res.send(json_responses);
+    });
 });
 
 

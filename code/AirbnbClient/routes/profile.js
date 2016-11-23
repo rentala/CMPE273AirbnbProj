@@ -149,7 +149,35 @@ router.get('/editProfile', function (req, res, next)  {
 });
 
 router.post('/loadProfile', function (req, res, next)  {
-	res.send({user:req.session.user});
+	var msg_payload = { "user_id":req.session.user_id};
+	console.log("inside loadProfile");
+	mq_client.make_request('reload_user_queue',msg_payload, function(err,results){
+		if(err){
+			return done(null, "error");
+		}
+		else 
+		{
+			if (results.code == 401){
+                json_responses = {
+	                    "status_code" : results.code
+	                };
+			}
+			else if(results.code == 200){
+				json_responses = {
+	                    "status_code" : results.code
+	                };
+				req.session.user = results.value;
+			}
+			else {    
+				return done(null, "error");
+			}
+			res.send({user:req.session.user});
+	        res.end();
+		}  
+	});
+	
+	
+	//res.send({user:req.session.user});
 });
 
 
@@ -179,18 +207,17 @@ router.post('/uploadPic', function (req, res, next)  {
         var msg_payload = {"picture_path":req.files, "user_id" : req.session.user_id};
 
         mq_client.make_request('upload_pic_queue', msg_payload, function(err,results){
-            if(err){
-            	tool.logError(err);
-                json_responses = {
-                    "failed" : "failed",
-                    "statusCode" : results.code
-                };
-            } else {
-                json_responses = {
-                    "statusCode" : results.code
-                };
-            }
-            res.send(json_responses);
+        	ejs.renderFile('./views/views/profile.ejs',{ user_dtls: req.session.user},function(err, result) {
+        		if (!err) {
+        		res.end(result);
+        		}
+        		// render or error
+        		else {
+        			tool.logError(err);
+        		res.end('An error occurred');
+        		console.log(err);
+        		}
+        		});
         });
     });
 
@@ -201,5 +228,20 @@ var getID = function () {
         return v.toString(16);
     });
 };
+
+router.get('/yourListings', function (req, res, next)  {
+	ejs.renderFile('./views/views/yourListing.ejs',{ user_dtls: req.session.user},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
 
 module.exports = router;

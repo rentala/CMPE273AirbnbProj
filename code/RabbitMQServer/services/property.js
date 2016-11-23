@@ -216,9 +216,42 @@ var bidProperty = {
 	    }
 	};
 
+
+var myListings = {
+	    handle_request : function (connection,msg,callback) {
+	        var res = {};
+	        try{
+	            var coll = connection.mongoConn.collection('property');
+	            console.log(msg);
+				//var obj_id = new ObjectID(msg.host_i);
+	            
+	            coll.find({"host_id" :msg.host_id}).toArray(function(err, records){
+	                if(err){
+	                    res = {"statusCode":400};
+	                    tool.logError(err);
+	                    callback(null, res);
+	                }
+	                else {
+	                    console.log(JSON.stringify(records));
+	                    res = {"statusCode":200, records:records};
+	                    //tool.logError(err);
+	                    callback(null, res);
+	                }
+	            });
+	        }
+	        catch(err)
+	        {
+	            tool.logError(err);
+	            res = {"statusCode":400};
+	            callback(null, res);
+	        }
+	    }
+	};
+
 exports.propList = propList;
 exports.getPropertyArray = getPropertyArray;
 exports.searchProperty = searchProperty;
 exports.listProperty = listProperty;
 exports.getPropertyById = getPropertyById;
 exports.bidProperty = bidProperty;
+exports.myListings = myListings;
