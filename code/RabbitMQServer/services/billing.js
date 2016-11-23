@@ -62,5 +62,36 @@ var deleteBill = {
     }
 };
 
+
+
+var createBill = {
+	    handle_request:function (connection,msg,callback) {
+	        var res={};
+
+	        mysql.execute_query(function (err,result) {
+	            if(err){
+	                tool.logError(err);
+	                res = {"statusCode":400};
+	                callback(null,res);
+	            }
+	            else {
+	            		if(result.insertId){
+	            			
+	            			console.log("In RabbitMQserver : billing : createBill : billing_id : " + result.insertId);
+	            			console.log("In RabbitMQserver : billing : createBill : Created entry in 'billing' table!");
+	            			res = {"statusCode" : 200 };
+	            			
+	            		}else{
+	            			
+	            			console.log("In RabbitMQserver : billing : createBill : Couldn't create entry in 'billing' table!");
+	            			res = {"statusCode" : 401 };
+	            		}
+	                  callback(null, res);
+	            }
+	        },sql_queries.CREATE_BILL,[msg.trip_id]);
+	    }
+	};
+
 exports.deleteBill = deleteBill;
 exports.view = view;
+exports.createBill = createBill;
