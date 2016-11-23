@@ -17,6 +17,7 @@ var trip = require('./services/trip');
 var analytics = require('./services/analytics');
 var host = require('./services/host');
 var billing = require('./services/billing');
+var inbox = require('./services/inbox');
 
 var mongoConn;
 var connection;
@@ -156,7 +157,7 @@ cnn.on('ready', function(){
     //Inbox
     cnn.queue('inbox_queue', function(q){
     	subscriber(q, inbox.inbox);
-    })
+    });
 });
 
 var subscriber = function(q, module) {
