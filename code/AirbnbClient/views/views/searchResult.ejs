@@ -200,11 +200,12 @@
     </div>
     <div class="col-sm-6" ng-repeat="x in valid_property"> 
       <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="panel-image hide-panel-body"><img src="rome.jpg" class="panel-image-preview" width="100%" height="100%"></div>
-          <div>{{x.prd_price}}</div>
+        <div class="panel-body" style="background-color: #f9f9f9;">
+          <div class="panel-image hide-panel-body" ><img src="/uploads/{{x.imagesPath[0].filename}}" class="panel-image-preview" width="100%" height="250"></div>
+          <div><font style="font-family: Helvetica Neue; font-size: 16px"><a href="/api/property/{{x._id}}">{{x.description}}</a><br>{{x.category}}&nbsp;-{{x.guests}}guest</font>s</div>
         </div>
-        <div class="panel-footer">          
+        <div class="panel-footer"> 
+        	<div>${{x.price.per_night}}</div>         
         </div>
       </div>
     </div>
