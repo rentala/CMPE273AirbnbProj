@@ -133,7 +133,7 @@ router.post('/deleteUser', function (req, res, next)  {
 });
 
 router.get('/editProfile', function (req, res, next)  {
-	ejs.renderFile('./views/views/profile.ejs',function(err, result) {
+	ejs.renderFile('./views/views/profile.ejs',{ user_dtls: req.session.user},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);

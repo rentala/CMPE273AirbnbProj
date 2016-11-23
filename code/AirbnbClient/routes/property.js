@@ -206,13 +206,7 @@ router.post('/bidProperty', function (req, res, next)  {
 });
 
 router.get('/searchResult', function (req, res, next)  {
-	console.log("assadsdsadsa"+JSON.stringify(req.session.user));
-	//user_dtls = JSON.parse(data.user)
-	/*var j = JSON.stringify(req.session.user);
-	j = JSON.parse(j);
-	console.log("first_name"+j.first_name);*/
-	//console.log("assads"+ JSON.parse(req.session.user));
-	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: ""},function(err, result) {
+	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: req.session.user},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);
