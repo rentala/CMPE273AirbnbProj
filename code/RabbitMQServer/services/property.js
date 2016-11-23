@@ -91,7 +91,8 @@ var searchProperty = {
                                         }
                                     }
                                     valid_property = records;
-                                    res = {"statusCode": 200, "valid_property": records};
+                                    //res = {"statusCode": 200, "valid_property": records};
+                                    res = {"statusCode": 200, "valid_property": records,"msg":msg};
                                     callback(null, res);
                                 }
                                 else {

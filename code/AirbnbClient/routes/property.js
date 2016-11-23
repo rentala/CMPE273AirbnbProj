@@ -13,7 +13,6 @@ router.post('/search',function (req,res,next) {
     var guests = req.param("guests");
     var user_id=4; //stub - get user id from req.session.user_id
 
-
     var json_responses;
 
     var msg_payload = {"city":city,"start_date":start_date,"end_date":end_date,"guests":guests,"user_id":user_id};
@@ -27,6 +26,7 @@ router.post('/search',function (req,res,next) {
             if (results.statusCode == 200) {
                 json_responses = {"status_code": results.statusCode, "valid_property": results.valid_property};
                 req.session.valid_property = results.valid_property
+                req.session.msg = results.msg;
             }
             else {
                 json_responses = {"status_code": results.statusCode};
@@ -206,7 +206,9 @@ router.post('/bidProperty', function (req, res, next)  {
 });
 
 router.get('/searchResult', function (req, res, next)  {
-	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: req.session.user},function(err, result) {
+	var msg = req.session.msg;
+	console.log("end_date: "+ msg.end_date);
+	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: req.session.user,start_date:msg.start_date,end_date: msg.end_date, guests: msg.guests},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);
