@@ -154,6 +154,9 @@ cnn.on('ready', function(){
     cnn.queue('user_completed_trips',function (q) {
     	       subscriber(q,trip.user_completed_trips);
     });
+    cnn.queue('my_listings_queue',function (q) {
+	       subscriber(q,property.myListings);
+    });
     
 });
 

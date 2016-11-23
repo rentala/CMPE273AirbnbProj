@@ -229,4 +229,19 @@ var getID = function () {
     });
 };
 
+router.get('/yourListings', function (req, res, next)  {
+	ejs.renderFile('./views/views/yourListing.ejs',{ user_dtls: req.session.user},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
 module.exports = router;
