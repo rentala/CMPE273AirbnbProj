@@ -3,11 +3,8 @@ ObjectID = require('mongodb').ObjectID;
 
 var updateProfile = {
 		handle_request : function (connection, msg, callback){
-			console.log("inside");
 		var res = {};
-		console.log("inside2"+ msg.user_id[0]);
-		var obj_id = new ObjectID(msg.user_id[0]);
-		console.log("inside3"+obj_id);
+		var obj_id = new ObjectID(msg.user_id);
 		var coll = connection.mongoConn.collection('users');
 		try{
 			coll.update({"_id" :obj_id},{$set:{
@@ -100,6 +97,36 @@ var deleteUser = {
 	}
 }
 
+
+var uploadPic = {
+		handle_request : function (connection, msg, callback){
+		var res = {};
+		var obj_id = new ObjectID(msg.user_id);
+		var coll = connection.mongoConn.collection('users');
+		try{
+			coll.update({"_id" :obj_id},{$set:{
+				"picture_path": msg.picture_path
+				}
+			}, function(err, user){
+				if(err){
+					res.code= "400";
+					callback(null, res);
+				}
+				else
+				{
+					res.code= "200";
+					callback(null, res);
+				}
+			});
+		}
+		catch(err){
+			res.code = "500";
+			callback(null, res);
+		}
+	}
+};
+
 exports.updateProfile = updateProfile;
 exports.userInfo =userInfo ;
 exports.deleteUser = deleteUser;
+exports.uploadPic =uploadPic;

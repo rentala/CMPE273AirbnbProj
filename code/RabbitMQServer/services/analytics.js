@@ -2,6 +2,7 @@ var tool = require("../utili/common");
 var sql_queries = require('../db/sql_queries');
 var mysql = require('../db/mysql');
 var property = require('./property');
+var ObjectID = require('mongodb').ObjectId;
 
 var topProp = {
     handle_request: function (connection,msg,callback) {
@@ -92,8 +93,93 @@ var topHost = {
     }
 };
 
+var propertyRatings = {
 
+    handle_request : function(connection, msg, callback) {
+        var res = {};
+        var json_resp = {};
+        try {
 
+            var coll = connection.mongoConn.collection('property');
+
+            console.log("In RabbitMQ Server : admin.js : propertyRatings : property_id : " + msg.property_id);
+
+            var searchCriteria = {
+                "_id" : ObjectID(msg.property_id)
+            };
+            var projection_para = {'_id' : 0 ,'ratings' : 1};
+
+            coll.find(searchCriteria,projection_para).toArray(function(err, propertyRatings) {
+
+                if (err) {
+                    console.log("RabbitMQ server : analytics.js : propertyRatings : error :"+err);
+                    //tool.logError(err);
+                    json_resp = {
+                        "status_code" : 400
+                    };
+                    res = {
+                        "json_resp" : json_resp
+                    };
+                    callback(null, res);
+                } else {
+                    if (propertyRatings.length>0) {
+                        json_resp = {
+                            "status_code" : 200,
+                            "property_ratings_dtls" : propertyRatings[0].ratings
+                        };
+                    } else {
+                        console.log("RabbitMQ server : analytics.js :propertyRatings: No record to fetch");
+                        json_resp = {
+                            "status_code" : 401
+                        };
+                    }
+                    res = {
+                        "json_resp" : json_resp
+                    };
+                    callback(null, res);
+                }
+            });
+
+        } catch (err) {
+            tool.logError(err);
+            json_resp = {
+                "status_code" : 400
+            };
+            res = {
+                "json_resp" : json_resp
+            };
+            callback(null, res);
+        }
+
+    }
+};
+
+var bidInfo = {
+    handle_request:function (connection, msg, callback) {
+        var res = {};
+
+        mysql.execute_query(function (err,result) {
+            if(err) {
+                res = {"statusCode": 400};
+                tool.logError(err);
+                callback(null, res);
+            }
+            else{
+                if(result.length>0){
+                    res = {"statusCode":200,"bid_info":result};
+                    callback(null, res);
+                }
+                else {
+                    res = {"statusCode":401};
+                    callback(null,res);
+                }
+            }
+        },sql_queries.FETCH_BID_INFO,[msg.prop_id]);
+    }
+};
+
+exports.bidInfo = bidInfo;
+exports.propertyRatings = propertyRatings;
 exports.topProp = topProp;
 exports.cityWiseData = cityWiseData;
 exports.topHost = topHost;

@@ -12,6 +12,19 @@ var myProfile = angular.module('myProfile',[]);
     			
     		}
     		
+    		$scope.uploadImg = function(){
+    			$http({
+    	            method:"POST",
+    	            url:"/api/profile/uploadPic",
+    	            data: {
+        	        	"file":document.getElementById('file').files[0]
+    	            }
+    	        }).success(function(data){
+    	        	$scope.data=data.user;
+					$scope.msg = "Updated Successfully";
+    	        })
+    		}
+    		
     		$scope.submitProfile = function(){
     			$http({
     	            method:"POST",

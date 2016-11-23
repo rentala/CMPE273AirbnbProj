@@ -23,9 +23,10 @@ router.post('/signInUser', function (req, res, next)  {
                     return next(err);
                 }
 
-                console.log("Got the user");
+                console.log("Got the user"+user._id);
                 req.session.user = user;
-
+                req.session.user_id = user._id;
+                
                 json_responses = {
                     "status_code" : 200,
                     "user" : JSON.stringify(user)
@@ -84,13 +85,9 @@ router.post('/signUpUser', function (req, res, next)  {
 });
 
 router.get('/home', function (req, res, next)  {
-	console.log("assadsdsadsa"+JSON.stringify(req.session.user));
-	//user_dtls = JSON.parse(data.user)
-	var j = JSON.stringify(req.session.user);
-	j = JSON.parse(j);
-	console.log("dsadasdsadsfirst_name"+j.first_name);
-	//console.log("assads"+ JSON.parse(req.session.user));
-	ejs.renderFile('./views/views/home.ejs',{ user_dtls: j},function(err, result) {
+/*	var j = JSON.stringify(req.session.user);
+	j = JSON.parse(j);*/
+	ejs.renderFile('./views/views/home.ejs',{ user_dtls: req.session.user},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);
@@ -102,6 +99,13 @@ router.get('/home', function (req, res, next)  {
 		console.log(err);
 		}
 		});
+});
+
+
+
+router.get('/logout', function (req, res, next)  {
+	req.session.destroy();
+	res.redirect('/');
 });
 
 module.exports = router;

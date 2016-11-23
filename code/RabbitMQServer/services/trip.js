@@ -2,6 +2,7 @@ var tool = require("../utili/common");
 var sql_queries = require('../db/sql_queries');
 var mysql = require('../db/mysql');
 var ObjectID = require('mongodb').ObjectID;
+var billing = require('./billing');
 
 var tripDetails = {
     handle_request : function (connection,msg,callback) {
@@ -113,6 +114,7 @@ var createTrip = {
     }
 };
 
+//Method to changes the status of trip to 'Accepted' and create a billing entry 
 var updateTrip = {
         handle_request: function (connection, msg, callback) {
             var res = {};
@@ -123,8 +125,22 @@ var updateTrip = {
                     callback(null, res);
                 }
                 else {
-                    res = {"statusCode":200};
-                    callback(null, res);
+               	 	JSON.stringify("In RabbitMQ : trip.js : updateTrip :result of updation : " +result)	;
+               	
+                  	 //Creating a new entry in 'billing' table for the approved trip
+                  	 billing.createBill.handle_request(connection, {"trip_id" : msg.trip_id}, function(err,res) {
+               		 
+               		 if(err){
+               			 console.log("In RabbitMQ server : trip : updateTrip : Error while creating new entry for bill! " + err);
+               			 res = {"statusCode":400,"errMsg":err};
+                         tool.logError(err);
+                         callback(null, res);
+               		 }else{
+ 
+               			 JSON.stringify("In RabbitMQ : trip.js : updateTrip :result of creating a new bill : " + JSON.stringify(res)) ;
+               			 callback(null,res);
+               		 }
+               	 });
                 }
             },sql_queries.UPDATE_TRIP,[msg.status, msg.trip_id]);
         }
