@@ -232,10 +232,15 @@ var myListings = {
 	                    callback(null, res);
 	                }
 	                else {
-	                    console.log(JSON.stringify(records));
+	                	if(records.length>0){
 	                    res = {"statusCode":200, records:records};
 	                    //tool.logError(err);
 	                    callback(null, res);
+	                	}
+	                	else{
+	                		res = {"statusCode":401};
+	                		callback(null, res);
+	                	}
 	                }
 	            });
 	        }
