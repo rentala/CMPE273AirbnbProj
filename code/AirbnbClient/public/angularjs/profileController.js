@@ -15,19 +15,9 @@ var myProfile = angular.module('myProfile',[]);
     		$scope.uploadImg = function(){
     			$http({
     	            method:"POST",
-    	            url:"/api/profile/updateProfile",
+    	            url:"/api/profile/uploadPic",
     	            data: {
-        	        	"first_name":$scope.first_name,
-        	        	"last_name": $scope.last_name,
-        	        	"phoneNumber": $scope.phone 	,
-        	        	"email": $scope.email 	,
-        	        	"dob": $scope.dob ,
-                        "street":$scope.street,
-                        "aptNum":$scope.aptNum,
-                        "city":$scope.city,
-                        "state":$scope.state,
-                        "zipCode":$scope.zipCode,
-                        "ssn":$scope.ssn
+        	        	"file":document.getElementById('file').files[0]
     	            }
     	        }).success(function(data){
     	        	$scope.data=data.user;
