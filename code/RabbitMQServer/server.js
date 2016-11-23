@@ -140,6 +140,11 @@ cnn.on('ready', function(){
     cnn.queue('delete_user_queue', function(q){
 		subscriber(q, profile.deleteUser );
     });
+
+    //Inbox
+    cnn.queue('inbox_queue', function(q){
+    	subscriber(q, inbox.inbox);
+    })
 });
 
 var subscriber = function(q, module) {
