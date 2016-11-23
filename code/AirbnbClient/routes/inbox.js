@@ -3,7 +3,7 @@ var router = express.Router();
 var mq_client = require('../rpc/client');
 var tool = require("../utili/common");
 
-router.get('/inbox', function(req, res){
+router.post('/inbox', function(req, res){
 	var host_id = req.body.user_id;
 	var msg_payload = {
 		"host_id" : host_id
@@ -21,7 +21,8 @@ router.get('/inbox', function(req, res){
         	if(results.status_code == 200){
 	            json_responses = { 
 	            	"result":results.results,
-	            	"status_code" : 200
+	            	"status_code" : 200,
+	            	"userDetails" : results.userDetails
 	            };
         	}
         	else if(results.status_code == 403){
@@ -34,3 +35,4 @@ router.get('/inbox', function(req, res){
         res.end();
     });
 });
+module.exports = router;
