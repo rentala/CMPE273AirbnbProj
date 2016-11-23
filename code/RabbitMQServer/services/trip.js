@@ -16,8 +16,9 @@ var tripDetails = {
                         callback(null, res);
                     }
                     else {
-                        console.log(result);
+                        console.log("result--------------"+result);
                         if(result.length>0){
+                        	
                             res = {"statusCode":200,"userTrips":result};
                             callback(null, res);
                         }

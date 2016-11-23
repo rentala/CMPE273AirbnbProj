@@ -243,5 +243,17 @@ router.get('/yourListings', function (req, res, next)  {
 		}
 		});
 });
+router.get('/myTrips', function (req, res, next)  {
+	ejs.renderFile('./views/views/trips.ejs',{ user_dtls: req.session.user},function(err, result) {
+		if (!err) {
+		res.end(result);
+		}
+		else {
+			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
 
 module.exports = router;

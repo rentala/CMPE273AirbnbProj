@@ -15,19 +15,18 @@ router.get('/tripDetails',function (req,res) {
 
     if(user_id!=null){
         msg_payload = {"user_id":user_id,"host_id":null};
-
+        console.log("inside");
         mq_client.make_request('trip_details_queue',msg_payload,function (err,results) {
             console.log(results);
            if(err){
                //Need to add tool to log error.
-               tool.logError(err);
                json_responses = {"status_code":400};
                res.send(json_responses);
                res.end();
            }
            else {
                if(results.statusCode == 200){
-                   console.log("inside 200");
+                   console.log("inside 200"+ JSON.stringify(results.userTrips));
                    json_responses = {"status_code":results.statusCode,"userTrips":results.userTrips};
                }
                else {
@@ -316,6 +315,37 @@ router.post('/userCompletdTrips', function (req, res)  {
 			res.end();
 		}  
 	});
+});
+
+
+router.get('/myTripDetails',function (req,res) {
+
+    var json_responses;
+    var msg_payload;
+    var user_id = req.session.user_id;
+        msg_payload = {"user_id":user_id,"host_id":null};
+
+        mq_client.make_request('trip_details_queue',msg_payload,function (err,results) {
+            console.log(results);
+           if(err){
+               //Need to add tool to log error.
+               tool.logError(err);
+               json_responses = {"status_code":400};
+               res.send(json_responses);
+               res.end();
+           }
+           else {
+               if(results.statusCode == 200){
+                   console.log("inside 200");
+                   json_responses = {"status_code":results.statusCode,"userTrips":results.userTrips};
+               }
+               else {
+                   json_responses = {"status_code":results.statusCode};
+               }
+               res.send(json_responses);
+               res.end();
+           }
+        });
 });
 
 module.exports = router;
