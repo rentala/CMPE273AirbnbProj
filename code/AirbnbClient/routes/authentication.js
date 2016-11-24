@@ -1,27 +1,32 @@
 /**
  * Created by Rentala on 09-11-2016.
  */
+
+var ejs = require("ejs");
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var tool = require("../utili/common");
 
 router.post('/signInUser', function (req, res, next)  {
     var json_responses;
     passport.authenticate('login', function (err, user, info) {
         if(err){
+      	   tool.logError(err);
             return next(err);
         }
         if(!user){
-            json_responses={"status_code":401};
+            json_responses = {"status_code":400};
         } else{
             req.logIn(user,{session:false}, function(err) {
                 if(err) {
                     return next(err);
                 }
 
-                console.log("Got the user");
+                console.log("Got the user"+user._id);
                 req.session.user = user;
-
+                req.session.user_id = user._id;
+                
                 json_responses = {
                     "status_code" : 200,
                     "user" : JSON.stringify(user)
@@ -51,19 +56,20 @@ router.post('/signUpUser', function (req, res, next)  {
     console.log("inside signUpUser");
     passport.authenticate('signup', function (err, user, info) {
         if(err){
-        	console.log("err::" + err);
+      	  tool.logError(err);
             return next(err);
         }
         if(!user){
-            json_responses={"status_code":401};
+            json_responses={"status_code":400};
         } else{
             req.logIn(user,{session:false}, function(err) {
                 if(err) {
+               	 tool.logError(err);
                     return next(err);
                 }
 
-                console.log("Got the user");
-                req.session.user = user;
+                console.log("Got the user22" + JSON.stringify(user));
+                //req.session.user = user;
 
                 json_responses = {
                     "status_code" : 200,
@@ -76,6 +82,30 @@ router.post('/signUpUser', function (req, res, next)  {
         res.end();
     })(req, res, next);
 
+});
+
+router.get('/home', function (req, res, next)  {
+/*	var j = JSON.stringify(req.session.user);
+	j = JSON.parse(j);*/
+	ejs.renderFile('./views/views/home.ejs',{ user_dtls: req.session.user},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
+
+
+router.get('/logout', function (req, res, next)  {
+	req.session.destroy();
+	res.redirect('/');
 });
 
 module.exports = router;

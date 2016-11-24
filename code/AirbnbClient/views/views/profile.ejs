@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Profile</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/angularjs/profileController.js"></script>
+    <script>
+    </script>
+</head>
+<body ng-app="myProfile" ng-controller="myProfileController">
+	<nav class="navbar navbar-default" style="background-color:white; ">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/api/auth/home" ><img src="/images/airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
+                <form class="navbar-form navbar-left" style="border-left:solid;border-width:0.5px;border-color:#D3D3D9">
+                    <div class="form-group">
+                        <input type="text" placeholder="Where to?" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px"></span></input>
+                    </div>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ><a href = "/host" title = "You could earn $539 sharing your home in San Jose in a week. Become a host."> Become a host</a></button>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;"><a href="/api/profile/myTrips" title = "shows your trip">Trips</a><span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
+       
+				</form>
+    
+                <ul class="nav navbar-nav navbar-right" style="margin-top:1px">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=user_dtls.first_name%> <span class="caret"></span></a><!--Add first Name-->
+                        <ul class="dropdown-menu">
+                            <li><a href="/api/auth/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <div>
+	    <nav class="navbar navbar-inverse" style="margin-top:-20px">
+			<div class="container-fluid">
+			    <ul class="nav navbar-nav">
+				    <li><a data-ng-click="dashboard()">Dashboard</a></li>
+				    <li><a data-ng-click="inbox()">Inbox</a></li> 
+				    <li><a href="/api/profile/yourListings">Your Listings</a></li> 
+				    <li><a href="/api/profile/myTrips">Your Trips</a></li> 
+				    <li class="active"><a data-ng-click="profile()">Profile</a></li>
+			    </ul>
+			</div>
+		</nav>
+	</div>
+	<div class="col-sm-1"></div>
+	<div class="col-sm-2">
+		<a class="active" data-ng-click="profile()"><h4>Edit Profile</h4></a>
+		<a data-ng-click="profileImage()"><h4>Photos, Symbol, and Video</h4></a>
+		<h4>Trust and Verification</h4>
+		<h4>Reviews</h4>
+		<h4>References</h4>
+	</div>
+	<div data-ng-hide="card">
+		<div class="col-sm-7" style="border:0.5px solid black">
+			<form class="form-horizontal" style="margin-top: 20px">
+			    <div class="form-group">
+				    <label class="control-label col-sm-2" for="firstName">First Name</label>
+				    <div class="col-sm-10">
+				    	<input type="text" class="form-control" id="firstName"  ng-model="first_name" placeholder="First Name">
+					</div>
+			    </div>
+			    <div class="form-group">
+			      	<label class="control-label col-sm-2" for="lastName">Last Name</label>
+			      	<div class="col-sm-10">
+			        	<input type="text" class="form-control" id="lastName" ng-model = "last_name" placeholder="Last Name">
+			      	</div>
+			    </div>
+			    <div class="form-group">
+			      	<label class="control-label col-sm-2" for="Dob">Birth Date</label>
+			      	<div class="col-sm-10">
+			        	<input type="date" class="form-control" id="Dob" placeholder="Enter password"  value= {{data.dob}}>
+			      	</div>
+			    </div>
+			    <div class="form-group">
+			      	<label class="control-label col-sm-2" for="emailId">Email Id</label>
+			      	<div class="col-sm-10">
+			        	<input type="email" class="form-control" id="emailId" placeholder="email Id"  ng-model = "email" disabled>
+			      	</div>
+			    </div>
+			    <div class="form-group">
+			      	<label class="control-label col-sm-2" for="phoneNo">Phone Number</label>
+			      	<div class="col-sm-10">
+			        	<input type="number" class="form-control" id="phoneNo"  placeholder="Phone Number" ng-model = "phone">
+			      	</div>
+			    </div>
+			    <div class="form-group">
+			      	<label class="control-label col-sm-2" for="street">street</label>
+			      	<div class="col-sm-10">
+			        	<input type="text" class="form-control" id="street"  placeholder="street" ng-model = "street">
+			      	</div>
+			    </div>
+			     <div class="form-group">
+			      	<label class="control-label col-sm-2" for="aptNum">Apartment Num</label>
+			      	<div class="col-sm-10">
+			        	<input type="text" class="form-control" id="aptNum"  placeholder="aptNum" ng-model = "aptNum">
+			      	</div>
+			    </div>
+			    <div class="form-group">
+			      	<label class="control-label col-sm-2" for="city">city</label>
+			      	<div class="col-sm-10">
+			        	<input type="text" class="form-control" id="city"  placeholder="city" ng-model = "city">
+			      	</div>
+			    </div>
+			    <div class="form-group">
+			      	<label class="control-label col-sm-2" for="zipCode">zipCode</label>
+			      	<div class="col-sm-10">
+			        	<input type="number" class="form-control" id="zipCode"  placeholder="zipCode" ng-model = "zipCode">
+			      	</div>
+			    </div>
+			    <div class="form-group">
+			      	<label class="control-label col-sm-2" for="ssn">ssn</label>
+			      	<div class="col-sm-10">
+			        	<input type="number" class="form-control" id="ssn"  placeholder="ssn" ng-model = "ssn" disabled>
+			      	</div>
+			    </div>
+			    
+			    <div class="form-group">
+			    </div>
+			    <div class="form-group">
+			     	<div class="col-sm-offset-2 col-sm-10">
+			        	<button type="submit" class="btn btn-default" data-ng-click="submitProfile()">Submit</button>
+			      	</div>
+			    </div>
+			</form>
+			<p style="color:green">{{msg}}</p>
+		</div>
+	</div>
+	<div data-ng-hide="card1">
+	<form action="/api/profile/uploadPic"  enctype = "multipart/form-data" method="post">
+		<div class="col-sm-7">
+			<div class="col-sm-12" style="border:0.5px solid black">
+				<div style="background-color:#f9f9f9;border-bottom:0.5px solid black"><h2>Profile Image</h2></div><br>
+				<div class="col-sm-3">
+					<img data-ng-src="/uploads/{{image}}" style="height:150px;width:150px;border-radius:50%;margin-top:15px;margin-bottom:15px">
+				</div>
+				<div class="col-sm-9"><p style="margin-top:15px">Clear frontal face photos are an important way for hosts and guests to learn about each other. It’s not much fun to host a landscape! Please upload a photo that clearly shows your face.</p><br>
+					<input type="file" title=" " accept="image/*" name="file"><br>
+					<input type="submit" class="btn btn-primary" value="upload">
+			<!-- 		<input type="button" class="btn btn-danger" style="margin-bottom:10px" value="upload" data-ng-click="uploadImg()"> -->
+				</div>
+			</div>
+			<div class="col-sm-12" style="border:0.5px solid black;margin-top:20px">
+				<div style="background-color:#f9f9f9;border-bottom:0.5px solid black"><h2>Profile video</h2></div><br>
+				<div class="col-sm-4">
+					<video height="200px" width="200px">
+						<source src="mov_bbb.mp4" type="video/mp4">
+					</video>
+				</div>
+				<div class="col-sm-8"><p style="margin-top:15px">Clear frontal face photos are an important way for hosts and guests to learn about each other. It’s not much fun to host a landscape! Please upload a photo that clearly shows your face.</p><br>
+					<input type="file" title=" "><br>
+					<input type="button" class="btn btn-danger" style="margin-bottom:10px" value="upload" data-ng-click="uploadVideo()">
+				</div>
+			</div>
+		</div>
+		</form>
+	</div>
+	<div class="col-sm-2"></div>
+</body>
+</html>

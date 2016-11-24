@@ -6,27 +6,23 @@ var login = {
 		var res = {};
 		console.log(msg);
 		var coll = connection.mongoConn.collection('users');
-		coll.findOne({email: msg.email},
-			function(err, user, id){
-				if(err){
-					tool.logError(err);
-				}
-				if (user) {
-					res.code = "200";
-					res.value = user;
-				} 
-				else if (!bcrypt.compareSync(msg.password, user.password)){
-					res.code = "200";
-					res.value = user;
-				}
-				else {
-					res.code = "400";
-					res.value = id;
-				}
-				callback(null, res);
-			});
+		coll.findOne({email: msg.email, is_active:{$ne:"N"}},
+		function(err, user, id){
+			if(err){
+				tool.logError(err);
+			}
+			if (user && bcrypt.compareSync(msg.password, user.password)){
+				res.code = "200";
+				res.value = user;
+			}
+			else {
+				res.code = "400";
+				res.value = id;
+			}
+			callback(null, res);
+		});
 	}
-}
+};
 
 var register = {
 		handle_request : function (connection, msg, callback){
@@ -64,9 +60,10 @@ var register = {
 			    			}
 			    			else
 			    			{
-			    				res.user_id = user.insertedIds,
+			    				res.user_id = user.insertedIds[0],
 			    				res.first_nm = user.first_name ;
 			    				res.code ="200";
+			    				res.user = user;
 			        			callback(null, res);
 			    			}
 			    		});

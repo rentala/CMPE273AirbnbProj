@@ -1,4 +1,4 @@
-var express = require('express');
+	var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -16,6 +16,10 @@ var authentication = require('./routes/authentication');
 var profile = require('./routes/profile');
 var property = require('./routes/property');
 var admin = require('./routes/admin');
+var trip = require('./routes/trip');
+var analytics = require('./routes/analytics');
+var billing = require("./routes/billing");
+var inbox = require('./routes/inbox');
 
 var app = express();
 
@@ -25,7 +29,7 @@ app.use(session({
   activeDuration: 5 * 6 * 1000,
   saveUninitialized: false,
   resave: false,
-  store: new mongoStore({ url: 'mongodb://localhost/airbnb' })
+  store: new mongoStore({ url: 'mongodb://rentala:team5password@ds155097.mlab.com:55097/airbnb' })
 }));
 require('./config/passport')(passport);
 app.use(passport.initialize());
@@ -50,10 +54,16 @@ app.use('/', index);
 
 //USE '/api/routName' for all JSON response apis
 app.use('/api/auth', authentication);
-app.use('/api/host', host);
+app.use('/host', host);
 app.use('/api/profile', profile);
 app.use('/api/property',property);
 app.use('/api/admin',admin);
+app.use('/api/trip',trip);
+app.use('/api/analytics',analytics);
+app.use('/api/billing',billing);
+app.use('/api/inbox', inbox);
+
+
 
 
 // catch 404 and forward to error handler

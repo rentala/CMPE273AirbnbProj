@@ -1,6 +1,7 @@
 /**
- * Created by Rentala on 09-11-2016.
+ * Created by Rentala on 09-11-2016. this is mysql setup
  */
+
 var mysql = require('mysql');//importing module mysql
 var sqlPool;
 function getPool(connLimit) {
@@ -19,7 +20,7 @@ function getPool(connLimit) {
 
 //find below example of mysql call in property.js.
 
-exports.fetchTripDates = function(callback, sqlQuery, options) {
+exports.execute_query = function(callback, sqlQuery, options) {
     console.log("\nSQL Query::" + sqlQuery);
 
     sqlPool.getConnection(function(err, connection) {

@@ -13,14 +13,13 @@ var updateProfile = {
     			"last_name": msg.lastName,
     			"dob":msg.Dob,
     			"street":msg.street,
-				"address":msg.aptNum,
+				"aptNum":msg.aptNum,
 				"city":msg.city,
 				"state":msg.state,
 				"zipcode":msg.zipCode,
 				"phone":msg.phoneNumber,
 				"ssn":msg.ssn,
-				"is_host":"N",
-    			"last_update_date":new Date()
+				"last_update_date":new Date()
 				}
 			}, function(err, user){
 				if(err){
@@ -39,7 +38,7 @@ var updateProfile = {
 			callback(null, res);
 		}
 	}
-}
+};
 
 var userInfo = {
 		handle_request : function (connection, msg, callback){
@@ -69,8 +68,86 @@ var userInfo = {
 			callback(null, res);
 		}
 	}
+};
+
+var deleteUser = {
+		handle_request : function (connection, msg, callback){
+		var res = {};
+		var obj_id = new ObjectID(msg.user_id);
+		var coll = connection.mongoConn.collection('users');
+		try{
+			coll.update({"_id" :obj_id},{$set:{
+				"is_active": "N"}
+			}, function(err, user){
+				if(err){
+					res.code= "400";
+					callback(null, res);
+				}
+				else
+				{
+					res.code= "200";
+					callback(null, res);
+				}
+			});
+		}
+		catch(err){
+			res.statusCode = "400";
+			callback(null, res);
+		}
+	}
 }
 
 
+var uploadPic = {
+		handle_request : function (connection, msg, callback){
+		var res = {};
+		var obj_id = new ObjectID(msg.user_id);
+		var coll = connection.mongoConn.collection('users');
+		try{
+			coll.update({"_id" :obj_id},{$set:{
+				"picture_path": msg.picture_path
+				}
+			}, function(err, user){
+				if(err){
+					res.code= "400";
+					callback(null, res);
+				}
+				else
+				{
+					res.code= "200";
+					callback(null, res);
+				}
+			});
+		}
+		catch(err){
+			res.code = "500";
+			callback(null, res);
+		}
+	}
+};
+var reloadUser = {
+		handle_request : function (connection, msg, callback){
+			var res = {};
+			console.log(msg);
+			var obj_id = new ObjectID(msg.user_id);
+			
+			var coll = connection.mongoConn.collection('users');
+			coll.findOne({"_id" :obj_id},
+			function(err, user, id){
+				if(err){
+					tool.logError(err);
+				}
+				else {
+					res.code = "200";
+					res.value = user;
+				}
+				callback(null, res);
+			});
+		}
+	};
+
 exports.updateProfile = updateProfile;
 exports.userInfo =userInfo ;
+exports.deleteUser = deleteUser;
+exports.uploadPic =uploadPic;
+exports.reloadUser = reloadUser;

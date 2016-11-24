@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Airbnb</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        var app = angular.module('myTrip',[]);
+        app.controller('myTripController',function($scope,$http){
+            $scope.notrip1=true;
+            $scope.notrip=false;
+
+        })
+    </script>
+</head>
+<body ng-app="myTrip" ng-controller="myTripController">
+<nav class="navbar navbar-default" style="background-color:white; ">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#" ><img src="airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
+            <form class="navbar-form navbar-left" style="border-left:solid;border-width:0.5px;border-color:#D3D3D9">
+                <div class="form-group">
+                    <input type="text" placeholder="Where to?" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px"></span></input>
+                </div>
+                <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
+                <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ng-click="hostPage()">Become a host</button>
+                <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ng-click="trips()">Trips<span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
+                <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
+
+            </form>
+
+            <ul class="nav navbar-nav navbar-right" style="margin-top:1px">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">firstName <span class="caret"></span></a><!--Add first Name-->
+                    <ul class="dropdown-menu">
+                        <li><a data-ng-click="editProfile()">Edit Profile</a></li>
+                        <li><a data-ng-click="logout()">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+<div>
+    <nav class="navbar navbar-inverse" style="margin-top:-20px">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li><a data-ng-click="dashboard()">Dashboard</a></li>
+                <li><a data-ng-click="inbox()">Inbox</a></li>
+                <li><a data-ng-click="yourListing()">Your Listings</a></li>
+                <li class="active"><a data-ng-click="yourTrip">Your Trips</a></li>
+                <li><a data-ng-click="profile()">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="col-sm-12" data-ng-hide="notrip" style="margin-top:30px">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-6">
+        <h1>Choose your next adventure</h1>
+        <h3>Invite friends to try Airbnb and you'll get $35 in travel credit when they take their first trip.</h3>
+    </div>
+    <div class="col-sm-4">
+        <center><img data-ng-src="promo.png"></center>
+    </div>
+    <div class="col-sm-1"></div>
+</div>
+
+<div class="col-sm-12" data-ng-hide="notrip1" style="margin-top:30px;">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10" style="border:0.5px solid black">
+        <div data-ng-repeat="x in results">
+            <div class="col-sm-12" style="border-bottom:0.5px solid black">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-sm-4"><img src="/uploads/{{x.imagesPath[0].filename}}" class="panel-image-preview" width="100%" height="100%"></div>
+
+                        <div>{{x.prd_price}}</div>
+                    </div>
+                    <div class="panel-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-1"></div>
+</div>
+</body>
+</html>
