@@ -7,7 +7,7 @@ var view = {
     handle_request: function (connection,msg,callback) {
 
         var res = {};
-
+console.log("msg.trip_id"+msg.trip_id);
         mysql.execute_query(function (err,result) {
             if(err){
                 tool.logError(err);
@@ -16,6 +16,7 @@ var view = {
             }
             else
             {
+            	console.log("result.length"+result.length);
                 if(result.length>0){
                     var coll = connection.mongoConn.collection('property');
                     coll.find({"_id":ObjectID(result[0].property_id)}).toArray(function (err,records) {

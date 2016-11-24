@@ -3,7 +3,7 @@ var constants  =  require('node-constants');
 
 constants.define(exports, {
     FETCH_BID_INFO:"select bidding_dtl.bidder_id,bidding_dtl.bid_price,bidding_dtl.bid_time,bidding_dtl.property_name from airbnb.bidding_dtl where property_id=?;",
-    FETCH_BILLING_DTLS:"select trip.user_id, trip.property_id, trip.property_name,trip.billing_id,trip.trip_price,trip.checkin_date,trip.checkout_date,trip.no_of_guests from trip where trip.trip_id=?;",
+    FETCH_BILLING_DTLS:"select trip.user_id, trip.property_id, trip.property_name,trip.trip_price,trip.checkin_date,trip.checkout_date,trip.no_of_guests, (select b.billing_id from airbnb.billing b where b.trip_id = trip.trip_id) as billing_id from trip trip where trip.trip_id=?;",
     FETCH_CITY_WISE_DATA: "SELECT property_id, property_name, SUM(trip.trip_price) as total_revenue,YEAR(date(trip.trip_approved_time)) as trip_year FROM trip WHERE trip.property_id IN (?) and trip.trip_status = 'ACCEPTED' GROUP BY property_id ,  property_name, trip_year ORDER BY trip_year limit ?;",
     FETCH_TOP_HOST:"SELECT host_id, host_name, sum(trip.trip_price) AS total_revenue FROM trip WHERE trip.trip_status = 'ACCEPTED' and month(date(trip.trip_approved_time)) = month(now()-interval 1 month) GROUP BY host_id, host_name ORDER BY total_revenue DESC LIMIT ?;",
     FETCH_TOP_PROP: "SELECT property_id,property_name, year(date(trip.trip_approved_time)) as trip_year,SUM(trip.trip_price) AS property_revenue FROM airbnb.trip WHERE trip.trip_status = 'ACCEPTED' GROUP BY property_id ,property_name, trip_year ORDER BY property_revenue DESC LIMIT ?;",
