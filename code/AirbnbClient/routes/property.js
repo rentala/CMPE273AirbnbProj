@@ -72,7 +72,7 @@ router.get('/id/:prop_id/:flow',function (req,res) {
 
                 var property = results.prop_array[0];
                 property.avg_ratings = avg_ratings;
-                res.render('./property/propertyDetails.ejs', {property: property});
+                res.render('./property/propertyDetails.ejs', {property: property,flow:flow});
             }
             else {
                 json_responses = {"status_code":results.statusCode};
