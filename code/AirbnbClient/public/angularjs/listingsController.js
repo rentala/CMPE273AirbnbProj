@@ -9,7 +9,7 @@
 	        	if(data.status_code == "200" ){
 	        		$scope.list = false;
 		        	$scope.list1 = true;
-					$scope.data=data.user;
+					$scope.user=data.user;
 		        	$scope.data=data.records;
 		        	console.log("dasdsada");
 	        	}

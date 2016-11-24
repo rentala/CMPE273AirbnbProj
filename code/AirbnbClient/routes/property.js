@@ -194,9 +194,9 @@ router.post('/bidProperty', function (req, res, next)  {
     var json_responses;
     
     var msg_payload;
-    var user_id = req.param("user_id");
+    var user_id = req.session.user_id;
     var property_id = req.param("property_id");
-    var bid_id = req.param("bid_id");
+    //var bid_id = req.param("bid_id");
     var bid_amount = req.param("bid_amount");
 
     msg_payload = {"user_id":user_id,"property_id":property_id, "bid_id":bid_id, "bid_amount":bid_amount};
@@ -241,7 +241,6 @@ router.post('/getResults', function (req, res, next)  {
 router.get('/myListings', function (req, res, next)  {
 	
 	var user_id = req.session.user_id;
-	console.log("user_id: "+ user_id);
 	var msg_payload = {"host_id":user_id};
     mq_client.make_request('my_listings_queue', msg_payload, function(err,results){
         if(err){
@@ -250,11 +249,10 @@ router.get('/myListings', function (req, res, next)  {
                     "status_code" : results.statusCode
                 };
         } else {
-        	console.log(JSON.stringify(results.records));
         	json_responses = {
                     "status_code" : results.statusCode,
                     "records":results.records,
-                    "user":request.session.user
+                    "user":req.session.user
                 };
         }
         res.send(json_responses);

@@ -323,14 +323,11 @@ router.get('/myTripDetails',function (req,res) {
     var json_responses;
     var msg_payload;
     var user_id = req.session.user_id;
-    console.log("inside");
-    console.log("inside"+user_id);
         msg_payload = {"user_id":user_id,"host_id":null};
 
         mq_client.make_request('myTrip_details_queue',msg_payload,function (err,results) {
             console.log("results-----------------"+results);
            if(err){
-               //Need to add tool to log error.
                tool.logError(err);
                json_responses = {"status_code":400};
                res.send(json_responses);
@@ -338,8 +335,7 @@ router.get('/myTripDetails',function (req,res) {
            }
            else {
                if(results.statusCode == 200){
-                   console.log("inside 200");
-                   json_responses = {"status_code":results.statusCode,"userTrips":results.userTrips,"user_id":user_id,"user":request.session.user};
+                   json_responses = {"status_code":results.statusCode,"userTrips":results.userTrips,"user_id":user_id,"user":req.session.user};
                }
                else {
                    json_responses = {"status_code":results.statusCode};
