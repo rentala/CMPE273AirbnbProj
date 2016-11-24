@@ -30,6 +30,8 @@ router.post('/search',function (req,res,next) {
             }
             else {
                 json_responses = {"status_code": results.statusCode};
+                req.session.msg = results.msg;
+                req.session.valid_property = results.valid_property
             }
         }
         res.send(json_responses);
@@ -208,11 +210,6 @@ router.post('/bidProperty', function (req, res, next)  {
 
 router.get('/searchResult', function (req, res, next)  {
 	
-	if(req.session.user){
-		res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
-		res.redirect('/');
-	}
-	else{
 	var msg = req.session.msg;
 	console.log("end_date: "+ msg.end_date);
 	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: req.session.user,start_date:msg.start_date,end_date: msg.end_date, guests: msg.guests},function(err, result) {
@@ -227,7 +224,6 @@ router.get('/searchResult', function (req, res, next)  {
 		console.log(err);
 		}
 		});
-	}
 });
 
 router.post('/getResults', function (req, res, next)  {

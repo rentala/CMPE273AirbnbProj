@@ -117,7 +117,7 @@ var searchProperty = {
 	                                    }
 	                                    else {
 	                                        res = {
-	                                            "statusCode": 401
+	                                            "statusCode": 401,"msg":msg
 	                                        };
 	                                        callback(null, res);
 	                                    }
@@ -125,7 +125,8 @@ var searchProperty = {
 	                                else {
 	                                    res = {
 	                                        "statusCode": 401,
-	                                        "errMsg": "There is no matching property for your query."
+	                                        "errMsg": "There is no matching property for your query.",
+	                                        "msg":msg
 	                                    };
 	                                    callback(null, res);
 	                                }
@@ -134,7 +135,7 @@ var searchProperty = {
 	                    }
 	                    else {
 	                        //No Matching Dates.
-	                        res = {"statusCode": 401};
+	                        res = {"statusCode": 401,"msg":msg};
 	                        callback(null, res);
 	                    }
 	                }

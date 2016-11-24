@@ -19,8 +19,8 @@ app.controller('homeController',function($scope,$http){
                 //console.log("Login successful");
                 window.location.assign("/api/property/searchResult");
             }
-            else if(data.status_code=="400"){
-                $scope.loginError="Wrong email address or password";
+            else if(data.status_code=="401"){
+            	window.location.assign("/api/property/searchResult");
             }
             else{
             	$rootScope.valid_property = "";
