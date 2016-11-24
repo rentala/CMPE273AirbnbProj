@@ -2,9 +2,9 @@
 
 var amqp = require('amqp'),
 	util = require('util'),
-	mongoURL = "mongodb://rentala:team5password@ds155097.mlab.com:55097/airbnb",
+	//mongoURL = "mongodb://rentala:team5password@ds155097.mlab.com:55097/airbnb",
 	// uncomment above and comment below line to make it work on mLab
-	//mongoURL = "mongodb://localhost:27017/airbnb",
+	mongoURL = "mongodb://localhost:27017/airbnb",
 	mongo = require("./db/mongo"),
     mysql = require("./db/mysql"),
 	cnn = amqp.createConnection({host:'127.0.0.1'});
@@ -17,6 +17,7 @@ var trip = require('./services/trip');
 var analytics = require('./services/analytics');
 var host = require('./services/host');
 var billing = require('./services/billing');
+var inbox = require('./services/inbox');
 
 var mongoConn;
 var connection;
@@ -139,6 +140,23 @@ cnn.on('ready', function(){
     });
     cnn.queue('delete_user_queue', function(q){
 		subscriber(q, profile.deleteUser );
+    });
+	cnn.queue('upload_pic_queue', function(q){
+		subscriber(q, profile.uploadPic );
+    });
+    cnn.queue('reload_user_queue', function(q){
+		subscriber(q, profile.reloadUser );
+    });
+    cnn.queue('user_completed_trips',function (q) {
+    	       subscriber(q,trip.user_completed_trips);
+    });
+    cnn.queue('my_listings_queue',function (q) {
+	       subscriber(q,property.myListings);
+    });
+    
+    //Inbox
+    cnn.queue('inbox_queue', function(q){
+    	subscriber(q, inbox.inbox);
     });
 });
 

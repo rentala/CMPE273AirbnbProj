@@ -15,7 +15,7 @@ router.post('/search',function (req,res,next) {
 
     var json_responses;
 
-    var msg_payload = {"city":city,"start_date":start_date,"end_date":end_date,"guests":guests,"user_id":user_id};
+    var msg_payload = {"city":city,"start_date":start_date,"end_date":end_date,"guests":parseInt(guests),"user_id":user_id};
 
     mq_client.make_request('search_property_queue', msg_payload, function(err,results){
         if(err){
@@ -30,6 +30,8 @@ router.post('/search',function (req,res,next) {
             }
             else {
                 json_responses = {"status_code": results.statusCode};
+                req.session.msg = results.msg;
+                req.session.valid_property = results.valid_property
             }
         }
         res.send(json_responses);
@@ -155,7 +157,8 @@ function mapReqToPayLoad(req) {
         zipcode: req.body.zipcode,
         country: req.body.country
     }
-    msg_payload.host_id = 1; //stub
+    //msg_payload.host_id = 1; //stub
+    msg_payload.host_id = req.session.user_id; 
     msg_payload.category = req.body.category
     msg_payload.coordinates = {
         x: req.body.coordinatesX,
@@ -213,6 +216,7 @@ router.post('/bidProperty', function (req, res, next)  {
 });
 
 router.get('/searchResult', function (req, res, next)  {
+	
 	var msg = req.session.msg;
 	console.log("end_date: "+ msg.end_date);
 	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: req.session.user,start_date:msg.start_date,end_date: msg.end_date, guests: msg.guests},function(err, result) {
@@ -232,6 +236,28 @@ router.get('/searchResult', function (req, res, next)  {
 router.post('/getResults', function (req, res, next)  {
 	console.log("assadsdsadsa"+JSON.stringify(req.session.user));
 	res.send({"valid_property":req.session.valid_property});
+});
+
+router.get('/myListings', function (req, res, next)  {
+	
+	var user_id = req.session.user_id;
+	console.log("user_id: "+ user_id);
+	var msg_payload = {"host_id":user_id};
+    mq_client.make_request('my_listings_queue', msg_payload, function(err,results){
+        if(err){
+			tool.logError(err);
+        	json_responses = {
+                    "status_code" : results.statusCode
+                };
+        } else {
+        	console.log(JSON.stringify(results.records));
+        	json_responses = {
+                    "status_code" : results.statusCode,
+                    "records":results.records
+                };
+        }
+        res.send(json_responses);
+    });
 });
 
 

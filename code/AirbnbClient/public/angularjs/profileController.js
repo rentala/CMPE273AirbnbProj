@@ -1,5 +1,25 @@
 var myProfile = angular.module('myProfile',[]);
     	myProfile.controller('myProfileController',function($scope,$http){
+    		
+    		$http({
+	            method:"POST",
+	            url:"/api/profile/loadProfile"
+	        }).success(function(data){
+	        	$scope.data=data.user;
+	        	$scope.first_name = data.user.first_name;
+				$scope.last_name = data.user.last_name;
+				$scope.phone = data.user.phone;
+				$scope.email = data.user.email;
+				$scope.street = data.user.street;
+				$scope.dob = data.user.dob;
+				$scope.aptNum = data.user.aptNum;
+				$scope.city = data.user.city;
+				$scope.state = data.user.state;
+				$scope.zipCode = data.user.zipCode;
+				$scope.ssn = data.user.ssn;
+				$scope.image = data.user.picture_path[0].filename;
+	        })
+    		
     		$scope.card1=true;
     		$scope.card=false;
     		$scope.profile = function(){
@@ -47,25 +67,4 @@ var myProfile = angular.module('myProfile',[]);
 					$scope.msg = "Updated Successfully";
     	        })
     		}
-    		
-    			$http({
-    	            method:"POST",
-    	            url:"/api/profile/loadProfile"
-    	        }).success(function(data){
-    	        	$scope.data=data.user;
-    	        	$scope.first_name = data.user.first_name;
-					$scope.last_name = data.user.last_name;
-					$scope.phone = data.user.phone;
-					$scope.email = data.user.email;
-					$scope.street = data.user.street;
-					$scope.dob = data.user.dob;
-					$scope.aptNum = data.user.aptNum;
-					$scope.city = data.user.city;
-					$scope.state = data.user.state;
-					$scope.zipCode = data.user.zipCode;
-					$scope.ssn = data.user.ssn;
-    	        	alert(data.user);
-    	        })
-    			
-
     	});

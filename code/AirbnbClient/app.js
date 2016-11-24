@@ -1,4 +1,4 @@
-var express = require('express');
+	var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -19,6 +19,7 @@ var admin = require('./routes/admin');
 var trip = require('./routes/trip');
 var analytics = require('./routes/analytics');
 var billing = require("./routes/billing");
+var inbox = require('./routes/inbox');
 
 var app = express();
 
@@ -60,6 +61,7 @@ app.use('/api/admin',admin);
 app.use('/api/trip',trip);
 app.use('/api/analytics',analytics);
 app.use('/api/billing',billing);
+app.use('/api/inbox', inbox);
 
 
 
