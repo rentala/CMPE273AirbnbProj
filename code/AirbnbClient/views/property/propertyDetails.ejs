@@ -162,7 +162,8 @@
 	<!-- /.container-fluid -->
 </nav>
 <div style="margin-top:-18px">
-	<img ng-src="{{image}}" width="100%" height="400px">
+	<img src="<%="/uploads/"+ property.imagesPath[0].filename%>" width="100%" height="550px">
+
 </div>
 
 <!--start of property details-->
@@ -213,27 +214,29 @@
 			<span style="float:left;font-size: 20px">very well maintained place and has all the required amenities. It is near to light station, shark tank, children's discovery museum and airport </span>
 		</div>
 	</div>
-
+	<%if(property.reviews.length > 0){%>
 	<div class="col-sm-12" style="margin-top:20px;border-bottom:0.5px solid black">
 		<div class="col-sm-12">
 			<h2>Reviews: {{ratings}}</h2>
 		</div>
 	</div>
-
-	<div class="col-sm-12" style="margin-top:10px">
+	<%for(var i=0; i < property.reviews.length; i++){%>
+		<div class="col-sm-12" style="margin-top:10px">
 		<div class="panel panel-default">
-			<div class="panel-heading" style="background-color:transparent;">{{username1}}krishna</div>
-			<div class="panel-body">{{review1}}well maintained place</div>
+			<div class="panel-heading" style="background-color:transparent;">property.reviews[i].guest_email_id</div>
+			<div class="panel-body">property.reviews[i].rating_comments</div>
 		</div>
 	</div>
+	<%} } else {%>
 
-	<div class="col-sm-12" style="margin-top:10px">
-		<div class="panel panel-default">
-			<div class="panel-heading" style="background-color:transparent;">{{username2}}krishna</div>
-			<div class="panel-body">{{review2}}well maintained place</div>
+	<div class="col-sm-12" style="margin-top:20px;">
+		<br>
+		<br>
+		<div class="col-sm-12">
+			<h4>Nooo Reviews available for this property !</h4>
 		</div>
 	</div>
-
+	<%}%>
 </div>
 <div class="col-sm-3">
 	<div class="panel panel-default">
