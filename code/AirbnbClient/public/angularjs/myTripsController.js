@@ -1,5 +1,46 @@
 var app = angular.module('myTrip',[]);
-    	app.controller('myTripController',function($scope,$http){
+
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+           var model = $parse(attrs.fileModel);
+           var modelSetter = model.assign;
+
+           element.bind('change', function(){
+              scope.$apply(function(){
+                 modelSetter(scope, element[0].files[0]);
+              });
+           });
+        }
+     };
+  }]);
+
+app.service('fileUpload', [ '$http' ,function ( $http) {
+    this.uploadFileToUrl = function(file, uploadUrl,property_id){
+        var fd = new FormData();
+        var comment =document.getElementById("comment").value;
+		var rating = $('input:radio[name=rate]:checked').val();
+        fd.append('file', file);
+        fd.append('comment', comment);
+        fd.append('rating', rating);
+        fd.append('property_id', property_id);
+
+        $http.post(uploadUrl, fd, {
+           transformRequest: angular.identity,
+           headers: {'Content-Type': undefined}
+        })
+
+        .success(function(){
+        	document.getElementById("msg").innerHTML = "Success";
+        })
+
+        .error(function(){
+        });
+     }
+  }]);
+    	
+app.controller('myTripController',['$scope','fileUpload','$http', function($scope, fileUpload, $http){
     		$scope.notrip1=true;
     		$scope.notrip=false;
     		$http({
@@ -25,4 +66,35 @@ var app = angular.module('myTrip',[]);
 	        $scope.viewBill = function(trip_id, billing_id){
     			window.open("/api/billing/viewBill?trip_id="+trip_id+"&bill_id="+billing_id,'Bill',directories=0);
     		}
-    	})
+    		
+    		
+    			$scope.submitReview = function(property_id){
+    		           var file = $scope.myFile;
+    		          /* var comment =document.getElementById("comment").value;
+    	    			var rating = $('input:radio[name=rate]:checked').val();*/
+    		           console.log('file is ' );
+                       console.dir(file);
+    		           var uploadUrl = "/api/trip/submitReview";
+    		           fileUpload.uploadFileToUrl(file, uploadUrl,property_id);
+    		        };
+    			
+    			/*$http({
+    	            method:"POST",
+    	            url:"/api/trip/submitReview",
+    	            data:{
+    	            	file:file,
+    	            	rating:rating
+    	            }
+    	            }).success(function(data){
+    	        	if(data.status_code == "200" ){
+    	        		
+    		        	console.log($scope.data);
+    	        	}
+    	        	else{
+    	        		
+    	        	}
+    	        })	*/
+    			
+    			
+    			
+    	}])
