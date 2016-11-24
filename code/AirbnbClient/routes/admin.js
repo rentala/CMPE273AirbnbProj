@@ -90,6 +90,11 @@ router.post('/adminCheckLogin', function(req, res, next){
 		}
 	})(req, res, next);
 });
+
+router.get('/login', function(req, res){
+	
+})
+
 //End of admin routes.
 //One more comment.
 module.exports = router;
