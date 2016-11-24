@@ -15,7 +15,7 @@ router.post('/search',function (req,res,next) {
 
     var json_responses;
 
-    var msg_payload = {"city":city,"start_date":start_date,"end_date":end_date,"guests":guests,"user_id":user_id};
+    var msg_payload = {"city":city,"start_date":start_date,"end_date":end_date,"guests":parseInt(guests),"user_id":user_id};
 
     mq_client.make_request('search_property_queue', msg_payload, function(err,results){
         if(err){
