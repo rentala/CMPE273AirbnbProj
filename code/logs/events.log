@@ -1,2 +1,12 @@
 {"level":"info","message":"Hello world","timestamp":"2016-11-24T04:58:52.590Z"}
 {"level":"warn","message":"Warning message","timestamp":"2016-11-24T04:58:52.597Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-24T05:35:57.039Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-24T05:35:57.042Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-24T06:11:19.386Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-24T06:11:19.394Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-24T06:22:03.102Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-24T06:22:03.105Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-24T06:24:12.903Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-24T06:24:12.905Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-24T06:29:46.924Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-24T06:29:46.926Z"}
