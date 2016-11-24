@@ -1,0 +1,91 @@
+{"level":"info","message":"Error Id: eda23cee-0abb-43c5-be78-c9664b8940c9 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-22T02:22:59.840Z"}
+{"level":"info","message":"Error Id: a2d5de3a-8181-4d4e-bf24-d1abc4b4156a Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-22T08:05:34.284Z"}
+{"level":"info","message":"Error Id: 49bac401-f96c-4e0c-b998-559502be0724 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-22T08:05:38.608Z"}
+{"level":"info","message":"Error Id: dd4a94e0-4f9c-4555-a725-e614296428a2 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-22T08:40:16.758Z"}
+{"level":"info","message":"Error Id: 2ea64fcd-0994-46da-a3cb-483049431fd9 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-22T21:22:58.276Z"}
+{"level":"info","message":"Error Id: 9018e8e4-c633-4047-a31b-ddf65a6081f9 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-22T21:23:36.238Z"}
+{"level":"info","message":"Error Id: ff9041a4-d8f5-4d04-b065-26973a1571fa Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-22T21:24:40.466Z"}
+{"level":"info","message":"Error Id: 9da7e2be-50f6-4f38-8f7f-c8e60819122f Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-22T21:25:18.659Z"}
+{"level":"info","message":"Error Id: 969fcdb1-717d-4081-943d-ca2c596119ac Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-22T21:25:47.344Z"}
+{"level":"info","message":"Error Id: f015dc64-d5ef-4e37-9cba-58bf1ab69f02 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-22T21:30:40.193Z"}
+{"level":"info","message":"Error Id: 06ac27d8-1286-43c2-9a6e-d56351052fa0 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-22T21:59:48.586Z"}
+{"level":"info","message":"Error Id: 738e814f-b147-44c6-b2cb-7926ab11e892 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-22T22:01:10.220Z"}
+{"level":"info","message":"Error Id: df53225c-8a40-4cdf-b98f-0c323443f7f4 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-22T22:02:04.268Z"}
+{"level":"info","message":"Error Id: b276e20a-318e-4925-b08c-315eccd836b7 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-22T22:03:26.576Z"}
+{"level":"info","message":"Error Id: 1167e7ce-5338-45fd-86fc-3eefffa29519 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T00:39:31.187Z"}
+{"level":"info","message":"Error Id: be89a26f-a4c5-4078-909f-984329076b42 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T00:43:26.675Z"}
+{"level":"info","message":"Error Id: 5c9e28f4-cb81-478f-8a58-d936bf169475 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T00:43:53.434Z"}
+{"level":"info","message":"Error Id: 8711bd68-4aad-40ce-9598-15cfeeae2799 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T00:44:14.176Z"}
+{"level":"info","message":"Error Id: 5e26e999-ea2f-4a88-b617-c7a81167ab79 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T00:45:02.964Z"}
+{"level":"info","message":"Error Id: 30359dfb-b922-442d-ae75-a1c31bb43bd5 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T00:45:59.110Z"}
+{"level":"info","message":"Error Id: 190cc4c5-ed6a-4bbe-a45c-5370bb857616 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T00:46:29.486Z"}
+{"level":"info","message":"Error Id: 65bee037-d609-4a56-89bc-783c6d48c652 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T00:46:48.180Z"}
+{"level":"info","message":"Error Id: 4079d6f0-0baf-498f-8b1b-fd76ed8b7475 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T00:49:50.406Z"}
+{"level":"info","message":"Error Id: ce398d1e-9bad-4bc5-989e-f69843a7715a Error: {}","timestamp":"2016-11-23T00:50:01.891Z"}
+{"level":"info","message":"Error Id: 6f372fca-4581-48a5-b50a-ede27250e672 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:09:06.803Z"}
+{"level":"info","message":"Error Id: e0db61c1-be1c-4d3d-a86b-2ffcb9446c5c Error: {}","timestamp":"2016-11-23T01:09:07.225Z"}
+{"level":"info","message":"Error Id: 8fffe205-979c-45d3-842f-816fcdf61d6d Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:09:08.793Z"}
+{"level":"info","message":"Error Id: 8dc0ba95-8a2a-4ddd-94dc-c2d3a884f535 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:09:10.050Z"}
+{"level":"info","message":"Error Id: a07ee100-ccf1-482a-b200-78cfd196c44e Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:09:10.060Z"}
+{"level":"info","message":"Error Id: fa763610-1598-4527-9bad-b3af1888dbcc Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:09:10.063Z"}
+{"level":"info","message":"Error Id: a94e7760-49df-4bc3-ab60-f2c7e03609ac Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:10:04.933Z"}
+{"level":"info","message":"Error Id: 1e54f0d5-0205-4564-b9d9-6458d9c70e5e Error: {}","timestamp":"2016-11-23T01:10:05.256Z"}
+{"level":"info","message":"Error Id: afc8e2e5-cde7-4eb9-b216-a8901537d549 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:10:08.278Z"}
+{"level":"info","message":"Error Id: 42b042a3-d321-42d8-ab22-cddcd7993f5a Error: {}","timestamp":"2016-11-23T01:10:08.624Z"}
+{"level":"info","message":"Error Id: 8205102a-3199-44d5-9f0a-4092b2d8aa96 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:10:13.591Z"}
+{"level":"info","message":"Error Id: e8798a57-cdee-4af3-b45c-6ea1b195b779 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:10:14.768Z"}
+{"level":"info","message":"Error Id: 7d451792-3abb-477d-ab2e-a07b60c0610e Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:10:14.772Z"}
+{"level":"info","message":"Error Id: ad733efb-9fc8-475e-b141-490bdab3081d Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:10:33.242Z"}
+{"level":"info","message":"Error Id: 5a9eda87-8b4e-42d0-975d-ebb607ccd53b Error: {}","timestamp":"2016-11-23T01:10:33.877Z"}
+{"level":"info","message":"Error Id: ead5b1ea-37b4-4d54-97b1-2f8dec44cfd7 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:10:36.001Z"}
+{"level":"info","message":"Error Id: 24bcf3c7-c820-47ef-a01f-6b2d4a905a37 Error: {}","timestamp":"2016-11-23T01:10:36.361Z"}
+{"level":"info","message":"Error Id: 260c087e-bd69-4ef8-842f-bee311456287 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:10:37.637Z"}
+{"level":"info","message":"Error Id: 921159ce-aa04-400d-b440-01f5fa94dfb8 Error: {}","timestamp":"2016-11-23T01:10:37.980Z"}
+{"level":"info","message":"Error Id: 58f5be29-2e52-43f8-bc96-aa44a726dd88 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:10:38.834Z"}
+{"level":"info","message":"Error Id: fb91e0ce-3d94-49e8-9b1f-2b0baadc16a3 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:10:40.110Z"}
+{"level":"info","message":"Error Id: 007702f1-4c27-4678-be32-bdec548ef396 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:12:05.479Z"}
+{"level":"info","message":"Error Id: d70f9cfc-eca9-4610-b7da-146ea9ce022f Error: {}","timestamp":"2016-11-23T01:12:05.778Z"}
+{"level":"info","message":"Error Id: 7c5d58ae-0046-451a-95aa-f50bbcbb67c8 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:12:07.299Z"}
+{"level":"info","message":"Error Id: ef8102b6-4804-4ac4-bb93-15882963fcc1 Error: {}","timestamp":"2016-11-23T01:12:07.471Z"}
+{"level":"info","message":"Error Id: 4ee99b3c-c6a9-4387-837d-707e95d732af Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:12:08.037Z"}
+{"level":"info","message":"Error Id: d9dd6a91-0f2e-44f4-8c11-b753b9c0547a Error: {}","timestamp":"2016-11-23T01:12:08.173Z"}
+{"level":"info","message":"Error Id: 50802e70-7802-42ed-94e0-9cd9efbf7382 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:12:08.190Z"}
+{"level":"info","message":"Error Id: 49c34184-6ae2-4c22-a8ff-c459788e5e7f Error: {}","timestamp":"2016-11-23T01:12:08.344Z"}
+{"level":"info","message":"Error Id: 57ef77b1-f3dc-45dd-b056-eb4fbab7c39f Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:12:08.362Z"}
+{"level":"info","message":"Error Id: 85d82ffe-5239-4340-b938-f10b3ae5d8fc Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:14:08.409Z"}
+{"level":"info","message":"Error Id: 0498960d-94a0-43e6-848d-01146da3710f Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T01:15:58.936Z"}
+{"level":"info","message":"Error Id: eb3fe60d-c014-4694-88b5-dd597dbfcf08 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T01:17:25.037Z"}
+{"level":"info","message":"Error Id: 6fe27fb6-5c49-4b5b-9538-6fda6e69018d Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T01:19:48.443Z"}
+{"level":"info","message":"Error Id: bd755de0-01df-463b-9c41-43643a16294d Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T01:21:17.619Z"}
+{"level":"info","message":"Error Id: 150e9024-0b59-46fe-b8b4-d50cc84e09b6 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T01:23:35.483Z"}
+{"level":"info","message":"Error Id: 9cc8d8c7-7b0d-4c37-8df2-ad5a84015d5d Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T01:53:25.748Z"}
+{"level":"info","message":"Error Id: f6fe0638-813f-4c4e-abea-26d8657b27d8 Error: {}","timestamp":"2016-11-23T01:54:01.279Z"}
+{"level":"info","message":"Error Id: 4cc4cdde-a55f-4e74-b9c7-b103ed3b6e15 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T02:00:38.699Z"}
+{"level":"info","message":"Error Id: 41e2519e-38ad-418b-8f6c-71b687210f7f Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T07:00:18.475Z"}
+{"level":"info","message":"Error Id: d55e35bf-a9c2-4416-ab3c-39592685fb83 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T07:01:05.836Z"}
+{"level":"info","message":"Error Id: aea14bb3-9119-4720-a364-bac58e74379d Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:02:40.939Z"}
+{"level":"info","message":"Error Id: 229619f9-bc3e-4944-9f52-04e507ead6ad Error: {}","timestamp":"2016-11-23T07:03:08.415Z"}
+{"level":"info","message":"Error Id: 57c32183-9bca-42e9-a8de-b24299d0df21 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:03:13.468Z"}
+{"level":"info","message":"Error Id: 1ee1cac7-74fc-4021-a4fa-eec4fa82c568 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:03:21.995Z"}
+{"level":"info","message":"Error Id: 6e0ea23c-05cb-400a-9b55-d5957dfc20ff Error: {}","timestamp":"2016-11-23T07:03:22.983Z"}
+{"level":"info","message":"Error Id: 82c4b8bc-f0ab-4de5-8d3a-deda0b80c97f Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:03:29.402Z"}
+{"level":"info","message":"Error Id: 7772c897-3eda-4769-90c0-09601d1c8a7d Error: {}","timestamp":"2016-11-23T07:03:30.392Z"}
+{"level":"info","message":"Error Id: 89fbe9cc-9f39-4a9f-8eeb-92e1a41a447f Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:03:32.190Z"}
+{"level":"info","message":"Error Id: 409c9a8c-137e-4a81-82d6-efa3103bf643 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:03:32.444Z"}
+{"level":"info","message":"Error Id: 6e228013-403d-4afe-979c-2f725ad0420b Error: {}","timestamp":"2016-11-23T07:03:33.549Z"}
+{"level":"info","message":"Error Id: 36dd4a63-4a8e-45d2-b9f0-7dd7e1aee105 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:03:50.226Z"}
+{"level":"info","message":"Error Id: f9d85387-eac6-4f83-8f36-adeb4822c5fc Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:04:20.504Z"}
+{"level":"info","message":"Error Id: 13b7bc2c-3bb8-4483-a3b5-2e313d8fe359 Error: {}","timestamp":"2016-11-23T07:04:22.727Z"}
+{"level":"info","message":"Error Id: 933c11bf-88d0-4851-94c2-6531f592b164 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:04:47.545Z"}
+{"level":"info","message":"Error Id: 0b382586-f7dc-4520-856c-8381c61f18c1 Error: {}","timestamp":"2016-11-23T07:04:49.043Z"}
+{"level":"info","message":"Error Id: 25710488-1f1b-4920-885a-13ab244c91ff Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:04:56.161Z"}
+{"level":"info","message":"Error Id: 92ed0385-325a-4301-8db6-0353d87a06dd Error: {}","timestamp":"2016-11-23T07:04:56.769Z"}
+{"level":"info","message":"Error Id: 6341ed65-61f8-436e-9786-b85e660b64bf Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:04:58.940Z"}
+{"level":"info","message":"Error Id: 5e5d84ee-5b6d-4bd0-8407-0f4f980e3074 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:05:12.050Z"}
+{"level":"info","message":"Error Id: df120cfc-791d-4a2b-b57f-4fe775c6c7cd Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:09:04.257Z"}
+{"level":"info","message":"Error Id: b4e17587-8fea-4923-94e4-3b768a90c2a0 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:14:34.313Z"}
+{"level":"info","message":"Error Id: c024f9de-8e12-48b5-b5ef-ccfeb983aee1 Error: {\"name\":\"MongoError\",\"message\":\"Topology was destroyed\"}","timestamp":"2016-11-23T07:17:42.239Z"}
+{"level":"info","message":"Error Id: de2dcdf5-3923-4f4d-8708-1e7a66188427 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T07:23:16.950Z"}
+{"level":"info","message":"Error Id: afbec722-b780-4667-8845-b8ff8d33478c Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T07:46:49.357Z"}
+{"level":"info","message":"Error Id: 99a0c567-0983-4c31-9323-33a5d336b201 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T07:51:15.180Z"}
+{"level":"info","message":"Error Id: fd2f0ab1-4e31-45d9-803b-b32cfa21d689 Error: {\"name\":\"MongoError\",\"message\":\"server instance pool was destroyed\"}","timestamp":"2016-11-23T07:51:56.857Z"}
