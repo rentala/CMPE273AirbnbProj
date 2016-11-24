@@ -37,7 +37,7 @@ router.post('/search',function (req,res,next) {
     });
 });
 
-router.get('/prop',function (req,res) {
+router.get('/:prop_id',function (req,res) {
 
     var prop_id = req.param("prop_id");
     var json_responses;
@@ -54,19 +54,28 @@ router.get('/prop',function (req,res) {
         }
         else {
             if(results.statusCode == 200){
-                ratings_array = results.prop_array[0].ratings;
-                console.log(ratings_array);
-                for(var i=0;i<ratings_array.length;i++){
-                    total_ratings += ratings_array[i].rating_stars;
+                if(results.prop_array[0].hasOwnProperty('ratings')){
+                    ratings_array = results.prop_array[0].ratings;
+                    console.log(ratings_array);
+                    for(var i=0;i<ratings_array.length;i++){
+                        total_ratings += ratings_array[i].rating_stars;
+                    }
+                    avg_ratings = (total_ratings/ratings_array.length);
+                } else{
+                    //no ratings yet
+                    avg_ratings = 0;
                 }
-                avg_ratings = (total_ratings/ratings_array.length);
-                json_responses = {"status_code":results.statusCode,"prop_array":results.prop_array,"avg_ratings":avg_ratings};
+
+                var property = results.prop_array[0];
+                property.avg_ratings = avg_ratings;
+                res.render('./property/propertyDetails.ejs', {property: property});
             }
             else {
                 json_responses = {"status_code":results.statusCode};
+                res.render('./property/productDetails.ejs', { productNotFound : true});
             }
         }
-        res.send(json_responses);
+
         res.end();
     });
 });
@@ -119,19 +128,18 @@ router.post('/list', function (req, res, next)  {
         var msg_payload = mapReqToPayLoad(req);
 
         mq_client.make_request('list_property_queue', msg_payload, function(err,results){
+            res.statusCode = results.code;
             if(err){
             	tool.logError(err);
                 json_responses = {
                     "failed" : "failed"
                 };
+                req.redirect('/host?err=1');
             } else {
-                json_responses = {
-                    "propertyId" : results.propertyId[0],
-                    "statusCode" : results.code
-                };
+                req.flash('hostConfirmation', true);
+                req.flash('propertyId', results.propertyId[0]);
+                res.redirect('/host/confirmation');
             }
-            res.statusCode = results.code;
-            res.send(json_responses);
         });
     });
 
@@ -154,15 +162,14 @@ function mapReqToPayLoad(req) {
         y: req.body.coordinateY
     }
     msg_payload.description = req.body.description;
-    msg_payload.guests = req.body.guests;
-    msg_payload.bedrooms = req.body.bedrooms;
-    msg_payload.for_bid = req.body.forBid == 1 ? true: false;
+    msg_payload.guests = parseInt(req.body.guests);
+    msg_payload.bedrooms = parseInt(req.body.bedrooms);
+    msg_payload.is_auction = req.body.forBid == 1 ? true: false;
     msg_payload.start_date = req.body.start_date;
     msg_payload.end_date = req.body.end_date;
     msg_payload.price = { per_night: req.body.per_night, per_week:  req.body.per_week,  per_month:  req.body.per_month };
     return msg_payload;
 }
-
 var getID = function () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
