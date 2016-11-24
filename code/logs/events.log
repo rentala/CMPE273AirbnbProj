@@ -10,3 +10,7 @@
 {"level":"warn","message":"Warning message","timestamp":"2016-11-24T06:24:12.905Z"}
 {"level":"info","message":"Hello world","timestamp":"2016-11-24T06:29:46.924Z"}
 {"level":"warn","message":"Warning message","timestamp":"2016-11-24T06:29:46.926Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-24T06:47:15.023Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-24T06:47:15.025Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-24T06:49:04.876Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-24T06:49:04.879Z"}
