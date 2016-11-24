@@ -9,13 +9,15 @@
 	        	if(data.status_code == "200" ){
 	        		$scope.list = false;
 		        	$scope.list1 = true;
+					$scope.data=data.user;
 		        	$scope.data=data.records;
 		        	console.log("dasdsada");
 	        	}
 	        	else{
 	        		$scope.list = true;
 	        		$scope.list1 = false;
-	        		$scope.data=null;	
+	        		$scope.data=null;
+					$scope.data=data.user;
 	        	}
 	        })	
         })

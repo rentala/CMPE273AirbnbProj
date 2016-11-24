@@ -339,7 +339,7 @@ router.get('/myTripDetails',function (req,res) {
            else {
                if(results.statusCode == 200){
                    console.log("inside 200");
-                   json_responses = {"status_code":results.statusCode,"userTrips":results.userTrips,"user_id":user_id};
+                   json_responses = {"status_code":results.statusCode,"userTrips":results.userTrips,"user_id":user_id,"user":request.session.user};
                }
                else {
                    json_responses = {"status_code":results.statusCode};

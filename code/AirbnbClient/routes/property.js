@@ -253,7 +253,8 @@ router.get('/myListings', function (req, res, next)  {
         	console.log(JSON.stringify(results.records));
         	json_responses = {
                     "status_code" : results.statusCode,
-                    "records":results.records
+                    "records":results.records,
+                    "user":request.session.user
                 };
         }
         res.send(json_responses);

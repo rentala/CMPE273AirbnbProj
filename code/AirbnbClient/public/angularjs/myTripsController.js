@@ -54,12 +54,14 @@ app.controller('myTripController',['$scope','fileUpload','$http', function($scop
 	        		$scope.notrip1 = false;
 		        	$scope.notrip = true;
 		        	$scope.data=data.userTrips;
+					$scope.data=data.user;
 		        	$scope.user_id=data.user_id;
 		        	console.log($scope.data);
 	        	}
 	        	else{
 	        		$scope.notrip1 = true;
 	        		$scope.notrip = false;
+					$scope.data=data.user;
 	        		$scope.data=null;	
 	        	}
 	        })	
