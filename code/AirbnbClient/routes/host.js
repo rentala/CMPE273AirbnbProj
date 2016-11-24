@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 router.get('/confirmation', function(req, res, next) {
     console.log("in confirmation");
     if(req.flash('hostConfirmation')){
-        res.render('./host/confirmation.ejs', { url: "/api/property/id/"+req.flash('propertyId')});
+        res.render('./host/confirmation.ejs', { url: "/api/property/id/"+req.flash('propertyId')+"/view"});
     } else{
         req.redirect('/host?err=1');
     }

@@ -39,9 +39,11 @@ router.post('/search',function (req,res,next) {
     });
 });
 
-router.get('/id/:prop_id',function (req,res) {
+router.get('/id/:prop_id/:flow',function (req,res) {
 
     var prop_id = req.param("prop_id");
+    var flow = req.param("flow");
+    console.log("flow"+flow+"prop_"+prop_id);
     var json_responses;
 
     var msg_payload={"prop_id":prop_id};
