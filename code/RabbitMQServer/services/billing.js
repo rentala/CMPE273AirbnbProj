@@ -7,7 +7,7 @@ var view = {
     handle_request: function (connection,msg,callback) {
 
         var res = {};
-console.log("msg.trip_id"+msg.trip_id);
+        console.log("msg.trip_id"+msg.trip_id);
         mysql.execute_query(function (err,result) {
             if(err){
                 tool.logError(err);
@@ -59,7 +59,7 @@ var deleteBill = {
                 res = {"statusCode":200};
                 callback(null, res);
             }
-        },sql_queries.DELETE_BILL,[msg.bill_id]);
+        },sql_queries.DELETE_BILL,[msg.bill_id,'CREATED']);
     }
 };
 
