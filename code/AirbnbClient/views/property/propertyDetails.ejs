@@ -10,6 +10,23 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWlhSOzoAYUi3wmo6rbzJRBV4yohQvXBY&libraries=places&callback=initAutocomplete"
 	></script>
+	<style>
+		#img_container {
+			position:relative;
+		}
+
+		.button {
+			position:absolute;
+			float:left;
+			bottom:10px;
+			left:10px;
+			width:100px;
+			height:30px;
+			background-color:white;
+			border-radius:10px;
+		}
+
+	</style>
 	<script>
 		var app = angular.module('airbnbApp',[]);
 		app.controller('propertyDetailsController',function($scope,$http){
@@ -131,7 +148,7 @@
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#" ><img src="/airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
+			<a class="navbar-brand" href="#" ><img src="/images/airbnb-logo.png	" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -161,10 +178,56 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
-<div style="margin-top:-18px">
+<div style="margin-top:-18px" id="img_container">
 	<img src="<%="/uploads/"+ property.imagesPath[0].filename%>" width="100%" height="550px">
-
+	<button class="button" data-toggle="modal" data-target=".bs-example-modal-lg">view photos</button>
 </div>
+
+<!-- Start of coroussal-->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+
+
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner">
+					<div class="item active">
+						<img class="img-responsive" src="http://placehold.it/1200x600/555/000&text=One" alt="...">
+						<div class="carousel-caption">
+							One Image
+						</div>
+					</div>
+					<div class="item">
+						<img class="img-responsive" src="http://placehold.it/1200x600/fffccc/000&text=Two" alt="...">
+						<div class="carousel-caption">
+							Another Image
+						</div>
+					</div>
+					<div class="item">
+						<img class="img-responsive" src="http://placehold.it/1200x600/fcf00c/000&text=Three" alt="...">
+						<div class="carousel-caption">
+							Another Image
+						</div>
+					</div>
+				</div>
+
+				<!-- Controls -->
+				<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+				</a>
+				<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- End of coroussal-->
+
 
 <!--start of property details-->
 <div class="col-sm-1"></div>
