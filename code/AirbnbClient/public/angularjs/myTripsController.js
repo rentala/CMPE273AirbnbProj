@@ -25,7 +25,7 @@ app.service('fileUpload', [ '$http' ,function ( $http) {
         fd.append('comment', comment);
         fd.append('rating', rating);
         fd.append('property_id', property_id);
-
+        
         $http.post(uploadUrl, fd, {
            transformRequest: angular.identity,
            headers: {'Content-Type': undefined}
@@ -33,6 +33,7 @@ app.service('fileUpload', [ '$http' ,function ( $http) {
 
         .success(function(){
         	document.getElementById("msg").innerHTML = "Success";
+        	window.location.reload();
         })
 
         .error(function(){
@@ -53,6 +54,7 @@ app.controller('myTripController',['$scope','fileUpload','$http', function($scop
 	        		$scope.notrip1 = false;
 		        	$scope.notrip = true;
 		        	$scope.data=data.userTrips;
+		        	$scope.user_id=data.user_id;
 		        	console.log($scope.data);
 	        	}
 	        	else{
@@ -67,34 +69,9 @@ app.controller('myTripController',['$scope','fileUpload','$http', function($scop
     			window.open("/api/billing/viewBill?trip_id="+trip_id+"&bill_id="+billing_id,'Bill',directories=0);
     		}
     		
-    		
     			$scope.submitReview = function(property_id){
     		           var file = $scope.myFile;
-    		          /* var comment =document.getElementById("comment").value;
-    	    			var rating = $('input:radio[name=rate]:checked').val();*/
-    		           console.log('file is ' );
-                       console.dir(file);
     		           var uploadUrl = "/api/trip/submitReview";
     		           fileUpload.uploadFileToUrl(file, uploadUrl,property_id);
     		        };
-    			
-    			/*$http({
-    	            method:"POST",
-    	            url:"/api/trip/submitReview",
-    	            data:{
-    	            	file:file,
-    	            	rating:rating
-    	            }
-    	            }).success(function(data){
-    	        	if(data.status_code == "200" ){
-    	        		
-    		        	console.log($scope.data);
-    	        	}
-    	        	else{
-    	        		
-    	        	}
-    	        })	*/
-    			
-    			
-    			
     	}])
