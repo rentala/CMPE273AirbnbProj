@@ -123,11 +123,9 @@ var searchProperty = {
 	                                    }
 	                                }
 	                                else {
-	                                    res = {
-	                                        "statusCode": 401,
-	                                        "errMsg": "There is no matching property for your query.",
-	                                        "msg":msg
-	                                    };
+										res = {
+											"statusCode": 200, "valid_property": records,"msg":msg
+										};
 	                                    callback(null, res);
 	                                }
 	                            }

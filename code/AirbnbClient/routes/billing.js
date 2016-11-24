@@ -36,7 +36,6 @@ router.get('/view',function (req,res) {
 });
 
 router.post('/deleteBill',function (req, res) {
-
     var json_responses;
     var bill_id = req.param("bill_id");
     var msg_payload = {"bill_id":bill_id};
