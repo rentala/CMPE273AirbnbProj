@@ -64,7 +64,7 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                     for(var i=0;i<ratings_array.length;i++){
                         total_ratings += ratings_array[i].rating_stars;
                     }
-                    avg_ratings = (total_ratings/ratings_array.length);
+                    avg_ratingbidPropertys = (total_ratings/ratings_array.length);
                 } else{
                     //no ratings yet
                     avg_ratings = 0;
@@ -198,10 +198,11 @@ router.post('/bidProperty', function (req, res, next)  {
     var msg_payload;
     var user_id = req.session.user_id;
     var property_id = req.param("property_id");
-    //var bid_id = req.param("bid_id");
+    var bid_id = 1;
     var bid_amount = req.param("bid_amount");
+    var property_name = req.param("property_name");
 
-    msg_payload = {"user_id":user_id,"property_id":property_id, "bid_id":bid_id, "bid_amount":bid_amount};
+    msg_payload = {"user_id":user_id,"property_id":property_id, "bid_id":bid_id, "bid_amount":bid_amount, "property_name":property_name};
     mq_client.make_request('bid_property_queue', msg_payload, function(err,results){
         if(err){
 			tool.logError(err);
