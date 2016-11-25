@@ -188,6 +188,7 @@
 	<%}%>
 </div>
 <div class="col-sm-3">
+<%  if(flow=='book') {%>
 	<div class="panel panel-default">
 		<div class="panel-heading" style="background-color:black;height:40px">
 			<font style="color:white;float:left;">
@@ -195,14 +196,12 @@
 			</font>
 		</div>
 		<div class="panel-body">
-		<%  if(flow =='bid') {%>
+		<%  if(property.is_auction==true) {%>
 			<!-- only for auction -->
-			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">${{per_night}}*{{noOfdays}}nights</font><font style="float:right;">{{totalPrice}}12</font></div>
-			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Cleaning fee</font><font style="float:right;">- </font></div>
-			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;">${{totalPrice}}12 </font></div>
-			<input placeholder="Bid Amount" class="form-control" type="text"   name="bid_amount"  ng-model="bid_amount">
-			<input type="button" class="btn btn-danger" ng-click="makeBid(<%=property._id%>,<%=property.description%>)" style="width:100%;margin-top:10px" value="Make Bid">
-		<% } else if(flow =='book') {%>
+			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Minimum bid</font><font style="float:right;">$ <%=min_bid%></font></div>
+			<input placeholder="Bid Amount" class="form-control" type="integer"   name="bid_amount"  ng-model="bid_amount">
+			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.description%>',bid_amount,'<%=min_bid%>')" style="width:100%;margin-top:10px" value="Make Bid">
+		<% } else if(property.is_auction==false) {%>
 			<label>Check In</label><input placeholder="Check In" class="form-control" type="text" name= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_in"  ng-model="check_in" >
 			<label>Check Out</label><input placeholder="Check Out" class="form-control" type="text" name= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"  ng-model="check_out" >
 
@@ -213,6 +212,7 @@
 		<%}%>
 		</div>
 	</div>
+			<%}%>
 </div>
 <div class="col-sm-1"></div>
 <div class="col-sm-12">
