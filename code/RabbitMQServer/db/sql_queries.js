@@ -20,5 +20,6 @@ constants.define(exports, {
     UPDATE_TRIP_DATES : "update airbnb.trip set trip_status = 'Pending', checkin_date=?, checkout_date=?, no_of_guests= ?, trip_price=? where trip.trip_id=?",
     FETCH_PENDING_TRIPS: "select trip.user_id,trip.property_id,trip.property_name,trip.checkin_date,trip.checkout_date,trip.no_of_guests,trip.trip_price,trip.trip_status from airbnb.trip where trip.host_id=? and trip.trip_status='Pending';",
     INSERT_BID : "Insert into airbnb.bidding_dtl (bid_id, bidder_id, bid_price, property_id, property_name) values ( ?,?,?,?,?)",
-    INBOX : "select * from airbnb.trip where host_id = ? and trip_status = 'PENDING';"
+    INBOX : "select * from airbnb.trip where host_id = ? and trip_status = 'PENDING';",
+    FETCH_MAX_BID:"SELECT max_bid_price,host_min_amt FROM airbnb.bidding  WHERE property_id=?;",
 });

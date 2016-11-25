@@ -107,9 +107,12 @@ var app = angular.module('airbnbApp',[]);
 				});
 			}
 			
-			$scope.makeBid = function(property_id,description){
+			$scope.makeBid = function(property_id,description,bid_amount,minBid){
 				var bid_amount = $scope.bid_amount;
-				
+				if(bid_amount <=minBid){
+					alert("Please bid higher than $"+minBid);
+				}
+				else{
 				$http({
 		            method:"POST",
 		            url:"/api/property/bidProperty",
@@ -119,12 +122,10 @@ var app = angular.module('airbnbApp',[]);
 		            	property_name:description
 		            }
 		        }).success(function(data){
-		        	$scope.valid_property=data.valid_property;
-		        	valid_property=data.valid_property;
-		        	alert(data.valid_property);
+		        	if(data.status_code == "200")
+		        		alert("Bid Submitted");
+		        		window.location.reload();
 		        })
-				
-				
+				}
 			}
-			
 		})
