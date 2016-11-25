@@ -10,12 +10,54 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/angularjs/myTripsController.js"></script>
 </head>
+<style type="text/css">
+        *{
+    margin: 0;
+    padding: 0;
+}
+.rate {
+    border: 1px solid #cccccc;
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+    </style>
 <body ng-app="myTrip" ng-controller="myTripController">
 	<nav class="navbar navbar-default" style="background-color:white; ">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#" ><img src="airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
+            <a class="navbar-brand" href="#" ><img src="/images/airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
@@ -24,18 +66,17 @@
                     <input type="text" placeholder="Where to?" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px"></span></input>
                 </div>
                 <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
-                <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ng-click="hostPage()">Become a host</button>
-                <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ng-click="trips()">Trips<span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
+                <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px"  ><a href = "/host" title = "You could earn $539 sharing your home in San Jose in a week. Become a host."> Become a host</a></button>
+                <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ><a href="/api/profile/myTrips" title = "shows your trip">Trips</a><span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
                 <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
 
             </form>
 
             <ul class="nav navbar-nav navbar-right" style="margin-top:1px">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">firstName <span class="caret"></span></a><!--Add first Name-->
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=user_dtls.first_name%> <span class="caret"></span></a><!--Add first Name-->
                     <ul class="dropdown-menu">
-                        <li><a data-ng-click="editProfile()">Edit Profile</a></li>
-                        <li><a data-ng-click="logout()">Logout</a></li>
+                        <li><a href="/api/auth/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -50,9 +91,9 @@
             <ul class="nav navbar-nav">
                 <li><a data-ng-click="dashboard()">Dashboard</a></li>
                 <li><a data-ng-click="inbox()">Inbox</a></li>
-                <li><a data-ng-click="yourListing()">Your Listings</a></li>
-                <li class="active"><a data-ng-click="yourTrip">Your Trips</a></li>
-                <li><a data-ng-click="profile()">Profile</a></li>
+                <li><a href="/api/profile/yourListings">Your Listings</a></li>
+                <li><a href="/api/profile/myTrips">Your Trips</a></li>
+                <li><a href="/api/profile/editProfile">Profile</a></li>
             </ul>
         </div>
     </nav>
@@ -70,7 +111,7 @@
     <div class="col-sm-1"></div>
 </div>
 
-<div class="col-sm-12" data-ng-hide="notrip1" style="margin-top:30px;">
+<div class="col-sm-12" data-ng-hide="notrip1" style="margin-top:30px;" >
     <div class="col-sm-1"></div>
     <div class="col-sm-10" style="border:0.5px solid black">
         <div data-ng-repeat="x in data">
@@ -80,20 +121,36 @@
                       <!--    <div class="col-sm-4"><img src="/uploads/{{x.imagesPath[0].filename}}" class="panel-image-preview" width="100%" height="100%"></div>-->
 
                         <div>Trip Price: {{x.trip_price}}</div> <br>
-                        <div>Property: {{x.property_name}}</div> <br>
+                        <div>Property: <a href="/api/property/id/{{x.property_id}}/view">{{x.property_name}}</a></div> <br>
                         <div>Trip Status: {{x.trip_status}}</div> <br>
                         <div>Guests: {{x.no_of_guests}}</div> <br>
-						<div>{{x.checkin_date}} to {{x.checkout_date}}</div> <br>     
+						<div>{{x.checkin_date}} to {{x.checkout_date}}</div> <br>   
+						<div ng-if= "x.trip_status === 'COMPLETED'" ng-controller="myTripController">
+						<div class="rate">
+					        <input type="radio" id="star5" name="rate" value="5" /><label for="star5" title="text">5 stars</label>
+					        <input type="radio" id="star4" name="rate" value="4" /><label for="star4" title="text">4 stars</label>
+					        <input type="radio" id="star3" name="rate" value="3" /><label for="star3" title="text">3 stars</label>
+					        <input type="radio" id="star2" name="rate" value="2" /><label for="star2" title="text">2 stars</label>
+					        <input type="radio" id="star1" name="rate" value="1" /><label for="star1" title="text">1 star</label>
+				   		 </div>  
+				   		 <div>
+				   		 &nbsp;<textarea id = "comment" rows="4" cols="80" ng-wrap="comment"></textarea>
+				   		 </div><br>
+				   		 <input type = "file" file-model = "myFile"/>
+				   		 <br>
+				   		 <button  value= "Submit Review" ng-click="submitReview(x.property_id)"> Submit Review</button>
+				   		 <p id="msg"></p>
+				   		 </div>
                     </div>
                     <div class="panel-footer">
-                  	  <div ng-if= "x.trip_status === 'ACCEPTED'" >
+                  	  <div ng-if= "x.trip_status === 'ACCEPTED'" ng-controller="myTripController">
                   	  	<input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">
                   	  </div>
                   	  <div ng-if= "x.trip_status === 'PENDING'" >
                   	  	<input type = "button" value= "EDIT TRIP">
                   	  </div>
-                	  <div ng-if= "x.trip_status === 'COMPLETED'" >
-                  	  	<input type = "button" value= "REVIEW"> <input type = "button" value= "View Bill">
+                	  <div ng-if= "x.trip_status === 'COMPLETED'" ng-controller="myTripController">
+                  	  	 <input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">
                   	  </div>
                     </div>
                 </div>

@@ -10,128 +10,31 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWlhSOzoAYUi3wmo6rbzJRBV4yohQvXBY&libraries=places&callback=initAutocomplete"
 	></script>
-	<script>
-		var app = angular.module('airbnbApp',[]);
-		app.controller('propertyDetailsController',function($scope,$http){
-			$scope.image = "paris.jpg";
-			$scope.profile = function(){
-				alert("krishna");
-			}
-			$scope.logout = function(){
-				alert("skdafhaskdjlfhksdjfhksdfhsfsdhf");
-			}
-			$scope.description = "Nice clean room in downtown San Jose";
-			var address = [{street:"Alameda",state:"CA",city:"San Jose"}];
-			$scope.address = address;
-			$scope.ratings = "3.5/5";
-			$scope.bedrooms = "2";
-			$scope.guests = "3";
+	<script src="/angularjs/propertySearchController.js"></script>
+	<style>
+		#img_container {
+			position:relative;
+		}
 
-			var map;
-			var infoWindow;
-			// markersData variable stores the information necessary to each marker
-			var markersData = [
-				{
-					lat: 40.6386333,
-					lng: -8.745,
-					name: "Camping Praia da Barrasdsjhss",
-					address1:"Rua Diogo Cão, 125",
-					address2: "Praia da Barra",
-					postalCode: "3830-772 Gafanha da Nazaré" // don't insert comma in the last item of each marker
-				}
-			];
+		.button {
+			position:absolute;
+			float:left;
+			bottom:10px;
+			left:10px;
+			width:100px;
+			height:30px;
+			background-color:white;
+			border-radius:10px;
+		}
 
-
-			function initialize() {
-				var mapOptions = {
-					center: new google.maps.LatLng(40.601203,-8.668173),
-					zoom: 9,
-					mapTypeId: 'roadmap',
-				};
-
-				map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-				// a new Info Window is created
-				infoWindow = new google.maps.InfoWindow();
-
-				// Event that closes the Info Window with a click on the map
-				google.maps.event.addListener(map, 'click', function() {
-					infoWindow.close();
-				});
-
-				// Finally displayMarkers() function is called to begin the markers creation
-				displayMarkers();
-			}
-			google.maps.event.addDomListener(window, 'load', initialize);
-
-
-			// This function will iterate over markersData array
-			// creating markers with createMarker function
-			function displayMarkers(){
-
-				// this variable sets the map bounds according to markers position
-				var bounds = new google.maps.LatLngBounds();
-
-				// for loop traverses markersData array calling createMarker function for each marker
-				for (var i = 0; i < markersData.length; i++){
-
-					var latlng = new google.maps.LatLng(markersData[i].lat, markersData[i].lng);
-					var name = markersData[i].name;
-					var address1 = markersData[i].address1;
-					var address2 = markersData[i].address2;
-					var postalCode = markersData[i].postalCode;
-
-					createMarker(latlng, name, address1, address2, postalCode);
-
-					// marker position is added to bounds variable
-					bounds.extend(latlng);
-				}
-
-				// Finally the bounds variable is used to set the map bounds
-				// with fitBounds() function
-				map.fitBounds(bounds);
-			}
-
-			// This function creates each marker and it sets their Info Window content
-			function createMarker(latlng, name, address1, address2, postalCode){
-				var marker = new google.maps.Marker({
-					map: map,
-					position: latlng,
-					title: name
-				});
-
-				// This event expects a click on a marker
-				// When this event is fired the Info Window content is created
-				// and the Info Window is opened.
-				google.maps.event.addListener(marker, 'click', function() {
-
-					// Creating the content to be inserted in the infowindow
-					var iwContent = '<div id="iw_container">' +
-							'<div class="iw_title">' + name + '</div>' +
-							'<div class="iw_content">' + address1 + '<br />' +
-							address2 + '<br />' +
-							postalCode + '</div></div>';
-
-					// including content to the Info Window.
-					infoWindow.setContent(iwContent);
-
-					// opening the Info Window in the current map and at the current marker location.
-					infoWindow.open(map, marker);
-				});
-			}
-
-		})
-
-
-
-	</script>
+	</style>
 </head>
-<body>
+<body ng-app ="airbnbApp" ng-controller="propertyDetailsController">
 <nav class="navbar navbar-default" style="background-color:white; ">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#" ><img src="/airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
+			<a class="navbar-brand" href="#" ><img src="/images/airbnb-logo.png	" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
 		</div>
 
 		<!-- Collect the nav links, forms, and other content for toggling -->
@@ -161,9 +64,56 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
-<div style="margin-top:-18px">
-	<img ng-src="{{image}}" width="100%" height="400px">
+<div style="margin-top:-18px" id="img_container">
+	<img src="<%="/uploads/"+ property.imagesPath[0].filename%>" width="100%" height="550px">
+	<button class="button" data-toggle="modal" data-target=".bs-example-modal-lg">view photos</button>
 </div>
+
+<!-- Start of coroussal-->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+
+
+				<!-- Wrapper for slides -->
+				<div class="carousel-inner">
+					<div class="item active">
+						<img class="img-responsive" src="http://placehold.it/1200x600/555/000&text=One" alt="...">
+						<div class="carousel-caption">
+							One Image
+						</div>
+					</div>
+					<div class="item">
+						<img class="img-responsive" src="http://placehold.it/1200x600/fffccc/000&text=Two" alt="...">
+						<div class="carousel-caption">
+							Another Image
+						</div>
+					</div>
+					<div class="item">
+						<img class="img-responsive" src="http://placehold.it/1200x600/fcf00c/000&text=Three" alt="...">
+						<div class="carousel-caption">
+							Another Image
+						</div>
+					</div>
+				</div>
+
+				<!-- Controls -->
+				<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+					<span class="glyphicon glyphicon-chevron-left"></span>
+				</a>
+				<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+					<span class="glyphicon glyphicon-chevron-right"></span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- End of coroussal-->
+
 
 <!--start of property details-->
 <div class="col-sm-1"></div>
@@ -213,27 +163,29 @@
 			<span style="float:left;font-size: 20px">very well maintained place and has all the required amenities. It is near to light station, shark tank, children's discovery museum and airport </span>
 		</div>
 	</div>
-
+	<%if(property.reviews.length > 0){%>
 	<div class="col-sm-12" style="margin-top:20px;border-bottom:0.5px solid black">
 		<div class="col-sm-12">
 			<h2>Reviews: {{ratings}}</h2>
 		</div>
 	</div>
-
-	<div class="col-sm-12" style="margin-top:10px">
+	<%for(var i=0; i < property.reviews.length; i++){%>
+		<div class="col-sm-12" style="margin-top:10px">
 		<div class="panel panel-default">
-			<div class="panel-heading" style="background-color:transparent;">{{username1}}krishna</div>
-			<div class="panel-body">{{review1}}well maintained place</div>
+			<div class="panel-heading" style="background-color:transparent;">property.reviews[i].guest_email_id</div>
+			<div class="panel-body">property.reviews[i].rating_comments</div>
 		</div>
 	</div>
+	<%} } else {%>
 
-	<div class="col-sm-12" style="margin-top:10px">
-		<div class="panel panel-default">
-			<div class="panel-heading" style="background-color:transparent;">{{username2}}krishna</div>
-			<div class="panel-body">{{review2}}well maintained place</div>
+	<div class="col-sm-12" style="margin-top:20px;">
+		<br>
+		<br>
+		<div class="col-sm-12">
+			<h4>Nooo Reviews available for this property !</h4>
 		</div>
 	</div>
-
+	<%}%>
 </div>
 <div class="col-sm-3">
 	<div class="panel panel-default">
@@ -243,13 +195,22 @@
 			</font>
 		</div>
 		<div class="panel-body">
-			<label>Check In</label><input placeholder="Check In" class="form-control" type="text" name= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_in"  ng-model="check_in">
-			<label>Check Out</label><input placeholder="Check Out" class="form-control" type="text" name= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"  ng-model="check_out">
+		<%  if(flow =='bid') {%>
+			<!-- only for auction -->
+			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">${{per_night}}*{{noOfdays}}nights</font><font style="float:right;">{{totalPrice}}12</font></div>
+			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Cleaning fee</font><font style="float:right;">- </font></div>
+			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;">${{totalPrice}}12 </font></div>
+			<input placeholder="Bid Amount" class="form-control" type="text"   name="bid_amount"  ng-model="bid_amount">
+			<input type="button" class="btn btn-danger" ng-click="makeBid(<%=property._id%>,<%=property.description%>)" style="width:100%;margin-top:10px" value="Make Bid">
+		<% } else if(flow =='book') {%>
+			<label>Check In</label><input placeholder="Check In" class="form-control" type="text" name= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_in"  ng-model="check_in" >
+			<label>Check Out</label><input placeholder="Check Out" class="form-control" type="text" name= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"  ng-model="check_out" >
 
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">${{per_night}}*{{noOfdays}}nights</font><font style="float:right;">{{totalPrice}}12</font></div>
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Cleaning fee</font><font style="float:right;">- </font></div>
 			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;">${{totalPrice}}12 </font></div>
-			<input type="button" class="btn btn-danger" ng-click="bookProperty()" style="width:100%;margin-top:10px" value="Book">
+			<input type="button" class="btn btn-danger" ng-click="bookProperty()" style="width:100%;margin-top:10px" value="Book" >		
+		<%}%>
 		</div>
 	</div>
 </div>

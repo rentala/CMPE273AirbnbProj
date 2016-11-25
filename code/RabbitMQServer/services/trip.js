@@ -18,12 +18,13 @@ var tripDetails = {
                     else {
                         console.log("result--------------"+result);
                         if(result.length>0){
-                        	
+                        	console.log("result2--------------"+result);
                             res = {"statusCode":200,"userTrips":result};
                             callback(null, res);
                         }
                         else
                         {
+                        	console.log("result3--------------"+result);
                             res = {"statusCode":400,"errMsg":"There is no matching row in MySQL"};
                             callback(null, res);
                         }
@@ -152,15 +153,13 @@ var createTripReview ={
         var res = {};
         try {
             var coll = connection.mongoConn.collection('property');
-            coll.updateOne({_id: new ObjectId(msg.property_id) }, {$push : { reviews: msg.review}}, function(err, results) {
-
+            coll.update({"_id": ObjectID(msg.property_id) }, {$push : { reviews: msg.review}}, function(err, results) {
                 if (err) {
                     tool.logError(err);
                     res.code = 400;
                     callback(null, res);
                 } else {
                     res.code=200;
-                    //res.result = results;
                     callback(null, res);
                 }
 

@@ -237,7 +237,7 @@ var bidProperty = {
                     res = {"statusCode" : 200};
                     callback(null, res);
                 }
-            }, sql_queries.INSERT_BID, [msg.bid_id, msg.user_id, msg.bid_amount, msg.property_id]);
+            }, sql_queries.INSERT_BID, [msg.bid_id, msg.user_id, msg.bid_amount, msg.property_id,msg.property_name]);
 	    }
 	};
 
@@ -247,8 +247,6 @@ var myListings = {
 	        var res = {};
 	        try{
 	            var coll = connection.mongoConn.collection('property');
-	            console.log(msg);
-				//var obj_id = new ObjectID(msg.host_i);
 	            
 	            coll.find({"host_id" :msg.host_id}).toArray(function(err, records){
 	                if(err){

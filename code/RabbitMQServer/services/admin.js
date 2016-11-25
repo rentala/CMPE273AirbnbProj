@@ -1,6 +1,6 @@
 //Reabbit MQ server side for handling the admin related services
 var tool = require("../utili/common");
-var ObjectID = require('mongodb').ObjectID;
+var ObjectID = require('mongodb').ObjectId;
 
 var approveHost = {
 
@@ -17,11 +17,11 @@ var approveHost = {
 			};
 			var data = {
 					$set : {		
-						"host_status" : "ACCEPTED"
+						"is_host" : "ACCEPTED"
 					}
 			};
 
-			coll.updateOne(searchCriteria, data, function(err, results) {
+			coll.updateOne({"_id" : msg.host_id}, {$set : {"is_host" : "ACCEPTED"}}, function(err, results) {
 
 				if (err) {
 					console.log("RabbitMQ server : admin.js : error :"+err);
@@ -72,13 +72,13 @@ var pendingHostsForApproval = {
 			var json_resp = {};
 			try {
 
-				var coll = connection.mongoConn.collection('user');
+				var coll = connection.mongoConn.collection('users');
 
 				console.log("In RabbitMQ Server : admin.js : pendingHostsForApproval : city : " + msg.city);
 				console.log("In RabbitMQ Server : admin.js : pendingHostsForApproval : host_status : " + msg.host_status);
 				var searchCriteria = {
 					"city" : msg.city,
-					"host_status" : msg.host_status
+					"is_host" : msg.host_status
 				};
 			
 				coll.find(searchCriteria).toArray(function(err, userDtls) {
@@ -136,12 +136,12 @@ var checkLogin = {
 		if(msg.email == "admin" && msg.password == "admin"){
 			res.statusCode = 200;
 			res.message = "Success";
+			res.adminEmailId = msg.email;
 			console.log("response message = " + res.message);
 	    	callback(null, res);
 		}
 		else{
 			res.statusCode = 400;
-			res.adminEmailId = msg.email;
 			res.message = "Username or Password is wrong!";
 			console.log("response message = " + res.message);
 			callback(null, res);

@@ -182,7 +182,6 @@ router.post('/loadProfile', function (req, res, next)  {
 
 
 router.post('/uploadPic', function (req, res, next)  {
-	console.log("inside");
     var storage = multer.diskStorage({
         destination: function (req, file, cb) {
             cb(null, '../AirbnbClient/public/uploads');
