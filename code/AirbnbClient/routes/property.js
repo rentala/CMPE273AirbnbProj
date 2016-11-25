@@ -60,7 +60,6 @@ router.get('/id/:prop_id/:flow',function (req,res) {
             if(results.statusCode == 200){
                 if(results.prop_array[0].hasOwnProperty('ratings')){
                     ratings_array = results.prop_array[0].ratings;
-                    console.log(ratings_array);
                     for(var i=0;i<ratings_array.length;i++){
                         total_ratings += ratings_array[i].rating_stars;
                     }
@@ -71,13 +70,11 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                 }
 
                 var property = results.prop_array[0];
-                //console.log("length"+results.bidding.length);
                 var min_bid = 0;
                 if(results.bidding.length >0){
                 	min_bid = results.bidding[0].max_bid_price;
                 }
                 
-                console.log("bidding"+results.bidding[0].max_bid_price);
                 property.avg_ratings = avg_ratings;
                 res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid});
             }
@@ -245,7 +242,6 @@ router.get('/searchResult', function (req, res, next)  {
 });
 
 router.post('/getResults', function (req, res, next)  {
-	console.log("assadsdsadsa"+JSON.stringify(req.session.user));
 	res.send({"valid_property":req.session.valid_property});
 });
 
