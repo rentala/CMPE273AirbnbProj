@@ -39,9 +39,11 @@ router.post('/search',function (req,res,next) {
     });
 });
 
-router.get('/id/:prop_id',function (req,res) {
+router.get('/id/:prop_id/:flow',function (req,res) {
 
     var prop_id = req.param("prop_id");
+    var flow = req.param("flow");
+    console.log("flow"+flow+"prop_"+prop_id);
     var json_responses;
 
     var msg_payload={"prop_id":prop_id};
@@ -58,19 +60,23 @@ router.get('/id/:prop_id',function (req,res) {
             if(results.statusCode == 200){
                 if(results.prop_array[0].hasOwnProperty('ratings')){
                     ratings_array = results.prop_array[0].ratings;
-                    console.log(ratings_array);
                     for(var i=0;i<ratings_array.length;i++){
                         total_ratings += ratings_array[i].rating_stars;
                     }
-                    avg_ratings = (total_ratings/ratings_array.length);
+                    avg_ratingbidPropertys = (total_ratings/ratings_array.length);
                 } else{
                     //no ratings yet
                     avg_ratings = 0;
                 }
 
                 var property = results.prop_array[0];
+                var min_bid = 0;
+                if(results.bidding.length >0){
+                	min_bid = results.bidding[0].max_bid_price;
+                }
+                
                 property.avg_ratings = avg_ratings;
-                res.render('./property/propertyDetails.ejs', {property: property});
+                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid});
             }
             else {
                 json_responses = {"status_code":results.statusCode};
@@ -171,6 +177,7 @@ function mapReqToPayLoad(req) {
     msg_payload.start_date = req.body.start_date;
     msg_payload.end_date = req.body.end_date;
     msg_payload.price = { per_night: req.body.per_night, per_week:  req.body.per_week,  per_month:  req.body.per_month };
+    msg_payload.bid_price = req.body.bid;
     return msg_payload;
 }
 var getID = function () {
@@ -194,12 +201,13 @@ router.post('/bidProperty', function (req, res, next)  {
     var json_responses;
     
     var msg_payload;
-    var user_id = req.param("user_id");
+    var user_id = req.session.user_id;
     var property_id = req.param("property_id");
-    var bid_id = req.param("bid_id");
+    var bid_id = 1;
     var bid_amount = req.param("bid_amount");
+    var property_name = req.param("property_name");
 
-    msg_payload = {"user_id":user_id,"property_id":property_id, "bid_id":bid_id, "bid_amount":bid_amount};
+    msg_payload = {"user_id":user_id,"property_id":property_id, "bid_id":bid_id, "bid_amount":bid_amount, "property_name":property_name};
     mq_client.make_request('bid_property_queue', msg_payload, function(err,results){
         if(err){
 			tool.logError(err);
@@ -234,14 +242,12 @@ router.get('/searchResult', function (req, res, next)  {
 });
 
 router.post('/getResults', function (req, res, next)  {
-	console.log("assadsdsadsa"+JSON.stringify(req.session.user));
 	res.send({"valid_property":req.session.valid_property});
 });
 
 router.get('/myListings', function (req, res, next)  {
 	
 	var user_id = req.session.user_id;
-	console.log("user_id: "+ user_id);
 	var msg_payload = {"host_id":user_id};
     mq_client.make_request('my_listings_queue', msg_payload, function(err,results){
         if(err){
@@ -250,10 +256,10 @@ router.get('/myListings', function (req, res, next)  {
                     "status_code" : results.statusCode
                 };
         } else {
-        	console.log(JSON.stringify(results.records));
         	json_responses = {
                     "status_code" : results.statusCode,
-                    "records":results.records
+                    "records":results.records,
+                    "user":req.session.user
                 };
         }
         res.send(json_responses);

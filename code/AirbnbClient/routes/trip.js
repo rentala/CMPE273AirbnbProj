@@ -4,7 +4,7 @@
 var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
-
+var multer = require('multer');
 router.get('/tripDetails',function (req,res) {
 
     var json_responses;
@@ -218,14 +218,14 @@ router.post('/review/:propertyId', function (req, res, next)  {
 
 function buildPayLoad(req) {
     var msg_payload = {};
-    msg_payload.property_id = req.param("propertyId");
+    msg_payload.property_id = req.body.property_id;
     msg_payload.review = {
         rating: req.body.rating,
         comment: req.body.comment,
         images: req.files,
         time: new Date().toDateString(),
-        user_id: 1, //stub get from session
-        user_name: "Trump",  //stub
+        user_id: req.session.user_id, //stub get from session
+        user_name: req.session.user.first_name,  //stub
         trip_id: 1 //stub get from session
     }
     return msg_payload;
@@ -325,10 +325,9 @@ router.get('/myTripDetails',function (req,res) {
     var user_id = req.session.user_id;
         msg_payload = {"user_id":user_id,"host_id":null};
 
-        mq_client.make_request('trip_details_queue',msg_payload,function (err,results) {
-            console.log(results);
+        mq_client.make_request('myTrip_details_queue',msg_payload,function (err,results) {
+            console.log("results-----------------"+results);
            if(err){
-               //Need to add tool to log error.
                tool.logError(err);
                json_responses = {"status_code":400};
                res.send(json_responses);
@@ -336,8 +335,7 @@ router.get('/myTripDetails',function (req,res) {
            }
            else {
                if(results.statusCode == 200){
-                   console.log("inside 200");
-                   json_responses = {"status_code":results.statusCode,"userTrips":results.userTrips};
+                   json_responses = {"status_code":results.statusCode,"userTrips":results.userTrips,"user_id":user_id,"user":req.session.user};
                }
                else {
                    json_responses = {"status_code":results.statusCode};
@@ -346,6 +344,51 @@ router.get('/myTripDetails',function (req,res) {
                res.end();
            }
         });
+});
+
+var getID = function () {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+    });
+};
+
+router.post('/submitReview', function (req, res, next)  {
+    var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, '../AirbnbClient/public/uploads');
+        },
+        filename: function (req, file, cb) {
+            var datetimestamp = Date.now();
+            imagePath = getID() + '.'
+                + file.originalname.split('.')[file.originalname.split('.').length -1];
+            console.log("file.originalname"+ file.originalname);
+            cb(null, imagePath);
+        }
+    });
+    var upload = multer({ storage: storage}).array('file');
+    var json_responses;
+    upload(req,res,function(err) {
+        if (err) {
+      	 // tool.logError(err);
+            res.json({error_code: 1, err_desc: err});
+            return;
+        }
+        
+        var msg_payload = buildPayLoad(req);
+        mq_client.make_request('create_trip_review_queue', msg_payload, function(err,results){
+        	var json_responses;
+        	if(results.statusCode == 200){
+                 json_responses = {"status_code":results.statusCode,"userTrips":results.userTrips};
+             }
+             else {
+                 json_responses = {"status_code":results.statusCode};
+             }
+             res.send(json_responses);
+             res.end();
+        });
+    });
+
 });
 
 module.exports = router;
