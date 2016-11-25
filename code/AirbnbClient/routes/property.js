@@ -71,8 +71,15 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                 }
 
                 var property = results.prop_array[0];
+                //console.log("length"+results.bidding.length);
+                var min_bid = 0;
+                if(results.bidding.length >0){
+                	min_bid = results.bidding[0].max_bid_price;
+                }
+                
+                console.log("bidding"+results.bidding[0].max_bid_price);
                 property.avg_ratings = avg_ratings;
-                res.render('./property/propertyDetails.ejs', {property: property,flow:flow});
+                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid});
             }
             else {
                 json_responses = {"status_code":results.statusCode};
@@ -173,6 +180,7 @@ function mapReqToPayLoad(req) {
     msg_payload.start_date = req.body.start_date;
     msg_payload.end_date = req.body.end_date;
     msg_payload.price = { per_night: req.body.per_night, per_week:  req.body.per_week,  per_month:  req.body.per_month };
+    msg_payload.bid_price = req.body.bid;
     return msg_payload;
 }
 var getID = function () {

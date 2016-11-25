@@ -107,7 +107,7 @@ var app = angular.module('airbnbApp',[]);
 				});
 			}
 			
-			$scope.makeBid = function(property_id,description){
+			$scope.makeBid = function(property_id,description,bid_amount){
 				var bid_amount = $scope.bid_amount;
 				
 				$http({
@@ -119,9 +119,9 @@ var app = angular.module('airbnbApp',[]);
 		            	property_name:description
 		            }
 		        }).success(function(data){
-		        	$scope.valid_property=data.valid_property;
-		        	valid_property=data.valid_property;
-		        	alert(data.valid_property);
+		        	if(data.status_code == "200")
+		        		alert("Bid Submitted");
+		        		window.location.reload();
 		        })
 				
 				
