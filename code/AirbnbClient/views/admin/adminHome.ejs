@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html ng-app = "adminApp">
+	<head>
+		<title>Admin</title>
+		<meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+	    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	    <script src="/angularjs/adminController.js"></script>
+	</head>
+
+	<body ng-controller = "adminController">
+		<nav class="navbar navbar-default">
+		    <div class="container-fluid">
+		        <!-- Brand and toggle get grouped for better mobile display -->
+		        <div class="navbar-header">
+		            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+		                <span class="sr-only">Toggle navigation</span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		                <span class="icon-bar"></span>
+		            </button>
+		            <a class="navbar-brand" href="#"><img src="/images/airbnb.png" width="150" height="100" style="margin-top:-40px"></img></a>
+		        </div>
+		        <span style = "position:absolute; LEFT: 47%; font-size: 35px;">ADMIN</span>
+		        <div style="float:right">
+		            <button type="button" class="btn btn-info btn-lg" style="background-color: transparent;border-color:transparent;" ng-click = "logOut()"><label style="color: #0f0f0f">Log Out</label></button>
+		        </div>
+		    </div><!-- /.container-fluid -->
+		</nav>
+		<div ng-controller = "adminHomeController">
+		    <nav class="navbar navbar-inverse" style="margin-top:-20px">
+				<div class="container-fluid">
+				    <ul class="nav navbar-nav">
+					    <li style = "position:absolute; LEFT:15%"><a href = "" data-ng-click="dashboard()">Dashboard</a></li>
+					    <li style = "position:absolute; LEFT:47%"><a href = "" data-ng-click="inbox()">Inbox</a></li>
+						<li style = "position:absolute; LEFT:80%"><a href = "" data-ng-click="bills()">Bills</a></li>
+					</ul>
+				</div>
+			</nav>
+
+			<div id = "DASHBOARD" ng-show = "showDashboard">
+			<div class = "col-sm-1"></div>
+				<div class = "col-sm-2">
+					<h2>DASHBOARD</h2>
+					<p><a href = "" ng-click = "topProperties()">Top Properties</a></p>
+					<p><a href = "" ng-click = "cityWiseRevenue()">City Wise Revenues</a></p>
+					<p><a href = "" ng-click = "topHost()">Top Host</a></p>
+				</div>
+				<div class = "col-sm-4">
+					<div ng-show = "showTopProperties">
+					<h2>showTopProperties</h2>
+						<div ng-repeat = "x in topProperties">
+							Property ID : {{x.property_id}}
+							Property Name : {{x.property_name}}
+							Trip Year : {{x.trip_year}}
+							Property Revenue : {{x.property_revenue}}
+						</div>
+					</div>
+
+					<div ng-show = "showCityWiseRevenues">
+						City: <input class = "form-control" type = "text" ng-model = "cityForRevenue" placeholder="City"><br>
+						<button class = "btn btn-success" ng-click = "getCityRevenue()">Get City Revenue</button>
+						<div ng-repeat = "y in cityWiseRevenue">
+							Property ID : {{y.property_id}}
+							Property Name : {{y.property_name}}
+							Trip Year : {{y.trip_year}}
+							Total Revenue : {{y.total_revenue}}
+						</div>
+					</div>
+
+					<div ng-show = "showTopHost">
+					<h2>showTopHost</h2>
+						<div ng-repeat = "z in topHost">
+							Host ID : {{z.host_id}}
+							Host Name : {{z.host_name}}
+							Total Revenue : {{z.total_revenue}}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id = "INBOX" ng-show = "showInbox">
+				<div class = "col-sm-1"></div>
+				<div class = "col-sm-4" style = "height:1000px">
+					<img src = "/images/admin_airbnb_logo.png" height = "150px" width = "500px" style = "margin-top:80px;">
+				</div>
+				<div class = "col-sm-1"></div>
+				<div class = "col-sm-4">
+					<input class = "form-control" ng-model = "cityForInbox" placeholder="City"></input>
+					<br>
+					<button class="btn btn-success" ng-click = "getPendingHostAppovals()"> Get Pending Requests</button>
+					<div ng-repeat = "p in userDetails" ng-show = "showPendingRequests"><br><br>
+						<div>
+							<span>There is a request from <b>{{p.first_name}} {{p.last_name}}</b>. What do you think, shall we Approve?</span><br><br>
+						</div>
+							<img src = "/uploads/{{p.picture_path[0].filename}}" width = "90px" height = "90px">
+							<div style = "float:right">Email_id : {{p.email}}</div><br>
+							<button class="btn btn-success" style = "margin-top:-50px; float:right" ng-click = "approveHost(p._id)">Approve</button><br><br>
+					</div>
+				</div>
+			</div>
+
+			<div id = "BILLS" ng-show = "showBills">
+				<div class = "col-sm-4"></div>
+				<div class = "col-sm-4">
+				Start Date<input class = "form-control" type = "date" style = "float:left" width = "50%" ng-model = "startDate"></input>
+				<br>
+				End Date<input class = "form-control" type = "date" style = "float:right" width = "50%" ng-model = "endDate"></input>
+				<br><br><br>
+				<button class = "btn btn-success" ng-click = "getBills()">Get Bills</button>
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>
