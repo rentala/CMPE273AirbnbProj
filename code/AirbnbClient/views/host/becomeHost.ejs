@@ -80,6 +80,10 @@
                             position: results[0].geometry.location,
                             zoom: 20
                         });
+                        console.log("the latitude is :"+results[0].geometry.location.lat());
+                        console.log("the latitude is :"+results[0].geometry.location.lng());
+                        getElementById("coordinatesx").innerHTML=results[0].geometry.location.lat();
+                        getElementById("coordinatesy").innerHTML=results[0].geometry.location.lat();
                     } else {
                         //alert('Geocode was not successful for the following reason: ' + status);
                     }
