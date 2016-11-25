@@ -82,8 +82,8 @@
                         });
                         console.log("the latitude is :"+results[0].geometry.location.lat());
                         console.log("the latitude is :"+results[0].geometry.location.lng());
-                        getElementById("coordinatesx").innerHTML=results[0].geometry.location.lat();
-                        getElementById("coordinatesy").innerHTML=results[0].geometry.location.lat();
+                        document.getElementById("coordinatesx").value=results[0].geometry.location.lat();
+                        document.getElementById("coordinatesy").value=results[0].geometry.location.lat();
                     } else {
                         //alert('Geocode was not successful for the following reason: ' + status);
                     }
@@ -307,6 +307,9 @@
                         </div>
                     </div>
                 </div>
+                <!--div><input id="coordinatesx" type="text" ></input></div-->
+
+
                 <div class="col-md-12">
                     <input type="submit" class="btn btn-primary" value="Submit">
                 </div>

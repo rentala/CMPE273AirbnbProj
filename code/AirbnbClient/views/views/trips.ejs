@@ -125,7 +125,7 @@
                             <div class="col-sm-12"><h3><label style="color: #1b6d85">Property:</label> <a href="/api/property/id/{{x.property_id}}/view">{{x.property_name}}</a></h3></div>
                             <div class="col-sm-12" ng-if="x.trip_status==='PENDING'"><h4><label>Trip Status:</label> <span>{{x.trip_status}}</span></h4></div>
                             <div class="col-sm-12" ng-if="x.trip_status==='COMPLETED'"><h4><label>Trip Status:</label> <span style="color: green">{{x.trip_status}}</span></h4></div>
-                            <div class="col-sm-12" ng-if="x.trip_status==='ACCEPTED'"><h4><label>Trip Status:</label> <span style="color:blue">{{x.trip_status}}</span></h4></div>
+                            <div class="col-sm-12" ng-if="x.trip_status==='ACCEPTED'"><h4><label>Trip Status:</label> <span style="color: blue">{{x.trip_status}}</span></h4></div>
                             <div class="col-sm-12" ng-if="x.trip_status==='REJECTED'"><h4><label>Trip Status:</label> <span style="color:red">{{x.trip_status}}</span></h4></div>
                             <div class="col-sm-12">{{x.checkin_date}} to {{x.checkout_date}}</div>
                             <div ng-if= "x.trip_status === 'COMPLETED'" ng-controller="myTripController">
