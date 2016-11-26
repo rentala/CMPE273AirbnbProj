@@ -17,11 +17,11 @@ var approveHost = {
 			};
 			var data = {
 					$set : {		
-						"is_host" : "ACCEPTED"
+						"host_status" : "ACCEPTED"
 					}
 			};
 
-			coll.updateOne({"_id" : msg.host_id}, {$set : {"is_host" : "ACCEPTED"}}, function(err, results) {
+			coll.updateOne(searchCriteria, data , function(err, results) {
 
 				if (err) {
 					console.log("RabbitMQ server : admin.js : error :"+err);
@@ -34,6 +34,7 @@ var approveHost = {
 					};
 					callback(null, res);
 				} else {
+					console.log("Record after updating the host status : " + JSON.stringify(results));
 					if (results.modifiedCount == 1) {
 						json_resp = {
 							"status_code" : 200
