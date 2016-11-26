@@ -16,15 +16,12 @@ var tripDetails = {
                         callback(null, res);
                     }
                     else {
-                        console.log("result--------------"+result);
                         if(result.length>0){
-                        	console.log("result2--------------"+result);
                             res = {"statusCode":200,"userTrips":result};
                             callback(null, res);
                         }
                         else
                         {
-                        	console.log("result3--------------"+result);
                             res = {"statusCode":400,"errMsg":"There is no matching row in MySQL"};
                             callback(null, res);
                         }
@@ -155,8 +152,10 @@ var createTripReview ={
                     res.code = 400;
                     callback(null, res);
                 } else {
+                	mysql.execute_query(function (err, result) {
                     res.code=200;
                     callback(null, res);
+                	 },sql_queries.TRIP_REVIEWED,[msg.review.rating,msg.review.comment,msg.review.trip_id]);
                 }
 
             });

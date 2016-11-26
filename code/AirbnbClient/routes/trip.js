@@ -225,7 +225,7 @@ function buildPayLoad(req) {
         time: new Date().toDateString(),
         user_id: req.session.user_id, //stub get from session
         user_name: req.session.user.first_name,  //stub
-        trip_id: 1 //stub get from session
+        trip_id: req.body.trip_id //stub get from session
     }
     return msg_payload;
 }
