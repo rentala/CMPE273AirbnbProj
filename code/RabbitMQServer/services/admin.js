@@ -9,7 +9,7 @@ var approveHost = {
 		var json_resp = {};
 		try {
 
-			var coll = connection.mongoConn.collection('user');
+			var coll = connection.mongoConn.collection('users');
 
 			console.log("In RabbitMQ Server : admin.js : host_id : " + msg.host_id);
 			var searchCriteria = {
@@ -79,7 +79,7 @@ var pendingHostsForApproval = {
 				console.log("In RabbitMQ Server : admin.js : pendingHostsForApproval : host_status : " + msg.host_status);
 				var searchCriteria = {
 					"city" : msg.city,
-					"is_host" : msg.host_status
+					"host_status" : msg.host_status
 				};
 			
 				coll.find(searchCriteria).toArray(function(err, userDtls) {
