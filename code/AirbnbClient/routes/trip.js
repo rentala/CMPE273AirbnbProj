@@ -97,21 +97,21 @@ router.post('/delete',function (req,res) {
 router.post('/createTrip', function(req, res){
   var property_id = req.body.property_id;
   var host_id = req.body.host_id;
-  var user_id = req.body.user_id/*req.session.user._id*/;
+  var user_id = req.session.user._id;
   var property_name = req.body.property_name;
-  var city_nm = req.body.city_nm;
+  var city_nm = req.body.city
   var state = req.body.state;
   var start_date = req.body.start_date;
   var end_date = req.body.end_date;
   var price = req.body.price;
-  var guest = req.body.guest;
+  var guest = req.body.guests;
   var country = req.body.country;
-  var payment_details = {
+  /*var payment_details = {
     "mode" : req.body.mode,
     "card_number" : req.body.card_number,
     "cvv" : req.body.cvv,
     "expiry_date" : req.body.expiry_date
-  };
+  };*/
   var msg_payload = {
     "property_id" : property_id,
     "host_id" : host_id,
@@ -123,10 +123,9 @@ router.post('/createTrip', function(req, res){
     "end_date" : end_date,
     "price" : price,
     "guest" : guest,
-    "country" : country,
-    "payment_details" : payment_details
+    "country" : country
+    // ,"payment_details" : payment_details
   };
-  console.log(msg_payload);
   mq_client.make_request('createTrip_queue', msg_payload, function (err,results) {
         if(err){
             //Need to add tool to log error.
