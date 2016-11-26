@@ -51,7 +51,7 @@ var register = {
 	        				"zipcode":msg.zipCode,
 	        				"phone":msg.phoneNumber,
 	        				"ssn":msg.ssn,
-	        				"is_host":"N",
+	        				"host_status":"NA",
 			    			"date":new Date()
 			    		}, function(err, user){
 			    			if(err){
