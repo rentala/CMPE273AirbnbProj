@@ -192,7 +192,7 @@
 	<div class="panel panel-default">
 		<div class="panel-heading" style="background-color:black;height:40px">
 			<font style="color:white;float:left;">
-				$<%=property.price%>}}
+				$<%=property.price%>
 			</font>
 		</div>
 		<div class="panel-body">
@@ -201,14 +201,32 @@
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Minimum bid</font><font style="float:right;">$ <%=min_bid%></font></div>
 			<input placeholder="Bid Amount" class="form-control" type="integer"   name="bid_amount"  ng-model="bid_amount">
 			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.description%>',bid_amount,'<%=min_bid%>')" style="width:100%;margin-top:10px" value="Make Bid">
-		<% } else if(property.is_auction==false) {%>
-			<label>Check In</label><input placeholder="Check In" class="form-control" type="text" name= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_in"  ng-model="check_in" >
+		<% } else {%>
+			<form action="/api/property/paymentGateway"  method="post" novalidate>
+			<label>Check In</label><input placeholder="Check In" class="form-control" type="text" name= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')"   ng-model="check_in" >
+			<input type="number" name="per_month" class="form-control" placeholder="Cost per month" style="" required>
 			<label>Check Out</label><input placeholder="Check Out" class="form-control" type="text" name= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"  ng-model="check_out" >
 
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">${{per_night}}*{{noOfdays}}nights</font><font style="float:right;">{{totalPrice}}12</font></div>
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Cleaning fee</font><font style="float:right;">- </font></div>
 			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;">${{totalPrice}}12 </font></div>
-			<input type="button" class="btn btn-danger" ng-click="bookProperty()" style="width:100%;margin-top:10px" value="Book" >		
+			<!-- <input type="button" class="btn btn-danger" ng-click="bookProperty('<%=property._id%>','<%=property.host_id%>','<%=property.description%>','<%=property.address.city%>','<%=property.address.state%>','<%=property.start_date%>','<%=property.end_date%>',200,'<%=property.guests%>','<%=property.address.country%>')" style="width:100%;margin-top:10px" value="Book" >		 -->
+			<!-- stub -->
+			<input type="text" class="form-control" name = "total" value ="12" style="display: none;">
+			<input type="text" class="form-control" name = "start_date" value ="<%=property.start_date%>" style="display: none;">
+			<input type="text" class="form-control" name = "end_date" value ="<%=property.end_date%>" style="display: none;">
+			<input type="text" class="form-control" name = "property_id" value ="<%=property._id%>" style="display: none;">
+			<input type="text" class="form-control" name = "description" value ="<%=property.description%>" style="display: none;">
+			<input type="text" class="form-control" name = "host_id" value ="<%=property.host_id%>" style="display: none;">
+			<input type="text" class="form-control" name = "city" value ="<%=property.address.city%>" style="display: none;">
+			<input type="text" class="form-control" name = "state" value ="<%=property.address.state%>" style="display: none;">
+			<input type="text" class="form-control" name = "country" value ="<%=property.address.country%>" style="display: none;">
+			<input type="text" class="form-control" name = "guests" value ="<%=property.guests%>" style="display: none;">
+			<input type="text" class="form-control" name = "per_week" value ="<%=property.price.per_week%>" style="display: none;">
+			<input type="text" class="form-control" name = "per_night" value ="<%=property.price.per_night%>" style="display: none;">
+			<input type="text" class="form-control" name = "per_month" value ="<%=property.price.per_month%>" style="display: none;">
+			<input type="submit" class="btn btn-primary" value="Book">
+			</form>
 		<%}%>
 		</div>
 	</div>

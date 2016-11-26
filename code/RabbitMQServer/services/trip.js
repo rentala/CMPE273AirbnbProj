@@ -16,15 +16,12 @@ var tripDetails = {
                         callback(null, res);
                     }
                     else {
-                        console.log("result--------------"+result);
                         if(result.length>0){
-                        	console.log("result2--------------"+result);
                             res = {"statusCode":200,"userTrips":result};
                             callback(null, res);
                         }
                         else
                         {
-                        	console.log("result3--------------"+result);
                             res = {"statusCode":400,"errMsg":"There is no matching row in MySQL"};
                             callback(null, res);
                         }
@@ -82,9 +79,6 @@ var createTrip = {
     handle_request: function (connection, msg, callback) {
         var res = {};
         var trip_price;
-        console.log("MESSAGE = " + JSON.stringify(msg));
-        //console.log("DATE = " + typeof(msg.start_date));
-        //console.log("date difference = " + (msg.start_date.getDate() - msg.end_date.getDate()));
         var some = "select datediff('" + msg.end_date + "', '" + msg.start_date + "') as stayDuration";
         mysql.execute_query(function(err, result){
         	if(err){
@@ -93,7 +87,6 @@ var createTrip = {
             }
             else{
             	if(result.length > 0 && result[0].stayDuration > 0){
-            		console.log("timer = " + (result[0].stayDuration));
             		trip_price = (result[0].stayDuration) * Number(msg.price);
             		console.log("Trip Price = " + trip_price);
             		mysql.execute_query(function(err, result){
@@ -159,8 +152,10 @@ var createTripReview ={
                     res.code = 400;
                     callback(null, res);
                 } else {
+                	mysql.execute_query(function (err, result) {
                     res.code=200;
                     callback(null, res);
+                	 },sql_queries.TRIP_REVIEWED,[msg.review.rating,msg.review.comment,msg.review.trip_id]);
                 }
 
             });

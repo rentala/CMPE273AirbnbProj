@@ -81,6 +81,9 @@ CREATE TABLE IF NOT EXISTS `airbnb`.`trip` (
   `property_name` VARCHAR(256) NULL DEFAULT NULL,
   `trip_price` DOUBLE NULL DEFAULT NULL,
   `host_name` VARCHAR(100) NULL DEFAULT NULL,
+  `is_reviewed` INT(1) NOT NULL DEFAULT 0,
+  `rating` INT(1) NULL DEFAULT NULL,
+  `review_comment` VARCHAR(256) NULL DEFAULT NULL,
   PRIMARY KEY (`trip_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1

@@ -129,20 +129,39 @@
                             <div class="col-sm-12" ng-if="x.trip_status==='REJECTED'"><h4><label>Trip Status:</label> <span style="color:red">{{x.trip_status}}</span></h4></div>
                             <div class="col-sm-12">{{x.checkin_date}} to {{x.checkout_date}}</div>
                             <div ng-if= "x.trip_status === 'COMPLETED'" ng-controller="myTripController">
+                            <div ng-if= "x.is_reviewed === 0" ng-controller="myTripController">
                             <div class="rate">
-                                <input type="radio" id="star5" name="rate" value="5" /><label for="star5" title="text">5 stars</label>
-                                <input type="radio" id="star4" name="rate" value="4" /><label for="star4" title="text">4 stars</label>
-                                <input type="radio" id="star3" name="rate" value="3" /><label for="star3" title="text">3 stars</label>
-                                <input type="radio" id="star2" name="rate" value="2" /><label for="star2" title="text">2 stars</label>
-                                <input type="radio" id="star1" name="rate" value="1" /><label for="star1" title="text">1 star</label>
+                                <input type="radio" id="star5{{$index}}" name="rate{{$index}}" value="5" /><label for="star5{{$index}}" title="text">5 stars</label>
+                                <input type="radio" id="star4{{$index}}" name="rate{{$index}}" value="4" /><label for="star4{{$index}}" title="text">4 stars</label>
+                                <input type="radio" id="star3{{$index}}" name="rate{{$index}}" value="3" /><label for="star3{{$index}}" title="text">3 stars</label>
+                                <input type="radio" id="star2{{$index}}" name="rate{{$index}}" value="2" /><label for="star2{{$index}}" title="text">2 stars</label>
+                                <input type="radio" id="star1{{$index}}" name="rate{{$index}}" value="1" /><label for="star1{{$index}}" title="text">1 star</label>
                              </div>
                              <div>
                              &nbsp;<textarea id = "comment" rows="4" cols="80" ng-wrap="comment"></textarea>
                              </div><br>
                              <input type = "file" file-model = "myFile"/>
                              <br>
-                             <button  value= "Submit Review" ng-click="submitReview(x.property_id)"> Submit Review</button>
+                             <button  value= "Submit Review" ng-click="submitReview(x.property_id,x.trip_id,$index)"> Submit Review</button>
                              <p id="msg"></p>
+                             </div>
+                             <div ng-if= "x.is_reviewed === 1" ng-controller="myTripController">
+                            <div class="rate">
+                             <input type="radio" id="star5{{$index}}" name="rate{{$index}}" value="5" /><label for="star5{{$index}}" title="text">5 stars</label>
+                                <input type="radio" id="star4{{$index}}" name="rate{{$index}}" value="4" /><label for="star4{{$index}}" title="text">4 stars</label>
+                                <input type="radio" id="star3{{$index}}" name="rate{{$index}}" value="3" /><label for="star3{{$index}}" title="text">3 stars</label>
+                                <input type="radio" id="star2{{$index}}" name="rate{{$index}}" value="2" /><label for="star2{{$index}}" title="text">2 stars</label>
+                                <input type="radio" id="star1{{$index}}" name="rate{{$index}}" value="1" /><label for="star1{{$index}}" title="text">1 star</label>
+                             </div>
+                             <div>
+                             &nbsp;<textarea id = "comment" rows="4" cols="80" ng-wrap="comment" >{{x.review_comment}}</textarea>
+                             </div><br>
+                             <!-- <input type = "file" file-model = "myFile"/>
+                             <br>
+                             <button  value= "Submit Review" ng-click="submitReview(x.property_id,x.trip_id,$index)"> Submit Review</button>
+                             <p id="msg"></p>  -->
+                             </div>
+                             
                              </div>
                         </div>
                     </div>
