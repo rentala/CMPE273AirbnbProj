@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="/angularjs/paymentController.js"></script>
+</head>
+
+
+<body ng-controller="paymentController" ng-app="payment" style="background-color: white; background-image: none;">
+	<div class="container" style="padding: 20px">
+      <div class="panel" style="border:1px solid #ddd" >
+		<div class="panel-body">
+		<div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-9">
+			<h2 style="font-size: large; font-weight: normal; font-family: Helvetica neue,Helvetica,Arial,Sans-serif; text-transform: none " >Verify Card</h2><br>
+			<div class="row">
+				<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=data.total%></label></div>
+			</div><br>
+			<div class="row">
+				<div class="col-sm-2"> <label  style="font-size:normal; font-weight: normal font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px">Card Number</label></div>
+				<div class="col-sm-2"></div>
+				<div class="col-sm-4">	
+					<input type="number" class="formcontrol" ng-model="cNumber" id="cNumber" placeholder="Card Number" >
+				</div>
+			</div><br><br>
+			<div class="row">
+				<div class="col-sm-2"> <label style="font-size:normal; font-weight: normal font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px">Expiration Date(YYYY-MM)</label></div>
+				<div class="col-sm-2"></div>
+				<div class="col-sm-4">	
+					<input type="month" class="formcontrol" ng-model="expDate" id="expDate" placeholder="Expiration Date" style="width:174px;" >
+				</div>
+			</div><br><br>
+			<div class="row">
+				<div class="col-sm-2"> <label  style="font-size:normal; font-weight: normal font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px">CVV number</label></div>
+				<div class="col-sm-2"></div>
+				<div class="col-sm-4">	
+					<input type="password" class="formcontrol" ng-model="cvv" id="cvv" placeholder="CVV Number" size = "4" maxLength ="4">
+				</div>
+			</div><br><br>
+			<div style="display: none;">
+			<input type="text" ng-init="start_date=<%=data.start_date%>" id ="start_date" name ="start_date" class="form-control" ng_model = "start_date" value ="<%=data.start_date%>" >
+			<input type="text" id ="end_date" class="form-control" ng_model = "end_date" value ="<%=data.end_date%>" >
+			<input type="text" id ="property_id" class="form-control" ng_model = "property_id" value ="<%=data.property_id%>" >
+			<input type="text" id ="description" class="form-control" ng_model = "description" value ="<%=data.description%>" >
+			<input type="text" id ="host_id" class="form-control" ng_model = "host_id" value ="<%=data.host_id%>" >
+			<input type="text" id ="city" class="form-control" ng_model = "city" value ="<%=data.city%>" >
+			<input type="text" id ="state" class="form-control" ng_model = "state" value ="<%=data.state%>" >
+			<input type="text" id ="country" class="form-control" ng_model = "country" value ="<%=data.country%>" >
+			<input type="text" id ="guests" class="form-control" ng_model = "guests" value ="<%=data.guests%>" >
+			<input type="text" id ="total" class="form-control" ng_model = "total" value ="<%=data.total%>" >
+			</div>
+		</div></div></div></div>
+      	 <div class="box-footer">
+                <div class="pull-right">
+                    <input type="submit" class="btn btn-primary" ng-click="submit();" name="submit" id="submit"  class="form-control btn btn-primary" value="Make Payment">
+                </div>
+            </div>
+      </div>
+</body>
+</html>
