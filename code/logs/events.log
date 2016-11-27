@@ -56,3 +56,13 @@
 {"level":"warn","message":"Warning message","timestamp":"2016-11-25T09:54:21.310Z"}
 {"level":"info","message":"Hello world","timestamp":"2016-11-25T10:01:08.228Z"}
 {"level":"warn","message":"Warning message","timestamp":"2016-11-25T10:01:08.232Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-27T04:31:04.733Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-27T04:31:04.741Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-27T04:31:33.446Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-27T04:31:33.453Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-27T04:34:51.256Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-27T04:34:51.264Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-27T04:37:29.611Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-27T04:37:29.620Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-27T04:45:14.947Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-27T04:45:14.954Z"}

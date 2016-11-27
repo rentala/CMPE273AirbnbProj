@@ -157,6 +157,9 @@ cnn.on('ready', function(){
     cnn.queue('my_listings_queue',function (q) {
 	       subscriber(q,property.myListings);
     });
+	cnn.queue('get_admin_bills_queue',function (q) {
+		subscriber(q,admin.getAllBills);
+	});
     
     //Inbox
     cnn.queue('inbox_queue', function(q){
