@@ -217,9 +217,9 @@
 			<label>Check In</label><input class="form-control" type="text" name= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')"    value="<%=start_date%>" disabled>
 			<label>Check Out</label><input  class="form-control" type="text" name= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"   value="<%=end_date%>" disabled>
 
-			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">${{per_night}}*{{noOfdays}}nights</font><font style="float:right;">{{totalPrice}}12</font></div>
+			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">${{per_night}}*{{noOfdays}}</font><font style="float:right;">{{totalPrice}}12</font></div>
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Cleaning fee</font><font style="float:right;">- </font></div>
-			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;"><%=tripPrice %> ${{totalPrice}}12 </font></div>
+			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;"><%=tripPrice %> $</font></div>
 			<input type="text" class="form-control" name = "total" value ="<%=tripPrice %>" style="display: none;">
 			<input type="text" class="form-control" name = "start_date" value ="<%=start_date%>" style="display: none;">
 			<input type="text" class="form-control" name = "end_date" value ="<%=end_date%>" style="display: none;">

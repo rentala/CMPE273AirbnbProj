@@ -22,7 +22,7 @@
 		<div class="col-sm-9">
 			<h2 style="font-size: large; font-weight: normal; font-family: Helvetica neue,Helvetica,Arial,Sans-serif; text-transform: none " >Verify Card</h2><br>
 			<div class="row">
-			 <% if(flow == "e") { %>
+			 <% if(data.flow == "e") { %>
    				<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=diff%></label></div>
               <% }else { %>  
   	 				<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=data.total%></label></div>
@@ -49,7 +49,7 @@
 					<input type="password" class="formcontrol" ng-model="cvv" id="cvv" placeholder="CVV Number" size = "4" maxLength ="4">
 				</div>
 			</div><br><br>
-			<% if(flow != "e") { %>
+			<% if(data.flow != "e") { %>
 			<div style="display: none;">
 			<input type="text" ng-init="start_date=<%=data.start_date%>" id ="start_date" name ="start_date" class="form-control" ng_model = "start_date" value ="<%=data.start_date%>" >
 			<input type="text" id ="end_date" class="form-control" ng_model = "end_date" value ="<%=data.end_date%>" >
@@ -66,7 +66,7 @@
 			<% } %>
 			</div></div></div></div>
       		 <div class="box-footer">
-      		 <% if(flow != "e") { %>
+      		 <% if(data.flow != "e") { %>
                 <div class="pull-right">
                     <input type="submit" class="btn btn-primary" ng-click="submit();" name="submit" id="submit"  class="form-control btn btn-primary" value="Make Payment">
                 </div>

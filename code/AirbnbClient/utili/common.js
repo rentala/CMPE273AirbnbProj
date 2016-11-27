@@ -98,7 +98,7 @@ var userInfo_title_logger = winston.loggers.get('user_info_title_logger');
 
 var logError = function (err) {
     var id = getID();
-    error_logger.log('info','Error Id: ' + id + ' Error: ' + JSON.stringify(err));
+    errorLogger.log('info','Error Id: ' + id + ' Error: ' + JSON.stringify(err));
 };
 
 var getID = function () {
