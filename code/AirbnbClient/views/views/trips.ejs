@@ -170,7 +170,7 @@
                   	  	<input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">
                   	  </div>
                   	  <div ng-if= "x.trip_status === 'PENDING'" >
-                  	  	<input type = "button" value= "EDIT TRIP">
+                  	  	<input type = "button" value= "EDIT TRIP" ng-click="editTrip(x.trip_id,x.property_id,x.trip_price)">
                   	  </div>
                 	  <div ng-if= "x.trip_status === 'COMPLETED'" ng-controller="myTripController">
                   	  	 <input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">

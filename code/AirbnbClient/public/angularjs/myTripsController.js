@@ -90,9 +90,13 @@ app.controller('myTripController',['$scope','fileUpload','$http', function($scop
     			window.open("/api/billing/viewBill?trip_id="+trip_id+"&bill_id="+billing_id,'Bill',directories=0);
     		}
     		
-    			$scope.submitReview = function(property_id,trip_id,index){
-    		           var file = $scope.myFile;
-    		           var uploadUrl = "/api/trip/submitReview";
-    		           fileUpload.uploadFileToUrl(file, uploadUrl,property_id,trip_id,index);
-    		        };
+			$scope.submitReview = function(property_id,trip_id,index){
+		           var file = $scope.myFile;
+		           var uploadUrl = "/api/trip/submitReview";
+		           fileUpload.uploadFileToUrl(file, uploadUrl,property_id,trip_id,index);
+		        };
+	        $scope.editTrip = function(trip_id, property_id,price){
+	        	///api/property/id/{{x.property_id}}/view
+    			window.location.assign("/api/property/id/"+property_id+"/"+price+"/edit/"+trip_id);
+    		}    
     	}])

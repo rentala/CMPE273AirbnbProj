@@ -201,36 +201,58 @@
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Minimum bid</font><font style="float:right;">$ <%=min_bid%></font></div>
 			<input placeholder="Bid Amount" class="form-control" type="integer"   name="bid_amount"  ng-model="bid_amount">
 			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.description%>',bid_amount,'<%=min_bid%>')" style="width:100%;margin-top:10px" value="Make Bid">
-		<% } else {%>
+		<% } else {
+			var tripStart = new Date(start_date);
+	        var tripEnd = new Date(end_date);
+			var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000));
+			var tripPrice;
+			if(property.price.per_night!="")
+				tripPrice = eval(stayDuration * parseInt(property.price.per_night));
+			if(property.price.per_week!="")
+				tripPrice = eval(stayDuration * parseInt(property.price.per_week)/7);	
+			if(property.price.per_month!="")
+				tripPrice = eval(stayDuration * parseInt(property.price.per_month)/30);
+		%>
 			<form action="/api/property/paymentGateway"  method="post" novalidate>
-			<label>Check In</label><input placeholder="Check In" class="form-control" type="text" name= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')"   ng-model="check_in" >
-			<input type="number" name="per_month" class="form-control" placeholder="Cost per month" style="" required>
-			<label>Check Out</label><input placeholder="Check Out" class="form-control" type="text" name= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"  ng-model="check_out" >
+			<label>Check In</label><input class="form-control" type="text" name= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')"    value="<%=start_date%>" disabled>
+			<label>Check Out</label><input  class="form-control" type="text" name= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"   value="<%=end_date%>" disabled>
 
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">${{per_night}}*{{noOfdays}}nights</font><font style="float:right;">{{totalPrice}}12</font></div>
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Cleaning fee</font><font style="float:right;">- </font></div>
-			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;">${{totalPrice}}12 </font></div>
-			<!-- <input type="button" class="btn btn-danger" ng-click="bookProperty('<%=property._id%>','<%=property.host_id%>','<%=property.description%>','<%=property.address.city%>','<%=property.address.state%>','<%=property.start_date%>','<%=property.end_date%>',200,'<%=property.guests%>','<%=property.address.country%>')" style="width:100%;margin-top:10px" value="Book" >		 -->
-			<!-- stub -->
-			<input type="text" class="form-control" name = "total" value ="12" style="display: none;">
-			<input type="text" class="form-control" name = "start_date" value ="<%=property.start_date%>" style="display: none;">
-			<input type="text" class="form-control" name = "end_date" value ="<%=property.end_date%>" style="display: none;">
+			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;"><%=tripPrice %> ${{totalPrice}}12 </font></div>
+			<input type="text" class="form-control" name = "total" value ="<%=tripPrice %>" style="display: none;">
+			<input type="text" class="form-control" name = "start_date" value ="<%=start_date%>" style="display: none;">
+			<input type="text" class="form-control" name = "end_date" value ="<%=end_date%>" style="display: none;">
 			<input type="text" class="form-control" name = "property_id" value ="<%=property._id%>" style="display: none;">
 			<input type="text" class="form-control" name = "description" value ="<%=property.description%>" style="display: none;">
 			<input type="text" class="form-control" name = "host_id" value ="<%=property.host_id%>" style="display: none;">
 			<input type="text" class="form-control" name = "city" value ="<%=property.address.city%>" style="display: none;">
 			<input type="text" class="form-control" name = "state" value ="<%=property.address.state%>" style="display: none;">
 			<input type="text" class="form-control" name = "country" value ="<%=property.address.country%>" style="display: none;">
-			<input type="text" class="form-control" name = "guests" value ="<%=property.guests%>" style="display: none;">
+			<input type="text" class="form-control" name = "guests" value ="<%=guests%>" style="display: none;">
+			<input type="text" class="form-control" name = "flow" value ="<%=flow%>" style="display: none;">
 			<input type="text" class="form-control" name = "per_week" value ="<%=property.price.per_week%>" style="display: none;">
 			<input type="text" class="form-control" name = "per_night" value ="<%=property.price.per_night%>" style="display: none;">
-			<input type="text" class="form-control" name = "per_month" value ="<%=property.price.per_month%>" style="display: none;">
+			<input type="text" class="form-control" name = "per_month" value ="<%=property.price.per_month%>" style="display: none;">		
 			<input type="submit" class="btn btn-primary" value="Book">
 			</form>
 		<%}%>
 		</div>
 	</div>
-			<%}%>
+<%} else if(flow=='edit') {%>
+			<label>Check In</label><input class="form-control" type="date"  ng-model= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')" >
+			<label>Check Out</label><input  class="form-control" type="date"  ng-model= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"   >
+
+			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">${{per_night}}*{{noOfdays}}nights</font><font style="float:right;">{{totalPrice}}12</font></div>
+			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Cleaning fee</font><font style="float:right;">- </font></div>
+			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;">$<%=price %>  </font></div>
+			<input type="text" class="form-control" id = "property_id2" value ="<%=property._id%>" style="display: none;" ng-model="property_id">
+			<input type="text" class="form-control" id = "guests2" value ="<%=guests%>" style="display: none;" ng-model="guests">
+			<input type="text" class="form-control" id = "flow2" value ="<%=flow%>" style="display: none;" ng-model="flow">
+			<input type="text" class="form-control" id = "trip_id2" value ="<%=trip_id%>" style="display: none;" ng-model="trip_id">
+			<input type="submit" class="btn btn-primary" value="edit" ng-click="editTrip(<%=price%>)">		
+<%}%>			
+			
 </div>
 <div class="col-sm-1"></div>
 <div class="col-sm-12">

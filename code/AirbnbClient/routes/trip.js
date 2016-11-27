@@ -234,7 +234,7 @@ router.post('/editTrip',function (req,res) {
     var json_responses;
 
     var trip_id = req.param("trip_id");
-    var user_id = req.param("user_id");
+    var user_id = req.session.user_id;
     var property_id = req.param("property_id");
     var guests = req.param("guests");
     var start_date = req.param("start_date");
@@ -249,7 +249,7 @@ router.post('/editTrip',function (req,res) {
         else {
             if(results.statusCode == 200)
             {
-                json_responses = {"status_code":200};
+                json_responses = {"status_code":200,"newTripPrice":results.newTripPrice};
             }
             else {
                 json_responses = {"status_code":400};

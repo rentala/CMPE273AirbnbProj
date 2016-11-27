@@ -74,9 +74,67 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                 if(results.bidding.length >0){
                 	min_bid = results.bidding[0].max_bid_price;
                 }
-                
+                var msg = req.session.msg;
+                var start_date = msg.start_date;
+                var end_date = msg.end_date;
                 property.avg_ratings = avg_ratings;
-                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid});
+                //req.session.msg = "";
+                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid,start_date:start_date,end_date:end_date,guests:msg.guests});
+            }
+            else {
+                json_responses = {"status_code":results.statusCode};
+                res.render('./property/productDetails.ejs', { productNotFound : true});
+            }
+        }
+
+        res.end();
+    });
+});
+
+
+router.get('/id/:prop_id/:price/:flow/:trip_id',function (req,res) {
+
+    var prop_id = req.param("prop_id");
+    var flow = req.param("flow");
+    var trip_id = req.param("trip_id");
+    var price = req.param("price");
+    console.log("flow"+flow+"prop_"+prop_id);
+    var json_responses;
+
+    var msg_payload={"prop_id":prop_id};
+    var ratings_array = [];
+    var total_ratings=0;
+    var avg_ratings;
+    mq_client.make_request('get_property_by_id_queue',msg_payload,function (err,results) {
+        if(err){
+            //Need to add tool to log error.
+            tool.logError(err);
+            json_responses = {"status_code":400};
+        }
+        else {
+            if(results.statusCode == 200){
+                if(results.prop_array[0].hasOwnProperty('ratings')){
+                    ratings_array = results.prop_array[0].ratings;
+                    for(var i=0;i<ratings_array.length;i++){
+                        total_ratings += ratings_array[i].rating_stars;
+                    }
+                    avg_ratingbidPropertys = (total_ratings/ratings_array.length);
+                } else{
+                    //no ratings yet
+                    avg_ratings = 0;
+                }
+
+                var property = results.prop_array[0];
+                var min_bid = 0;
+                if(results.bidding.length >0){
+                	min_bid = results.bidding[0].max_bid_price;
+                }
+                var msg = req.session.msg;
+                var start_date = msg.start_date;
+                var end_date = msg.end_date;
+                property.avg_ratings = avg_ratings;
+                //req.session.msg = "";
+                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid,price:price,guests:msg.guests,trip_id:trip_id});
             }
             else {
                 json_responses = {"status_code":results.statusCode};
@@ -246,7 +304,6 @@ router.post('/bidProperty', function (req, res, next)  {
 router.get('/searchResult', function (req, res, next)  {
 	
 	var msg = req.session.msg;
-	console.log("end_date: "+ msg.end_date);
 	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: req.session.user,start_date:msg.start_date,end_date: msg.end_date, guests: msg.guests},function(err, result) {
 		// render on success
 		if (!err) {
@@ -290,6 +347,23 @@ router.post('/paymentGateway', function (req, res, next)  {
 	var msg = mapCheckoutRequest(req)	;
 	
 	ejs.renderFile('./views/views/cardDetails.ejs',{ data:msg},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			console.log('An error occurred');
+//			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
+router.get('/paymentGateway/:flow/:diff', function (req, res, next)  {
+	
+	ejs.renderFile('./views/views/cardDetails.ejs',{ diff:req.param("diff"),flow:req.param("flow")},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);

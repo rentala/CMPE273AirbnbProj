@@ -3,7 +3,6 @@ var payment = angular.module('payment', []);
 
 payment.controller('paymentController', function($scope, $http) {
 $scope.submit= function(){
-	
 	var cardNum = $scope.cNumber;
 	var expiryDate = $scope.expDate;
 	var cvv = $scope.cvv;
@@ -39,7 +38,7 @@ $scope.submit= function(){
 		if(inputYear<year || (inputYear==year && inputMonth<month)){
 			alert("Date of expiry should be future date");
 		}
-		
+		else{
 		$http({
 		            method:"POST",
 		            url:"/api/trip/createTrip",
@@ -60,9 +59,39 @@ $scope.submit= function(){
 		        		alert("Success");
 		        		window.location.assign("/api/auth/home");
 		        })
-		
+		}
 	}
-	
-
 }	
+$scope.payDiff= function(){
+	
+	var cardNum = $scope.cNumber;
+	var expiryDate = $scope.expDate;
+	var cvv = $scope.cvv;
+	var patt = new RegExp("^\s*-?[0-9]{16}\s*$");
+    var res = patt.test(cardNum);
+	
+    if(cardNum == undefined || cardNum==null || cardNum=="")
+		alert("Enter Card Number");
+    else if(!res)
+    	alert("Card number should be 16 digits");
+	else if(expiryDate == undefined || expiryDate=="")
+		alert("Enter Expiry date");
+	else if(cvv == undefined || cvv=="")
+		alert("Enter CVV");
+	else{
+		var inputYear = expiryDate.getUTCFullYear();
+		var dateObj = new Date();
+		var year = dateObj.getUTCFullYear();
+		var month = dateObj.getUTCMonth();
+		var inputMonth = expiryDate.getUTCMonth();
+		
+		if(inputYear<year || (inputYear==year && inputMonth<month)){
+			alert("Date of expiry should be future date");
+		}
+		else{
+			alert("Success Payment");
+			window.location.assign("/api/auth/home");
+		}
+		}	
+	}
 })
