@@ -97,6 +97,6 @@ app.controller('myTripController',['$scope','fileUpload','$http', function($scop
 		        };
 	        $scope.editTrip = function(trip_id, property_id,price){
 	        	///api/property/id/{{x.property_id}}/view
-    			window.location.assign("/api/property/id/"+property_id+"/"+price+"/edit/"+trip_id);
+    			window.location.assign("/api/trip/id/"+property_id+"/"+price+"/edit/"+trip_id);
     		}    
     	}])
