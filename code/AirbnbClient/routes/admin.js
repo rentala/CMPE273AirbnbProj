@@ -109,7 +109,33 @@ router.post('/adminLogOut',function(req, res){
 	res.send({
 		"status_code" : 200
 	})
-})
+});
+
+router.get('/getAllBills',function (req,res) {
+	var json_responses;
+	var msg_payload = {};
+
+	mq_client.make_request('get_admin_bills_queue',msg_payload,function (err,results) {
+        if(err){
+            tool.logError(err);
+            var json_responses = {
+                "status_code" : 400
+            };
+        }
+        else {
+            if(results.statusCode == 200){
+                json_responses = {"status_code":results.statusCode,"bills":results.bills};
+            }
+            else {
+                json_responses = {"status_code":results.statusCode};
+            }
+        }
+        res.send(json_responses);
+        res.end();
+	});
+});
+
+
 //End of admin routes.
 //One more comment.
 module.exports = router;

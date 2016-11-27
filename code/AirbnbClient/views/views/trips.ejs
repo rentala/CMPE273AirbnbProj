@@ -57,7 +57,7 @@
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#" ><img src="/images/airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
+             <a class="navbar-brand" href="/api/auth/home" ><img src="/images/airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
@@ -170,7 +170,7 @@
                   	  	<input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">
                   	  </div>
                   	  <div ng-if= "x.trip_status === 'PENDING'" >
-                  	  	<input type = "button" value= "EDIT TRIP">
+                  	  	<input type = "button" value= "EDIT TRIP" ng-click="editTrip(x.trip_id,x.property_id,x.trip_price)">
                   	  </div>
                 	  <div ng-if= "x.trip_status === 'COMPLETED'" ng-controller="myTripController">
                   	  	 <input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">

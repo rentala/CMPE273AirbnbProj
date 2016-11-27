@@ -74,9 +74,12 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                 if(results.bidding.length >0){
                 	min_bid = results.bidding[0].max_bid_price;
                 }
-                
+                var msg = req.session.msg;
+                var start_date = msg.start_date;
+                var end_date = msg.end_date;
                 property.avg_ratings = avg_ratings;
-                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid});
+                //req.session.msg = "";
+                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid,start_date:start_date,end_date:end_date,guests:msg.guests});
             }
             else {
                 json_responses = {"status_code":results.statusCode};
@@ -246,7 +249,6 @@ router.post('/bidProperty', function (req, res, next)  {
 router.get('/searchResult', function (req, res, next)  {
 	
 	var msg = req.session.msg;
-	console.log("end_date: "+ msg.end_date);
 	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: req.session.user,start_date:msg.start_date,end_date: msg.end_date, guests: msg.guests},function(err, result) {
 		// render on success
 		if (!err) {
@@ -290,6 +292,23 @@ router.post('/paymentGateway', function (req, res, next)  {
 	var msg = mapCheckoutRequest(req)	;
 	
 	ejs.renderFile('./views/views/cardDetails.ejs',{ data:msg},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			console.log('An error occurred');
+//			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
+router.get('/paymentGateway/:flow/:diff', function (req, res, next)  {
+	
+	ejs.renderFile('./views/views/cardDetails.ejs',{ diff:req.param("diff"),flow:req.param("flow")},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);

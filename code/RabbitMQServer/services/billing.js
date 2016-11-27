@@ -11,7 +11,7 @@ var view = {
         mysql.execute_query(function (err,result) {
             if(err){
                 tool.logError(err);
-                res = {"statusCode":401};
+                res = {"statusCode":400};
                 callback(null,res);
             }
             else

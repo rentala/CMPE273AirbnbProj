@@ -195,13 +195,16 @@ var editTrip = {
                 }
                 else {
                     if(record != null){
-                    	start_date = record.start_date;
-                    	end_date = record.end_date;
                     	//calculating new trip price
                     	newTripPrice = eval(stayDuration * parseInt(record.price));
-                    	
-                    	var propStart = new Date(start_date);
-            	        var propEnd = new Date(end_date);
+                    	var propStart = new Date(record.start_date);
+            	        var propEnd = new Date(record.end_date);
+            			if(record.price.per_night!="")
+            				newTripPrice = eval(stayDuration * parseInt(record.price.per_night));
+            			if(record.price.per_week!="")
+            				newTripPrice = eval(stayDuration * parseInt(record.price.per_week)/7);	
+            			if(record.price.per_month!="")
+            				newTripPrice = eval(stayDuration * parseInt(record.price.per_month)/30);
             	        //Verifying if new trip duration falls under the property listing dates, return back without performing any operations if dates are out of listing dates
                     	if(propStart<= tripStart && propEnd >= tripEnd){
 	                    	mysql.execute_query(function (err, result) {
@@ -211,13 +214,13 @@ var editTrip = {
 	                                callback(null, res);
 	                            }
 	                            else {
-	                                res = {"statusCode":200};
+	                                res = {"statusCode":200,"newTripPrice":newTripPrice};
 	                                callback(null, res);
 	                            }
 	                        },sql_queries.UPDATE_TRIP_DATES,[msg.start_date, msg.end_date, msg.guests,newTripPrice, msg.trip_id]);
                     	}
                     	else{
-                    		res = {"statusCode":400,"errMsg":"Sorry cannot update property"};
+                    		res = {"statusCode":400,"errMsg":"Sorry cannot update trip for following dates"};
                             callback(null, res);
                     	}
                     }

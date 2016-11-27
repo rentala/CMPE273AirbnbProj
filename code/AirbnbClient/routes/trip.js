@@ -234,7 +234,7 @@ router.post('/editTrip',function (req,res) {
     var json_responses;
 
     var trip_id = req.param("trip_id");
-    var user_id = req.param("user_id");
+    var user_id = req.session.user_id;
     var property_id = req.param("property_id");
     var guests = req.param("guests");
     var start_date = req.param("start_date");
@@ -249,7 +249,7 @@ router.post('/editTrip',function (req,res) {
         else {
             if(results.statusCode == 200)
             {
-                json_responses = {"status_code":200};
+                json_responses = {"status_code":200,"newTripPrice":results.newTripPrice};
             }
             else {
                 json_responses = {"status_code":400};
@@ -388,6 +388,61 @@ router.post('/submitReview', function (req, res, next)  {
         });
     });
 
+});
+
+
+router.get('/id/:prop_id/:price/:flow/:trip_id',function (req,res) {
+
+    var prop_id = req.param("prop_id");
+    var flow = req.param("flow");
+    var trip_id = req.param("trip_id");
+    var price = req.param("price");
+    console.log("flow"+flow+"prop_"+prop_id);
+    var json_responses;
+
+    var msg_payload={"prop_id":prop_id};
+    var ratings_array = [];
+    var total_ratings=0;
+    var avg_ratings;
+    mq_client.make_request('get_property_by_id_queue',msg_payload,function (err,results) {
+        if(err){
+            //Need to add tool to log error.
+            tool.logError(err);
+            json_responses = {"status_code":400};
+        }
+        else {
+            if(results.statusCode == 200){
+                if(results.prop_array[0].hasOwnProperty('ratings')){
+                    ratings_array = results.prop_array[0].ratings;
+                    for(var i=0;i<ratings_array.length;i++){
+                        total_ratings += ratings_array[i].rating_stars;
+                    }
+                    avg_ratingbidPropertys = (total_ratings/ratings_array.length);
+                } else{
+                    //no ratings yet
+                    avg_ratings = 0;
+                }
+
+                var property = results.prop_array[0];
+                var min_bid = 0;
+                if(results.bidding.length >0){
+                	min_bid = results.bidding[0].max_bid_price;
+                }
+                var msg = req.session.msg;
+                var start_date = msg.start_date;
+                var end_date = msg.end_date;
+                property.avg_ratings = avg_ratings;
+                //req.session.msg = "";
+                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid,price:price,guests:msg.guests,trip_id:trip_id});
+            }
+            else {
+                json_responses = {"status_code":results.statusCode};
+                res.render('./property/productDetails.ejs', { productNotFound : true});
+            }
+        }
+
+        res.end();
+    });
 });
 
 module.exports = router;
