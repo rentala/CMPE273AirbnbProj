@@ -20,8 +20,9 @@ var listProperty = {
 	                }
 	                else
 	                {
-	                	if(msg.is_auction == "Y"){
-	                	var options = {host_min_amt:localMsg.price, max_bid_price: localMsg.price, property_name: localMsg.description,property_id:prop.insertedIds};
+	                	if(msg.is_auction == true){
+	                	console.log("property_id"+prop.insertedIds[0]);	
+	                	var options = {host_min_amt:msg.bid_price, max_bid_price: msg.bid_price, property_name: msg.description,property_id:prop.insertedIds[0]};
 	                	mysql.execute_query(function (err,result) {
 	                         if(err){
 	                        	 tool.logError(err);
@@ -162,8 +163,18 @@ var getPropertyById = {
                 }
                 else {
                     if(records.length>0){
-                        res = {"statusCode":200,"prop_array":records};
-                        callback(null, res);
+                    	 mysql.execute_query(function (err,result) {
+                             if(err){
+                                 tool.logError(err);
+                                 res = {"statusCode":401};
+                                 callback(null,res);
+                             }
+                             else
+                             {
+                            	 res = {"statusCode":200,"prop_array":records,"bidding":result};
+                                 callback(null, res);
+                             }
+                    	 },sql_queries.FETCH_MAX_BID,[msg.prop_id]);
                     }
                     else {
                         res = {"statusCode":401};
@@ -237,7 +248,7 @@ var bidProperty = {
                     res = {"statusCode" : 200};
                     callback(null, res);
                 }
-            }, sql_queries.INSERT_BID, [msg.bid_id, msg.user_id, msg.bid_amount, msg.property_id]);
+            }, sql_queries.INSERT_BID, [msg.bid_id, msg.user_id, msg.bid_amount, msg.property_id,msg.property_name]);
 	    }
 	};
 
@@ -247,8 +258,6 @@ var myListings = {
 	        var res = {};
 	        try{
 	            var coll = connection.mongoConn.collection('property');
-	            console.log(msg);
-				//var obj_id = new ObjectID(msg.host_i);
 	            
 	            coll.find({"host_id" :msg.host_id}).toArray(function(err, records){
 	                if(err){

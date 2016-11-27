@@ -8,7 +8,7 @@ router.post('/approveHost', function (req, res)  {
     
 	console.log("Request Data  : " + JSON.stringify(req.body));
 	
-	var host_id = req.param("host_id");
+	var host_id = req.body.host_id;
 
 	console.log("In AirbnbClient : admin.js : approveHost: Host_ID :"+ host_id);
 	
@@ -38,9 +38,9 @@ router.post('/pendingHostsForApproval', function (req, res)  {
    
 	console.log("Request Data  : " + JSON.stringify(req.body));
 	
-	var city = req.param("city");
+	var city = req.body.city;
 	
-	var host_status = req.param("host_status");
+	var host_status = req.body.host_status;
 
 	console.log("In AirbnbClient : admin.js :pendingHostsForApproval: city :"+ city);
 	
@@ -66,6 +66,7 @@ router.post('/pendingHostsForApproval', function (req, res)  {
 router.post('/adminCheckLogin', function(req, res, next){
 	var email = req.body.username;
 	var password = req.body.password;
+	var json_responses;
 	console.log("email = " + email + " password = " + password);
 	passport.authenticate('adminLoginRequest', function(err, admin, info) {
 	    if(err) {
@@ -90,6 +91,51 @@ router.post('/adminCheckLogin', function(req, res, next){
 		}
 	})(req, res, next);
 });
+
+router.get('/adminLogin', function(req, res){
+	res.render('admin/adminlogin');
+});
+
+router.get('/adminHome', function(req, res){
+	if(req.session.admin)
+		res.render('admin/adminHome');
+	else
+		res.redirect('/');
+});
+
+router.post('/adminLogOut',function(req, res){
+	console.log("reached here");
+	req.session.destroy();
+	res.send({
+		"status_code" : 200
+	})
+});
+
+router.get('/getAllBills',function (req,res) {
+	var json_responses;
+	var msg_payload = {};
+
+	mq_client.make_request('get_admin_bills_queue',msg_payload,function (err,results) {
+        if(err){
+            tool.logError(err);
+            var json_responses = {
+                "status_code" : 400
+            };
+        }
+        else {
+            if(results.statusCode == 200){
+                json_responses = {"status_code":results.statusCode,"bills":results.bills};
+            }
+            else {
+                json_responses = {"status_code":results.statusCode};
+            }
+        }
+        res.send(json_responses);
+        res.end();
+	});
+});
+
+
 //End of admin routes.
 //One more comment.
 module.exports = router;

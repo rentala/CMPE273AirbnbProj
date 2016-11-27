@@ -20,6 +20,7 @@ var trip = require('./routes/trip');
 var analytics = require('./routes/analytics');
 var billing = require("./routes/billing");
 var inbox = require('./routes/inbox');
+var appLogger = require('./utili/common');
 
 var app = express();
 
@@ -41,7 +42,7 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -86,6 +87,11 @@ app.use(function(err, req, res, next) {
 app.set('port', 8000);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
+  
+  //Log title in the log files
+  /*appLogger.logPropClickTitle({title1:"Timestamp",title2:"Host_id",title3:"User_id",title4:"Property_id",title5:"Property_name"})
+  appLogger.logPageClickTitle({title1:"Timestamp",title2:"Page",title3:"User_id",title4:"Element"})
+  appLogger.logUserActivityTitle({title1:"Timestamp",title2:"User_id",title3:"Event"})*/
 });
 module.exports = app;
 

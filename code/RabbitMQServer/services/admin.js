@@ -1,6 +1,8 @@
 //Reabbit MQ server side for handling the admin related services
 var tool = require("../utili/common");
-var ObjectID = require('mongodb').ObjectID;
+var ObjectID = require('mongodb').ObjectId;
+var mysql = require('../db/mysql');
+var sql_queries = require('../db/sql_queries');
 
 var approveHost = {
 
@@ -9,7 +11,7 @@ var approveHost = {
 		var json_resp = {};
 		try {
 
-			var coll = connection.mongoConn.collection('user');
+			var coll = connection.mongoConn.collection('users');
 
 			console.log("In RabbitMQ Server : admin.js : host_id : " + msg.host_id);
 			var searchCriteria = {
@@ -21,7 +23,7 @@ var approveHost = {
 					}
 			};
 
-			coll.updateOne(searchCriteria, data, function(err, results) {
+			coll.updateOne(searchCriteria, data , function(err, results) {
 
 				if (err) {
 					console.log("RabbitMQ server : admin.js : error :"+err);
@@ -34,6 +36,7 @@ var approveHost = {
 					};
 					callback(null, res);
 				} else {
+					console.log("Record after updating the host status : " + JSON.stringify(results));
 					if (results.modifiedCount == 1) {
 						json_resp = {
 							"status_code" : 200
@@ -72,7 +75,7 @@ var pendingHostsForApproval = {
 			var json_resp = {};
 			try {
 
-				var coll = connection.mongoConn.collection('user');
+				var coll = connection.mongoConn.collection('users');
 
 				console.log("In RabbitMQ Server : admin.js : pendingHostsForApproval : city : " + msg.city);
 				console.log("In RabbitMQ Server : admin.js : pendingHostsForApproval : host_status : " + msg.host_status);
@@ -136,19 +139,47 @@ var checkLogin = {
 		if(msg.email == "admin" && msg.password == "admin"){
 			res.statusCode = 200;
 			res.message = "Success";
+			res.adminEmailId = msg.email;
 			console.log("response message = " + res.message);
 	    	callback(null, res);
 		}
 		else{
 			res.statusCode = 400;
-			res.adminEmailId = msg.email;
 			res.message = "Username or Password is wrong!";
 			console.log("response message = " + res.message);
 			callback(null, res);
 		}
 	}
-}
+};
 
+var getAllBills = {
+    handle_request: function (connection,msg,callback) {
+        var res = {};
+
+        mysql.execute_query(function (err,result) {
+            if(err){
+                tool.logError(err);
+                res = {"statusCode":400};
+                callback(null,res);
+            }
+            else{
+                if(result.length>0){
+                    res = {
+                        "statusCode": 200,
+                        bills: result
+                    };
+                    callback(null,res);
+                }
+                else{
+                    res = {"statusCode":401};
+                    callback(null,res);
+                }
+            }
+        },sql_queries.FETCH_ALL_BILLS,[]);
+    }
+};
+
+exports.getAllBills = getAllBills;
 exports.pendingHostsForApproval = pendingHostsForApproval;
 exports.approveHost = approveHost;
 exports.checkLogin = checkLogin;

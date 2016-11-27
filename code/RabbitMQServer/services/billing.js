@@ -11,7 +11,7 @@ var view = {
         mysql.execute_query(function (err,result) {
             if(err){
                 tool.logError(err);
-                res = {"statusCode":401};
+                res = {"statusCode":400};
                 callback(null,res);
             }
             else
@@ -59,7 +59,7 @@ var deleteBill = {
                 res = {"statusCode":200};
                 callback(null, res);
             }
-        },sql_queries.DELETE_BILL,[msg.bill_id,'CREATED']);
+        },sql_queries.DELETE_BILL,[msg.bill_id]);
     }
 };
 
@@ -89,7 +89,7 @@ var createBill = {
 	            		}
 	                  callback(null, res);
 	            }
-	        },sql_queries.CREATE_BILL,[msg.trip_id]);
+	        },sql_queries.CREATE_BILL,[msg.trip_id,'CREATED']);
 	    }
 	};
 
