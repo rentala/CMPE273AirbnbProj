@@ -67,7 +67,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 method : "POST",
                 url : "/api/admin/pendingHostsForApproval",
                 data : {
-                    "host_status" : "N",
+					"host_status" : "NA",
                     "city" : $scope.cityForInbox
                 }
             }).success(function(data){
@@ -95,7 +95,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 }
             }).success(function(data){
                 if(data.status_code == 200){
-                    window.location = "/api/admin/adminHome"
+                    $scope.getPendingHostAppovals();
                 }
                 else if(data.status_code == 400){
                     console.log("error on service side");

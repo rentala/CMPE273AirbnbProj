@@ -74,9 +74,12 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                 if(results.bidding.length >0){
                 	min_bid = results.bidding[0].max_bid_price;
                 }
-                
+                var msg = req.session.msg;
+                var start_date = msg.start_date;
+                var end_date = msg.end_date;
                 property.avg_ratings = avg_ratings;
-                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid});
+                //req.session.msg = "";
+                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid,start_date:start_date,end_date:end_date,guests:msg.guests});
             }
             else {
                 json_responses = {"status_code":results.statusCode};
@@ -180,6 +183,26 @@ function mapReqToPayLoad(req) {
     msg_payload.bid_price = req.body.bid;
     return msg_payload;
 }
+
+function mapCheckoutRequest(req) {
+	var msg_payload = {};
+	msg_payload.property_id = req.body.property_id;
+	msg_payload.description = req.body.description;
+	msg_payload.host_id = req.body.host_id;
+	msg_payload.city = req.body.city;
+	msg_payload.state = req.body.state;
+	msg_payload.country = req.body.country;
+	msg_payload.start_date = req.body.start_date;
+	msg_payload.end_date = req.body.end_date;
+	msg_payload.guests = req.body.guests;
+	msg_payload.per_night = req.body.per_night;
+	msg_payload.per_week = req.body.per_week;
+	msg_payload.per_month = req.body.per_month;
+	msg_payload. total = req.body.total;
+    
+    return msg_payload;
+}
+
 var getID = function () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
@@ -226,7 +249,6 @@ router.post('/bidProperty', function (req, res, next)  {
 router.get('/searchResult', function (req, res, next)  {
 	
 	var msg = req.session.msg;
-	console.log("end_date: "+ msg.end_date);
 	ejs.renderFile('./views/views/searchResult.ejs',{ user_dtls: req.session.user,start_date:msg.start_date,end_date: msg.end_date, guests: msg.guests},function(err, result) {
 		// render on success
 		if (!err) {
@@ -264,6 +286,41 @@ router.get('/myListings', function (req, res, next)  {
         }
         res.send(json_responses);
     });
+});
+
+router.post('/paymentGateway', function (req, res, next)  {
+	var msg = mapCheckoutRequest(req)	;
+	
+	ejs.renderFile('./views/views/cardDetails.ejs',{ data:msg},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			console.log('An error occurred');
+//			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
+router.get('/paymentGateway/:flow/:diff', function (req, res, next)  {
+	
+	ejs.renderFile('./views/views/cardDetails.ejs',{ diff:req.param("diff"),flow:req.param("flow")},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			console.log('An error occurred');
+//			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
 });
 
 

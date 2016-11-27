@@ -1,5 +1,6 @@
 var app = angular.module('airbnbApp',[]);
 		app.controller('propertyDetailsController',function($scope,$http){
+			
 			$scope.image = "paris.jpg";
 			$scope.profile = function(){
 				alert("krishna");
@@ -108,7 +109,6 @@ var app = angular.module('airbnbApp',[]);
 			}
 			
 			$scope.makeBid = function(property_id,description,bid_amount,minBid){
-				var bid_amount = $scope.bid_amount;
 				if(bid_amount <=minBid){
 					alert("Please bid higher than $"+minBid);
 				}
@@ -125,6 +125,43 @@ var app = angular.module('airbnbApp',[]);
 		        	if(data.status_code == "200")
 		        		alert("Bid Submitted");
 		        		window.location.reload();
+		        })
+				}
+			}
+			
+			$scope.editTrip = function(price){
+				var property_id = document.getElementById("property_id2").defaultValue;
+				var trip_id = document.getElementById("trip_id2").defaultValue;
+				var start_date = $scope.check_in;
+				var end_date = $scope.check_out;
+				var guests = document.getElementById("guests2").defaultValue;
+				if(start_date == undefined || end_date ==undefined){
+					alert("Enter checkin and checkout dates");
+				}
+				else{
+				$http({
+		            method:"POST",
+		            url:"/api/trip/editTrip",
+		            data:{
+		            	property_id:property_id,
+		            	trip_id:trip_id,
+		            	guests:guests,
+		            	start_date:start_date,
+		            	end_date:end_date
+		            }
+		        }).success(function(data){
+		        	if(data.status_code == "200"){
+		        		var diff = eval(data.newTripPrice-price);
+		        		if(diff>0){
+		        			alert("you will have to pay more");
+		        			window.location.assign("/api/property/paymentGateway/e/"+diff);
+		        		}	
+	        			else	
+	        				alert("Trip updated. No extra charges")
+		        	}
+		        	else{
+		        		alert("Sorry cannot update trip for following dates");
+		        	}
 		        })
 				}
 			}

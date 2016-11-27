@@ -17,15 +17,15 @@ app.directive('fileModel', ['$parse', function ($parse) {
   }]);
 
 app.service('fileUpload', [ '$http' ,function ( $http) {
-    this.uploadFileToUrl = function(file, uploadUrl,property_id){
+    this.uploadFileToUrl = function(file, uploadUrl,property_id,trip_id,index){
         var fd = new FormData();
         var comment =document.getElementById("comment").value;
-		var rating = $('input:radio[name=rate]:checked').val();
+		var rating = $('input:radio[name=rate'+index+']:checked').val();
         fd.append('file', file);
         fd.append('comment', comment);
         fd.append('rating', rating);
         fd.append('property_id', property_id);
-        
+        fd.append('trip_id', trip_id);        
         $http.post(uploadUrl, fd, {
            transformRequest: angular.identity,
            headers: {'Content-Type': undefined}
@@ -55,7 +55,28 @@ app.controller('myTripController',['$scope','fileUpload','$http', function($scop
 		        	$scope.notrip = true;
 		        	$scope.data=data.userTrips;
 		        	$scope.user_id=data.user_id;
-		        	console.log($scope.data);
+		        	var a;
+		        	var userTrips = data.userTrips;
+		        	var rating;
+		        	for (i = 0; i < userTrips.length; i++) { 
+		        	    if(userTrips[i].trip_status=="COMPLETED"){
+		        	    	rating = userTrips[i].rating;
+		        	    	a=i;
+		        	    	var $radios = $('input:radio[name=rate'+a+']');
+				            if($radios.is(':checked') === false) {
+				                if(rating ==1)
+				                	$radios.filter('[value=1]').prop('checked', true);
+				                else if(rating ==2)
+				                	$radios.filter('[value=2]').prop('checked', true);
+				                else if(rating =='3')
+				                	$radios.filter('[value=3]').prop('checked', true);
+				                else if(rating ==4)
+				                	$radios.filter('[value=4]').prop('checked', true);
+				                else if(rating ==5)
+				                	$radios.filter('[value=5]').prop('checked', true);
+				            }
+		        	    }
+		        	}
 	        	}
 	        	else{
 	        		$scope.notrip1 = true;
@@ -69,9 +90,13 @@ app.controller('myTripController',['$scope','fileUpload','$http', function($scop
     			window.open("/api/billing/viewBill?trip_id="+trip_id+"&bill_id="+billing_id,'Bill',directories=0);
     		}
     		
-    			$scope.submitReview = function(property_id){
-    		           var file = $scope.myFile;
-    		           var uploadUrl = "/api/trip/submitReview";
-    		           fileUpload.uploadFileToUrl(file, uploadUrl,property_id);
-    		        };
+			$scope.submitReview = function(property_id,trip_id,index){
+		           var file = $scope.myFile;
+		           var uploadUrl = "/api/trip/submitReview";
+		           fileUpload.uploadFileToUrl(file, uploadUrl,property_id,trip_id,index);
+		        };
+	        $scope.editTrip = function(trip_id, property_id,price){
+	        	///api/property/id/{{x.property_id}}/view
+    			window.location.assign("/api/trip/id/"+property_id+"/"+price+"/edit/"+trip_id);
+    		}    
     	}])

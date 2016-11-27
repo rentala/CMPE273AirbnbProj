@@ -97,21 +97,21 @@ router.post('/delete',function (req,res) {
 router.post('/createTrip', function(req, res){
   var property_id = req.body.property_id;
   var host_id = req.body.host_id;
-  var user_id = req.body.user_id/*req.session.user._id*/;
+  var user_id = req.session.user._id;
   var property_name = req.body.property_name;
-  var city_nm = req.body.city_nm;
+  var city_nm = req.body.city
   var state = req.body.state;
   var start_date = req.body.start_date;
   var end_date = req.body.end_date;
   var price = req.body.price;
-  var guest = req.body.guest;
+  var guest = req.body.guests;
   var country = req.body.country;
-  var payment_details = {
+  /*var payment_details = {
     "mode" : req.body.mode,
     "card_number" : req.body.card_number,
     "cvv" : req.body.cvv,
     "expiry_date" : req.body.expiry_date
-  };
+  };*/
   var msg_payload = {
     "property_id" : property_id,
     "host_id" : host_id,
@@ -123,10 +123,9 @@ router.post('/createTrip', function(req, res){
     "end_date" : end_date,
     "price" : price,
     "guest" : guest,
-    "country" : country,
-    "payment_details" : payment_details
+    "country" : country
+    // ,"payment_details" : payment_details
   };
-  console.log(msg_payload);
   mq_client.make_request('createTrip_queue', msg_payload, function (err,results) {
         if(err){
             //Need to add tool to log error.
@@ -226,7 +225,7 @@ function buildPayLoad(req) {
         time: new Date().toDateString(),
         user_id: req.session.user_id, //stub get from session
         user_name: req.session.user.first_name,  //stub
-        trip_id: 1 //stub get from session
+        trip_id: req.body.trip_id //stub get from session
     }
     return msg_payload;
 }
@@ -235,7 +234,7 @@ router.post('/editTrip',function (req,res) {
     var json_responses;
 
     var trip_id = req.param("trip_id");
-    var user_id = req.param("user_id");
+    var user_id = req.session.user_id;
     var property_id = req.param("property_id");
     var guests = req.param("guests");
     var start_date = req.param("start_date");
@@ -250,7 +249,7 @@ router.post('/editTrip',function (req,res) {
         else {
             if(results.statusCode == 200)
             {
-                json_responses = {"status_code":200};
+                json_responses = {"status_code":200,"newTripPrice":results.newTripPrice};
             }
             else {
                 json_responses = {"status_code":400};
@@ -389,6 +388,61 @@ router.post('/submitReview', function (req, res, next)  {
         });
     });
 
+});
+
+
+router.get('/id/:prop_id/:price/:flow/:trip_id',function (req,res) {
+
+    var prop_id = req.param("prop_id");
+    var flow = req.param("flow");
+    var trip_id = req.param("trip_id");
+    var price = req.param("price");
+    console.log("flow"+flow+"prop_"+prop_id);
+    var json_responses;
+
+    var msg_payload={"prop_id":prop_id};
+    var ratings_array = [];
+    var total_ratings=0;
+    var avg_ratings;
+    mq_client.make_request('get_property_by_id_queue',msg_payload,function (err,results) {
+        if(err){
+            //Need to add tool to log error.
+            tool.logError(err);
+            json_responses = {"status_code":400};
+        }
+        else {
+            if(results.statusCode == 200){
+                if(results.prop_array[0].hasOwnProperty('ratings')){
+                    ratings_array = results.prop_array[0].ratings;
+                    for(var i=0;i<ratings_array.length;i++){
+                        total_ratings += ratings_array[i].rating_stars;
+                    }
+                    avg_ratingbidPropertys = (total_ratings/ratings_array.length);
+                } else{
+                    //no ratings yet
+                    avg_ratings = 0;
+                }
+
+                var property = results.prop_array[0];
+                var min_bid = 0;
+                if(results.bidding.length >0){
+                	min_bid = results.bidding[0].max_bid_price;
+                }
+                var msg = req.session.msg;
+                var start_date = msg.start_date;
+                var end_date = msg.end_date;
+                property.avg_ratings = avg_ratings;
+                //req.session.msg = "";
+                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid,price:price,guests:msg.guests,trip_id:trip_id});
+            }
+            else {
+                json_responses = {"status_code":results.statusCode};
+                res.render('./property/productDetails.ejs', { productNotFound : true});
+            }
+        }
+
+        res.end();
+    });
 });
 
 module.exports = router;

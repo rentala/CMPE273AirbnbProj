@@ -1,6 +1,8 @@
 //Reabbit MQ server side for handling the admin related services
 var tool = require("../utili/common");
 var ObjectID = require('mongodb').ObjectId;
+var mysql = require('../db/mysql');
+var sql_queries = require('../db/sql_queries');
 
 var approveHost = {
 
@@ -9,7 +11,7 @@ var approveHost = {
 		var json_resp = {};
 		try {
 
-			var coll = connection.mongoConn.collection('user');
+			var coll = connection.mongoConn.collection('users');
 
 			console.log("In RabbitMQ Server : admin.js : host_id : " + msg.host_id);
 			var searchCriteria = {
@@ -79,7 +81,7 @@ var pendingHostsForApproval = {
 				console.log("In RabbitMQ Server : admin.js : pendingHostsForApproval : host_status : " + msg.host_status);
 				var searchCriteria = {
 					"city" : msg.city,
-					"is_host" : msg.host_status
+					"host_status" : msg.host_status
 				};
 			
 				coll.find(searchCriteria).toArray(function(err, userDtls) {
@@ -148,8 +150,36 @@ var checkLogin = {
 			callback(null, res);
 		}
 	}
-}
+};
 
+var getAllBills = {
+    handle_request: function (connection,msg,callback) {
+        var res = {};
+
+        mysql.execute_query(function (err,result) {
+            if(err){
+                tool.logError(err);
+                res = {"statusCode":400};
+                callback(null,res);
+            }
+            else{
+                if(result.length>0){
+                    res = {
+                        "statusCode": 200,
+                        bills: result
+                    };
+                    callback(null,res);
+                }
+                else{
+                    res = {"statusCode":401};
+                    callback(null,res);
+                }
+            }
+        },sql_queries.FETCH_ALL_BILLS,[]);
+    }
+};
+
+exports.getAllBills = getAllBills;
 exports.pendingHostsForApproval = pendingHostsForApproval;
 exports.approveHost = approveHost;
 exports.checkLogin = checkLogin;
