@@ -22,7 +22,11 @@
 		<div class="col-sm-9">
 			<h2 style="font-size: large; font-weight: normal; font-family: Helvetica neue,Helvetica,Arial,Sans-serif; text-transform: none " >Verify Card</h2><br>
 			<div class="row">
-				<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=data.total%></label></div>
+			 <% if(flow == "e") { %>
+   				<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=diff%></label></div>
+              <% }else { %>  
+  	 				<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=data.total%></label></div>
+              <%}%>
 			</div><br>
 			<div class="row">
 				<div class="col-sm-2"> <label  style="font-size:normal; font-weight: normal font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px">Card Number</label></div>
@@ -66,7 +70,7 @@
                 <div class="pull-right">
                     <input type="submit" class="btn btn-primary" ng-click="submit();" name="submit" id="submit"  class="form-control btn btn-primary" value="Make Payment">
                 </div>
-              <% }else {>  
+              <% }else { %>  
              	 <div class="pull-right">
                     <input type="submit" class="btn btn-primary" ng-click="payDiff();" name="submit" id="submit"  class="form-control btn btn-primary" value="Make Payment">
                 </div>
