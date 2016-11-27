@@ -89,9 +89,9 @@ http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
   
   //Log title in the log files
-  appLogger.logPropClickTitle({title1:"Timestamp",title2:"Host_id",title3:"User_id",title4:"Property_id",title5:"Property_name"})
+  /*appLogger.logPropClickTitle({title1:"Timestamp",title2:"Host_id",title3:"User_id",title4:"Property_id",title5:"Property_name"})
   appLogger.logPageClickTitle({title1:"Timestamp",title2:"Page",title3:"User_id",title4:"Element"})
-  appLogger.logUserActivityTitle({title1:"Timestamp",title2:"User_id",title3:"Event"})
+  appLogger.logUserActivityTitle({title1:"Timestamp",title2:"User_id",title3:"Event"})*/
 });
 module.exports = app;
 
