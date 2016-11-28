@@ -11,7 +11,28 @@ app.controller('myInboxController',function($scope,$http){
         console.log("vhhvnv");
     }
     })
-    $scope.acceptTrip = function(){
+    $scope.acceptTrip = function(trip_id){
+        $http({
+            method:"POST",
+            url:"/api/trip/updateTrip",
+            data:{
+                "status":"ACCEPTED",
+                "trip_id":trip_id
+            }
+        }).success(function(data){
+            if(status_code==200){
 
+            }
+        })
+    }
+    $scope.rejectTrip = function(trip_id){
+        $http({
+            method:"POST",
+            url:"/api/trip/updateTrip",
+            data:{
+                "status":"REJECTED",
+                "trip_id":trip_id
+            }
+        })
     }
 })
