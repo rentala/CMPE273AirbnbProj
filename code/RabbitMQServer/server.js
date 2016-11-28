@@ -84,6 +84,10 @@ cnn.on('ready', function(){
 	cnn.queue('review_user_queue', function(q){
 		subscriber(q, host.reviewUser );
 	});
+	cnn.queue('get_host_queue', function(q){
+		subscriber(q, host.getHostByCity);
+	});
+	
     //admin queues
 	cnn.queue('adminLoginRequest_queue', function(q){
 		subscriber(q, admin.checkLogin);
