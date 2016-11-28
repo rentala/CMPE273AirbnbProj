@@ -33,7 +33,7 @@ router.get('/topProp',function (req,res) {
 router.get('/cityWiseData',function (req,res) {
 
     var json_responses;
-    var city = req.body.city;
+    var city = req.param("city");
 
     var msg_payload = {"city":city};
 

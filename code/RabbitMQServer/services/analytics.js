@@ -43,7 +43,7 @@ var cityWiseData = {
 
       try{
           var coll=connection.mongoConn.collection('property');
-          coll.find({"city":msg.city}).toArray(function (err, records) {
+          coll.find({"address.city":msg.city},{'_id':1}).toArray(function (err, records) {
               if(err){
                   res = {"statusCode":400};
                   tool.logError(err);
@@ -51,8 +51,8 @@ var cityWiseData = {
               }
               else {
                   if(records.length>0){
-                      city_wise_property = property.getPropertyArray(records);
-                      console.log(city_wise_property);
+                      city_wise_property = getPropertyIds(records);
+                     // console.log("Property_id : " + JSON.stringify(city_wise_property));
                       mysql.execute_query(function (err,result) {
                           if(err){
                               res = {"statusCode":400};
@@ -78,6 +78,16 @@ var cityWiseData = {
       }
   }
 };
+
+
+function getPropertyIds(records){
+	var data = [];
+	for(record in records){
+		console.log("Record : " +JSON.stringify(record));
+		data.push(record);
+	}
+	return data;
+}
 
 var topHost = {
     handle_request: function (connection,msg,callback) {
