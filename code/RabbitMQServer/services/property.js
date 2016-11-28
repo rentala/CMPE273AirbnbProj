@@ -12,6 +12,7 @@ var listProperty = {
 	            var localMsg = JSON.stringify(msg);
 	            var coll = connection.mongoConn.collection('property');
                 msg.reviews = [];
+				msg.isHostActive = false;
 	            coll.insert(msg, function(err, prop){
 	                if(err){
 	                    tool.logError(err);
@@ -248,7 +249,7 @@ var bidProperty = {
                     res = {"statusCode" : 200};
                     callback(null, res);
                 }
-            }, sql_queries.INSERT_BID, [msg.bid_id, msg.user_id, msg.bid_amount, msg.property_id,msg.property_name]);
+            }, sql_queries.INSERT_BID, [msg.bid_id, msg.user_id, msg.bid_amount, msg.property_id,msg.property_name,msg.bidder_name]);
 	    }
 	};
 
