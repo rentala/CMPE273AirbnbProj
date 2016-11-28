@@ -171,7 +171,7 @@ function mapReqToPayLoad(req) {
     msg_payload.category = req.body.category
     msg_payload.coordinates = {
         x: req.body.coordinatesX,
-        y: req.body.coordinateY
+        y: req.body.coordinatesY
     }
     msg_payload.description = req.body.description;
     msg_payload.guests = parseInt(req.body.guests);
