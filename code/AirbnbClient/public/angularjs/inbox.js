@@ -20,8 +20,9 @@ app.controller('myInboxController',function($scope,$http){
                 "trip_id":trip_id
             }
         }).success(function(data){
-            if(status_code==200){
-
+            if(data.status_code==200){
+                alert('trip is accepted');
+                window.location.reload();
             }
         })
     }
@@ -32,6 +33,11 @@ app.controller('myInboxController',function($scope,$http){
             data:{
                 "status":"REJECTED",
                 "trip_id":trip_id
+            }
+        }).success(function(data){
+            if(data.status_code==200){
+                alert('trip is rejected');
+                window.location.reload();
             }
         })
     }
