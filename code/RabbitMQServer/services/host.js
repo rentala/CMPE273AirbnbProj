@@ -13,7 +13,7 @@ var deleteHost = {
         var res = {};
         try {
             var coll = connection.mongoConn.collection('users');
-            coll.updateOne({_id: new ObjectId(msg.id) }, {$set :{is_host: "N"}}, function(err, results) {
+            var func = function(err, results) {
 
                 if (err) {
                     tool.logError(err);
@@ -25,7 +25,11 @@ var deleteHost = {
                     callback(null, res);
                 }
 
-            });
+            }
+            var counter = 2;
+            coll.updateOne({_id: new ObjectId(msg.id) }, {$set :{host_status: "NA"}}, func);
+            var propColl = connection.mongoConn.collection('property');
+            propColl.updateOne({host_id: msg.id }, {$set :{isHostActive: false}}, func);
         } catch (err) {
             res.code = 400;
             tool.logError(err);

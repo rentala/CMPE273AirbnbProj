@@ -81,10 +81,10 @@ router.post('/review/:userId/:propertyId', function (req, res, next)  {
 
 });
 
-router.get('/getHostByCity',function (req,res) {
+router.post('/getHostByCity',function (req,res) {
 
    var json_responses;
-   var city = req.param("city");
+   var city = req.body.city;
    var msg_payload = {"city":city};
 
    mq_client.make_request('get_host_queue',msg_payload,function (err,results) {
