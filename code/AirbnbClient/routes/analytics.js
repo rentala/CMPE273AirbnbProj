@@ -5,7 +5,7 @@ var mq_client = require('../rpc/client');
 var tool = require("../utili/common");
 
 router.get('/topProp',function (req,res) {
-    var no_of_props= req.param("no_of_props");
+    var no_of_props= req.body.no_of_props;
     var json_responses;
     var msg_payload = {"no_of_props":no_of_props};
 
@@ -33,7 +33,7 @@ router.get('/topProp',function (req,res) {
 router.get('/cityWiseData',function (req,res) {
 
     var json_responses;
-    var city = req.param("city");
+    var city = req.body.city;
 
     var msg_payload = {"city":city};
 
