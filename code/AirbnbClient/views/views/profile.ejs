@@ -59,7 +59,7 @@
 	</div>
 	<div class="col-sm-1"></div>
 	<div class="col-sm-2">
-		<a class="active" data-ng-click="profile()"><h4>Edit Profile</h4></a>
+		<a class="active" href = "" data-ng-click="profile()"><h4>Edit Profile</h4></a>
 		<a data-ng-click="profileImage()"><h4>Photos, Symbol, and Video</h4></a>
 		<h4>Trust and Verification</h4>
 		<h4>Reviews</h4>
@@ -156,14 +156,14 @@
 			</div>
 			<div class="col-sm-12" style="border:0.5px solid black;margin-top:20px">
 				<div style="background-color:#f9f9f9;border-bottom:0.5px solid black"><h2>Profile video</h2></div><br>
-				<div class="col-sm-4">
+				<div class="col-sm-12">
 					<video height="200px" width="200px">
-						<source src="mov_bbb.mp4" type="video/mp4">
+						<source data-ng-src="/uploads/{{video}}" type="video/mp4">
 					</video>
 				</div>
-				<div class="col-sm-8"><p style="margin-top:15px">Clear frontal face photos are an important way for hosts and guests to learn about each other. It’s not much fun to host a landscape! Please upload a photo that clearly shows your face.</p><br>
-					<input type="file" title=" "><br>
-					<input type="button" class="btn btn-danger" style="margin-bottom:10px" value="upload" data-ng-click="uploadVideo()">
+				<div class="col-sm-12"><p style="margin-top:15px">Clear frontal face photos are an important way for hosts and guests to learn about each other. It’s not much fun to host a landscape! Please upload a photo that clearly shows your face.</p><br>
+					<input type="file" title=" " accept="video/*" name="file"><br>
+					<input type="submit" class="btn btn-primary" value="upload">
 				</div>
 			</div>
 		</div>
