@@ -4,7 +4,7 @@ var mq_client = require('../rpc/client');
 var tool = require("../utili/common");
 var ejs = require('ejs');
 
-router.get('inbox', function (req, res) {
+router.get('/inbox', function (req, res) {
 	ejs.renderFile('./views/host/inbox.ejs',{ user_dtls: req.session.user},function(err, result) {
 		// render on success
 		if (!err) {
@@ -24,6 +24,7 @@ router.post('/inboxContent', function(req, res){
 	var msg_payload = {
 		"host_id" : host_id
 	}
+	console.log("reached /inboxContent");
 	mq_client.make_request('inbox_queue', msg_payload, function(err,results){
         if(err){
       	  tool.logError(err);
@@ -51,4 +52,7 @@ router.post('/inboxContent', function(req, res){
         res.end();
     });
 });
+/*router.post('/approveUser',function(req,res){
+	var
+})*/
 module.exports = router;

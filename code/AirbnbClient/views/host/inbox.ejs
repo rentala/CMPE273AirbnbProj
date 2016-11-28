@@ -8,9 +8,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="/angularjs/profileController.js"></script>
-    <script>
-    </script>
+    <script src="/angularjs/inbox.js"></script>
 </head>
 <body ng-app="myInbox" ng-controller="myInboxController">
 <nav class="navbar navbar-default" style="background-color:white; ">
@@ -50,24 +48,30 @@
         <div class="container-fluid">
             <ul class="nav navbar-nav">
                 <li><a data-ng-click="dashboard()">Dashboard</a></li>
-                <li><a data-ng-click="inbox()">Inbox</a></li>
+                <li><a href="/api/inbox/inbox">Inbox</a></li>
                 <li><a href="/api/profile/yourListings">Your Listings</a></li>
                 <li><a href="/api/profile/myTrips">Your Trips</a></li>
                 <li><a href="/api/profile/editProfile">Profile</a></li>
         </div>
     </nav>
 </div>
-<div class="col-sm-1"></div>
-<div class="col-sm-2">
-    <a class="active" data-ng-click="profile()"><h4>Edit Profile</h4></a>
-    <a data-ng-click="profileImage()"><h4>Photos, Symbol, and Video</h4></a>
-    <h4>Trust and Verification</h4>
-    <h4>Reviews</h4>
-    <h4>References</h4>
+<button ng-click="some()">some</button>
+<div class="col-sm-2"></div>
+<div class="col-sm-8">
+    <div class="col-sm-12" style="border:0.5px solid black">
+        <div data-ng-repeat="x in details">
+            <div class="col-sm-12" style="margin-top:10px">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-sm-5"><img src="/uploads/{{x.picture_path[0].filename}}" class="panel-image-preview" width="" height="150px"></div>
+                        <p>{{x.first_name}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div ng-repeat="x in details">
-    sdfdfsdfdsfsdfsddf
-</div>
+
 
 </body>
 </html>
