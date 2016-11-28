@@ -35,5 +35,6 @@ constants.define(exports, {
     TRIP_REVIEWED : "update airbnb.trip set is_reviewed=1, rating=?, review_comment=? where trip_id=?",
     FETCH_ALL_BILLS_BY_DATE : "SELECT * FROM airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (date(trip.trip_approved_time)) = (date(?)) and bill_status != 'DELETED';",
     FETCH_ALL_BILLS_BY_MONTH : "SELECT * from airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (month(trip.trip_approved_time)) = (month(?)) and bill_status != 'DELETED';",
-    FETCH_ALL_BILLS_BY_YEAR : "SELECT * from airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (year(trip.trip_approved_time)) = ? and bill_status != 'DELETED';"
+    FETCH_ALL_BILLS_BY_YEAR : "SELECT * from airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (year(trip.trip_approved_time)) = ? and bill_status != 'DELETED';",
+    FETCH_BID_WINNERS : "SELECT bid_id, created_time, max_bid_days, expiry_date, host_min_amt, max_bid_price, max_bid_user_id, property_id, property_name, bidder_name from airbnb.bidding where DATEDIFF(CURRENT_TIMESTAMP, CAST(created_time AS DATETIME)) >4 and is_approved =0 and property_id IN (?);",
 });

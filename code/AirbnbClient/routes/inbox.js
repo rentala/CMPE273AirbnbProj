@@ -31,7 +31,7 @@ router.post('/inboxContent', function(req, res){
             json_responses = {
                 "failed" : "failed",
                 "result" : results.result,
-                "status_code" : 401
+                "status_code" : 400
             };
         } 
         else {
@@ -39,12 +39,12 @@ router.post('/inboxContent', function(req, res){
 	            json_responses = { 
 	            	"result":results.results,
 	            	"status_code" : 200,
-	            	"userDetails" : results.userDetails
+	            	"biddings" : results.biddings
 	            };
         	}
-        	else if(results.status_code == 403){
+        	else if(results.status_code == 400){
         		json_responses = { 
-	            	"status_code" : 401
+	            	"status_code" : 400
 	            };
         	}
         }
