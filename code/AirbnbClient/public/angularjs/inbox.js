@@ -5,7 +5,7 @@ myInbox.controller('myInboxController',function ($scope,$http) {
         "url":"/api/inbox/inboxContent"
     }).success(function (data) {
         if(data.status_code=='200'){
-            
+            $scope.details=data.userDetails;
         }
     })
 })
