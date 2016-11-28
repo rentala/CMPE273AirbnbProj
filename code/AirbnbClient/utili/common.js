@@ -25,9 +25,9 @@ function titleFileFormatter (options) {
 }
 
 //------------------Title Loggers--------------------
-winston.loggers.add('prop_click_title_logger', {
+/*winston.loggers.add('prop_click_title_logger', {
    file: {
-      filename: './logs/prop_click.tsv',
+      filename: './logs/bidding_dtls.tsv',
       formatter  : titleFileFormatter,
       json:false
      }
@@ -45,7 +45,7 @@ winston.loggers.add('user_info_title_logger', {
       formatter  : titleFileFormatter,
       json:false
      }
-  });
+  });*/
 //--------------------------------------------------
 //-----------------Data Loggers---------------------
 winston.loggers.add('prop_click_logger', {
@@ -77,19 +77,28 @@ winston.loggers.add('error_logger', {
       json:false
      }
   });
+winston.loggers.add('bidding_dtl_logger', {
+   file: {
+      filename: './logs/bidding_dtls.log',
+      formatter  : customFileFormatter,
+      json:false
+     }
+});
+
 
 //--------------------------------------------------
 
 var propClick_logger = winston.loggers.get('prop_click_logger');
 var pageClick_logger = winston.loggers.get('page_click_logger');
 var userInfo_logger = winston.loggers.get('user_info_logger');
+var biddingDtl_logger = winston.loggers.get('bidding_dtl_logger');
 var errorLogger = winston.loggers.get('error_logger');
 
 //Loggers for title
-var propClick_title_logger = winston.loggers.get('prop_click_title_logger');
+/*var propClick_title_logger = winston.loggers.get('prop_click_title_logger');
 var pageClick_title_logger = winston.loggers.get('page_click_title_logger');
 var userInfo_title_logger = winston.loggers.get('user_info_title_logger');
-
+*/
 
 
 
@@ -98,7 +107,7 @@ var userInfo_title_logger = winston.loggers.get('user_info_title_logger');
 
 var logError = function (err) {
     var id = getID();
-    error_logger.log('info','Error Id: ' + id + ' Error: ' + JSON.stringify(err));
+    errorLogger.log('info','Error Id: ' + id + ' Error: ' + JSON.stringify(err));
 };
 
 var getID = function () {
@@ -111,6 +120,11 @@ var getID = function () {
 var logPropertyCicks = function(data){
 	
 	propClick_logger.log('info' , data.host_id + "\t" + data.user_id + "\t" + data.property_id + "\t" +data.property_name); 
+};
+
+var logBiddingDtls = function(data){
+	
+	biddingDtl_logger.log('info' , data.user_id + "\t" + data.user_name + "\t" + data.property_id + "\t" +data.property_name+ "\t" +data.event); 
 };
 
 var logPageClicks = function(data){
