@@ -2,5 +2,6 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$/code/AirbnbClient" libraries="{CMPE273AirbnbProj/code/AirbnbClient/node_modules}" />
+    <file url="file://$PROJECT_DIR$/code/RabbitMQServer" libraries="{CMPE273AirbnbProj/code/RabbitMQServer/node_modules}" />
   </component>
 </project>
