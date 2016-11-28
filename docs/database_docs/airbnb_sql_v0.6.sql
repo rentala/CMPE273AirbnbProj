@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `airbnb`.`bidding` (
   `max_bid_user_id` VARCHAR(50) NULL DEFAULT NULL,
   `property_id` VARCHAR(50) NOT NULL,
   `property_name` VARCHAR(256) NULL DEFAULT NULL,
+  `bidder_name` VARCHAR(50) NULL DEFAULT NULL,
   PRIMARY KEY (`bid_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
@@ -51,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `airbnb`.`bidding_dtl` (
   `bid_time` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `property_name` VARCHAR(256) NULL DEFAULT NULL,
   `property_id` VARCHAR(50) NULL DEFAULT NULL,
+  `bidder_name` VARCHAR(50) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `bid_id_idx` (`bid_id` ASC),
   CONSTRAINT `bid_id`
@@ -84,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `airbnb`.`trip` (
   `is_reviewed` INT(1) NOT NULL DEFAULT 0,
   `rating` INT(1) NULL DEFAULT NULL,
   `review_comment` VARCHAR(256) NULL DEFAULT NULL,
+  `guest_name` VARCHAR(50) NULL DEFAULT NULL,
   PRIMARY KEY (`trip_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
