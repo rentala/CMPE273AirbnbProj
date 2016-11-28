@@ -5,7 +5,7 @@ constants.define(exports, {
     FETCH_BID_INFO:"select bidding_dtl.bidder_id,bidding_dtl.bid_price,bidding_dtl.bid_time,bidding_dtl.property_name from airbnb.bidding_dtl where property_id=?;",
     FETCH_BILLING_DTLS:"SELECT trip.user_id,trip.property_id,trip.property_name,billing.billing_id,trip.trip_price,trip.checkin_date,trip.checkout_date,trip.no_of_guests FROM airbnb.trip ,airbnb.billing WHERE trip.trip_id = ? and trip.trip_id = billing.trip_id and billing.bill_status = 'CREATED';",
     FETCH_ALL_BILLS : "SELECT trip.user_id,trip.property_id,trip.property_name,billing.billing_id,trip.trip_price,trip.checkin_date,trip.checkout_date,trip.no_of_guests,year(date(trip.trip_approved_time)) as year,month(date(trip.trip_approved_time)) as month,trip.trip_approved_time FROM airbnb.trip ,airbnb.billing WHERE billing.bill_status = 'CREATED';",
-    FETCH_CITY_WISE_DATA: "SELECT property_id, property_name, SUM(trip.trip_price) as total_revenue,YEAR(date(trip.trip_approved_time)) as trip_year FROM trip WHERE trip.property_id IN (?) and trip.trip_status = 'ACCEPTED' GROUP BY property_id ,  property_name, trip_year ORDER BY trip_year limit ?;",
+    FETCH_CITY_WISE_DATA: "SELECT YEAR(DATE(trip.trip_approved_time)) AS trip_year, SUM(trip.trip_price) AS total_revenue FROM trip WHERE trip.property_id IN (?) AND trip.trip_status = 'ACCEPTED' GROUP BY trip_year ORDER BY trip_year;",
     FETCH_TOP_HOST:"SELECT host_id, host_name, sum(trip.trip_price) AS total_revenue FROM trip WHERE trip.trip_status = 'ACCEPTED' and month(date(trip.trip_approved_time)) = month(now()-interval 1 month) GROUP BY host_id, host_name ORDER BY total_revenue DESC LIMIT ?;",
     FETCH_TOP_PROP: "SELECT property_id,property_name, year(date(trip.trip_approved_time)) as trip_year,SUM(trip.trip_price) AS property_revenue FROM airbnb.trip WHERE trip.trip_status = 'ACCEPTED' GROUP BY property_id ,property_name, trip_year ORDER BY property_revenue DESC LIMIT ?;",
     FETCH_TRIP_DATES : "SELECT trip.property_id,trip.checkin_date,trip.checkout_date from airbnb.trip where property_id IN (?);",
@@ -32,5 +32,8 @@ constants.define(exports, {
     INSERT_BID : "Insert into airbnb.bidding_dtl (bid_id, bidder_id, bid_price, property_id, property_name) values ( ?,?,?,?,?)",
     INBOX : "select * from airbnb.trip where host_id = ? and trip_status = 'PENDING';",
     FETCH_MAX_BID:"SELECT max_bid_price,host_min_amt FROM airbnb.bidding  WHERE property_id=?;",
-    TRIP_REVIEWED : "update airbnb.trip set is_reviewed=1, rating=?, review_comment=? where trip_id=?"
+    TRIP_REVIEWED : "update airbnb.trip set is_reviewed=1, rating=?, review_comment=? where trip_id=?",
+    FETCH_ALL_BILLS_BY_DATE : "SELECT * FROM airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (date(trip.trip_approved_time)) = (date(?)) and bill_status != 'DELETED';",
+    FETCH_ALL_BILLS_BY_MONTH : "SELECT * from airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (month(trip.trip_approved_time)) = (month(?)) and bill_status != 'DELETED';",
+    FETCH_ALL_BILLS_BY_YEAR : "SELECT * from airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (year(trip.trip_approved_time)) = ? and bill_status != 'DELETED';"
 });

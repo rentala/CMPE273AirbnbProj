@@ -111,9 +111,17 @@ router.post('/adminLogOut',function(req, res){
 	})
 });
 
-router.get('/getAllBills',function (req,res) {
+router.post('/getAllBills',function (req,res) {
 	var json_responses;
-	var msg_payload = {};
+	var date = req.body.date;
+	date = new Date(date);
+	console.log("month = " + date.getMonth());
+	var msg_payload = {
+		"refineCriteria" : req.body.refineCriteria,
+		"date" : date,
+		"month" :new Date(req.body.month),
+		"year" :req.body.year
+	};
 
 	mq_client.make_request('get_admin_bills_queue',msg_payload,function (err,results) {
         if(err){
