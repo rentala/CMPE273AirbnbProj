@@ -114,6 +114,14 @@ AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
 
 
+-- -----------------------------------------------------
+-- Trigger `airbnb`.`bidding`
+-- -----------------------------------------------------
+DROP TRIGGER IF EXISTS `airbnb`.`bidding` ;
+create TRIGGER `airbnb`.`bidding` AFTER INSERT on airbnb.bidding_dtl
+FOR EACH ROW
+	update airbnb.bidding b set b.max_bid_price = new.bid_price, b.max_bid_user_id = new.bidder_id , b.bidder_name = new.bidder_name where 
+    b.max_bid_price < new.bid_price and b.property_id = new.property_id
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
