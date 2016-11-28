@@ -3,10 +3,14 @@ var sql_queries = require('../db/sql_queries');
 var mysql = require('../db/mysql');
 var property = require('./property');
 var ObjectID = require('mongodb').ObjectId;
+var d3 = require('d3');
+
 
 var topProp = {
     handle_request: function (connection,msg,callback) {
         var res={};
+        var no_of_props = parseInt(msg.no_of_props);
+        console.log("No of properties : " + no_of_props);
         mysql.execute_query(function (err,result) {
             if(err){
                 res = {"statusCode":400};
@@ -15,15 +19,20 @@ var topProp = {
             }
             else {
                 if(result.length>0){
-                    res = {"statusCode":200,"top_property":result};
-                    callback(null, res);
+               	
+               	 var top_prop_data = d3.nest()
+               	  .key(function(d) { return d.trip_year; })
+               	  .entries(result);
+               	 
+                   res = {"statusCode":200,"top_property":top_prop_data};
+                   callback(null, res);
                 }
                 else{
                     res = {"statusCode":401};
                     callback(null,res);
                 }
             }
-        },sql_queries.FETCH_TOP_PROP,msg.no_of_props);
+        },sql_queries.FETCH_TOP_PROP,no_of_props);
     }
 };
 
