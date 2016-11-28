@@ -161,3 +161,9 @@
 {"level":"warn","message":"Warning message","timestamp":"2016-11-28T08:38:40.656Z"}
 {"level":"info","message":"Hello world","timestamp":"2016-11-28T08:53:36.797Z"}
 {"level":"warn","message":"Warning message","timestamp":"2016-11-28T08:53:36.799Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-28T09:16:58.995Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-28T09:16:58.998Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-28T09:42:37.704Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-28T09:42:37.706Z"}
+{"level":"info","message":"Hello world","timestamp":"2016-11-28T10:09:11.183Z"}
+{"level":"warn","message":"Warning message","timestamp":"2016-11-28T10:09:11.185Z"}
