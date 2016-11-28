@@ -20,7 +20,7 @@ router.get('/inbox', function (req, res) {
 })
 
 router.post('/inboxContent', function(req, res){
-	var host_id = req.session.user[0]._id;
+	var host_id = req.session.user_id;
 	var msg_payload = {
 		"host_id" : host_id
 	}
