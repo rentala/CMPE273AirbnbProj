@@ -133,6 +133,7 @@ var updateTrip = {
                		 }else{
  
                			 JSON.stringify("In RabbitMQ : trip.js : updateTrip :result of creating a new bill : " + JSON.stringify(res)) ;
+               			res = {"statusCode":200};
                			 callback(null,res);
                		 }
                	 });

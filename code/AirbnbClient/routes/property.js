@@ -230,7 +230,7 @@ router.post('/bidProperty', function (req, res, next)  {
     var bid_amount = req.param("bid_amount");
     var property_name = req.param("property_name");
 
-    msg_payload = {"user_id":user_id,"property_id":property_id, "bid_id":bid_id, "bid_amount":bid_amount, "property_name":property_name};
+    msg_payload = {"user_id":user_id,"property_id":property_id, "bid_id":bid_id, "bid_amount":bid_amount, "property_name":property_name,"bidder_name":req.session.user.first_name};
     mq_client.make_request('bid_property_queue', msg_payload, function(err,results){
         if(err){
 			tool.logError(err);
