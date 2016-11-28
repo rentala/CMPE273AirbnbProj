@@ -23,5 +23,8 @@ constants.define(exports, {
     INSERT_BID : "Insert into airbnb.bidding_dtl (bid_id, bidder_id, bid_price, property_id, property_name) values ( ?,?,?,?,?)",
     INBOX : "select * from airbnb.trip where host_id = ? and trip_status = 'PENDING';",
     FETCH_MAX_BID:"SELECT max_bid_price,host_min_amt FROM airbnb.bidding  WHERE property_id=?;",
-    TRIP_REVIEWED : "update airbnb.trip set is_reviewed=1, rating=?, review_comment=? where trip_id=?"
+    TRIP_REVIEWED : "update airbnb.trip set is_reviewed=1, rating=?, review_comment=? where trip_id=?",
+    FETCH_ALL_BILLS_BY_DATE : "SELECT * FROM airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (date(trip.trip_approved_time)) = (date(?)) and bill_status != 'DELETED';",
+    FETCH_ALL_BILLS_BY_MONTH : "SELECT * from airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (month(trip.trip_approved_time)) = (month(?)) and bill_status != 'DELETED';",
+    FETCH_ALL_BILLS_BY_YEAR : "SELECT * from airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (year(trip.trip_approved_time)) = ? and bill_status != 'DELETED';"
 });

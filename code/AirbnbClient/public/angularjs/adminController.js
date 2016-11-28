@@ -112,14 +112,95 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
         $scope.showDashboard = false;
         $scope.showInbox = false;
         $scope.showBills = true;
+
+        $scope.showDateInput = false;
+        $scope.showMonthInput = false;
+        $scope.showYearInput = false;
+        $scope.showBillsButton = false;
+
+        $scope.showBillsRequested = false;
+
+        $scope.displayFields = function(){
+            if($scope.refineCriteria == "date"){
+                $scope.showDateInput = true;
+                $scope.showMonthInput = false;
+                $scope.showYearInput = false;
+                $scope.showBillsButton = true;
+            }
+            if($scope.refineCriteria == "month"){
+                $scope.showDateInput = false;
+                $scope.showMonthInput = true;
+                $scope.showYearInput = false;
+                $scope.showBillsButton = true;
+            }
+            if($scope.refineCriteria == "year"){
+                $scope.showDateInput = false;
+                $scope.showMonthInput = false;
+                $scope.showYearInput = true;
+                $scope.showBillsButton = true;
+            }
+        }
+        
         $scope.getBills = function(){
+            var date = $scope.date;
+            //console.log("month = " + typeof(date));
+            //console.log("date in ISO = " + date.toISOString().split('T')[0]);
+            var month = $scope.month;
+            var year = document.getElementById("year").value;
+            console.log("date = " + date + " month = " + month + " year = " + year);
             $http({
-                method : "",
-                url: ""
+                method : "POST",
+                url: "/api/admin/getAllBills",
+                data: {
+                    "refineCriteria" : $scope.refineCriteria,
+                    "date" : date,
+                    "month" : month,
+                    "year" : year
+                }
+            }).success(function(data){
+                if(data.status_code == 200){
+                    $scope.showBillsRequested = true;
+                    $scope.retreivedBills = data.bills;
+                }
+                else if(data.status_code == 400){
+                    console.log("error on service side");
+                }
+                else if(data.status_code == 401){
+                    $scope.retreivedBills = data.bills;
+                    console.log("NO data received");
+                }
             })
         }
 
+        $scope.deleteBill = function(billing_id){
+            console.log("billing id = " + billing_id);
+            $http({
+                method : "POST",
+                url : "/api/billing/deleteBill",
+                data : {
+                    "billing_id" : billing_id
+                }
+            }).success(function(data){
+                if(data.status_code == 200){
+                    $scope.getBills();
+                }
+                else if(data.status_code == 400){
+                    console.log("error on service side");
+                }
+                else if(data.status_code == 401){
+                    console.log("no error but record was not updated");
+                }
+            })
+        }
+
+        $scope.viewBill = function(billing_id, trip_id){
+            window.open("/api/billing/viewBill?trip_id="+trip_id+"&bill_id="+billing_id,'Bill',directories=0);
+        }
     }
+
+    /*$scope.haha = function(){
+        console.log(document.getElementById("year").value);
+    }*/
 
     $scope.topProperties = function(){
         $scope.showTopProperties = true;
