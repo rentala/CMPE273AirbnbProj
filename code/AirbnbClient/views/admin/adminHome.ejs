@@ -106,14 +106,41 @@
 			<div id = "BILLS" ng-show = "showBills">
 				<div class = "col-sm-4"></div>
 				<div class = "col-sm-4">
-				Start Date<input class = "form-control" type = "date" style = "float:left" width = "50%" ng-model = "startDate"></input>
-				<br>
-				End Date<input class = "form-control" type = "date" style = "float:right" width = "50%" ng-model = "endDate"></input>
-				<br><br><br>
-				<button class = "btn btn-success" ng-click = "getBills()">Get Bills</button>
+					Get Bills By: 
+					<input type = "radio" ng-model = "refineCriteria" value = "date" ng-click = "displayFields()">Date</input>
+					<input type = "radio" ng-model = "refineCriteria" value = "month" ng-click = "displayFields()">Month
+					<input type = "radio" ng-model = "refineCriteria" value = "year" ng-click = "displayFields()">Year
+					<br><br>
+					<select id="year" class = "form-control" ng-model = "year" ng-show = "showYearInput" style = "width:200px">
+						<script>
+							var myDate = new Date();
+							var year = myDate.getFullYear();
+							for(var i = 2000; i < year+2; i++){
+							  document.write('<option value="'+i+'">'+i+'</option>');
+							}
+						</script>
+					</select>
+					<input class = "form-control" type = "date" style = "float:left; width:200px" ng-model = "date" ng-show = "showDateInput"></input>
+					<input class = "form-control" type = "month" style = "float:left; width:200px" ng-model = "month" ng-show = "showMonthInput"></input>
+					<br><br><br>
+					<button class = "btn btn-success" ng-click = "getBills()" ng-show = "showBillsButton">Get Bills</button><br><br>
+					<div ng-show = "showBillsRequested">
+						<div ng-repeat = "x in retreivedBills">
+							<div class="panel panel-default">
+			                    <div class="panel-body">
+			                       <div class="col-sm-7">
+				                        <h4><label style="color:#c9302c">Checkin Date:</label>{{x.checkin_date}}</h4>
+				                        <h4><label style="color:#c9302c">Checkout Date:</label>{{x.checkout_date}}</h4>
+				                        <h4><label style="color:#c9302c">Trip Price: $</label>{{x.trip_price}}</h4>
+				                    </div>
+			                        <button class = "btn btn-danger" ng-click = "deleteBill(x.billing_id)">Delete Bill</button>
+			                        <button class = "btn btn-success" ng-click = "viewBill(x.billing_id, x.trip_id)">View Bill</button>
+			                    </div>
+			                </div>
+						</div>
+					</div>
 				</div>
 			</div>
-
 		</div>
 	</body>
 </html>

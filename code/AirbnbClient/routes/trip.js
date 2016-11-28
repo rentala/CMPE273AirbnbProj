@@ -106,6 +106,7 @@ router.post('/createTrip', function(req, res){
   var price = req.body.price;
   var guest = req.body.guests;
   var country = req.body.country;
+  var guest_name = req.session.user.first_name;
   /*var payment_details = {
     "mode" : req.body.mode,
     "card_number" : req.body.card_number,
@@ -123,7 +124,8 @@ router.post('/createTrip', function(req, res){
     "end_date" : end_date,
     "price" : price,
     "guest" : guest,
-    "country" : country
+    "country" : country,
+    "guest_name":guest_name
     // ,"payment_details" : payment_details
   };
   mq_client.make_request('createTrip_queue', msg_payload, function (err,results) {

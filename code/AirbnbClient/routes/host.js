@@ -81,6 +81,32 @@ router.post('/review/:userId/:propertyId', function (req, res, next)  {
 
 });
 
+router.get('/getHostByCity',function (req,res) {
+
+   var json_responses;
+   var city = req.param("city");
+   var msg_payload = {"city":city};
+
+   mq_client.make_request('get_host_queue',msg_payload,function (err,results) {
+       if(err){
+           //Need to add tool to log error.
+           tool.logError(err);
+           json_responses = {"status_code":400};
+       }
+       else{
+           if(results.statusCode==200){
+               json_responses = {"status_code":results.statusCode, "host_dtls":results.host_dtls};
+           }
+           else {
+               json_responses = {"status_code":results.statusCode};
+           }
+       }
+       res.send(json_responses);
+       res.end();
+   });
+});
+
+
 function buildPayLoad(req) {
     var msg_payload = {};
     msg_payload.user_id = req.param("userId");

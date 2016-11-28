@@ -37,7 +37,7 @@ router.get('/view',function (req,res) {
 
 router.post('/deleteBill',function (req, res) {
     var json_responses;
-    var bill_id = req.param("bill_id");
+    var bill_id = req.body.billing_id;
     var msg_payload = {"bill_id":bill_id};
 
     mq_client.make_request('delete_bill_queue',msg_payload,function (err,results) {

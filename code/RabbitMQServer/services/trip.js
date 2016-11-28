@@ -98,7 +98,7 @@ var createTrip = {
                             res = {"statusCode" : 200};
                             callback(null, res);
                         }
-                    }, sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, msg.property_name, msg.host_id, msg.start_date, msg.end_date, msg.guest, 'PENDING', trip_price]);
+                    }, sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, msg.property_name, msg.host_id, msg.start_date, msg.end_date, msg.guest, 'PENDING', trip_price, msg.guest_name]);
             	}
             	else{
             		res = {"statusCode" : 400, "errMsg" : err};
@@ -133,6 +133,7 @@ var updateTrip = {
                		 }else{
  
                			 JSON.stringify("In RabbitMQ : trip.js : updateTrip :result of creating a new bill : " + JSON.stringify(res)) ;
+               			res = {"statusCode":200};
                			 callback(null,res);
                		 }
                	 });

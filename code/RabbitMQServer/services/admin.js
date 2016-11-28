@@ -155,8 +155,85 @@ var checkLogin = {
 var getAllBills = {
     handle_request: function (connection,msg,callback) {
         var res = {};
+        var refineCriteria = msg.refineCriteria;
+        var date = msg.date;
+        var month = msg.month;
+        var year = msg.year;
+        //var query = "SELECT * FROM airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (date(trip.trip_approved_time)) = (date('" + date + "')) and bill_status != 'DELETED';"
+        //console.log("query is = " + query);
+		if(refineCriteria == "date"){
+			console.log(date);
+			mysql.execute_query(function (err,result) {
+	            if(err){
+	                tool.logError(err);
+	                res = {"statusCode":400};
+	                callback(null,res);
+	            }
+	            else{
+	                if(result.length>0){
+	                    res = {
+	                        "statusCode": 200,
+	                        bills: result
+	                    };
+	                    callback(null,res);
+	                }
+	                else{
+	                    res = {"statusCode":401};
+	                    callback(null,res);
+	                }
+	            }
+	        },sql_queries.FETCH_ALL_BILLS_BY_DATE, [date]);
+		}
 
-        mysql.execute_query(function (err,result) {
+		else if(refineCriteria == "month"){
+			console.log(month);
+			mysql.execute_query(function (err,result) {
+	            if(err){
+	                tool.logError(err);
+	                res = {"statusCode":400};
+	                callback(null,res);
+	            }
+	            else{
+	                if(result.length>0){
+	                    res = {
+	                        "statusCode": 200,
+	                        bills: result
+	                    };
+	                    callback(null,res);
+	                }
+	                else{
+	                    res = {"statusCode":401};
+	                    callback(null,res);
+	                }
+	            }
+	        },sql_queries.FETCH_ALL_BILLS_BY_MONTH,[month]);
+		}
+
+		else if(refineCriteria == "year"){
+			console.log(year);
+			mysql.execute_query(function (err,result) {
+	            if(err){
+	                tool.logError(err);
+	                res = {"statusCode":400};
+	                callback(null,res);
+	            }
+	            else{
+	                if(result.length>0){
+	                    res = {
+	                        "statusCode": 200,
+	                        bills: result
+	                    };
+	                    callback(null,res);
+	                }
+	                else{
+	                    res = {"statusCode":401};
+	                    callback(null,res);
+	                }
+	            }
+	        },sql_queries.FETCH_ALL_BILLS_BY_YEAR,[year]);
+		}
+
+       /* mysql.execute_query(function (err,result) {
             if(err){
                 tool.logError(err);
                 res = {"statusCode":400};
@@ -175,7 +252,7 @@ var getAllBills = {
                     callback(null,res);
                 }
             }
-        },sql_queries.FETCH_ALL_BILLS,[]);
+        },sql_queries.FETCH_ALL_BILLS,[]);*/
     }
 };
 
