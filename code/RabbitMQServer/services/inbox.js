@@ -1,12 +1,13 @@
 var tool = require("../utili/common");
 var sql_queries = require('../db/sql_queries');
 var mysql = require('../db/mysql');
+var ObjectID = require('mongodb').ObjectID;
 
 var inbox = {
 	handle_request : function (connection,msg,callback) {
         var res = {};
         var userDetails;
-        var coll = connection.mongoConn.collection('user');
+        var coll = connection.mongoConn.collection('users');
 
 		console.log("In RabbitMQ Server : admin.js : host_id : " + msg.host_id);
 		var searchCriteria = {
