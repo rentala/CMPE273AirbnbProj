@@ -10,8 +10,9 @@ var d3 = require('d3');
 
 router.get('/topProp',function (req,res) {
     var no_of_props= req.param("no_of_props");
+    var year = req.param("year");
     var json_responses;
-    var msg_payload = {"no_of_props":no_of_props};
+    var msg_payload = {"year" : year,"no_of_props":no_of_props};
 
     mq_client.make_request('top_property_queue',msg_payload,function (err,results) {
 
@@ -62,7 +63,7 @@ router.get('/cityWiseData',function (req,res) {
 });
 
 router.get('/topHost',function (req,res) {
-    var no_of_hosts= req.body.no_of_hosts;
+    var no_of_hosts= req.param("no_of_hosts");
     var json_responses;
     var msg_payload = {"no_of_hosts":no_of_hosts};
 
