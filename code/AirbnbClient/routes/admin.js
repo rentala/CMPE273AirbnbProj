@@ -142,8 +142,6 @@ router.post('/getAllBills',function (req,res) {
         res.end();
 	});
 });
-
-
 //End of admin routes.
 //One more comment.
 module.exports = router;
