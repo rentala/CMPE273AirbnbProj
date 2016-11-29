@@ -59,7 +59,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
 $scope.getHostsByCity = function(){
     $http({
         method : "POST",
-        url : "/host/getHostByCity"
+        url : "/host/getHostByCity",
         data : {
             "cityToSearchHost" : $scope.cityToSearchHost
         }
