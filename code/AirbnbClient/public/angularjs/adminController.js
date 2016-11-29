@@ -56,6 +56,22 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
         $scope.showBills = false;
     }
 
+$scope.getHostsByCity = function(){
+    $http({
+        method : "POST",
+        url : "/host/getHostByCity"
+        data : {
+            "cityToSearchHost" : $scope.cityToSearchHost
+        }
+    }).success(function(data){
+        if(data.status_code == 200){
+            $
+        }
+    })
+}
+
+
+//****************INBOX Begins Here***********
     $scope.inbox = function(){
         console.log("reached");
         $scope.showDashboard = false;
@@ -106,7 +122,10 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
             })
         }
     }
+////****************INBOX Ends Here***********
 
+
+//***************BILLS Begins here*****************
     $scope.bills = function(){
         console.log("reached");
         $scope.showDashboard = false;
@@ -197,10 +216,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
             window.open("/api/billing/viewBill?trip_id="+trip_id+"&bill_id="+billing_id,'Bill',directories=0);
         }
     }
-
-    /*$scope.haha = function(){
-        console.log(document.getElementById("year").value);
-    }*/
+//***************BILLS End here*****************
 
     $scope.topProperties = function(){
         $scope.showTopProperties = true;

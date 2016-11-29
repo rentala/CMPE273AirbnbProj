@@ -25,18 +25,24 @@
 		            <a class="navbar-brand" href="#"><img src="/images/airbnb.png" width="150" height="100" style="margin-top:-40px"></img></a>
 		        </div>
 		        <span style = "position:absolute; LEFT: 47%; font-size: 35px;">ADMIN</span>
-		        <div style="float:right">
-		            <button type="button" class="btn btn-info btn-lg" style="background-color: transparent;border-color:transparent;" ng-click = "logOut()"><label style="color: #0f0f0f">Log Out</label></button>
+		        <div style="float:right; margin-top: 10px; margin-right: 5px">
+		        	<form role="form"> 
+					  <div class="form-group has-feedback">
+					    <input type="text" class="form-control" ng-model = "cityToSearchHost" placeholder="Search Host By City" style = "border-radius:95px; margin-right:-20px"/>
+					    <button class = "btn btn-default" ng-click = "getHostsByCity()" style = "margin-top: -55px; margin-left: 83%; border-radius: 15px"><span class = "glyphicon glyphicon-search"></span></button>
+					  </div>
+					</form>
 		        </div>
 		    </div><!-- /.container-fluid -->
 		</nav>
 		<div ng-controller = "adminHomeController">
-		    <nav class="navbar navbar-inverse" style="margin-top:-20px">
+		    <nav class="navbar navbar-inverse" style="margin-top:-45px">
 				<div class="container-fluid">
 				    <ul class="nav navbar-nav">
-					    <li style = "position:absolute; LEFT:15%"><a href = "" data-ng-click="dashboard()">Dashboard</a></li>
-					    <li style = "position:absolute; LEFT:47%"><a href = "" data-ng-click="inbox()">Inbox</a></li>
-						<li style = "position:absolute; LEFT:80%"><a href = "" data-ng-click="bills()">Bills</a></li>
+					    <li style = "position:absolute; LEFT:10%"><a href = "" data-ng-click="dashboard()">Dashboard</a></li>
+					    <li style = "position:absolute; LEFT:40%"><a href = "" data-ng-click="inbox()">Inbox</a></li>
+						<li style = "position:absolute; LEFT:70%"><a href = "" data-ng-click="bills()">Bills</a></li>
+						<li style = "position:absolute; LEFT:94%"><a href = "" data-ng-click="logOut()">Log Out</a></li>
 					</ul>
 				</div>
 			</nav>
@@ -141,6 +147,11 @@
 					</div>
 				</div>
 			</div>
+
+			<div ng-show = "showHostsByCity">
+				
+			</div>
+
 		</div>
 	</body>
 </html>
