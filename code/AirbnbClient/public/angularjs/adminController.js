@@ -53,7 +53,7 @@ adminApp.controller('adminController',function($scope,$http,$rootScope){
         $rootScope.showInbox = false;
         $rootScope.showBills = false;
         $rootScope.showHostsByCity = true;
-        console.log("reached");
+        console.log("reached1");
         $http({
             method : "POST",
             url : "/host/getHostByCity",
@@ -66,6 +66,25 @@ adminApp.controller('adminController',function($scope,$http,$rootScope){
             }
         })
     }
+
+    $scope.deleteHost = function(host_id){
+        $http({
+            method : "POST",
+            url : "/host/delete",
+            data : {
+                "host_id" : host_id
+            }
+        }).success(function(data){
+            if(data.status_code == 200){
+                console.log("haha");
+                $scope.getHostsByCity();
+            }
+            else if(data.status_code == 400){
+                console.log("error in deleting host");
+            }
+        })
+    }
+
 });
 
 adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
