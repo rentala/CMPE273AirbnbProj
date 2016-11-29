@@ -232,28 +232,7 @@ var getAllBills = {
 	            }
 	        },sql_queries.FETCH_ALL_BILLS_BY_YEAR,[year]);
 		}
-
-       /* mysql.execute_query(function (err,result) {
-            if(err){
-                tool.logError(err);
-                res = {"statusCode":400};
-                callback(null,res);
-            }
-            else{
-                if(result.length>0){
-                    res = {
-                        "statusCode": 200,
-                        bills: result
-                    };
-                    callback(null,res);
-                }
-                else{
-                    res = {"statusCode":401};
-                    callback(null,res);
-                }
-            }
-        },sql_queries.FETCH_ALL_BILLS,[]);*/
-    }
+	}
 };
 
 exports.getAllBills = getAllBills;

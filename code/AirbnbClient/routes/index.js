@@ -10,9 +10,6 @@ const eventlogger = new (winston.Logger)({
     })
   ]
 });
-eventlogger.info('Hello world');
-eventlogger.warn('Warning message');
-eventlogger.debug('Debugging info');
 
 /* GET home page. */
 /*router.get('/', function(req, res, next) {
@@ -34,7 +31,21 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/log', function(req, res, next) {
-  eventlogger.info('User Id: '+req.session.user._id+', '+ req.body.event+ ', '+ req.body.text);
+  switch(req.body.type){
+    case "PAGECLICK":
+      //pageclick func call
+      break;
+    case "PROPERTYCLICK":
+      //prop click func call
+      break;
+    //default
+    default:
+      //user activity func call
+      break;
+
+
+  }
+  //eventlogger.info('User Id: '+req.session.user._id+', '+ req.body.event+ ', '+ req.body.text);
   res.send(JSON.stringify({ result: true }));
 });
 module.exports = router;
