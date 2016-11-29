@@ -51,9 +51,9 @@
 			<div class = "col-sm-1"></div>
 				<div class = "col-sm-2">
 					<h2>DASHBOARD</h2>
-					<p><a href = "" ng-click = "topProperties()">Top Properties</a></p>
-					<p><a href = "" ng-click = "cityWiseRevenue()">City Wise Revenues</a></p>
-					<p><a href = "" ng-click = "topHost()">Top Host</a></p>
+					<p><a href = "" ng-click = "getTopProperties()">Top Properties</a></p>
+					<p><a href = "" ng-click = "getCityWiseRevenue()">City Wise Revenues</a></p>
+					<p><a href = "" ng-click = "getTopHost()">Top Host</a></p>
 				</div>
 				<div class = "col-sm-4">
 					<div ng-show = "showTopProperties">
@@ -110,14 +110,17 @@
 			</div>
 
 			<div id = "BILLS" ng-show = "showBills">
-				<div class = "col-sm-4"></div>
-				<div class = "col-sm-4">
-					Get Bills By: 
+				<div class = "col-sm-5"></div>
+				<div class = "col-sm-5">
+				<h2>Get Bills By </h2>
+					<button class = "btn btn-success" ng-click = "getBills()" ng-show = "showBillsButton" style = "position:absolute; TOP:105px; LEFT:175px">Get Bills</button>
 					<input type = "radio" ng-model = "refineCriteria" value = "date" ng-click = "displayFields()">Date</input>
 					<input type = "radio" ng-model = "refineCriteria" value = "month" ng-click = "displayFields()">Month
 					<input type = "radio" ng-model = "refineCriteria" value = "year" ng-click = "displayFields()">Year
 					<br><br>
-					<select id="year" class = "form-control" ng-model = "year" ng-show = "showYearInput" style = "width:200px">
+					<input class = "form-control" type = "date" style = "float:left; width:150px" ng-model = "date" ng-show = "showDateInput"></input>
+					<input class = "form-control" type = "month" style = "float:left; width:150px" ng-model = "month" ng-show = "showMonthInput"></input>
+					<select id="year" class = "form-control" ng-model = "year" ng-show = "showYearInput" style = "width:150px">
 						<script>
 							var myDate = new Date();
 							var year = myDate.getFullYear();
@@ -126,10 +129,6 @@
 							}
 						</script>
 					</select>
-					<input class = "form-control" type = "date" style = "float:left; width:200px" ng-model = "date" ng-show = "showDateInput"></input>
-					<input class = "form-control" type = "month" style = "float:left; width:200px" ng-model = "month" ng-show = "showMonthInput"></input>
-					<br><br><br>
-					<button class = "btn btn-success" ng-click = "getBills()" ng-show = "showBillsButton">Get Bills</button><br><br>
 					<div ng-show = "showBillsRequested">
 						<div ng-repeat = "x in retreivedBills">
 							<div class="panel panel-default">
@@ -149,7 +148,22 @@
 			</div>
 
 			<div ng-show = "showHostsByCity">
-				
+			<div class = "col-sm-4"></div>
+			<div  class = "col-sm-4">
+				<div ng-repeat = "host in hostsByCity">
+					<div class="panel panel-default">
+	                    <div class="panel-body">
+	                       <div class="col-sm-7">
+		                        <a href = ""><h3><label style="color:#c9302c"></label>{{host.first_name}} {{host.last_name}}</h3></a>
+		                        <h4><label style="color:#c9302c">City : </label>{{host.city}}</h4>
+		                        <h4><label style="color:#c9302c">Ph. No : </label>{{host.phone}}</h4>
+		                        <h4><label style="color:#c9302c">email : </label>{{host.email}}</h4>
+		                    </div>
+		                    <img src = "/uploads/{{host.picture_path[0].filename}}" style = "float:right;" width = "100px" height = "110px">
+	                        <button class = "btn btn-danger" style = "float:right; margin-top: 15px" ng-click = "deleteHost(host._id)">Delete Host</button>
+	                    </div>
+	                </div>
+				</div>
 			</div>
 
 		</div>
