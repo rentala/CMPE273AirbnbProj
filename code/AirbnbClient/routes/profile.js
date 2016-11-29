@@ -228,11 +228,11 @@ router.post('/uploadvideo', function (req, res, next)  {
 		},
 		filename: function (req, file, cb) {
 			var datetimestamp = Date.now();
-			videopath = getID() + '.'
+			video_path = getID() + '.'
 				+ file.originalname.split('.')[file.originalname.split('.').length -1];
-			console.log("videopath"+videopath);
+			console.log("video_path"+video_path);
 			console.log("file.originalname"+ file.originalname);
-			cb(null, videopath);
+			cb(null, video_path);
 		}
 	});
 	var upload = multer({ storage: storage}).array('file');
@@ -243,7 +243,7 @@ router.post('/uploadvideo', function (req, res, next)  {
 			res.json({error_code: 1, err_desc: err});
 			return;
 		}
-		var msg_payload = {"picture_path":req.files, "user_id" : req.session.user_id};
+		var msg_payload = {"video_path":req.files, "user_id" : req.session.user_id};
 
 		mq_client.make_request('upload_video_queue', msg_payload, function(err,results){
 			ejs.renderFile('./views/views/profile.ejs',{ user_dtls: req.session.user},function(err, result) {
