@@ -3,6 +3,10 @@ var express = require('express');
 var router = express.Router();
 var mq_client = require('../rpc/client');
 var tool = require("../utili/common");
+var fs = require('fs');
+var d3 = require('d3');
+
+
 
 router.get('/topProp',function (req,res) {
     var no_of_props= req.param("no_of_props");
@@ -136,6 +140,79 @@ router.get('/bidInfo',function (req,res) {
 
     });
 
+});
+
+router.get('/propertyClicks',function (req,res) {
+   fs.readFile("./logs/propClicksDummy.tsv", "utf8", function(error, data) {
+       console.log("data"+JSON.stringify(data));
+       data = d3.tsvParse(data);
+       console.log(JSON.stringify(data));
+
+       var procData = d3.nest()
+           .key(function(d) { return d.Property_Id;})
+           .rollup(function(d) {
+               return d3.sum(d, function(g) {return g.Clicks; });
+           }).entries(data);
+
+       console.log("Cleaned data : " + JSON.stringify(procData));
+       res.send(procData);
+       res.end();
+    });
+});
+
+
+router.get('/pageClicks',function (req,res) {
+   fs.readFile("./logs/pageClicksDummy.tsv", "utf8", function (error, data) {
+       console.log("data" + JSON.stringify(data));
+       data = d3.tsvParse(data);
+       console.log(JSON.stringify(data));
+
+       var procData = d3.nest()
+           .key(function (d) {
+               return d.Page;
+           })
+           .rollup(function (v) {
+               return v.length
+           }).entries(data);
+
+       console.log("Cleaned data : " + JSON.stringify(procData));
+       res.send(procData);
+       res.end();
+   });
+});
+
+router.get('/userTrace',function (req,res) {
+   fs.readFile("./logs/userTraceDummy.tsv", "utf8", function (error, data) {
+       console.log("data" + JSON.stringify(data));
+       data = d3.tsvParse(data);
+       console.log(JSON.stringify(data));
+
+       var procData = d3.nest()
+           .key(function (d) {
+               return d.User_id;
+           }).entries(data);
+
+       console.log("Cleaned data : " + JSON.stringify(procData));
+       res.send(procData);
+       res.end();
+   });
+});
+
+router.get('/biddingTrace',function (req,res) {
+   fs.readFile("./logs/biddingTraceDummy.tsv", "utf8", function (error, data) {
+       console.log("data" + JSON.stringify(data));
+       data = d3.tsvParse(data);
+       console.log(JSON.stringify(data));
+
+       var procData = d3.nest()
+           .key(function (d) {
+               return d.Property_Id;
+           }).entries(data);
+
+       console.log("Cleaned data : " + JSON.stringify(procData));
+       res.send(procData);
+       res.end();
+   });
 });
 
 
