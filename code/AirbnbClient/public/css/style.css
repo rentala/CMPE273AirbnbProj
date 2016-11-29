@@ -16,3 +16,19 @@ body {
 .iw_content {
 	padding: 15px 15px 15px 0;
 }
+
+a {
+  color: #00B7FF;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: brown;
+}
+
+.axis--x path {
+  display: none;
+}
