@@ -9,6 +9,7 @@ var d3 = require('d3');
 var topProp = {
     handle_request: function (connection,msg,callback) {
         var res={};
+        var year = msg.year;
         var no_of_props = parseInt(msg.no_of_props);
         console.log("No of properties : " + no_of_props);
         mysql.execute_query(function (err,result) {
@@ -20,11 +21,18 @@ var topProp = {
             else {
                 if(result.length>0){
                	
-               	 var top_prop_data = d3.nest()
+               /*	 var top_prop_data = d3.nest()
                	  .key(function(d) { return d.trip_year; })
-               	  .entries(result);
-               	 
-                   res = {"statusCode":200,"top_property":top_prop_data};
+               	  .entries(result);*/
+               		var formattedData = [];
+               		
+               		for(var i in result){
+               			var changedObj = {};
+               			changedObj.key = result[i].property_name;
+               			changedObj.value = result[i].revenue;
+               			formattedData.push(changedObj);
+               		}
+                   res = {"statusCode":200,"top_property":formattedData};
                    callback(null, res);
                 }
                 else{
@@ -32,9 +40,11 @@ var topProp = {
                     callback(null,res);
                 }
             }
-        },sql_queries.FETCH_TOP_PROP,no_of_props);
+        },sql_queries.FETCH_TOP_PROP,[year,no_of_props]);
     }
 };
+
+
 
 var cityWiseData = {
   handle_request: function (connection,msg,callback) {
@@ -51,6 +61,7 @@ var cityWiseData = {
               }
               else {
                   if(records.length>0){
+                  	console.log("Property Ids for given city : " + JSON.stringify(records));
                       city_wise_property = getPropertyIds(records);
                      // console.log("Property_id : " + JSON.stringify(city_wise_property));
                       mysql.execute_query(function (err,result) {
@@ -60,7 +71,16 @@ var cityWiseData = {
                               callback(null,res);
                           }
                           else {
-                              res = {"statusCode":200,"city_wise_data":result};
+                        	  console.log("Property details : " + JSON.stringify(result));
+                        	  var formattedData = [];
+                       		
+                          		for(var i in result){
+                          			var changedObj = {};
+                          			changedObj.key = result[i].trip_year;
+                          			changedObj.value = result[i].total_revenue;
+                          			formattedData.push(changedObj);
+                          		}
+                              res = {"statusCode":200,"city_wise_data":formattedData};
                               callback(null,res);
                           }
                       },sql_queries.FETCH_CITY_WISE_DATA,[city_wise_property]);
@@ -82,9 +102,9 @@ var cityWiseData = {
 
 function getPropertyIds(records){
 	var data = [];
-	for(record in records){
-		console.log("Record : " +JSON.stringify(record));
-		data.push(record);
+	for(var i in records){
+		//console.log("Record : " +JSON.stringify(record));
+		data.push(records[i]._id);
 	}
 	return data;
 }
@@ -92,6 +112,8 @@ function getPropertyIds(records){
 var topHost = {
     handle_request: function (connection,msg,callback) {
         var res={};
+        
+        var no_of_hosts = parseInt(msg.no_of_hosts);
         mysql.execute_query(function (err,result) {
             if(err){
                 res = {"statusCode":400};
@@ -100,7 +122,15 @@ var topHost = {
             }
             else {
                 if(result.length>0){
-                    res = {"statusCode":200,"top_host":result};
+               	  var formattedData = [];
+                		
+                		for(var i in result){
+                			var changedObj = {};
+                			changedObj.key = result[i].host_name;
+                			changedObj.value = result[i].total_revenue;
+                			formattedData.push(changedObj);
+                		}
+                    res = {"statusCode":200,"top_host":formattedData};
                     callback(null, res);
                 }
                 else{
@@ -108,7 +138,7 @@ var topHost = {
                     callback(null,res);
                 }
             }
-        },sql_queries.FETCH_TOP_HOST,[msg.no_of_hosts]);
+        },sql_queries.FETCH_TOP_HOST,[no_of_hosts]);
     }
 };
 
@@ -145,6 +175,7 @@ var propertyRatings = {
                     if (results.length>0) {
                   	  console.log("Property rating records : " + JSON.stringify(results));
                   	  property_ratings = calculateAverageRating(results);
+                  	
                         json_resp = {
                             "status_code" : 200,
                             "property_ratings_dtls" : property_ratings
@@ -184,9 +215,9 @@ var calculateAverageRating= function(results){
 		var property = results[index];
 		console.log("Property details : " +JSON.stringify(property));
 		var prop ={};
-		prop.prop_id = property._id;
+		//prop.prop_id = property._id;
 		console.log("Property ID : " +prop.id);
-		prop.prop_name = property.property_name;
+		prop.key = property.property_name;
 		var avg_rating = 0;
 		
 		//For each rating in a property
@@ -198,7 +229,7 @@ var calculateAverageRating= function(results){
 		avg_rating = avg_rating/property.ratings.length;
 		console.log("Average Ratings : " + avg_rating);
 		
-		prop.avg_rating = avg_rating;
+		prop.value = avg_rating;
 		avgPropRaating.push(prop);
 	}
 	return avgPropRaating;
