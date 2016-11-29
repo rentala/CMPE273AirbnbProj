@@ -141,9 +141,10 @@
 		</div>
 	</div>
 	<div data-ng-hide="card1">
-		<form action="/api/profile/uploadPic"  enctype = "multipart/form-data" method="post">
+
 			<div class="col-sm-7">
 				<div class="col-sm-12" style="border:0.5px solid black">
+					<form action="/api/profile/uploadPic"  enctype = "multipart/form-data" method="post">
 					<div style="background-color:#f9f9f9;border-bottom:0.5px solid black"><h2>Profile Image</h2></div><br>
 					<div class="col-sm-3">
 						<img data-ng-src="/uploads/{{image}}" style="height:150px;width:150px;border-radius:50%;margin-top:15px;margin-bottom:15px">
@@ -152,10 +153,28 @@
 						<input type="file" title=" " accept="image/*" name="file"><br>
 						<input type="submit" class="btn btn-primary" value="upload">
 				<!--	<input type="button" class="btn btn-danger" style="margin-bottom:10px" value="upload" data-ng-click="uploadImg()"> -->
+					</form>
 					</div>
 				</div>
+					<div class="col-sm-12" style="border:0.5px solid black;margin-top:25px">
+					<form action="/api/profile/uploadvideo"  enctype = "multipart/form-data" method="post">
+						<div style="background-color:#f9f9f9;border-bottom:0.5px solid black"><h2>Profile Video</h2></div><br>
+						<div class="col-sm-12">
+							<video width="500" height="360" controls>
+								<source src="{{path}}" >
+							</video>
+						</div>
+
+						<div class="col-sm-12"><p style="margin-top:15px">Clear frontal face photos are an important way for hosts and guests to learn about each other. It’s not much fun to host a landscape! Please upload a photo that clearly shows your face.</p><br>
+							<input type="file" title=" " accept="video/*" name="file"><br>
+							<input type="submit" class="btn btn-primary" value="upload">
+							<!--	<input type="button" class="btn btn-danger" style="margin-bottom:10px" value="upload" data-ng-click="uploadImg()"> -->
+					</form>
+					</div>
 			</div>
-		</form>
+			</div>
+
+
 		<!--form action="/api/profile/uploadvideo"  enctype = "multipart/form-data" method="post">
 			<div class="col-sm-12" style="border:0.5px solid black;margin-top:20px">
 				<div style="background-color:#f9f9f9;border-bottom:0.5px solid black"><h2>Profile video</h2></div><br>
