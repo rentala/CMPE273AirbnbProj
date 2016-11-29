@@ -71,15 +71,23 @@ router.get('/id/:prop_id/:flow',function (req,res) {
 
                 var property = results.prop_array[0];
                 var min_bid = 0;
+                
                 if(results.bidding.length >0){
                 	min_bid = results.bidding[0].max_bid_price;
                 }
-                var msg = req.session.msg;
-                var start_date = msg.start_date;
-                var end_date = msg.end_date;
-                property.avg_ratings = avg_ratings;
-                //req.session.msg = "";
-                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid,start_date:start_date,end_date:end_date,guests:msg.guests});
+                if(flow=="view"){
+	                var start_date = "";
+	                var end_date = "";
+	                property.avg_ratings = avg_ratings;
+	                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:"0",start_date:start_date,end_date:end_date,guests:'NA'});
+                }
+                else{
+                	var msg = req.session.msg;
+	                var start_date = msg.start_date;
+	                var end_date = msg.end_date;
+	                property.avg_ratings = avg_ratings;
+	                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid,start_date:start_date,end_date:end_date,guests:msg.guests});
+                }
             }
             else {
                 json_responses = {"status_code":results.statusCode};

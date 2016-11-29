@@ -171,8 +171,15 @@ var getPropertyById = {
                              }
                              else
                              {
-                            	 res = {"statusCode":200,"prop_array":records,"bidding":result};
-                                 callback(null, res);
+                            	 if(result && result.length > 0){
+                            		 res = {"statusCode":200,"prop_array":records,"bidding":result};
+                            		 callback(null, res);
+                            		 
+                            	 }	 
+                            	 else{
+                            		 res = {"statusCode":200,"prop_array":records,"bidding":[]};
+                            		 callback(null, res);
+                            	 } 
                              }
                     	 },sql_queries.FETCH_MAX_BID,[msg.prop_id]);
                     }
