@@ -221,6 +221,46 @@ router.post('/uploadPic', function (req, res, next)  {
     });
 
 });
+router.post('/uploadvideo', function (req, res, next)  {
+	var storage = multer.diskStorage({
+		destination: function (req, file, cb) {
+			cb(null, '../AirbnbClient/public/uploads');
+		},
+		filename: function (req, file, cb) {
+			var datetimestamp = Date.now();
+			videopath = getID() + '.'
+				+ file.originalname.split('.')[file.originalname.split('.').length -1];
+			console.log("videopath"+videopath);
+			console.log("file.originalname"+ file.originalname);
+			cb(null, videopath);
+		}
+	});
+	var upload = multer({ storage: storage}).array('file');
+	var json_responses;
+	upload(req,res,function(err) {
+		if (err) {
+			tool.logError(err);
+			res.json({error_code: 1, err_desc: err});
+			return;
+		}
+		var msg_payload = {"picture_path":req.files, "user_id" : req.session.user_id};
+
+		mq_client.make_request('upload_video_queue', msg_payload, function(err,results){
+			ejs.renderFile('./views/views/profile.ejs',{ user_dtls: req.session.user},function(err, result) {
+				if (!err) {
+					res.end(result);
+				}
+				// render or error
+				else {
+					tool.logError(err);
+					res.end('An error occurred');
+					console.log(err);
+				}
+			});
+		});
+	});
+
+});
 var getID = function () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
@@ -253,6 +293,19 @@ router.get('/myTrips', function (req, res, next)  {
 		console.log(err);
 		}
 		});
+});
+router.get('/dashboard', function (req, res, next)  {
+	console.log("entered dashboard");
+	ejs.renderFile('./views/views/dashboard.ejs',{ user_dtls: req.session.user},function(err, result) {
+		if (!err) {
+			res.end(result);
+		}
+		else {
+			tool.logError(err);
+			res.end('An error occurred');
+			console.log(err);
+		}
+	});
 });
 
 module.exports = router;
