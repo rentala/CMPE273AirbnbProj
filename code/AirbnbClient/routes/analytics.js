@@ -84,9 +84,9 @@ router.get('/topHost',function (req,res) {
 });
 
 router.get('/propRatings',function (req,res) {
-    var property_id= req.param("property_id");
-    console.log("In AirbnbClient  : analytics.js  : propRatings : "+property_id);
-    var msg_payload = {"property_id":property_id};
+    var host_id= req.param("host_id");
+    console.log("In AirbnbClient  : analytics.js  : propRatings : "+host_id);
+    var msg_payload = {"host_id":host_id};
 
     mq_client.make_request('prop_ratings_queue',msg_payload,function (err,results) {
 
