@@ -86,5 +86,61 @@
             </div>
         </div>
         <!--End Sign In-->
+
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <div class="col-sm-12"><h1 style="float:left;"><label style="color:#ff5a5f">Live there. </label> Book unique homes and <br>experience a city like a local.</h1></div>
+        <div class="col-sm-12"><br><br></div>
+
+        <!--start of Search in main Page-->
+        <div class="col-sm-4" style="height:100px;border:1px solid #000">
+            <div class="col-sm-12"><h4>Where</h4></div>
+            <div class="col-sm-12">
+                <input type="text" placeholder="Destination, city, address" ng-model="whereTo" style="width:100%;border-color:transparent;margin-top:10px" />
+            </div>
+        </div>
+        <div class="col-sm-4" style="height:100px;border-top:1px solid #000;border-bottom:1px solid #000">
+            <div class="col-sm-12"><h4>When</h4></div>
+            <div class="col-sm-6">
+                <input placeholder="From" type="text" style="border-color:transparent;margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" ng-model="start_date">
+            </div>
+            <div class="col-sm-6">
+                <input placeholder="To" type="text" style="border-color:transparent;margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" ng-model="end_date">
+            </div>
+        </div>
+        <div class="col-sm-4" style="height:100px;border:1px solid #000">
+            <div class="col-sm-6">
+                <div class="col-sm-12"><h4>Guests</h4></div>
+                <div class="col-sm-12">
+                    <input type="number" placeholder="Number of Guests?" min="1" style="border-color:transparent;margin-top:10px" ng-model="guests"></input>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <input type="button" class="btn btn-danger" value="Search" ng-click = "search()" style="float:right;margin-top:30px">
+            </div>
+        </div><br>
+        <!--end of Search in main Page-->
+        <div class="col-sm-12" style="float:left;"><h2>Explore the World</h2></div>
+
+        <div class="col-sm-6">
+            <img src="/images/paris.jpg" style="width:100%">
+
+        </div>
+        <div class="col-sm-6">
+            <div class="col-sm-6">
+                <img src="/images/rome.jpg" style="width:100%; height:100%">
+            </div>
+            <div class="col-sm-6">
+                <img src="/images/losangles.jpg" style="width:100%; height:100%">
+            </div>
+            <div class="col-sm-6">
+                <img src="/images/lisbon.jpg" style="width:100%; height:100%;margin-top:40px">
+            </div>
+            <div class="col-sm-6">
+                <img src="/images/tokiyo.jpg" style="width:100%; height:100%;margin-top:40px">
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-1"></div>
 </body>
 </html>
