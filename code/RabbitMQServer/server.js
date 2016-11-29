@@ -155,6 +155,9 @@ cnn.on('ready', function(){
     cnn.queue('reload_user_queue', function(q){
 		subscriber(q, profile.reloadUser );
     });
+	cnn.queue('upload_video_queue', function(q){
+		subscriber(q, profile.uploadvideo );
+	});
     cnn.queue('user_completed_trips',function (q) {
     	       subscriber(q,trip.user_completed_trips);
     });

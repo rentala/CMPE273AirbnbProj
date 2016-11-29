@@ -125,6 +125,33 @@ var uploadPic = {
 		}
 	}
 };
+var uploadvideo = {
+	handle_request : function (connection, msg, callback){
+		var res = {};
+		var obj_id = new ObjectID(msg.user_id);
+		var coll = connection.mongoConn.collection('users');
+		try{
+			coll.update({"_id" :obj_id},{$set:{
+				"video_path": msg.video_path
+			}
+			}, function(err, user){
+				if(err){
+					res.code= "400";
+					callback(null, res);
+				}
+				else
+				{
+					res.code= "200";
+					callback(null, res);
+				}
+			});
+		}
+		catch(err){
+			res.code = "500";
+			callback(null, res);
+		}
+	}
+};
 var reloadUser = {
 		handle_request : function (connection, msg, callback){
 			var res = {};
@@ -146,6 +173,7 @@ var reloadUser = {
 		}
 	};
 
+exports.uploadvideo = uploadvideo;
 exports.updateProfile = updateProfile;
 exports.userInfo =userInfo ;
 exports.deleteUser = deleteUser;

@@ -1,5 +1,5 @@
 var myProfile = angular.module('myProfile',[]);
-    	myProfile.controller('myProfileController',function($scope,$http){
+myProfile.controller('myProfileController',function($scope,$http){
     		
     		$http({
 	            method:"POST",
@@ -18,6 +18,7 @@ var myProfile = angular.module('myProfile',[]);
 				$scope.zipCode = data.user.zipCode;
 				$scope.ssn = data.user.ssn;
 				$scope.image = data.user.picture_path[0].filename;
+				$scope.video = data.user.video_path[0].filename;
 	        })
     		
     		$scope.card1=true;
@@ -32,7 +33,7 @@ var myProfile = angular.module('myProfile',[]);
     			
     		}
     		
-    		$scope.uploadImg = function(){
+    		/*$scope.uploadImg = function(){
     			$http({
     	            method:"POST",
     	            url:"/api/profile/uploadPic",
@@ -44,6 +45,18 @@ var myProfile = angular.module('myProfile',[]);
 					$scope.msg = "Updated Successfully";
     	        })
     		}
+			$scope.uploadvideo = function(){
+				$http({
+					method:"POST",
+					url:"/api/profile/uploadvideo",
+					data: {
+						"file":document.getElementById('file').files[0]
+					}
+				}).success(function(data){
+					$scope.data=data.user;
+					$scope.msg = "Updated Successfully";
+				})
+			}*/
     		
     		$scope.submitProfile = function(){
     			$http({
