@@ -18,7 +18,11 @@ myProfile.controller('myProfileController',function($scope,$http){
 				$scope.zipCode = data.user.zipCode;
 				$scope.ssn = data.user.ssn;
 				$scope.image = data.user.picture_path[0].filename;
-				$scope.video = data.user.video_path[0].filename;
+				console.log("video path"+data.user.video_path[0].filename);
+				var str1 ="/uploads/";
+				str1 = str1.concat(data.user.video_path[0].filename);
+				console.log("video path"+str1);
+				$scope.path = str1;
 	        })
     		
     		$scope.card1=true;
