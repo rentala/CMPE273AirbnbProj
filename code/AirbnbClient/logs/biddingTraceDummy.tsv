@@ -1,0 +1,5 @@
+Timestamp	User_Id	User_Name	Property_Id	Property_Name	Event
+11/26/2016, 6:43:05 PM	1	host1	1	prop1	property listed for bidding
+11/26/2016, 6:43:05 PM	2	user2	1	prop1	bid for property
+11/26/2016, 6:43:05 PM	1	user3	1	prop1	bid for property
+11/26/2016, 6:43:05 PM	1	user3	1	prop1	Won the bid!	
