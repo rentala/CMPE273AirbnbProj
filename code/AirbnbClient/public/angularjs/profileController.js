@@ -1,5 +1,5 @@
 var myProfile = angular.module('myProfile',[]);
-myProfile.controller('myProfileController',function($scope,$http){
+    	myProfile.controller('myProfileController',function($scope,$http){
     		
     		$http({
 	            method:"POST",
@@ -18,13 +18,11 @@ myProfile.controller('myProfileController',function($scope,$http){
 				$scope.zipCode = data.user.zipCode;
 				$scope.ssn = data.user.ssn;
 				$scope.image = data.user.picture_path[0].filename;
-				console.log("video path"+data.user.video_path[0].filename);
-				var str1 ="/uploads/";
-				str1 = str1.concat(data.user.video_path[0].filename);
-				console.log("video path"+str1);
+				var str1="/uploads/";
+				str1 = str1.concat(data.user.picture_path[0].filename);
 				$scope.path = str1;
 	        })
-    		
+
     		$scope.card1=true;
     		$scope.card=false;
     		$scope.profile = function(){
@@ -34,10 +32,10 @@ myProfile.controller('myProfileController',function($scope,$http){
     		$scope.profileImage = function(){
     			$scope.card1=false;
     			$scope.card=true;
-    			
+
     		}
-    		
-    		/*$scope.uploadImg = function(){
+
+    		$scope.uploadImg = function(){
     			$http({
     	            method:"POST",
     	            url:"/api/profile/uploadPic",
@@ -49,18 +47,6 @@ myProfile.controller('myProfileController',function($scope,$http){
 					$scope.msg = "Updated Successfully";
     	        })
     		}
-			$scope.uploadvideo = function(){
-				$http({
-					method:"POST",
-					url:"/api/profile/uploadvideo",
-					data: {
-						"file":document.getElementById('file').files[0]
-					}
-				}).success(function(data){
-					$scope.data=data.user;
-					$scope.msg = "Updated Successfully";
-				})
-			}*/
     		
     		$scope.submitProfile = function(){
     			$http({
