@@ -35,7 +35,8 @@ app.controller('loginSignupController',function($scope,$http){
             })
         }
         else{
-            $scope.error="please enter all the field contents";
+            console.log("reached");
+            $scope.signUpError="please enter all the field contents";
         }
     };
     $scope.logIn = function(){
