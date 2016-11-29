@@ -3,6 +3,17 @@
  */
 var adminApp = angular.module('adminApp',[]);
 adminApp.controller('adminController',function($scope,$http,$rootScope){
+    $rootScope.showHostsByCity = false;
+
+    $rootScope.showDashboard = false;
+    $rootScope.showInbox = false;
+    $rootScope.showBills = false;
+
+    $rootScope.showTopProperties = false;
+    $rootScope.showCityWiseRevenues = false;
+    $rootScope.showTopHost = false;
+
+    $rootScope.showPendingRequests = false;
 
     $scope.logIn = function(){
         $http({
@@ -36,47 +47,44 @@ adminApp.controller('adminController',function($scope,$http,$rootScope){
         	}
         })
     }
+
+    $scope.getHostsByCity = function(){
+        $rootScope.showDashboard = false;
+        $rootScope.showInbox = false;
+        $rootScope.showBills = false;
+        $rootScope.showHostsByCity = true;
+        console.log("reached");
+        $http({
+            method : "POST",
+            url : "/host/getHostByCity",
+            data : {
+                "city" : $scope.cityToSearchHost
+            }
+        }).success(function(data){
+            if(data.status_code == 200){
+                $scope.hostsByCity = data.host_dtls;
+            }
+        })
+    }
 });
 
 adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
-    $scope.showDashboard = false;
-    $scope.showInbox = false;
-    $scope.showBills = false;
-
-    $scope.showTopProperties = false;
-    $scope.showCityWiseRevenues = false;
-    $scope.showTopHost = false;
-
-    $scope.showPendingRequests = false;
 
     $scope.dashboard = function(){
         console.log("reached");
-        $scope.showDashboard = true;
-        $scope.showInbox = false;
-        $scope.showBills = false;
+        $rootScope.showDashboard = true;
+        $rootScope.showInbox = false;
+        $rootScope.showBills = false;
+        $rootScope.showHostsByCity = false;
     }
-
-$scope.getHostsByCity = function(){
-    $http({
-        method : "POST",
-        url : "/host/getHostByCity",
-        data : {
-            "cityToSearchHost" : $scope.cityToSearchHost
-        }
-    }).success(function(data){
-        if(data.status_code == 200){
-            $
-        }
-    })
-}
-
 
 //****************INBOX Begins Here***********
     $scope.inbox = function(){
         console.log("reached");
-        $scope.showDashboard = false;
-        $scope.showInbox = true;
-        $scope.showBills = false;
+        $rootScope.showDashboard = false;
+        $rootScope.showInbox = true;
+        $rootScope.showBills = false;
+        $rootScope.showHostsByCity = false;
 
         $scope.getPendingHostAppovals = function(){
             $http({
@@ -128,35 +136,36 @@ $scope.getHostsByCity = function(){
 //***************BILLS Begins here*****************
     $scope.bills = function(){
         console.log("reached");
-        $scope.showDashboard = false;
-        $scope.showInbox = false;
-        $scope.showBills = true;
+        $rootScope.showDashboard = false;
+        $rootScope.showInbox = false;
+        $rootScope.showBills = true;
+        $rootScope.showHostsByCity = false;
 
-        $scope.showDateInput = false;
-        $scope.showMonthInput = false;
-        $scope.showYearInput = false;
-        $scope.showBillsButton = false;
+        $rootScope.showDateInput = false;
+        $rootScope.showMonthInput = false;
+        $rootScope.showYearInput = false;
+        $rootScope.showBillsButton = false;
 
-        $scope.showBillsRequested = false;
+        $rootScope.showBillsRequested = false;
 
         $scope.displayFields = function(){
             if($scope.refineCriteria == "date"){
-                $scope.showDateInput = true;
-                $scope.showMonthInput = false;
-                $scope.showYearInput = false;
-                $scope.showBillsButton = true;
+                $rootScope.showDateInput = true;
+                $rootScope.showMonthInput = false;
+                $rootScope.showYearInput = false;
+                $rootScope.showBillsButton = true;
             }
             if($scope.refineCriteria == "month"){
-                $scope.showDateInput = false;
-                $scope.showMonthInput = true;
-                $scope.showYearInput = false;
-                $scope.showBillsButton = true;
+                $rootScope.showDateInput = false;
+                $rootScope.showMonthInput = true;
+                $rootScope.showYearInput = false;
+                $rootScope.showBillsButton = true;
             }
             if($scope.refineCriteria == "year"){
-                $scope.showDateInput = false;
-                $scope.showMonthInput = false;
-                $scope.showYearInput = true;
-                $scope.showBillsButton = true;
+                $rootScope.showDateInput = false;
+                $rootScope.showMonthInput = false;
+                $rootScope.showYearInput = true;
+                $rootScope.showBillsButton = true;
             }
         }
         
@@ -178,7 +187,7 @@ $scope.getHostsByCity = function(){
                 }
             }).success(function(data){
                 if(data.status_code == 200){
-                    $scope.showBillsRequested = true;
+                    $rootScope.showBillsRequested = true;
                     $scope.retreivedBills = data.bills;
                 }
                 else if(data.status_code == 400){
@@ -218,10 +227,10 @@ $scope.getHostsByCity = function(){
     }
 //***************BILLS End here*****************
 
-    $scope.topProperties = function(){
-        $scope.showTopProperties = true;
-        $scope.showCityWiseRevenues = false;
-        $scope.showTopHost = false;
+    $scope.getTopProperties = function(){
+        $rootScope.showTopProperties = true;
+        $rootScope.showCityWiseRevenues = false;
+        $rootScope.showTopHost = false;
         $http({
             method : "GET",
             url : "/api/analytics/topProp",
@@ -241,10 +250,10 @@ $scope.getHostsByCity = function(){
         })
     }
 
-    $scope.cityWiseRevenue = function(){
-        $scope.showTopProperties = false;
-        $scope.showCityWiseRevenues = true;
-        $scope.showTopHost = false;
+    $scope.getCityWiseRevenue = function(){
+        $rootScope.showTopProperties = false;
+        $rootScope.showCityWiseRevenues = true;
+        $rootScope.showTopHost = false;
 
         $scope.getCityRevenue = function(){
             //console.log($scope.cityForRevenue);
@@ -268,10 +277,10 @@ $scope.getHostsByCity = function(){
         }
     } 
 
-    $scope.topHost = function(){
-        $scope.showTopProperties = false;
-        $scope.showCityWiseRevenues = false;
-        $scope.showTopHost = true;
+    $scope.getTopHost = function(){
+        $rootScope.showTopProperties = false;
+        $rootScope.showCityWiseRevenues = false;
+        $rootScope.showTopHost = true;
         $http({
             method : "GET",
             url : "/api/analytics/topHost",

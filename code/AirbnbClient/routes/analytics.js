@@ -8,9 +8,13 @@ var d3 = require('d3');
 
 
 
-router.get('/topProp',function (req,res) {
-    var no_of_props= req.param("no_of_props");
-    var year = req.param("year");
+router.post('/topProp',function (req,res) {
+    //var no_of_props= req.param("no_of_props");
+    var no_of_props= req.body.no_of_props;
+    console.log("No of properties : " +no_of_props);
+    //var year = req.param("year");
+    var year = req.body.year;
+    console.log("Year : " +year);
     var json_responses;
     var msg_payload = {"year" : year,"no_of_props":no_of_props};
 
@@ -23,22 +27,24 @@ router.get('/topProp',function (req,res) {
         }
         else{
             if(results.statusCode == 200){
+            	console.log("An AirbnbClient : ")
                 json_responses = {"status_code":results.statusCode,"top_property":results.top_property};
             }
             else{
                 json_responses = {"status_code":results.statusCode};
             }
         }
+     	console.log("An AirbnbClient : " + JSON.stringify(json_responses));
         res.send(json_responses);
         res.end();
     });
 
 });
 
-router.get('/cityWiseData',function (req,res) {
+router.post('/cityWiseData',function (req,res) {
 
     var json_responses;
-    var city = req.param("city");
+    var city = req.body.city;
 
     var msg_payload = {"city":city};
 
@@ -62,8 +68,8 @@ router.get('/cityWiseData',function (req,res) {
 
 });
 
-router.get('/topHost',function (req,res) {
-    var no_of_hosts= req.param("no_of_hosts");
+router.post('/topHost',function (req,res) {
+    var no_of_hosts= req.body.no_of_hosts;
     var json_responses;
     var msg_payload = {"no_of_hosts":no_of_hosts};
 
@@ -88,7 +94,7 @@ router.get('/topHost',function (req,res) {
 
 });
 
-router.get('/propRatings',function (req,res) {
+router.post('/propRatings',function (req,res) {
     var host_id= req.param("host_id");
     console.log("In AirbnbClient  : analytics.js  : propRatings : "+host_id);
     var msg_payload = {"host_id":host_id};
