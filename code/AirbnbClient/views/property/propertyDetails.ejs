@@ -10,6 +10,10 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWlhSOzoAYUi3wmo6rbzJRBV4yohQvXBY&libraries=places&callback=initAutocomplete"
 	></script>
+	<script> var coordinates = {
+		x: '<%=property.coordinates.x%>', y: '<%=property.coordinates.y%>'
+		};
+	</script>
 	<script src="/angularjs/propertySearchController.js"></script>
 	<style>
 		#img_container {
