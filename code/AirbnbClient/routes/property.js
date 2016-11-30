@@ -80,13 +80,20 @@ router.get('/id/:prop_id/:flow',function (req,res) {
 	                var end_date = "";
 	                property.avg_ratings = avg_ratings;
 	                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:"0",start_date:start_date,end_date:end_date,guests:'NA'});
-                }
-                else{
-                	var msg = req.session.msg;
-	                var start_date = msg.start_date;
-	                var end_date = msg.end_date;
+                } else if(flow == "book" && req.session.msg!=null){
+                    var msg = req.session.msg;
+                    var start_date = msg.start_date;
+                    var end_date = msg.end_date;
 	                property.avg_ratings = avg_ratings;
-	                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid,start_date:start_date,end_date:end_date,guests:msg.guests});
+	                res.render('./property/propertyDetails.ejs',
+                        {property: property,
+                            flow:flow,
+                            min_bid:min_bid,
+                            start_date:start_date,
+                            end_date:end_date,
+                            guests:msg.guests});
+                } else{
+                    res.render('./property/propertyDetails.ejs', {property: property,flow:flow});
                 }
             }
             else {
