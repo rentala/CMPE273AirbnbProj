@@ -179,6 +179,9 @@ cnn.on('ready', function(){
     cnn.queue('acceptBid_queue', function(q){
     	subscriber(q, trip.acceptBid);
     });
+    cnn.queue('rejectBid_queue', function(q){
+    	subscriber(q, trip.rejectBid);
+    });
 });
 
 var subscriber = function(q, module) {
