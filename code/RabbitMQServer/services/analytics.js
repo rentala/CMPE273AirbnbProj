@@ -21,7 +21,7 @@ var topProp = {
             else {
                 if(result.length>0){
                	
-               /*	 var top_prop_data = d3.nest()
+               	 /*var top_prop_data = d3.nest()
                	  .key(function(d) { return d.trip_year; })
                	  .entries(result);*/
                		var formattedData = [];

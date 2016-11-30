@@ -58,11 +58,11 @@ module.exports = function(passport){
             	var phoneNumber = req.param("phoneNumber");            	
             	var ssn = req.param("ssn");            	
         		//logger.event("new user registration", { email: email, first_name: firstName});
-        		console.log("new user registration", { email: email, firstName: firstName, lastName:lastName});
+        		console.log("new user registration", { email: email, first_name : firstName, last_name:lastName});
         		
         		
-        		var msg_payload = { "email": email, "password": password, "firstName": firstName, "lastName": lastName,"Dob":Dob,"street":street,
-        				"aptNum":aptNum,"city":city,"state":state,"zipCode":zipCode,"phoneNumber":phoneNumber,"ssn":ssn};
+        		var msg_payload = { "email_id ": email, "password": password, "first_name": firstName, "last_name": lastName,"birthdate":Dob,"street":street,
+        				"aptNum":aptNum,"city":city,"state":state,"zipcode":zipCode,"phone_no":phoneNumber,"ssn":ssn};
             	
             	mq_client.make_request('register_queue',msg_payload, function(err,results){
         			if(err){

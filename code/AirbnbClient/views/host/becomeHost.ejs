@@ -152,7 +152,7 @@
         </div>
     <%}%>
     <div class="col-sm-7">
-        <form action="/api/property/list"  enctype = "multipart/form-data" method="post" novalidate>
+        <form action="/api/property/list"  enctype = "multipart/form-data" method="post" >
             <div class="col-sm-9">
                 <h2>Hi, Username! Lets get you ready to become a host.</h2>
                 <br>
@@ -236,7 +236,7 @@
 
                     </div>
                 </div>
-
+                <div></div>
 
                 <!--map related-->
                 <div class="col-sm-12" style="margin-bottom: 15px">
@@ -249,7 +249,7 @@
                 <h3>Photos</h3>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <input type="file" class="" accept="image/*" name="file" multiple value="Upload upto 12 Images" />
+                        <input type="file" class="" accept="image/*" name="file" multiple value="Upload upto 12 Images" required/>
 
                     </div>
                 </div>
@@ -260,7 +260,7 @@
                     <div class="form-group">
                         <ul class="list-group">
                             <li class="list-group-item">Bidding<input ng-model="isBid" type="radio" name="forBid" value="1" style="float:right;" required></li>
-                            <li class="list-group-item">Normal<input ng-model="isBid" type="radio" name="forBid" value="0" style="float:right;" required></li>
+                            <li class="list-group-item">Rent for the night !<input ng-model="isBid" type="radio" name="forBid" value="0" style="float:right;" required></li>
                         </ul>
                     </div>
                 </div>
@@ -268,44 +268,16 @@
                 <!--cost per day per week per month-->
                 <h3>Enter Cost</h3>
                 <div class="col-sm-12">
-                    <div ng-show="isBid == 0" class="form-group">
+                    <div class="form-group">
                         <div class="row">
                             <div class=" input-group input-group-md">
                                 <span class="input-group-addon"><i style="font-size:20px" class="fa">&#xf155;</i></span>
                                 <div class="icon-addon addon-md">
-                                    <input type="number" name="per_night" class="form-control" placeholder="Cost per night" style="" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class=" input-group input-group-md">
-                                <span class="input-group-addon"><i style="font-size:20px" class="fa">&#xf155;</i></span>
-                                <div class="icon-addon addon-md">
-                                    <input type="number" name="per_week" class="form-control" placeholder="Cost per week" style="" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="input-group  input-group-md">
-                                <span class="input-group-addon"><i style="font-size:20px" class="fa">&#xf155;</i></span>
-                                <div class="icon-addon addon-md">
-                                    <input type="number" name="per_month" class="form-control" placeholder="Cost per month" style="" required>
+                                    <input type="number" name="price" class="form-control" placeholder="Enter price " style="" required>
                                 </div>
                             </div>
                         </div>
 
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <div ng-show="isBid == 1" class="form-group">
-                        <div class="row">
-                            <div class=" input-group input-group-md">
-                                <span class="input-group-addon"><i style="font-size:20px" class="fa">&#xf155;</i></span>
-                                <div class="icon-addon addon-md">
-                                    <input type="number" name="bid" class="form-control" placeholder="Bid amount for the whole period" style="" required>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <input id="coordinatesX" name="coordinatesX" type="hidden" ></input>

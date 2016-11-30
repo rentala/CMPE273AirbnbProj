@@ -58,8 +58,8 @@ router.get('/id/:prop_id/:flow',function (req,res) {
         }
         else {
             if(results.statusCode == 200){
-                if(results.prop_array[0].hasOwnProperty('ratings')){
-                    ratings_array = results.prop_array[0].ratings;
+                if(results.prop.hasOwnProperty('ratings')){
+                    ratings_array = results.prop.ratings;
                     for(var i=0;i<ratings_array.length;i++){
                         total_ratings += ratings_array[i].rating_stars;
                     }
@@ -69,10 +69,10 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                     avg_ratings = 0;
                 }
 
-                var property = results.prop_array[0];
+                var property = results.prop;
                 var min_bid = 0;
                 
-                if(results.bidding.length >0){
+                if(results.prop.hasOwnProperty('bidding') && esults.prop.bidding.length >0){
                 	min_bid = results.bidding[0].max_bid_price;
                 }
                 if(flow=="view"){
@@ -145,21 +145,47 @@ router.post('/list', function (req, res, next)  {
             return;
         }
         var msg_payload = mapReqToPayLoad(req);
+        var queue = "";
+        var validHost = true;
+        switch(req.session.user.host_status)
+        {
+            case "ACCEPTED":
+                msg_payload.host_status = "ACCEPTED";
+                queue = "list_property_queue";
+                break;
+            case "REQUESTED":
+                msg_payload.host_status = "REQUESTED";
+                queue = "list_property_queue";
+                break;
+            case "REJECTED":
+                validHost = false;
+                break;
+            default:
+                msg_payload.host_status = "REQUESTED";
+                queue = "become_host_queue";
+                break;
 
-        mq_client.make_request('list_property_queue', msg_payload, function(err,results){
-            res.statusCode = results.code;
-            if(err){
-            	tool.logError(err);
-                json_responses = {
-                    "failed" : "failed"
-                };
-                req.redirect('/host?err=1');
-            } else {
-                req.flash('hostConfirmation', true);
-                req.flash('propertyId', results.propertyId[0]);
-                res.redirect('/host/confirmation');
-            }
-        });
+        }
+        if(validHost){
+            mq_client.make_request(queue, msg_payload, function(err,results){
+                res.statusCode = results.code;
+                if(err){
+                    tool.logError(err);
+                    json_responses = {
+                        "failed" : "failed"
+                    };
+                    req.redirect('/host?err=1');
+                } else {
+                    req.flash('hostConfirmation', true);
+                    req.flash('propertyId', results.propertyIds[0]);
+                    res.redirect('/host/confirmation');
+                }
+            });
+        }
+        else{
+            req.redirect('/host?err=InvalidHost');
+        }
+
     });
 
 });
@@ -187,8 +213,13 @@ function mapReqToPayLoad(req) {
     msg_payload.is_auction = req.body.forBid == 1 ? true: false;
     msg_payload.start_date = req.body.start_date;
     msg_payload.end_date = req.body.end_date;
-    msg_payload.price = { per_night: req.body.per_night, per_week:  req.body.per_week,  per_month:  req.body.per_month };
-    msg_payload.bid_price = req.body.bid;
+    if(req.body.forBid == 1){
+        msg_payload.bid_price = req.body.price;
+    } else{
+        msg_payload.price = req.body.price;
+    }
+
+
     return msg_payload;
 }
 
@@ -217,16 +248,6 @@ var getID = function () {
         return v.toString(16);
     });
 };
-router.get('/test', function (req, res, next)  {
-    var json_responses;
-    json_responses = {
-        "status_code" : 200,
-        "user" : "test"
-    };
-    //return res.redirect('/');
-    res.send(json_responses);
-    res.end();
-});
 
 router.post('/bidProperty', function (req, res, next)  {
     var json_responses;
