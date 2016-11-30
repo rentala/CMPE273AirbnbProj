@@ -45,24 +45,23 @@ module.exports = function(passport){
                 passReqToCallback : true
             },
             function(req, username, password,  done) {
-            	var firstName = req.param("firstName");
-            	var lastName = req.param("lastName");
+            	var first_name = req.param("firstName");
+            	var last_name = req.param("lastName");
             	var email = req.param("email");
             	var password = req.param("password");
-            	var Dob = req.param("Dob");
+            	var dob = req.param("Dob");
             	var street = req.param("street");
-            	var aptNum = req.param("aptNum");
+            	
+            	var address = req.param("aptNum");
+            	console.log("aptNum"+address);
+            	console.log("aptNum"+req.param("aptNum"));
             	var city = req.param("city");
             	var state = req.param("state");
-            	var zipCode = req.param("zipCode");
-            	var phoneNumber = req.param("phoneNumber");            	
+            	var zipcode = req.param("zipCode");
+            	var phone = req.param("phoneNumber");            	
             	var ssn = req.param("ssn");            	
-        		//logger.event("new user registration", { email: email, first_name: firstName});
-        		console.log("new user registration", { email: email, first_name : firstName, last_name:lastName});
-        		
-        		
-        		var msg_payload = { "email_id ": email, "password": password, "first_name": firstName, "last_name": lastName,"birthdate":Dob,"street":street,
-        				"aptNum":aptNum,"city":city,"state":state,"zipcode":zipCode,"phone_no":phoneNumber,"ssn":ssn};
+        		var msg_payload = { "email": email, "password": password, "first_name": first_name, "last_name": last_name,"dob":dob,"street":street,
+        				"address":address,"city":city,"state":state,"zipcode":zipcode,"phone":phone,"ssn":ssn};
             	
             	mq_client.make_request('register_queue',msg_payload, function(err,results){
         			if(err){

@@ -14,7 +14,7 @@ app.controller('loginSignupController',function($scope,$http){
                     "password":$scope.password,
                     "Dob":$scope.Dob,
                     "street":$scope.street,
-                    "address":$scope.aptNum,
+                    "aptNum":$scope.aptNum,
                     "city":$scope.city,
                     "state":$scope.state,
                     "zipCode":$scope.zipCode,
@@ -30,7 +30,7 @@ app.controller('loginSignupController',function($scope,$http){
                     window.location.assign("/api/auth/home");
                 }
                 else if(data.status_code=="400"){
-                    $scope.signUpError="User already exists please use different username";
+                    $scope.signUpError="Email already registered please use different email";
                 }
             })
         }
