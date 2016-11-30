@@ -19,10 +19,10 @@ router.get('/confirmation', function(req, res, next) {
         req.redirect('/host?err=1');
     }
 });
-router.post('/delete/:id', function(req, res, next) {
+router.post('/delete', function(req, res, next) {
 
     var json_responses;
-    var msg_payload = {"id":req.param("id")};
+    var msg_payload = {"id":req.body.host_id};
     mq_client.make_request('delete_host_queue', msg_payload, function(err,results){
         if(err){
       	  tool.logError(err);
@@ -31,7 +31,9 @@ router.post('/delete/:id', function(req, res, next) {
                 "result" : results.result
             };
         } else {
-            json_responses = { "result":results.result};
+            json_responses = {
+            "status_code" : 200,
+            "result":results.result};
         }
         res.status_code = results.code;
         res.send(json_responses);

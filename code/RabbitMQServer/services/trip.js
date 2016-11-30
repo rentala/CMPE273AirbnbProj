@@ -292,6 +292,67 @@ var user_completed_trips = {
 	    }
 	};
 
+
+var acceptBid = {
+	    handle_request: function (connection, msg, callback) {
+        var res = {};
+        var coll = connection.mongoConn.collection('property');
+        coll.findOne({"_id":ObjectID(msg.property_id)}, function (err,record) {
+        	if(err)
+            {
+                res = {"statusCode":400,"errMsg":err};
+                tool.logError(err);
+                callback(null, res);
+            }
+            else {
+                if(record != null){
+                	mysql.execute_query(function (err, result) {
+                        if(err){
+                            res = {"statusCode":400,"errMsg":err};
+                            tool.logError(err);
+                            callback(null, res);
+                        }
+                        else {
+                        	mysql.execute_query(function (err, result) {
+	                    		if(err){
+	                                res = {"statusCode":400,"errMsg":err};
+	                                tool.logError(err);
+	                                callback(null, res);
+	                            }
+	                            else {
+		                            res = {"statusCode":200};
+		                            callback(null, res);
+	                            }
+                        	},sql_queries.ACCEPT_BID, [msg.bid_id]);
+                        }
+                	},sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, record.description, record.host_id, record.start_date, record.end_date, record.guests, 'PENDINGPAYMENT', msg.bidPrice, msg.guest_name]);
+                }
+                else{
+                	res = {"statusCode":400,"invalid":"invalid"};
+                    tool.logError(err);
+                    callback(null, res);
+                }
+            }
+	});
+}};
+
+var rejectBid = {
+	    handle_request: function (connection, msg, callback) {
+        var res = {};
+        
+    	mysql.execute_query(function (err, result) {
+    		if(err){
+                res = {"statusCode":400,"errMsg":err};
+                tool.logError(err);
+                callback(null, res);
+            }
+            else {
+                res = {"statusCode":200};
+                callback(null, res);
+            }
+    	},sql_queries.REJECT_BID, [msg.bid_id]);
+}};
+
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
 exports.createTrip = createTrip;
@@ -300,3 +361,5 @@ exports.createTripReview = createTripReview;
 exports.editTrip = editTrip;
 exports.pendingTripsForApproval = pendingTripsForApproval;
 exports.user_completed_trips = user_completed_trips;
+exports.acceptBid = acceptBid;
+exports.rejectBid = rejectBid;

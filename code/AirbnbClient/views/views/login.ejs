@@ -51,10 +51,11 @@
                             <input type="text" class="form-control" placeholder="State" style="margin-top:10px"  name= "state" ng-model="state"></input>
                             <input type="number" class="form-control" placeholder="Zip Code" style="margin-top:10px"  name= "zipCode" ng-model="zipCode"></input>
                             <input type="number" class="form-control" placeholder="Phone Number" max="9999999999" style="margin-top:10px" name= "phoneNumber"  ng-model="phoneNumber"></input>
-                            <input type="number" class="form-control" placeholder="SSN" max="999999999" style="margin-top:10px" name= "ssn"  ng-model="ssn"></input>
+                            <input type="number" class="form-control" placeholder="SSN" min="100000000" max="999999999" style="margin-top:10px" name= "ssn"  ng-model="ssn"></input>
+                            <p style="color:red">{{signUpError}}</p>
                             <span>By signing up, I agree to Airbnb’s Terms of Service, Nondiscrimination Policy, Payments Terms of Service, Privacy Policy, Guest Refund Policy, and Host Guarantee Terms.</span>
                             <button class="btn btn-danger" style="width:100%;margin-top: 10px" ng-click="signUp()">Sign Up</button>
-                            <p style="color:red">{{signUpError}}</p>
+                            
                         </form>
                     </div>
                 </div>
@@ -80,7 +81,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <span style="float: left;">Don't have an account?</span><button type="button" id="myBtn2" class="btn btn-danger" style="float:right;" onclick="popup()">Sign Up</button>
+                        <span style="float: left;">Don't have an account?</span><button type="button" id="myBtn2" class="btn btn-danger" style="float:right;" data-dismiss="modal" data-toggle="modal" data-target="#myModal">Sign Up</button>
                     </div>
                 </div>
             </div>

@@ -28,4 +28,8 @@ app.controller('homeController',function($scope,$http){
             }
         })
     }
+    
+    $scope.searchByCity = function(){
+    	$scope.whereTo = $scope.city;
+    }
 });

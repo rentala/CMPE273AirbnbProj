@@ -447,4 +447,63 @@ router.get('/id/:prop_id/:price/:flow/:trip_id',function (req,res) {
     });
 });
 
+router.post('/acceptBid', function(req, res){
+	  var property_id = req.param("property_id");
+	  var user_id = req.param("user_id");
+	  var guest_name = req.param("bidder_name");
+	  var bidPrice = req.param("bidPrice");
+	  var bid_id = req.param("bid_id");
+	  var msg_payload = {
+	    "property_id" : property_id,
+	    "user_id" : user_id,
+	    "guest_name" : guest_name,
+	    "bidPrice" : bidPrice,
+	    "bid_id":bid_id
+	  };
+	  mq_client.make_request('acceptBid_queue', msg_payload, function (err,results) {
+	        if(err){
+	            //Need to add tool to log error.
+	            tool.logError(err);
+	            json_responses = {"status_code":400};
+	            res.send(json_responses);
+	            res.end();
+	        }
+	        else {
+	            if(results.statusCode == 200)
+	            {
+	                res.send({"status_code":200});
+	            }
+	            else {
+	                res.send({"status_code":400});
+	            }
+	        }
+	    });
+	});
+
+router.post('/rejectBid', function(req, res){
+	  var bid_id = req.param("bid_id");
+	  var msg_payload = {
+	    "bid_id":bid_id
+	  };
+	  mq_client.make_request('rejectBid_queue', msg_payload, function (err,results) {
+	        if(err){
+	            //Need to add tool to log error.
+	            tool.logError(err);
+	            json_responses = {"status_code":400};
+	            res.send(json_responses);
+	            res.end();
+	        }
+	        else {
+	            if(results.statusCode == 200)
+	            {
+	                res.send({"status_code":200});
+	            }
+	            else {
+	                res.send({"status_code":400});
+	            }
+	        }
+	    });
+	});
+
+
 module.exports = router;

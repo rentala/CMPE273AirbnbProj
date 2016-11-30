@@ -66,8 +66,13 @@
                     <div class="panel-body">
                         <div class="col-sm-3"><img src="/images/profile.jpg" width="100%" height="100%"></img></div>
                         <div class="col-sm-9" style="float:left">
-                            {{x.guest_name}}
-                            {{x.checkout_date}}
+                            <label style="color: #1b6d85">Property:</label> <a href="/api/property/id/{{x.property_id}}/view">{{x.property_name}}</a><br>
+                            
+                            Guest Name: {{x.guest_name}}<br>
+                            Checkin Date: {{x.checkin_date}} &nbsp;&nbsp; Checkout Date: {{x.checkout_date}}<br>
+                            Guests: {{x.no_of_guests}}<br>
+                            Price: ${{x.trip_price}}<br>
+                            
                         </div>
                     </div>
                     <div class="col-sm-12" style="background-color: #9d9d9d">
@@ -86,19 +91,23 @@
 <div class="col-sm-8">
     <div class="col-sm-12" style="border:0.5px solid black">
         <div class="col-sm-12" style="background-color:#f5f5f5"><h3>Bid Winners</h3></div>
-        <div data-ng-repeat="x in details">
+        <div data-ng-repeat="x in biddings">
             <div class="col-sm-12" style="margin-top:10px">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="col-sm-3"><img src="/images/profile.jpg" width="100%" height="100%"></img></div>
                         <div class="col-sm-9" style="float:left">
-                            {{x.checkout_date}}
-                            {{x.guest_name}}
+                            <label style="color: #1b6d85">Property:</label> <a href="/api/property/id/{{x.property_id}}/view">{{x.property_name}}</a><br>
+                            
+                            Bidder Name: {{x.bidder_name}}<br>
+                            User: {{x.max_bid_user_id}} Make this a link <br>
+                            Minimum Bid: ${{x.host_min_amt}}<br>
+                            User Bid: ${{x.max_bid_price}}<br>
                         </div>
                     </div>
                     <div class="col-sm-12" style="background-color: #9d9d9d">
-                        <input type="button" class="btn btn-danger" style="float:left" value="Reject" data-ng-click="rejectTrip(x.trip_id)">
-                        <input type="button" class="btn btn-success" style="float:right" value="Accept" data-ng-click="acceptTrip(x.trip_id)">
+                        <input type="button" class="btn btn-danger" style="float:left" value="Reject" data-ng-click="rejectBid(x.bid_id)">
+                        <input type="button" class="btn btn-success" style="float:right" value="Accept" data-ng-click="acceptBid(x.property_id,x.max_bid_price,x.bidder_name,x.max_bid_user_id,x.bid_id)">
                     </div>
                 </div>
             </div>
