@@ -3,17 +3,6 @@
  */
 var adminApp = angular.module('adminApp',[]);
 adminApp.controller('adminController',function($scope,$http,$rootScope){
-    $rootScope.showHostsByCity = false;
-
-    $rootScope.showDashboard = false;
-    $rootScope.showInbox = false;
-    $rootScope.showBills = false;
-
-    $rootScope.showTopProperties = false;
-    $rootScope.showCityWiseRevenues = false;
-    $rootScope.showTopHost = false;
-
-    $rootScope.showPendingRequests = false;
 
     $scope.logIn = function(){
         $http({
@@ -39,78 +28,62 @@ adminApp.controller('adminController',function($scope,$http,$rootScope){
             method:"POST",
             url:"/api/admin/adminLogOut"
         }).success(function(data){
-        	if(data.status_code = 200){
-        		window.location = '/';
-        	}
-        	else{
-        		console.log("Failed Log Out");
-        	}
+            if(data.status_code = 200){
+                window.location = '/';
+            }
+            else{
+                console.log("Failed Log Out");
+            }
         })
+    }
+});
+
+adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
+    $scope.showDashboard = false;
+    $scope.showInbox = false;
+    $scope.showBills = false;
+
+    $scope.showTopProperties = false;
+    $scope.showCityWiseRevenues = false;
+    $scope.showTopHost = false;
+
+    $scope.showPendingRequests = false;
+
+    $scope.dashboard = function(){
+        console.log("reached");
+        $scope.showDashboard = true;
+        $scope.showInbox = false;
+        $scope.showBills = false;
     }
 
     $scope.getHostsByCity = function(){
-        $rootScope.showDashboard = false;
-        $rootScope.showInbox = false;
-        $rootScope.showBills = false;
-        $rootScope.showHostsByCity = true;
-        console.log("reached1");
         $http({
             method : "POST",
             url : "/host/getHostByCity",
             data : {
-                "city" : $scope.cityToSearchHost
+                "cityToSearchHost" : $scope.cityToSearchHost
             }
         }).success(function(data){
             if(data.status_code == 200){
-                $scope.hostsByCity = data.host_dtls;
+                $
             }
         })
     }
 
-    $scope.deleteHost = function(host_id){
-        $http({
-            method : "POST",
-            url : "/host/delete",
-            data : {
-                "host_id" : host_id
-            }
-        }).success(function(data){
-            if(data.status_code == 200){
-                console.log("haha");
-                $scope.getHostsByCity();
-            }
-            else if(data.status_code == 400){
-                console.log("error in deleting host");
-            }
-        })
-    }
-
-});
-
-adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
-
-    $scope.dashboard = function(){
-        console.log("reached");
-        $rootScope.showDashboard = true;
-        $rootScope.showInbox = false;
-        $rootScope.showBills = false;
-        $rootScope.showHostsByCity = false;
-    }
 
 //****************INBOX Begins Here***********
     $scope.inbox = function(){
         console.log("reached");
-        $rootScope.showDashboard = false;
-        $rootScope.showInbox = true;
-        $rootScope.showBills = false;
-        $rootScope.showHostsByCity = false;
+        $scope.showDashboard = false;
+        $scope.showInbox = true;
+        $scope.showBills = false;
 
         $scope.getPendingHostAppovals = function(){
             $http({
                 method : "POST",
                 url : "/api/admin/pendingHostsForApproval",
                 data : {
-					"host_status" : "NA",
+                    "host_status" : "NA",
                     "city" : $scope.cityForInbox
                 }
             }).success(function(data){
@@ -155,36 +128,35 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
 //***************BILLS Begins here*****************
     $scope.bills = function(){
         console.log("reached");
-        $rootScope.showDashboard = false;
-        $rootScope.showInbox = false;
-        $rootScope.showBills = true;
-        $rootScope.showHostsByCity = false;
+        $scope.showDashboard = false;
+        $scope.showInbox = false;
+        $scope.showBills = true;
 
-        $rootScope.showDateInput = false;
-        $rootScope.showMonthInput = false;
-        $rootScope.showYearInput = false;
-        $rootScope.showBillsButton = false;
+        $scope.showDateInput = false;
+        $scope.showMonthInput = false;
+        $scope.showYearInput = false;
+        $scope.showBillsButton = false;
 
-        $rootScope.showBillsRequested = false;
+        $scope.showBillsRequested = false;
 
         $scope.displayFields = function(){
             if($scope.refineCriteria == "date"){
-                $rootScope.showDateInput = true;
-                $rootScope.showMonthInput = false;
-                $rootScope.showYearInput = false;
-                $rootScope.showBillsButton = true;
+                $scope.showDateInput = true;
+                $scope.showMonthInput = false;
+                $scope.showYearInput = false;
+                $scope.showBillsButton = true;
             }
             if($scope.refineCriteria == "month"){
-                $rootScope.showDateInput = false;
-                $rootScope.showMonthInput = true;
-                $rootScope.showYearInput = false;
-                $rootScope.showBillsButton = true;
+                $scope.showDateInput = false;
+                $scope.showMonthInput = true;
+                $scope.showYearInput = false;
+                $scope.showBillsButton = true;
             }
             if($scope.refineCriteria == "year"){
-                $rootScope.showDateInput = false;
-                $rootScope.showMonthInput = false;
-                $rootScope.showYearInput = true;
-                $rootScope.showBillsButton = true;
+                $scope.showDateInput = false;
+                $scope.showMonthInput = false;
+                $scope.showYearInput = true;
+                $scope.showBillsButton = true;
             }
         }
         
@@ -206,7 +178,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 }
             }).success(function(data){
                 if(data.status_code == 200){
-                    $rootScope.showBillsRequested = true;
+                    $scope.showBillsRequested = true;
                     $scope.retreivedBills = data.bills;
                 }
                 else if(data.status_code == 400){
@@ -247,18 +219,32 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
 //***************BILLS End here*****************
 
     $scope.getTopProperties = function(){
-        $rootScope.showTopProperties = true;
-        $rootScope.showCityWiseRevenues = false;
-        $rootScope.showTopHost = false;
+     
+     console.log("Top Properties");
+     
+        $scope.showTopProperties = true;
+        $scope.showCityWiseRevenues = false;
+        $scope.showTopHost = false;
+        //Delete the 'svg' tag if it exists
+        var svgCityWiseRevenueDiv = d3.select('#cityWiseRevenueDiv').select("svg");
+        if(svgCityWiseRevenueDiv){ svgCityWiseRevenueDiv.remove();}
+        var svgTopHostDiv = d3.select('#topHostDiv').select("svg");
+        if(svgTopHostDiv){ svgTopHostDiv.remove();}
+
         $http({
-            method : "GET",
+            method : "POST",
             url : "/api/analytics/topProp",
             data :{
-                "no_of_props" : 10
+                "no_of_props" : 10,
+                "year" : "2016"
             }
         }).success(function(data){
+          console.log("Top Properites controller : " + JSON.stringify(data));
             if(data.status_code == 200){
                 $scope.topProperties = data.top_property;
+                console.log("Angular Top Properties : " + JSON.stringify($scope.topProperties) );
+                var svg = d3.select('#topPropertiesDiv') .append('svg') .attr('height', 200) .attr('width', 300);
+                display2DGraph( $scope.topProperties,svg)
             }
             else if(data.status_code == 400){
                 console.log("error on service side");
@@ -270,21 +256,31 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
     }
 
     $scope.getCityWiseRevenue = function(){
-        $rootScope.showTopProperties = false;
-        $rootScope.showCityWiseRevenues = true;
-        $rootScope.showTopHost = false;
+     
+     console.log("City Wise Revenue");
+        $scope.showTopProperties = false;
+        $scope.showCityWiseRevenues = true;
+        $scope.showTopHost = false;
+        
+        var svgTopPropertiesDiv = d3.select('#topPropertiesDiv').select("svg");
+        if(svgTopPropertiesDiv){ svgTopPropertiesDiv.remove();}
+        var svgTopHostDiv = d3.select('#topHostDiv').select("svg");
+        if(svgTopHostDiv){ svgTopHostDiv.remove();}
 
         $scope.getCityRevenue = function(){
             //console.log($scope.cityForRevenue);
             $http({
-                method : "GET",
+                method : "POST",
                 url : "/api/analytics/cityWiseData",
                 data : {
-                    "city" : $scope.cityForRevenue
+                    //"city" : $scope.cityForRevenue
+                    "city" : "San Jose"
                 }
             }).success(function(data){
                 if(data.status_code == 200){
                     $scope.cityWiseRevenue = data.city_wise_data;
+                    var svg = d3.select('#cityWiseRevenueDiv') .append('svg') .attr('height', 200) .attr('width', 300);
+                    display2DGraph( $scope.cityWiseRevenue,svg)
                 }
                 else if(data.status_code == 400){
                     console.log("error on service");
@@ -297,18 +293,30 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
     } 
 
     $scope.getTopHost = function(){
-        $rootScope.showTopProperties = false;
-        $rootScope.showCityWiseRevenues = false;
-        $rootScope.showTopHost = true;
+     
+     console.log("Top Host");
+        $scope.showTopProperties = false;
+        $scope.showCityWiseRevenues = false;
+        $scope.showTopHost = true;
+        
+        
+        var svgTopPropertiesDiv = d3.select('#topPropertiesDiv').select("svg");
+        if(svgTopPropertiesDiv){ svgTopPropertiesDiv.remove();}
+        
+        var svgCityWiseRevenueDiv = d3.select('#cityWiseRevenueDiv').select("svg");
+        if(svgCityWiseRevenueDiv){ svgCityWiseRevenueDiv.remove();}
+        
         $http({
-            method : "GET",
+            method : "POST",
             url : "/api/analytics/topHost",
             data : {
                 "no_of_hosts" : 2
             }
         }).success(function(data){
             if(data.status_code == 200){
-                $scope.topHost = data.data;
+                $scope.topHost = data.top_host;
+                var svg = d3.select('#topHostDiv') .append('svg') .attr('height', 200) .attr('width', 300);
+                display2DGraph( $scope.topHost,svg)
             }
             else if(data.status_code == 400){
                 console.log("error on service");
@@ -318,5 +326,56 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
             }
         })
     }
+    
+    
+    var display2DGraph = function(data,svg){
+        
+        //var data =$scope.dataForPropClicks;
+        
+        
+        //var svg = d3.select('#propertyClicksDiv') .append('svg') .attr('height', 200) .attr('width', 300);
+        var margin = {top: 20, right: 20, bottom: 30, left: 40},
+         width = +svg.attr("width") - margin.left - margin.right,
+        height = +svg.attr("height") - margin.top - margin.bottom;
+        
+        /*var svg = d3.select("svg"),
+        margin = {top: 20, right: 20, bottom: 30, left: 40},
+        width = +svg.attr("width") - margin.left - margin.right,
+        height = +svg.attr("height") - margin.top - margin.bottom;*/
+
+        var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+        y = d3.scaleLinear().rangeRound([height, 0]);
+
+        var g = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        x.domain(data.map(function(d) { return d.key; }));
+          y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+          g.append("g")
+              .attr("class", "axis axis--x")
+              .attr("transform", "translate(0," + height + ")")
+              .call(d3.axisBottom(x));
+
+          g.append("g")
+              .attr("class", "axis axis--y")
+              .call(d3.axisLeft(y).ticks(10))
+            .append("text")
+              .attr("transform", "rotate(-90)")
+              .attr("y", 6)
+              .attr("dy", "0.71em")
+              .attr("text-anchor", "end")
+              .text("Clicks");
+
+          g.selectAll(".bar")
+            .data(data)
+            .enter().append("rect")
+              .attr("class", "bar")
+              .attr("x", function(d) { return x(d.key); })
+              .attr("y", function(d) { return y(d.value); })    
+              .attr("width", x.bandwidth())
+              .attr("height", function(d) { return height - y(d.value); });
+        
+    }; 
 })
 
