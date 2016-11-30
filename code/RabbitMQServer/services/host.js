@@ -67,36 +67,36 @@ var reviewUser ={
 }
 
 var getHostByCity = {
-	    handle_request:function (connection,msg,callback) {
+    handle_request:function (connection,msg,callback) {
 
-	        var res = {};
+        var res = {};
 
-	        try{
-	            var coll = connection.mongoConn.collection('users');
-	            coll.find({city:msg.city, host_status: "ACCEPTED"}).toArray(function (err,records) {
-	               if(err){
-	                   tool.logError(err);
-	                   res = {"statusCode":400};
-	                   callback(null,res);
-	               }
-	               else{
-	                   res = {
-	                       "statusCode":200,
-	                       "host_dtls": records
+        try{
+            var coll = connection.mongoConn.collection('users');
+            coll.find({city:msg.city, host_status: "ACCEPTED"}).toArray(function (err,records) {
+               if(err){
+                   tool.logError(err);
+                   res = {"statusCode":400};
+                   callback(null,res);
+               }
+               else{
+                   res = {
+                       "statusCode":200,
+                       "host_dtls": records
 
-	                   };
-	                   callback(null,res);
-	               }
-	            });
-	        }
-	        catch(err){
-	            tool.logError(err);
-	            res = {"statusCode":400};
-	            callback(null,res);
-	        }
+                   };
+                   callback(null,res);
+               }
+            });
+        }
+        catch(err){
+            tool.logError(err);
+            res = {"statusCode":400};
+            callback(null,res);
+        }
 
-	    }
-	};
+    }
+};
 
 var becomeHost ={
     handle_request : function(connection, msg, callback) {
