@@ -343,8 +343,23 @@ router.post('/paymentGateway', function (req, res, next)  {
 });
 
 router.get('/paymentGateway/:flow/:diff', function (req, res, next)  {
-	
 	ejs.renderFile('./views/views/cardDetails.ejs',{ diff:req.param("diff"),flow:req.param("flow")},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			console.log('An error occurred');
+//			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
+router.get('/paymentGateway/:flow/:trip_id/:amount', function (req, res, next)  {
+	ejs.renderFile('./views/views/cardDetails.ejs',{ trip_id:req.param("trip_id"),flow:req.param("flow"),amount:req.param("amount")},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);

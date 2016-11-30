@@ -52,8 +52,10 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<div class="col-sm-12">
-					<% if(data.flow == "e") { %>
+					<% if(flow == "e") { %>
 					<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=diff%></label></div>
+					<% }else if(flow == "b") { %>
+					<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=amount%></label></div>
 					<% }else { %>
 					<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=data.total%></label></div>
 					<%}%>
@@ -72,7 +74,7 @@
 						<input type="month" class="form-control" id="expDate"  ng-model="expDate">
 					</div>
 				</div>
-				<% if(data.flow != "e") { %>
+				<% if(flow != "e" && flow != "b") { %>
 				<div style="display: none;">
 					<input type="text" ng-init="start_date=<%=data.start_date%>" id ="start_date" name ="start_date" class="form-control" ng_model = "start_date" value ="<%=data.start_date%>" >
 					<input type="text" id ="end_date" class="form-control" ng_model = "end_date" value ="<%=data.end_date%>" >
@@ -88,15 +90,21 @@
 				</div>
 				<% } %>
 				<div class="box-footer">
-					<% if(data.flow != "e") { %>
+					
+					<% if(flow == "b") { %>
 					<div class="pull-right">
-						<input type="submit" class="btn btn-primary" ng-click="submit();" name="submit" id="submit"  class="form-control btn btn-primary" value="Make Payment">
+						<input type="submit" class="btn btn-primary" ng-click="payBidAmount(<%=trip_id%>,<%=amount%>);" name="submit" id="submit"  class="form-control btn btn-primary" value="Make Payment">
 					</div>
-					<% }else { %>
+					<% }else if(flow == "e"){ %>
 					<div class="pull-right">
 						<input type="submit" class="btn btn-primary" ng-click="payDiff();" name="submit" id="submit"  class="form-control btn btn-primary" value="Make Payment">
 					</div>
+					<% }else { %>
+					<div class="pull-right">
+						<input type="submit" class="btn btn-primary" ng-click="submit();" name="submit" id="submit"  class="form-control btn btn-primary" value="Make Payment">
+					</div>
 					<%}%>
+					
 				</div>
 			</div>
 		</div>
