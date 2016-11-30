@@ -11,7 +11,7 @@ router.post('/search',function (req,res,next) {
     var start_date = req.param("start_date");
     var end_date = req.param("end_date");
     var guests = req.param("guests");
-    var user_id=4; //stub - get user id from req.session.user_id
+    var user_id=req.session.user_id; //stub - get user id from req.session.user_id
 
     var json_responses;
 
