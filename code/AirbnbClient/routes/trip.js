@@ -474,10 +474,36 @@ router.post('/acceptBid', function(req, res){
 	                res.send({"status_code":200});
 	            }
 	            else {
-	                res.send({"status_code":401});
+	                res.send({"status_code":400});
 	            }
 	        }
 	    });
 	});
+
+router.post('/rejectBid', function(req, res){
+	  var bid_id = req.param("bid_id");
+	  var msg_payload = {
+	    "bid_id":bid_id
+	  };
+	  mq_client.make_request('rejectBid_queue', msg_payload, function (err,results) {
+	        if(err){
+	            //Need to add tool to log error.
+	            tool.logError(err);
+	            json_responses = {"status_code":400};
+	            res.send(json_responses);
+	            res.end();
+	        }
+	        else {
+	            if(results.statusCode == 200)
+	            {
+	                res.send({"status_code":200});
+	            }
+	            else {
+	                res.send({"status_code":400});
+	            }
+	        }
+	    });
+	});
+
 
 module.exports = router;

@@ -336,6 +336,23 @@ var acceptBid = {
 	});
 }};
 
+var rejectBid = {
+	    handle_request: function (connection, msg, callback) {
+        var res = {};
+        
+    	mysql.execute_query(function (err, result) {
+    		if(err){
+                res = {"statusCode":400,"errMsg":err};
+                tool.logError(err);
+                callback(null, res);
+            }
+            else {
+                res = {"statusCode":200};
+                callback(null, res);
+            }
+    	},sql_queries.REJECT_BID, [msg.bid_id]);
+}};
+
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
 exports.createTrip = createTrip;
@@ -345,3 +362,4 @@ exports.editTrip = editTrip;
 exports.pendingTripsForApproval = pendingTripsForApproval;
 exports.user_completed_trips = user_completed_trips;
 exports.acceptBid = acceptBid;
+exports.rejectBid = rejectBid;

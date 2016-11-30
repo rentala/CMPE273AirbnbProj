@@ -55,7 +55,21 @@ app.controller('myInboxController',function($scope,$http){
             }
         }).success(function(data){
             if(data.status_code==200){
-                alert('trip is rejected');
+                alert('Bidding accepted');
+                window.location.reload();
+            }
+        })
+    }
+    $scope.rejectBid = function(bid_id){
+        $http({
+            method:"POST",
+            url:"/api/trip/rejectBid",
+            data:{
+                "bid_id":bid_id
+            }
+        }).success(function(data){
+            if(data.status_code==200){
+                alert('Bidding rejected');
                 window.location.reload();
             }
         })
