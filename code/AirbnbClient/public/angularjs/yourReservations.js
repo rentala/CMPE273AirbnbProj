@@ -1,7 +1,7 @@
-var app = angular.module('yourListing',[]);
-app.controller('yourListingController',function($scope,$http){
+var app = angular.module('yourReservations',[]);
+app.controller('yourReservationsController',function($scope,$http){
     $http({
-        method:"POST",
+        method:"GET",
         url:"/api/trip/reservations"
     }).success(function(data){
         $scope.list =false;

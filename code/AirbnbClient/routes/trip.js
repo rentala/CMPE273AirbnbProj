@@ -509,10 +509,8 @@ router.get('/reservations',function (req,res) {
 
     var json_responses;
     var msg_payload;
-    var host_id = req.param("host_id");
 
-        msg_payload = {"host_id":host_id};
-        console.log("inside");
+        msg_payload = {"host_id":req.session.user_id};
         mq_client.make_request('reservations_queue',msg_payload,function (err,results) {
             console.log(results);
            if(err){
@@ -522,12 +520,13 @@ router.get('/reservations',function (req,res) {
                res.end();
            }
            else {
-               if(results.statusCode == 200){
+        	   console.log("inside");
+               if(results.status_code == 200){
                    console.log("inside 200"+ JSON.stringify(results.reservations));
-                   json_responses = {"status_code":results.statusCode, "reservations":results.reservations};
+                   json_responses = {"status_code":results.status_code, "reservations":results.reservations};
                }
                else {
-                   json_responses = {"status_code":results.statusCode};
+                   json_responses = {"status_code":results.status_code};
                }
                res.send(json_responses);
                res.end();

@@ -39,5 +39,5 @@ constants.define(exports, {
     FETCH_BID_WINNERS : "SELECT bid_id, created_time, max_bid_days, expiry_date, host_min_amt, max_bid_price, max_bid_user_id, property_id, property_name, bidder_name from airbnb.bidding where DATEDIFF(CURRENT_TIMESTAMP, CAST(created_time AS DATETIME)) >4 and is_approved =0 and property_id IN (?);",
     ACCEPT_BID : "update airbnb.bidding set is_approved = 1 where bid_id=?",
     REJECT_BID : "update airbnb.bidding set is_approved = 2 where bid_id=?",
-    FETCH_HOST_RESERVATIONS: "select * from airbnb.trip where property_id IN (?) and trip_status='COMPLETED'"
+    FETCH_HOST_RESERVATIONS: "select * from airbnb.trip where host_id=? and trip_status='COMPLETED'"
 });

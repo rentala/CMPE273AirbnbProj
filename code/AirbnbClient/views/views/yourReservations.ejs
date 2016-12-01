@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="/angularjs/listingsController.js"></script>
+    <script src="/angularjs/yourReservations.js"></script>
 </head>
-<body ng-app="yourListing" ng-controller="yourListingController">
+<body ng-app="yourReservations" ng-controller="yourReservationsController">
 <nav class="navbar navbar-default" style="background-color:white; ">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -70,10 +70,11 @@
             <div class="col-sm-12" style="margin-top:10px">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="col-sm-5"><img src="/uploads/{{x.imagesPath[0].filename}}" class="panel-image-preview" width="" height="150px"></div>
-                        <div class="col-sm-7"> <h2><a href="/api/property/id/{{x._id}}/view">{{x.description}}</a></h2>
-                            <h4><label style="color:#c9302c">Start Date:</label>{{x.start_date}}</h4>
-                            <h4><label style="color:#c9302c">End Date:</label>{{x.end_date}}</h4></div>
+                        <div class="col-sm-5"><img src="/images/home12.png" class="panel-image-preview" width="" height="150px"></div>
+                        <div class="col-sm-7"> <h2><a href="/api/property/id/{{x.property_id}}/view">{{x.property_name}}</a></h2>
+                            <h4><label style="color:#c9302c">Start Date:</label>{{x.checkin_date}}</h4>
+                            <h4><label style="color:#c9302c">End Date:</label>{{x.checkout_date}}</h4>
+                            <h4><label style="color:#c9302c">Price:</label>${{x.trip_price}}</h4>
                     </div>
                 </div>
             </div>
