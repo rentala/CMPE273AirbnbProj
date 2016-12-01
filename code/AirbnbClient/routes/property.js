@@ -72,31 +72,44 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                 var property = results.prop;
                 var min_bid = 0;
                 
-                if(results.prop.hasOwnProperty('bidding') && esults.prop.bidding.length >0){
+                if(results.prop.hasOwnProperty('bidding') && results.prop.bidding.length >0){
                 	min_bid = results.bidding[0].max_bid_price;
                 }
                 switch (flow){
                     case "book":
                         var msg = req.session.msg;
-                        var start_date = msg.start_date;
-                        var end_date = msg.end_date;
-                        var tripStart = new Date(start_date);
-                        var tripEnd = new Date(end_date);
-                        var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000)) + 1;
-                        var tripPrice = eval(stayDuration * parseInt(property.price));
+                        if(msg){
+                            var start_date = msg.start_date;
+                            var end_date = msg.end_date;
+                            var tripStart = new Date(start_date);
+                            var tripEnd = new Date(end_date);
+                            var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000)) + 1;
+                            var tripPrice = eval(stayDuration * parseInt(property.price));
+                            property.avg_ratings = avg_ratings;
+                            res.render('./property/propertyDetails.ejs',
+                                {
+                                    property: property,
+                                    flow:flow,
+                                    min_bid:min_bid,
+                                    start_date:start_date,
+                                    end_date:end_date,
+                                    guests:msg.guests,
+                                    tripPrice: property.price
+                                });
+                        } else{
+                            res.render('./property/propertyDetails.ejs',
+                                {
+                                    property: property,
+                                    flow:flow,
+                                    min_bid:min_bid,
+                                    guests:msg.guests,
+                                    tripPrice: property.price
+                                });
+                        }
 
 
-                        property.avg_ratings = avg_ratings;
-                        res.render('./property/propertyDetails.ejs',
-                            {
-                                property: property,
-                                flow:flow,
-                                min_bid:min_bid,
-                                start_date:start_date,
-                                end_date:end_date,
-                                guests:msg.guests,
-                                tripPrice: tripPrice
-                            });
+
+
                         break;
                     case "edit":
                         var trip_id = req.query.tip;
