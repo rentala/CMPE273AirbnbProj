@@ -39,5 +39,14 @@ constants.define(exports, {
     FETCH_BID_WINNERS : "SELECT bid_id, created_time, max_bid_days, expiry_date, host_min_amt, max_bid_price, max_bid_user_id, property_id, property_name, bidder_name from airbnb.bidding where DATEDIFF(CURRENT_TIMESTAMP, CAST(created_time AS DATETIME)) >4 and is_approved =0 and property_id IN (?);",
     ACCEPT_BID : "update airbnb.bidding set is_approved = 1 where bid_id=?",
     REJECT_BID : "update airbnb.bidding set is_approved = 2 where bid_id=?",
-    FETCH_HOST_RESERVATIONS: "select * from airbnb.trip where host_id=? and trip_status='COMPLETED'"
+    FETCH_HOST_RESERVATIONS: " SELECT "+
+    " case when trip.trip_status ='ACCEPTED' and DATEDIFF(CURRENT_TIMESTAMP, CAST(trip.checkout_date AS DATETIME)) >4 "+
+    " then 'COMPLETED' "+
+    " else trip.trip_status "+
+    " end as trip_status, "+
+    " trip.trip_id, trip.host_reviewed, trip.user_id, trip.property_id, trip.host_id, trip.checkin_date, trip.checkout_date, trip.no_of_guests, trip.trip_approved_time, "+
+    " trip.property_name, trip.trip_price, trip.host_name, trip.is_reviewed, trip.rating, trip.review_comment, trip.guest_name, "+
+    "  (select b.billing_id from airbnb.billing b where b.trip_id = trip.trip_id) as billing_id  "+
+    " from airbnb.trip trip  where trip.host_id=? and trip.trip_status='ACCEPTED' ",
+    TRIP_HOST_REVIEWED : "update airbnb.trip set host_reviewed=1 where trip_id=?",
 });

@@ -32,7 +32,7 @@ app.service('fileUpload', [ '$http' ,function ( $http) {
         })
 
             .success(function(){
-                document.getElementById("msg").innerHTML = "Success";
+                document.getElementById("msg").innerHTML = "Review Submitted";
                 window.location.reload();
             })
 
