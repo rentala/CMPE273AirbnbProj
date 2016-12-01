@@ -94,4 +94,55 @@ $scope.payDiff= function(){
 		}
 		}	
 	}
+
+$scope.payBidAmount= function(trip_id, amount){
+	
+	var cardNum = $scope.cNumber;
+	var expiryDate = $scope.expDate;
+	var cvv = $scope.cvv;
+	var patt = new RegExp("^\s*-?[0-9]{16}\s*$");
+    var res = patt.test(cardNum);
+	
+    if(cardNum == undefined || cardNum==null || cardNum=="")
+		alert("Enter Card Number");
+    else if(!res)
+    	alert("Card number should be 16 digits");
+	else if(expiryDate == undefined || expiryDate=="")
+		alert("Enter Expiry date");
+	else if(cvv == undefined || cvv=="")
+		alert("Enter CVV");
+	else{
+		var inputYear = expiryDate.getUTCFullYear();
+		var dateObj = new Date();
+		var year = dateObj.getUTCFullYear();
+		var month = dateObj.getUTCMonth();
+		var inputMonth = expiryDate.getUTCMonth();
+		
+		if(inputYear<year || (inputYear==year && inputMonth<month)){
+			alert("Date of expiry should be future date");
+		}
+		else{
+//			alert("Success Payment");
+	///		window.location.assign("/api/auth/home");
+			$http({
+	            method:"POST",
+	            url:"/api/trip/updateTrip",
+	            data:{
+	                "status":"ACCEPTED",
+	                "trip_id":trip_id
+	            }
+	        }).success(function(data){
+	            if(data.status_code==200){
+	                alert('Success! You can see this trip in your profile.');
+	                window.location.assign("/api/auth/home");
+	            }
+	            else{
+	            	alert('Some error occurred! Please try again later');
+	                window.location.assign("/api/auth/home");
+	            }
+	        })
+		}
+		}	
+	}
+
 })

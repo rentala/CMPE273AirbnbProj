@@ -47,11 +47,12 @@
     <nav class="navbar navbar-inverse" style="margin-top:-20px">
         <div class="container-fluid">
             <ul class="nav navbar-nav">
-                <li><a data-ng-click="dashboard()">Dashboard</a></li>
+                <li><a href="/api/profile/dashboard">Dashboard</a></li>
                 <li><a href="/api/inbox/inbox">Inbox</a></li>
                 <li><a href="/api/profile/yourListings">Your Listings</a></li>
                 <li><a href="/api/profile/myTrips">Your Trips</a></li>
                 <li><a href="/api/profile/editProfile">Profile</a></li>
+            </ul>
         </div>
     </nav>
 </div>
@@ -106,7 +107,7 @@
                         </div>
                     </div>
                     <div class="col-sm-12" style="background-color: #9d9d9d">
-                        <input type="button" class="btn btn-danger" style="float:left" value="Reject" data-ng-click="rejectBid(x.property_id)">
+                        <input type="button" class="btn btn-danger" style="float:left" value="Reject" data-ng-click="rejectBid(x.bid_id)">
                         <input type="button" class="btn btn-success" style="float:right" value="Accept" data-ng-click="acceptBid(x.property_id,x.max_bid_price,x.bidder_name,x.max_bid_user_id,x.bid_id)">
                     </div>
                 </div>

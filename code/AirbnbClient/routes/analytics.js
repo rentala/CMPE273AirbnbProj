@@ -150,6 +150,7 @@ router.get('/bidInfo',function (req,res) {
 });
 
 router.get('/propertyClicks',function (req,res) {
+
    fs.readFile("./logs/propClicksDummy.tsv", "utf8", function(error, data) {
        console.log("data"+JSON.stringify(data));
        data = d3.tsvParse(data);
@@ -190,16 +191,13 @@ router.get('/pageClicks',function (req,res) {
 
 router.get('/userTrace',function (req,res) {
    fs.readFile("./logs/userTraceDummy.tsv", "utf8", function (error, data) {
-       console.log("data" + JSON.stringify(data));
-       data = d3.tsvParse(data);
-       console.log(JSON.stringify(data));
+      var procData = d3.tsvParse(data);
 
-       var procData = d3.nest()
+       /*var procData = d3.nest()
            .key(function (d) {
                return d.User_id;
-           }).entries(data);
+           }).entries(data);*/
 
-       console.log("Cleaned data : " + JSON.stringify(procData));
        res.send(procData);
        res.end();
    });
@@ -207,16 +205,14 @@ router.get('/userTrace',function (req,res) {
 
 router.get('/biddingTrace',function (req,res) {
    fs.readFile("./logs/biddingTraceDummy.tsv", "utf8", function (error, data) {
-       console.log("data" + JSON.stringify(data));
-       data = d3.tsvParse(data);
-       console.log(JSON.stringify(data));
+       var procData = d3.tsvParse(data);
 
-       var procData = d3.nest()
+
+       /*var procData = d3.nest()
            .key(function (d) {
                return d.Property_Id;
-           }).entries(data);
+           }).entries(data);*/
 
-       console.log("Cleaned data : " + JSON.stringify(procData));
        res.send(procData);
        res.end();
    });

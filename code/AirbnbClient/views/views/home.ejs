@@ -12,6 +12,7 @@
     <title>Sign in or Register | AirBnb</title>
 </head>
 <body data-ng-app="airbnbHome" data-ng-controller= "homeController">
+<base href="/api/auth/home">
     <nav class="navbar navbar-default" style="background-color:white;"  >
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -23,9 +24,9 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
                 <form class="navbar-form navbar-left" style="border-left:solid;border-width:0.5px;border-color:#D3D3D9">
                     <div class="form-group">
-                        <input type="text" placeholder="Where to?" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px"></span></input>
+                        <input type="text" placeholder="Where to?" ng-model="city" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px" ng-click="searchByCity()"></span></input>
                     </div>
-                    <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search1()">Search</button>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="searchByCity()">Search</button>
                     <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ><a href = "/host" title = "You could earn $539 sharing your home in San Jose in a week. Become a host."> Become a host</a></button>
                     <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ><a href="/api/profile/myTrips" title = "shows your trip">Trips</a><span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
                     <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>

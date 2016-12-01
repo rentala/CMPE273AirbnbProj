@@ -127,6 +127,7 @@
                             <div class="col-sm-12" ng-if="x.trip_status==='COMPLETED'"><h4><label>Trip Status:</label> <span style="color: green">{{x.trip_status}}</span></h4></div>
                             <div class="col-sm-12" ng-if="x.trip_status==='ACCEPTED'"><h4><label>Trip Status:</label> <span style="color: blue">{{x.trip_status}}</span></h4></div>
                             <div class="col-sm-12" ng-if="x.trip_status==='REJECTED'"><h4><label>Trip Status:</label> <span style="color:red">{{x.trip_status}}</span></h4></div>
+                            <div class="col-sm-12" ng-if="x.trip_status==='PENDINGPAYMENT'"><h4><label>Trip Status:</label> <span style="color:red">{{x.trip_status}}</span></h4></div>
                             <div class="col-sm-12">{{x.checkin_date}} to {{x.checkout_date}}</div>
                             <div ng-if= "x.trip_status === 'COMPLETED'" ng-controller="myTripController">
                             <div ng-if= "x.is_reviewed === 0" ng-controller="myTripController">
@@ -174,6 +175,9 @@
                   	  </div>
                 	  <div ng-if= "x.trip_status === 'COMPLETED'" ng-controller="myTripController">
                   	  	 <input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">
+                  	  </div>
+                  	  <div ng-if= "x.trip_status === 'PENDINGPAYMENT'" ng-controller="myTripController">
+                  	  	 <input type = "button" value= "Pay Now" ng-click="payNow(x.trip_id,x.trip_price)">
                   	  </div>
                     </div>
                 </div>

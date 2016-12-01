@@ -58,8 +58,8 @@ router.get('/id/:prop_id/:flow',function (req,res) {
         }
         else {
             if(results.statusCode == 200){
-                if(results.prop_array[0].hasOwnProperty('ratings')){
-                    ratings_array = results.prop_array[0].ratings;
+                if(results.prop.hasOwnProperty('ratings')){
+                    ratings_array = results.prop.ratings;
                     for(var i=0;i<ratings_array.length;i++){
                         total_ratings += ratings_array[i].rating_stars;
                     }
@@ -69,24 +69,54 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                     avg_ratings = 0;
                 }
 
-                var property = results.prop_array[0];
+                var property = results.prop;
                 var min_bid = 0;
                 
-                if(results.bidding.length >0){
+                if(results.prop.hasOwnProperty('bidding') && esults.prop.bidding.length >0){
                 	min_bid = results.bidding[0].max_bid_price;
                 }
-                if(flow=="view"){
-	                var start_date = "";
-	                var end_date = "";
-	                property.avg_ratings = avg_ratings;
-	                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:"0",start_date:start_date,end_date:end_date,guests:'NA'});
-                }
-                else{
-                	var msg = req.session.msg;
-	                var start_date = msg.start_date;
-	                var end_date = msg.end_date;
-	                property.avg_ratings = avg_ratings;
-	                res.render('./property/propertyDetails.ejs', {property: property,flow:flow,min_bid:min_bid,start_date:start_date,end_date:end_date,guests:msg.guests});
+                switch (flow){
+                    case "book":
+                        var msg = req.session.msg;
+                        var start_date = msg.start_date;
+                        var end_date = msg.end_date;
+                        var tripStart = new Date(start_date);
+                        var tripEnd = new Date(end_date);
+                        var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000)) + 1;
+                        var tripPrice = eval(stayDuration * parseInt(property.price));
+
+
+                        property.avg_ratings = avg_ratings;
+                        res.render('./property/propertyDetails.ejs',
+                            {
+                                property: property,
+                                flow:flow,
+                                min_bid:min_bid,
+                                start_date:start_date,
+                                end_date:end_date,
+                                guests:msg.guests,
+                                tripPrice: tripPrice
+                            });
+                        break;
+                    case "edit":
+                        var trip_id = req.query.tip;
+                        if(trip_id == undefined){
+                            res.redirect('/');
+                        }
+                        res.render('./property/propertyDetails.ejs', {property: property,
+                            flow:flow,
+                            price: property.price,
+                            guests:2,
+                            trip_id:trip_id});
+                        break;
+                    default:
+                        //view
+                        var start_date = "";
+                        var end_date = "";
+                        flow = "view";
+                        property.avg_ratings = avg_ratings;
+                        res.render('./property/propertyDetails.ejs', {property: property,flow:flow});
+
                 }
             }
             else {
@@ -145,21 +175,47 @@ router.post('/list', function (req, res, next)  {
             return;
         }
         var msg_payload = mapReqToPayLoad(req);
+        var queue = "";
+        var validHost = true;
+        switch(req.session.user.host_status)
+        {
+            case "ACCEPTED":
+                msg_payload.host_status = "ACCEPTED";
+                queue = "list_property_queue";
+                break;
+            case "REQUESTED":
+                msg_payload.host_status = "REQUESTED";
+                queue = "list_property_queue";
+                break;
+            case "REJECTED":
+                validHost = false;
+                break;
+            default:
+                msg_payload.host_status = "REQUESTED";
+                queue = "become_host_queue";
+                break;
 
-        mq_client.make_request('list_property_queue', msg_payload, function(err,results){
-            res.statusCode = results.code;
-            if(err){
-            	tool.logError(err);
-                json_responses = {
-                    "failed" : "failed"
-                };
-                req.redirect('/host?err=1');
-            } else {
-                req.flash('hostConfirmation', true);
-                req.flash('propertyId', results.propertyId[0]);
-                res.redirect('/host/confirmation');
-            }
-        });
+        }
+        if(validHost){
+            mq_client.make_request(queue, msg_payload, function(err,results){
+                res.statusCode = results.code;
+                if(err){
+                    tool.logError(err);
+                    json_responses = {
+                        "failed" : "failed"
+                    };
+                    req.redirect('/host?err=1');
+                } else {
+                    req.flash('hostConfirmation', true);
+                    req.flash('propertyId', results.propertyIds[0]);
+                    res.redirect('/host/confirmation');
+                }
+            });
+        }
+        else{
+            req.redirect('/host?err=InvalidHost');
+        }
+
     });
 
 });
@@ -187,8 +243,13 @@ function mapReqToPayLoad(req) {
     msg_payload.is_auction = req.body.forBid == 1 ? true: false;
     msg_payload.start_date = req.body.start_date;
     msg_payload.end_date = req.body.end_date;
-    msg_payload.price = { per_night: req.body.per_night, per_week:  req.body.per_week,  per_month:  req.body.per_month };
-    msg_payload.bid_price = req.body.bid;
+    if(req.body.forBid == 1){
+        msg_payload.bid_price = req.body.price;
+    } else{
+        msg_payload.price = req.body.price;
+    }
+
+
     return msg_payload;
 }
 
@@ -217,16 +278,6 @@ var getID = function () {
         return v.toString(16);
     });
 };
-router.get('/test', function (req, res, next)  {
-    var json_responses;
-    json_responses = {
-        "status_code" : 200,
-        "user" : "test"
-    };
-    //return res.redirect('/');
-    res.send(json_responses);
-    res.end();
-});
 
 router.post('/bidProperty', function (req, res, next)  {
     var json_responses;
@@ -299,7 +350,7 @@ router.get('/myListings', function (req, res, next)  {
 router.post('/paymentGateway', function (req, res, next)  {
 	var msg = mapCheckoutRequest(req)	;
 	
-	ejs.renderFile('./views/views/cardDetails.ejs',{ data:msg},function(err, result) {
+	ejs.renderFile('./views/views/cardDetails.ejs',{ data:msg, flow:req.body.flow},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);
@@ -315,8 +366,23 @@ router.post('/paymentGateway', function (req, res, next)  {
 });
 
 router.get('/paymentGateway/:flow/:diff', function (req, res, next)  {
-	
 	ejs.renderFile('./views/views/cardDetails.ejs',{ diff:req.param("diff"),flow:req.param("flow")},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			console.log('An error occurred');
+//			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
+router.get('/paymentGateway/:flow/:trip_id/:amount', function (req, res, next)  {
+	ejs.renderFile('./views/views/cardDetails.ejs',{ trip_id:req.param("trip_id"),flow:req.param("flow"),amount:req.param("amount")},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);

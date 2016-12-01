@@ -23,14 +23,14 @@ router.post('/updateProfile', function (req, res, next)  {
 	var aptNum = req.param("aptNum");
 	var city = req.param("city");
 	var state = req.param("state");
-	var zipCode = req.param("zipCode");
+	var zipcode = req.param("zipcode");
 	var phoneNumber = req.param("phoneNumber");            	
 	var ssn = req.param("ssn");            	
 	console.log("user updation", { email: email, firstName: firstName, lastName:lastName});
 	
 	
 	var msg_payload = { "user_id":user_id, "email": email, "firstName": firstName, "lastName": lastName,"Dob":Dob,"street":street,
-			"aptNum":aptNum,"city":city,"state":state,"zipCode":zipCode,"phoneNumber":phoneNumber,"ssn":ssn};
+			"aptNum":aptNum,"city":city,"state":state,"zipcode":zipcode,"phoneNumber":phoneNumber,"ssn":ssn};
 	console.log("inside"+ msg_payload);
 	mq_client.make_request('update_profile_queue',msg_payload, function(err,results){
 		if(err){

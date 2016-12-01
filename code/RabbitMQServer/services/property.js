@@ -12,7 +12,6 @@ var listProperty = {
 	            var localMsg = JSON.stringify(msg);
 	            var coll = connection.mongoConn.collection('property');
                 msg.reviews = [];
-				msg.isHostActive = false;
 	            coll.insert(msg, function(err, prop){
 	                if(err){
 	                    tool.logError(err);
@@ -22,7 +21,7 @@ var listProperty = {
 	                else
 	                {
 	                	if(msg.is_auction == true){
-	                	console.log("property_id"+prop.insertedIds[0]);	
+	                	console.log("property_id"+prop.insertedIds[0]);
 	                	var options = {host_min_amt:msg.bid_price, max_bid_price: msg.bid_price, property_name: msg.description,property_id:prop.insertedIds[0]};
 	                	mysql.execute_query(function (err,result) {
 	                         if(err){
@@ -31,7 +30,7 @@ var listProperty = {
 	                             callback(null, res);
 	                         }
 	                         else {
-                                 res.propertyId = prop.insertedIds;
+                                 res.propertyIds = prop.insertedIds;
                                  res.code ="200";
                                  callback(null, res);
 	                             }
@@ -39,7 +38,7 @@ var listProperty = {
 	                	}
 	                	 else
 	                     {
-	                		 res.propertyId = prop.insertedIds;
+	                		 res.propertyIds = prop.insertedIds;
 	                         res.code ="200";
 	                         callback(null, res);
 	                     }
@@ -155,7 +154,7 @@ var getPropertyById = {
 
         try{
             var coll = connection.mongoConn.collection('property');
-            coll.find({_id:ObjectID(msg.prop_id)}).toArray(function (err,records) {
+            coll.findOne({_id:ObjectID(msg.prop_id)}, function (err,prop) {
                 if(err)
                 {
                     res = {"statusCode":400};
@@ -163,7 +162,7 @@ var getPropertyById = {
                     callback(null, res);
                 }
                 else {
-                    if(records.length>0){
+                    if(prop != null && prop.is_auction){
                     	 mysql.execute_query(function (err,result) {
                              if(err){
                                  tool.logError(err);
@@ -173,19 +172,19 @@ var getPropertyById = {
                              else
                              {
                             	 if(result && result.length > 0){
-                            		 res = {"statusCode":200,"prop_array":records,"bidding":result};
+                            		 res = {"statusCode":200,"prop":prop ,"bidding":result};
                             		 callback(null, res);
                             		 
                             	 }	 
                             	 else{
-                            		 res = {"statusCode":200,"prop_array":records,"bidding":[]};
+                            		 res = {"statusCode":200,"prop":prop ,"bidding":[]};
                             		 callback(null, res);
                             	 } 
                              }
                     	 },sql_queries.FETCH_MAX_BID,[msg.prop_id]);
                     }
                     else {
-                        res = {"statusCode":401};
+                        res = {"statusCode":200,"prop":prop };
                         callback(null, res);
                     }
                 }

@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="/angularjs/listingsController.js"></script>
 </head>
 <body ng-app="myListing" ng-controller="myListingController">
 <nav class="navbar navbar-default" style="background-color:white; ">
@@ -23,8 +25,8 @@
                     <input type="text" placeholder="Where to?" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px"></span></input>
                 </div>
                 <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
-                <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ng-click="hostPage()">Become a host</button>
-                <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ng-click="trips()">Trips<span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
+                <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ><a href = "/host" title = "You could earn $539 sharing your home in San Jose in a week. Become a host."> Become a host</a></button>
+                <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;"><a href="/api/profile/myTrips" title = "shows your trip">Trips</a><span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
                 <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
 
             </form>
@@ -59,22 +61,45 @@
 
 <!--add analytics part here i will later structure it-->
 <div class="col-sm-12">
-    <div style="background-color:#f5f5f5"><h3>analytics1</h3></div>
+    <div style="background-color:#f5f5f5"><h3>Page Clicks</h3></div>
     <div class="col-sm-12">
-        <!--analytics1-->
+        <div class = "col-sm-1"></div>
+        <div class = "col-sm-2">
+            <h2>DASHBOARD</h2>
+            <p><a href = "" ng-click = "propertyClicks()">Property Clicks</a></p>
+            <p><a href = "" ng-click = "pageClicks()">Page Clicks</a></p>
+            <p><a href = "" ng-click = "userTrace()">User Trace</a></p>
+            <p><a href = "" ng-click = "biddingTrace()">Bidding Trace</a></p>
+        </div>
+        <div class = "col-sm-4">
+            <div ng-show = "showPropertyClicks">
+                <h2>Property Clicks</h2>
+                <div id = "propertyClicksDiv"></div>
+            </div>
+
+            <div ng-show = "showPageClicks">
+                <div id = "pageClicksDiv">
+                    <h2>Page Clicks</h2>
+                </div>
+            </div>
+
+            <div ng-show = "showUserTrace">
+                <h2>user trace</h2>
+                <div id = "userTraceDiv"></div>
+            </div>
+
+
+            <div ng-show = "showBiddingTrace">
+                <h2>biddingTrace</h2>
+                <div id = "biddingTraceDiv"></div>
+            </div>
+        </div>
+
+
 
     </div>
 </div>
-<div class="col-sm-12">
-    <div style="background-color:#f5f5f5"><h3>analytics2</h3></div>
-    <!--analytics2-->
 
-</div>
-<div class="col-sm-12">
-    <div style="background-color:#f5f5f5"><h3>analytics3</h3></div>
-    <!--analytics3-->
-
-</div>
 
 
 </body>

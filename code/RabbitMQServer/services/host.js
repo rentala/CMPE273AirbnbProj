@@ -6,7 +6,7 @@
  */
 var tool = require("../utili/common");
 var ObjectId = require('mongodb').ObjectID;
-
+var propertyService = require("./property")
 var deleteHost = {
 
     handle_request : function(connection, msg, callback) {
@@ -98,6 +98,36 @@ var getHostByCity = {
     }
 };
 
+var becomeHost ={
+    handle_request : function(connection, msg, callback) {
+        var res = {};
+        try {
+            var coll = connection.mongoConn.collection('users');
+            coll.updateOne({_id: new ObjectId(msg.host_id) }, {$set : { host_status : "REQUESTED"}}, function(err, results) {
+
+                if (err) {
+                    tool.logError(err);
+                    res.code = 400;
+                    callback(null, res);
+                } else {
+                    res.code=200;
+                    propertyService.listProperty.handle_request(connection, msg, callback);
+                    //res.result = results;
+                    //callback(null, res);
+                }
+
+            });
+        } catch (err) {
+            res.code = 400;
+            tool.logError(err);
+            callback(null, res);
+        }
+
+    }
+}
+
+
 exports.getHostByCity = getHostByCity;
 exports.deleteHost = deleteHost;
 exports.reviewUser = reviewUser;
+exports.becomeHost = becomeHost;

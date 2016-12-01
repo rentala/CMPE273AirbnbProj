@@ -2,9 +2,9 @@
 
 var amqp = require('amqp'),
 	util = require('util'),
-	//mongoURL = "mongodb://rentala:team5password@ds155097.mlab.com:55097/airbnb",
+	mongoURL = "mongodb://rentala:team5password@ds155097.mlab.com:55097/airbnb",
 	// uncomment above and comment below line to make it work on mLab
-	mongoURL = "mongodb://localhost:27017/airbnb",
+	//mongoURL = "mongodb://localhost:27017/airbnb",
 	mongo = require("./db/mongo"),
     mysql = require("./db/mysql"),
 	cnn = amqp.createConnection({host:'127.0.0.1'});
@@ -55,7 +55,6 @@ cnn.on('ready', function(){
     cnn.queue('review_user_queue', function(q){
         subscriber(q, host.reviewUser );
     });
-    
 
     //Property queues
 	cnn.queue('list_property_queue', function(q){
@@ -87,6 +86,10 @@ cnn.on('ready', function(){
 	});
 	cnn.queue('get_host_queue', function(q){
 		subscriber(q, host.getHostByCity);
+	});
+
+	cnn.queue('become_host_queue', function(q){
+		subscriber(q, host.becomeHost );
 	});
 	
     //admin queues
@@ -173,11 +176,12 @@ cnn.on('ready', function(){
     cnn.queue('inbox_queue', function(q){
     	subscriber(q, inbox.inbox);
     });
-
-    cnn.queue('getUserDetails_queue', function(q){
-    	subscriber(q, profile.getUserDetails);
+    cnn.queue('acceptBid_queue', function(q){
+    	subscriber(q, trip.acceptBid);
     });
-
+    cnn.queue('rejectBid_queue', function(q){
+    	subscriber(q, trip.rejectBid);
+    });
 });
 
 var subscriber = function(q, module) {
