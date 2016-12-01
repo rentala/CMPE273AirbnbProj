@@ -109,8 +109,21 @@ router.post('/signUpUser', function (req, res, next)  {
 });
 
 router.get('/home', function (req, res, next)  {
-/*	var j = JSON.stringify(req.session.user);
-	j = JSON.parse(j);*/
+	if(req.param("c")){
+		ejs.renderFile('./views/views/home.ejs',{ user_dtls: req.session.user,city:req.param("c")},function(err, result) {
+			// render on success
+			if (!err) {
+			res.end(result);
+			}
+			// render or error
+			else {
+				tool.logError(err);
+			res.end('An error occurred');
+			console.log(err);
+			}
+			});
+	}
+	else{
 	ejs.renderFile('./views/views/home.ejs',{ user_dtls: req.session.user},function(err, result) {
 		// render on success
 		if (!err) {
@@ -123,6 +136,7 @@ router.get('/home', function (req, res, next)  {
 		console.log(err);
 		}
 		});
+	}
 });
 
 

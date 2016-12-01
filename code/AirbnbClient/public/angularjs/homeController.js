@@ -1,6 +1,11 @@
 var app = angular.module('airbnbHome',[]);
+app.config(['$locationProvider', function($locationProvider) {
+	   $locationProvider.html5Mode(true);
+	}]);
 
-app.controller('homeController',function($scope,$http){
+app.controller('homeController',function($scope,$http,$location){
+	var queries = $location.search();
+	$scope.whereTo = queries.c;
     $scope.search=function(){
         $http({
             "method":"POST",
