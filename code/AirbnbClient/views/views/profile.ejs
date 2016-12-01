@@ -159,11 +159,9 @@
 					<div class="col-sm-12" style="border:0.5px solid black;margin-top:25px">
 					<form action="/api/profile/uploadvideo"  enctype = "multipart/form-data" method="post">
 						<div style="background-color:#f9f9f9;border-bottom:0.5px solid black"><h2>Profile Video</h2></div><br>
-						<div class="col-sm-12">
-							<video width="500" height="360" controls>
-								<source data-ng-src="{{path}}" >
-							</video>
-						</div>
+						<center><div class="col-sm-12">
+							<video src="{{path | trustUrl}}" videoplayer controls></video>
+						</div></center>
 
 						<div class="col-sm-12"><p style="margin-top:15px">Clear frontal face photos are an important way for hosts and guests to learn about each other. It’s not much fun to host a landscape! Please upload a photo that clearly shows your face.</p><br>
 							<input type="file" title=" " accept="video/*" name="file"><br>
@@ -173,22 +171,6 @@
                     </form>
 			        </div>
 			</div>
-
-{{path}}
-		<!--form action="/api/profile/uploadvideo"  enctype = "multipart/form-data" method="post">
-			<div class="col-sm-12" style="border:0.5px solid black;margin-top:20px">
-				<div style="background-color:#f9f9f9;border-bottom:0.5px solid black"><h2>Profile video</h2></div><br>
-				<div class="col-sm-12">
-					<video height="200px" width="200px">
-						<source data-ng-src="/uploads/{{video}}" type="video/mp4">
-					</video>
-				</div>
-				<div class="col-sm-12"><p style="margin-top:15px">Clear frontal face photos are an important way for hosts and guests to learn about each other. It’s not much fun to host a landscape! Please upload a photo that clearly shows your face.</p><br>
-					<input type="file" title=" " accept="video/mp4 video/*" name="videofile"><br>
-					<input type="submit" class="btn btn-primary" value="video">
-				</div>
-			</div>
-		</form-->
 
 	</div>
 	<div class="col-sm-2"></div>

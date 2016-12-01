@@ -1,4 +1,9 @@
 var myProfile = angular.module('myProfile',[]);
+		myProfile.filter("trustUrl", ['$sce', function ($sce) {
+			return function (recordingUrl) {
+				return $sce.trustAsResourceUrl(recordingUrl);
+			};
+		}]);
     	myProfile.controller('myProfileController',function($scope,$http){
     		
     		$http({
@@ -20,7 +25,8 @@ var myProfile = angular.module('myProfile',[]);
 				$scope.ssn = data.user.ssn;
 				$scope.image = data.user.picture_path[0].filename;
 				var str1="/uploads/";
-				str1 = str1.concat(data.user.picture_path[0].filename);
+				str1 = str1.concat(data.user.video_path[0].filename);
+				console.log("the url is:"+str1);
 				$scope.path = str1;
 	        })
 
