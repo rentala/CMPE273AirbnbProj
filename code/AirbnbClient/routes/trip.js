@@ -505,5 +505,34 @@ router.post('/rejectBid', function(req, res){
 	    });
 	});
 
+router.get('/reservations',function (req,res) {
+
+    var json_responses;
+    var msg_payload;
+    var host_id = req.param("host_id");
+
+        msg_payload = {"host_id":host_id};
+        console.log("inside");
+        mq_client.make_request('reservations_queue',msg_payload,function (err,results) {
+            console.log(results);
+           if(err){
+               //Need to add tool to log error.
+               json_responses = {"status_code":400};
+               res.send(json_responses);
+               res.end();
+           }
+           else {
+               if(results.statusCode == 200){
+                   console.log("inside 200"+ JSON.stringify(results.reservations));
+                   json_responses = {"status_code":results.statusCode, "reservations":results.reservations};
+               }
+               else {
+                   json_responses = {"status_code":results.statusCode};
+               }
+               res.send(json_responses);
+               res.end();
+           }
+        });
+});
 
 module.exports = router;

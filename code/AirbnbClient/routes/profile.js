@@ -308,4 +308,19 @@ router.get('/dashboard', function (req, res, next)  {
 	});
 });
 
+router.get('/yourReservations', function (req, res, next)  {
+	ejs.renderFile('./views/views/yourReservations.ejs',{ user_dtls: req.session.user},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
+
 module.exports = router;
