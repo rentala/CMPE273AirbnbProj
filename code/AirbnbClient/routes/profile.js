@@ -306,6 +306,7 @@ router.get('/dashboard', function (req, res, next)  {
 	});
 });
 
+<<<<<<< HEAD
 router.get('/viewProfile', function(req, res, next){
 	ejs.renderFile('./views/views/userProfile.ejs', {user_dtls : req.session.user}, function(err, result){
 		if(!err){
@@ -355,5 +356,22 @@ router.post('/getUserDetailsForProfile', function(req, res, next){
         res.end();
 	});
 })
+
+module.exports = router;
+
+router.get('/yourReservations', function (req, res, next)  {
+	ejs.renderFile('./views/views/yourReservations.ejs',{ user_dtls: req.session.user},function(err, result) {
+		// render on success
+		if (!err) {
+		res.end(result);
+		}
+		// render or error
+		else {
+			tool.logError(err);
+		res.end('An error occurred');
+		console.log(err);
+		}
+		});
+});
 
 module.exports = router;

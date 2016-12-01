@@ -72,31 +72,44 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                 var property = results.prop;
                 var min_bid = 0;
                 
-                if(results.prop.hasOwnProperty('bidding') && esults.prop.bidding.length >0){
+                if(results.prop.hasOwnProperty('bidding') && results.prop.bidding.length >0){
                 	min_bid = results.bidding[0].max_bid_price;
                 }
                 switch (flow){
                     case "book":
                         var msg = req.session.msg;
-                        var start_date = msg.start_date;
-                        var end_date = msg.end_date;
-                        var tripStart = new Date(start_date);
-                        var tripEnd = new Date(end_date);
-                        var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000)) + 1;
-                        var tripPrice = eval(stayDuration * parseInt(property.price));
+                        if(msg){
+                            var start_date = msg.start_date;
+                            var end_date = msg.end_date;
+                            var tripStart = new Date(start_date);
+                            var tripEnd = new Date(end_date);
+                            var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000)) + 1;
+                            var tripPrice = eval(stayDuration * parseInt(property.price));
+                            property.avg_ratings = avg_ratings;
+                            res.render('./property/propertyDetails.ejs',
+                                {
+                                    property: property,
+                                    flow:flow,
+                                    min_bid:min_bid,
+                                    start_date:start_date,
+                                    end_date:end_date,
+                                    guests:msg.guests,
+                                    tripPrice: property.price
+                                });
+                        } else{
+                            res.render('./property/propertyDetails.ejs',
+                                {
+                                    property: property,
+                                    flow:flow,
+                                    min_bid:min_bid,
+                                    guests:msg.guests,
+                                    tripPrice: property.price
+                                });
+                        }
 
 
-                        property.avg_ratings = avg_ratings;
-                        res.render('./property/propertyDetails.ejs',
-                            {
-                                property: property,
-                                flow:flow,
-                                min_bid:min_bid,
-                                start_date:start_date,
-                                end_date:end_date,
-                                guests:msg.guests,
-                                tripPrice: tripPrice
-                            });
+
+
                         break;
                     case "edit":
                         var trip_id = req.query.tip;
@@ -155,6 +168,11 @@ router.get('/propList',function (req,res) {
 
 
 router.post('/list', function (req, res, next)  {
+    var tripStart = new Date(req.body.start_date);
+    var tripEnd = new Date(req.body.end_date);
+    var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000));
+    if(stayDuration>1)
+    {
     var storage = multer.diskStorage({
         destination: function (req, file, cb) {
             cb(null, '../AirbnbClient/public/uploads');
@@ -204,7 +222,7 @@ router.post('/list', function (req, res, next)  {
                     json_responses = {
                         "failed" : "failed"
                     };
-                    req.redirect('/host?err=1');
+                    res.redirect('/host?err=1');
                 } else {
                     req.flash('hostConfirmation', true);
                     req.flash('propertyId', results.propertyIds[0]);
@@ -213,11 +231,17 @@ router.post('/list', function (req, res, next)  {
             });
         }
         else{
-            req.redirect('/host?err=InvalidHost');
+            res.redirect('/host?err=InvalidHost');
         }
 
     });
-
+	}	
+    else{
+    	 json_responses = {
+                 "failed" : "failed"
+             };
+             res.redirect('/host?err=3');
+    }
 });
 
 function mapReqToPayLoad(req) {
@@ -237,6 +261,7 @@ function mapReqToPayLoad(req) {
         x: req.body.coordinatesX,
         y: req.body.coordinatesY
     }
+    msg_payload.property_title = req.body.property_title;
     msg_payload.description = req.body.description;
     msg_payload.guests = parseInt(req.body.guests);
     msg_payload.bedrooms = parseInt(req.body.bedrooms);

@@ -182,6 +182,9 @@ cnn.on('ready', function(){
     cnn.queue('rejectBid_queue', function(q){
     	subscriber(q, trip.rejectBid);
     });
+    cnn.queue('reservations_queue', function(q){
+    	subscriber(q, trip.reservations);
+    });
 });
 
 var subscriber = function(q, module) {

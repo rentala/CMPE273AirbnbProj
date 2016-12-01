@@ -3,6 +3,7 @@ var sql_queries = require('../db/sql_queries');
 var mysql = require('../db/mysql');
 var ObjectID = require('mongodb').ObjectID;
 var billing = require('./billing');
+var property = require('./property');
 
 var tripDetails = {
     handle_request : function (connection,msg,callback) {
@@ -353,6 +354,58 @@ var rejectBid = {
     	},sql_queries.REJECT_BID, [msg.bid_id]);
 }};
 
+var reservations = {
+	    handle_request: function (connection, msg, callback) {
+        var res = {};
+        
+        var coll = connection.mongoConn.collection('property');
+    	coll.find({
+            host_id: msg.host_id}).toArray(function (err, records) {
+            if (err) {
+            	res = {
+	                	"status_code":400,
+	                	"" : []
+	            	};
+                callback(null, res);
+            }
+            else {
+            	console.log("Valid property records : " + records);
+                if (records.length > 0) {
+                    available_property = property.getPropertyArray(records);
+	            	console.log("properties " + available_property);
+	            	mysql.execute_query(function (err, results) {
+	               console.log("results"+JSON.stringify(results));
+	               if (err) {
+	                	res = {
+			                	"status_code":400,
+			                	"reservations" : []
+			            	};
+                        callback(null, res);
+	                }
+	               else{
+		               res = {
+		                	"status_code":400,
+		                	"reservations" : results
+		            	};
+		                callback(null, res);
+	            	}
+	            	 },sql_queries.FETCH_HOST_RESERVATIONS,[available_property]);
+                }
+                else {
+                	console.log("no properties " );
+                	res = {
+		                	"status_code":401,
+		                	"reservations" : []
+		            	};
+                    callback(null, res);
+                }
+            } 
+        }); 
+}};
+
+
+
+exports.reservations = reservations;
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
 exports.createTrip = createTrip;
