@@ -137,15 +137,15 @@ router.get('/editProfile', function (req, res, next)  {
 	ejs.renderFile('./views/views/profile.ejs',{ user_dtls: req.session.user},function(err, result) {
 		// render on success
 		if (!err) {
-		res.end(result);
+			res.end(result);
 		}
 		// render or error
 		else {
 			tool.logError(err);
-		res.end('An error occurred');
-		console.log(err);
+			res.end('An error occurred');
+			console.log(err);
 		}
-		});
+	});
 });
 
 router.post('/loadProfile', function (req, res, next)  {
@@ -159,13 +159,13 @@ router.post('/loadProfile', function (req, res, next)  {
 		{
 			if (results.code == 401){
                 json_responses = {
-	                    "status_code" : results.code
-	                };
+                    "status_code" : results.code
+                };
 			}
 			else if(results.code == 200){
 				json_responses = {
-	                    "status_code" : results.code
-	                };
+                    "status_code" : results.code
+                };
 				req.session.user = results.value;
 			}
 			else {    
@@ -174,12 +174,9 @@ router.post('/loadProfile', function (req, res, next)  {
 			res.send({user:req.session.user});
 	        res.end();
 		}  
-	});
-	
-	
+	});	
 	//res.send({user:req.session.user});
 });
-
 
 router.post('/uploadPic', function (req, res, next)  {
     var storage = multer.diskStorage({
@@ -188,8 +185,7 @@ router.post('/uploadPic', function (req, res, next)  {
         },
         filename: function (req, file, cb) {
             var datetimestamp = Date.now();
-            imagePath = getID() + '.'
-                + file.originalname.split('.')[file.originalname.split('.').length -1];
+            imagePath = getID() + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
             console.log("imagePath"+imagePath);
             console.log("file.originalname"+ file.originalname);
             cb(null, imagePath);
@@ -199,7 +195,7 @@ router.post('/uploadPic', function (req, res, next)  {
     var json_responses;
     upload(req,res,function(err) {
         if (err) {
-      	  tool.logError(err);
+      	  	tool.logError(err);
             res.json({error_code: 1, err_desc: err});
             return;
         }
@@ -208,19 +204,19 @@ router.post('/uploadPic', function (req, res, next)  {
         mq_client.make_request('upload_pic_queue', msg_payload, function(err,results){
         	ejs.renderFile('./views/views/profile.ejs',{ user_dtls: req.session.user},function(err, result) {
         		if (!err) {
-        		res.end(result);
+        			res.end(result);
         		}
         		// render or error
         		else {
         			tool.logError(err);
-        		res.end('An error occurred');
-        		console.log(err);
+	        		res.end('An error occurred');
+	        		console.log(err);
         		}
-        		});
+        	});
         });
     });
-
 });
+
 router.post('/uploadvideo', function (req, res, next)  {
 	var storage = multer.diskStorage({
 		destination: function (req, file, cb) {
@@ -259,8 +255,8 @@ router.post('/uploadvideo', function (req, res, next)  {
 			});
 		});
 	});
-
 });
+
 var getID = function () {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
@@ -272,28 +268,30 @@ router.get('/yourListings', function (req, res, next)  {
 	ejs.renderFile('./views/views/yourListing.ejs',{ user_dtls: req.session.user},function(err, result) {
 		// render on success
 		if (!err) {
-		res.end(result);
+			res.end(result);
 		}
 		// render or error
 		else {
 			tool.logError(err);
-		res.end('An error occurred');
-		console.log(err);
+			res.end('An error occurred');
+			console.log(err);
 		}
-		});
+	});
 });
+
 router.get('/myTrips', function (req, res, next)  {
 	ejs.renderFile('./views/views/trips.ejs',{ user_dtls: req.session.user},function(err, result) {
 		if (!err) {
-		res.end(result);
+			res.end(result);
 		}
 		else {
 			tool.logError(err);
-		res.end('An error occurred');
-		console.log(err);
+			res.end('An error occurred');
+			console.log(err);
 		}
-		});
+	});
 });
+
 router.get('/dashboard', function (req, res, next)  {
 	console.log("entered dashboard");
 	ejs.renderFile('./views/views/dashboard.ejs',{ user_dtls: req.session.user},function(err, result) {
@@ -307,6 +305,59 @@ router.get('/dashboard', function (req, res, next)  {
 		}
 	});
 });
+
+<<<<<<< HEAD
+router.get('/viewProfile', function(req, res, next){
+	ejs.renderFile('./views/views/userProfile.ejs', {user_dtls : req.session.user}, function(err, result){
+		if(!err){
+			res.end(result);
+		}
+		else{
+			tool.logError(err);
+			res.end('An error occurred');
+			console.log(err);
+		}
+	})
+})
+
+router.post('/getUserDetailsForProfile', function(req, res, next){
+	var json_responses;
+	var user_id = req.body.user_id;
+	var msg_payload = {
+		"user_id" : user_id
+	}
+
+	mq_client.make_request('getUserDetails_queue',msg_payload, function(err,results){
+		if(err){
+			console.log("reached err");
+			tool.logError(err);
+			json_responses = {
+				"status_code" : 400 
+			};
+		}
+		else{
+			console.log("reached haha");
+			if(results.code == "400"){
+				console.log("reached 400");
+				json_responses = {
+					"status_code" : 400
+				};
+			}
+			else if(results.code == "200"){
+				console.log("reached 200");
+				json_responses = {
+					"status_code" : 200,
+					"userDetails" : results.user,
+					"userPropertyDetails" : results.properties
+				};
+			}
+		}  
+		res.send(json_responses);
+        res.end();
+	});
+})
+
+module.exports = router;
 
 router.get('/yourReservations', function (req, res, next)  {
 	ejs.renderFile('./views/views/yourReservations.ejs',{ user_dtls: req.session.user},function(err, result) {

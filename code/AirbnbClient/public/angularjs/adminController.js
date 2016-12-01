@@ -3,7 +3,7 @@
  */
 var adminApp = angular.module('adminApp',[]);
 adminApp.controller('adminController',function($scope,$http,$rootScope){
-
+    $rootScope.showHostsByCity = false;
     $scope.logIn = function(){
         $http({
             method:"POST",
@@ -36,12 +36,48 @@ adminApp.controller('adminController',function($scope,$http,$rootScope){
             }
         })
     }
+
+    $scope.getHostsByCity = function(){
+        $rootScope.showHostsByCity = true;
+        $rootScope.showDashboard = false;
+        $rootScope.showInbox = false;
+        $rootScope.showBills = false;
+        $http({
+            method : "POST",
+            url : "/host/getHostByCity",
+            data : {
+                "city" : $scope.cityToSearchHost
+            }
+        }).success(function(data){
+            if(data.status_code == 200){
+                $scope.hostsByCity = data.host_dtls;
+            }
+        })
+    }
+
+    $scope.deleteHost = function(host_id){
+        $http({
+            method : "POST",
+            url : "/host/delete",
+            data : {
+                "host_id" : host_id
+            }
+        }).success(function(data){
+            if(data.status_code == 200){
+                $scope.getHostsByCity();
+            }
+            else{
+                console.log("error in deleting host");
+            }
+        })
+    }
 });
 
 adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
-    $scope.showDashboard = false;
-    $scope.showInbox = false;
-    $scope.showBills = false;
+    $rootScope.showHostsByCity = false;
+    $rootScope.showDashboard = false;
+    $rootScope.showInbox = false;
+    $rootScope.showBills = false;
 
     $scope.showTopProperties = false;
     $scope.showCityWiseRevenues = false;
@@ -51,32 +87,20 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
 
     $scope.dashboard = function(){
         console.log("reached");
-        $scope.showDashboard = true;
-        $scope.showInbox = false;
-        $scope.showBills = false;
-    }
-
-    $scope.getHostsByCity = function(){
-        $http({
-            method : "POST",
-            url : "/host/getHostByCity",
-            data : {
-                "cityToSearchHost" : $scope.cityToSearchHost
-            }
-        }).success(function(data){
-            if(data.status_code == 200){
-                $
-            }
-        })
+        $rootScope.showDashboard = true;
+        $rootScope.showInbox = false;
+        $rootScope.showBills = false;
+        $rootScope.showHostsByCity = false;
     }
 
 
 //****************INBOX Begins Here***********
     $scope.inbox = function(){
         console.log("reached");
-        $scope.showDashboard = false;
-        $scope.showInbox = true;
-        $scope.showBills = false;
+        $rootScope.showDashboard = false;
+        $rootScope.showInbox = true;
+        $rootScope.showBills = false;
+        $rootScope.showHostsByCity = false;
 
         $scope.getPendingHostAppovals = function(){
             $http({
@@ -128,9 +152,10 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
 //***************BILLS Begins here*****************
     $scope.bills = function(){
         console.log("reached");
-        $scope.showDashboard = false;
-        $scope.showInbox = false;
-        $scope.showBills = true;
+        $rootScope.showDashboard = false;
+        $rootScope.showInbox = false;
+        $rootScope.showBills = true;
+        $rootScope.showHostsByCity = false;
 
         $scope.showDateInput = false;
         $scope.showMonthInput = false;
