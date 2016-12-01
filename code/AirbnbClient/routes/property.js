@@ -99,6 +99,15 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                             });
                         break;
                     case "edit":
+                        var trip_id = req.query.tip;
+                        if(trip_id == undefined){
+                            res.redirect('/');
+                        }
+                        res.render('./property/propertyDetails.ejs', {property: property,
+                            flow:flow,
+                            price: property.price,
+                            guests:2,
+                            trip_id:trip_id});
                         break;
                     default:
                         //view
