@@ -10,7 +10,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/angularjs/listingsController.js"></script>
 </head>
-<body ng-app="myListing" ng-controller="myListingController">
+<body ng-app="yourListing" ng-controller="yourListingController">
 <nav class="navbar navbar-default" style="background-color:white; ">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -71,9 +71,9 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="col-sm-5"><img src="/uploads/{{x.imagesPath[0].filename}}" class="panel-image-preview" width="" height="150px"></div>
-                       <div class="col-sm-7"> <h2><a href="/api/property/id/{{x._id}}/view">{{x.description}}</a></h2>
-                        <h4><label style="color:#c9302c">Start Date:</label>{{x.start_date}}</h4>
-                        <h4><label style="color:#c9302c">End Date:</label>{{x.end_date}}</h4></div>
+                        <div class="col-sm-7"> <h2><a href="/api/property/id/{{x._id}}/view">{{x.description}}</a></h2>
+                            <h4><label style="color:#c9302c">Start Date:</label>{{x.start_date}}</h4>
+                            <h4><label style="color:#c9302c">End Date:</label>{{x.end_date}}</h4></div>
                     </div>
                 </div>
             </div>
@@ -93,6 +93,7 @@
         <div class="col-sm-1"></div>
     </div>
 </div>
+
 <div class="col-sm-2"></div>
 
 
