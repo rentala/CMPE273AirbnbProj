@@ -306,7 +306,6 @@ router.get('/dashboard', function (req, res, next)  {
 	});
 });
 
-<<<<<<< HEAD
 router.get('/viewProfile', function(req, res, next){
 	ejs.renderFile('./views/views/userProfile.ejs', {user_dtls : req.session.user}, function(err, result){
 		if(!err){

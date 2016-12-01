@@ -382,7 +382,32 @@ var reservations = {
          	 },sql_queries.FETCH_HOST_RESERVATIONS,[msg.host_id]);
         
 }};
+var createHostReview ={
+	    handle_request : function(connection, msg, callback) {
+	        var res = {};
+	        try {
+	            var coll = connection.mongoConn.collection('users');
+	            coll.update({"_id": ObjectID(msg.user_id) }, {$push : { reviews: msg.review}}, function(err, results) {
+	                if (err) {
+	                    tool.logError(err);
+	                    res.statusCode = 400;
+	                    callback(null, res);
+	                } else {
+	                	mysql.execute_query(function (err, result) {
+	                    res.statusCode=200;
+	                    callback(null, res);
+	                	 },sql_queries.TRIP_HOST_REVIEWED,[msg.review.trip_id]);
+	                }
 
+	            });
+	        } catch (err) {
+	            res.code = 400;
+	            tool.logError(err);
+	            callback(null, res);
+	        }
+
+	    }
+	}
 
 
 exports.reservations = reservations;
@@ -396,3 +421,4 @@ exports.pendingTripsForApproval = pendingTripsForApproval;
 exports.user_completed_trips = user_completed_trips;
 exports.acceptBid = acceptBid;
 exports.rejectBid = rejectBid;
+exports.createHostReview=createHostReview;
