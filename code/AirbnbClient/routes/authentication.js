@@ -54,6 +54,30 @@ router.get('/test', function (req, res, next)  {
 router.post('/signUpUser', function (req, res, next)  {
     var json_responses;
     console.log("inside signUpUser");
+    var zipcode = req.param("zipCode");
+    var ssn = req.param("ssn");            	
+    var zipPatt = new RegExp("^[0-9]{5}(-[0-9]{4})?$");
+    var validZip = zipPatt.test(zipcode);	
+    
+    var ssnPatt = new RegExp("^[0-9]{3}-[0-9]{3}-[0-9]{3}$");
+    var validSSN = ssnPatt.test(ssn);
+    if(!validZip){
+    	json_responses = {
+                "status_code" : 402,
+                "error":"invalid Zip"
+            };
+    	res.send(json_responses);
+        res.end();
+    }
+    else if(!validSSN){
+    	json_responses = {
+                "status_code" : 403,
+                "error":"invalid SSN"
+            };
+    	res.send(json_responses);
+        res.end();
+    }
+    else{
     passport.authenticate('signup', function (err, user, info) {
         if(err){
       	  tool.logError(err);
@@ -81,12 +105,25 @@ router.post('/signUpUser', function (req, res, next)  {
         res.send(json_responses);
         res.end();
     })(req, res, next);
-
+    }
 });
 
 router.get('/home', function (req, res, next)  {
-/*	var j = JSON.stringify(req.session.user);
-	j = JSON.parse(j);*/
+	if(req.param("c")){
+		ejs.renderFile('./views/views/home.ejs',{ user_dtls: req.session.user,city:req.param("c")},function(err, result) {
+			// render on success
+			if (!err) {
+			res.end(result);
+			}
+			// render or error
+			else {
+				tool.logError(err);
+			res.end('An error occurred');
+			console.log(err);
+			}
+			});
+	}
+	else{
 	ejs.renderFile('./views/views/home.ejs',{ user_dtls: req.session.user},function(err, result) {
 		// render on success
 		if (!err) {
@@ -99,6 +136,7 @@ router.get('/home', function (req, res, next)  {
 		console.log(err);
 		}
 		});
+	}
 });
 
 

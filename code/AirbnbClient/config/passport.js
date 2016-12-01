@@ -53,8 +53,6 @@ module.exports = function(passport){
             	var street = req.param("street");
             	
             	var address = req.param("aptNum");
-            	console.log("aptNum"+address);
-            	console.log("aptNum"+req.param("aptNum"));
             	var city = req.param("city");
             	var state = req.param("state");
             	var zipcode = req.param("zipCode");

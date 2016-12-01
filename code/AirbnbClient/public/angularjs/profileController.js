@@ -12,10 +12,11 @@ var myProfile = angular.module('myProfile',[]);
 				$scope.email = data.user.email;
 				$scope.street = data.user.street;
 				$scope.dob = data.user.dob;
-				$scope.aptNum = data.user.aptNum;
+				$scope.address = data.user.address;
 				$scope.city = data.user.city;
 				$scope.state = data.user.state;
-				$scope.zipCode = data.user.zipCode;
+				$scope.zipcode = data.user.zipcode;
+				console.log("the zipcode is:"+data.user.zipcode);
 				$scope.ssn = data.user.ssn;
 				$scope.image = data.user.picture_path[0].filename;
 				var str1="/uploads/";
@@ -59,10 +60,10 @@ var myProfile = angular.module('myProfile',[]);
         	        	"email": $scope.email 	,
         	        	"dob": $scope.dob ,
                         "street":$scope.street,
-                        "aptNum":$scope.aptNum,
+                        "address":$scope.adress,
                         "city":$scope.city,
                         "state":$scope.state,
-                        "zipCode":$scope.zipCode,
+                        "zipcode":$scope.zipcode,
                         "ssn":$scope.ssn
     	            }
     	        }).success(function(data){

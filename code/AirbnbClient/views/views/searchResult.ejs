@@ -93,7 +93,12 @@
           <div><font style="font-family: Helvetica Neue; font-size: 16px"><a href="/api/property/id/{{x._id}}/book">{{x.description}}</a><br>{{x.category}}&nbsp;-{{x.guests}}guest</font>s</div>
         </div>
         <div class="panel-footer"> 
-        	<div>${{x.price.per_night}}</div>         
+        	<div ng-if= "x.is_auction == false" >
+	        	<div>Per Night- ${{x.price}}</div>         
+        	</div>
+       		<div ng-if= "x.is_auction === 'true'" >
+	        	<div>Initial Bid - ${{x.price}}</div>         
+        	</div>
         </div>
       </div>
     </div>

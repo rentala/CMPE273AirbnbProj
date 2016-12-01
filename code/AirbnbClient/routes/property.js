@@ -341,7 +341,7 @@ router.get('/myListings', function (req, res, next)  {
 router.post('/paymentGateway', function (req, res, next)  {
 	var msg = mapCheckoutRequest(req)	;
 	
-	ejs.renderFile('./views/views/cardDetails.ejs',{ data:msg},function(err, result) {
+	ejs.renderFile('./views/views/cardDetails.ejs',{ data:msg, flow:req.body.flow},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);
