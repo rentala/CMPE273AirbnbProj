@@ -250,6 +250,7 @@ function mapReqToPayLoad(req) {
         x: req.body.coordinatesX,
         y: req.body.coordinatesY
     }
+    msg_payload.property_title = req.body.property_title;
     msg_payload.description = req.body.description;
     msg_payload.guests = parseInt(req.body.guests);
     msg_payload.bedrooms = parseInt(req.body.bedrooms);
