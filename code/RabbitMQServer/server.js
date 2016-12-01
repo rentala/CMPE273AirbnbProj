@@ -55,6 +55,7 @@ cnn.on('ready', function(){
     cnn.queue('review_user_queue', function(q){
         subscriber(q, host.reviewUser );
     });
+    
 
     //Property queues
 	cnn.queue('list_property_queue', function(q){
@@ -172,6 +173,11 @@ cnn.on('ready', function(){
     cnn.queue('inbox_queue', function(q){
     	subscriber(q, inbox.inbox);
     });
+
+    cnn.queue('getUserDetails_queue', function(q){
+    	subscriber(q, profile.getUserDetails);
+    });
+
 });
 
 var subscriber = function(q, module) {
