@@ -22,15 +22,6 @@
             width: 100%;
         }
     </style>
-    <script>
-        var app = angular.module('hostProfileApp',[]);
-        app.controller('hostProfileController',function($scope,$http){
-            $http({
-                method:"POST",
-                url:"/api/userProfile/profile",
-            })
-        })
-    </script>
 </head>
 <body ng-app="hostProfileApp" ng-controller="hostProfileController">
 <nav class="navbar navbar-default" style="background-color:white; ">
