@@ -102,6 +102,7 @@
     <!--script src="/javascripts/log.js"></script=-->
 </head>
 <body data-ng-app="airbnbApp" data-ng-controller= "hostController">
+<base href="/host">
 <nav class="navbar navbar-default" style="background-color:white; ">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -152,7 +153,7 @@
                 <h3>What Kind of place do you have?</h3>
                 <div class="col-sm-12">
                     <div class="form-group"  >
-                        <select name="category" required class="form-control" id="category">
+                        <select name="category" required class="form-control" id="category" >
                             <option value="House" selected>House</option>
                             <option value="Apartment">Apartment</option>
                             <option value="Bed & Breakfast">Bed & Breakfast</option>

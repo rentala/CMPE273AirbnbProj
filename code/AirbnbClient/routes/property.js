@@ -168,6 +168,11 @@ router.get('/propList',function (req,res) {
 
 
 router.post('/list', function (req, res, next)  {
+    var tripStart = new Date(req.body.start_date);
+    var tripEnd = new Date(req.body.end_date);
+    var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000));
+    if(stayDuration>1)
+    {
     var storage = multer.diskStorage({
         destination: function (req, file, cb) {
             cb(null, '../AirbnbClient/public/uploads');
@@ -217,7 +222,7 @@ router.post('/list', function (req, res, next)  {
                     json_responses = {
                         "failed" : "failed"
                     };
-                    req.redirect('/host?err=1');
+                    res.redirect('/host?err=1');
                 } else {
                     req.flash('hostConfirmation', true);
                     req.flash('propertyId', results.propertyIds[0]);
@@ -226,11 +231,17 @@ router.post('/list', function (req, res, next)  {
             });
         }
         else{
-            req.redirect('/host?err=InvalidHost');
+            res.redirect('/host?err=InvalidHost');
         }
 
     });
-
+	}	
+    else{
+    	 json_responses = {
+                 "failed" : "failed"
+             };
+             res.redirect('/host?err=3');
+    }
 });
 
 function mapReqToPayLoad(req) {
