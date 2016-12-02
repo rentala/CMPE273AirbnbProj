@@ -204,9 +204,12 @@
                     return table;
                 };
 
-            function pause(milliseconds) {
-                var dt = new Date();
-                while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
-            }
-
+                $scope.searchByCity = function(){
+                	//alert(1);
+                	var whereTo = $scope.searchCity;
+                	if(whereTo)
+                	window.location.assign("/api/auth/home?c="+whereTo);
+                	else
+                		window.location.assign("/api/auth/home");	
+                }
         });

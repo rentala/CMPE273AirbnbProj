@@ -1,6 +1,12 @@
 var myProfile = angular.module('myProfile',[]);
+		myProfile.filter("trustUrl", ['$sce', function ($sce) {
+			return function (recordingUrl) {
+				return $sce.trustAsResourceUrl(recordingUrl);
+			};
+		}]);
     	myProfile.controller('myProfileController',function($scope,$http){
-    		
+    		$scope.signUpError ="";
+    		$scope.msg ="";
     		$http({
 	            method:"POST",
 	            url:"/api/profile/loadProfile"
@@ -12,14 +18,16 @@ var myProfile = angular.module('myProfile',[]);
 				$scope.email = data.user.email;
 				$scope.street = data.user.street;
 				$scope.dob = data.user.dob;
-				$scope.aptNum = data.user.aptNum;
+				$scope.address = data.user.address;
 				$scope.city = data.user.city;
 				$scope.state = data.user.state;
-				$scope.zipCode = data.user.zipCode;
+				$scope.zipcode = data.user.zipcode;
+				console.log("the zipcode is:"+data.user.zipcode);
 				$scope.ssn = data.user.ssn;
 				$scope.image = data.user.picture_path[0].filename;
 				var str1="/uploads/";
-				str1 = str1.concat(data.user.picture_path[0].filename);
+				str1 = str1.concat(data.user.video_path[0].filename);
+				console.log("the url is:"+str1);
 				$scope.path = str1;
 	        })
 
@@ -45,10 +53,20 @@ var myProfile = angular.module('myProfile',[]);
     	        }).success(function(data){
     	        	$scope.data=data.user;
 					$scope.msg = "Updated Successfully";
+					$scope.signUpError="";
     	        })
     		}
     		
     		$scope.submitProfile = function(){
+    			
+    			var zipPatt = new RegExp("^[0-9]{5}(-[0-9]{4})?$");
+    	        var validZip = zipPatt.test($scope.zipcode);	
+    	        
+    	        if($scope.zipcode != undefined && !validZip){
+    	        	$scope.signUpError="Zip should be in these formats - 12345 or 12345-1111";
+    	        	$scope.msg ="";
+    	        }
+    	        else{
     			$http({
     	            method:"POST",
     	            url:"/api/profile/updateProfile",
@@ -59,15 +77,25 @@ var myProfile = angular.module('myProfile',[]);
         	        	"email": $scope.email 	,
         	        	"dob": $scope.dob ,
                         "street":$scope.street,
-                        "aptNum":$scope.aptNum,
+                        "address":$scope.adress,
                         "city":$scope.city,
                         "state":$scope.state,
-                        "zipCode":$scope.zipCode,
+                        "zipcode":$scope.zipcode,
                         "ssn":$scope.ssn
     	            }
     	        }).success(function(data){
     	        	$scope.data=data.user;
 					$scope.msg = "Updated Successfully";
     	        })
+    	        }
     		}
+    		
+    		$scope.searchByCity = function(){
+            	//alert(1);
+            	var whereTo = $scope.searchCity;
+            	if(whereTo)
+            	window.location.assign("/api/auth/home?c="+whereTo);
+            	else
+            		window.location.assign("/api/auth/home");	
+            }
     	});

@@ -114,7 +114,6 @@ cnn.on('ready', function(){
         subscriber(q, trip.updateTrip );
     });
     cnn.queue('create_trip_review_queue', function(q){
-    	console.log("tets");
         subscriber(q, trip.createTripReview );
     });
     cnn.queue('pending_trips_queue',function (q) {
@@ -181,6 +180,15 @@ cnn.on('ready', function(){
     });
     cnn.queue('rejectBid_queue', function(q){
     	subscriber(q, trip.rejectBid);
+    });
+    cnn.queue('reservations_queue', function(q){
+    	subscriber(q, trip.reservations);
+    });
+    cnn.queue('create_host_review_queue', function(q){
+    	subscriber(q, trip.createHostReview);
+    });
+    cnn.queue('getUserDetails_queue', function(q){
+    	subscriber(q, profile.getUserDetails);
     });
 });
 

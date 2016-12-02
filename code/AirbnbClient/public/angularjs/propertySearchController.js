@@ -1,5 +1,5 @@
 var app = angular.module('airbnbApp',[]);
-		app.controller('propertyDetailsController',function($scope,$http){
+		app.controller('propertySearchController',function($scope,$http){
 			
 			$scope.image = "paris.jpg";
 			$scope.profile = function(){
@@ -15,10 +15,10 @@ var app = angular.module('airbnbApp',[]);
 			$scope.bedrooms = "2";
 			$scope.guests = "3";
 
-
+			$scope.bid_amount =0;
 			
-			$scope.makeBid = function(property_id,description,bid_amount,minBid){
-				if(bid_amount <=minBid){
+			$scope.makeBid = function(property_id,description,minBid){
+				if($scope.bid_amount <=minBid){
 					alert("Please bid higher than $"+minBid);
 				}
 				else{
@@ -26,7 +26,7 @@ var app = angular.module('airbnbApp',[]);
 		            method:"POST",
 		            url:"/api/property/bidProperty",
 		            data:{
-		            	bid_amount:bid_amount,
+		            	bid_amount:$scope.bid_amount,
 		            	property_id:property_id,
 		            	property_name:description
 		            }

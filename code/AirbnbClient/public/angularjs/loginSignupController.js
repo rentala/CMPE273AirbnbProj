@@ -3,8 +3,23 @@ app.controller('loginSignupController',function($scope,$http){
 
     $scope.signUp = function(){
         $scope.signUpError="";
-        if($scope.firstName!= null && $scope.lastName!=null && $scope.email!=null && $scope.password!=null && $scope.Dob!=null && $scope.street!=null && $scope.city!=null && $scope.state!=null && $scope.zipCode!=null && $scope.phoneNumber!=null && $scope.ssn!=null && $scope.aptNum!=null){
-            $http({
+        var zipPatt = new RegExp("^[0-9]{5}(-[0-9]{4})?$");
+        var validZip = zipPatt.test($scope.zipCode);	
+        
+        var ssnPatt = new RegExp("^[0-9]{3}-[0-9]{3}-[0-9]{3}$");
+        var validSSN = ssnPatt.test($scope.ssn);	
+        
+        if(!($scope.firstName!= null && $scope.lastName!=null && $scope.email!=null && $scope.password!=null && $scope.Dob!=null && $scope.street!=null && $scope.city!=null && $scope.state!=null && $scope.zipCode!=null && $scope.phoneNumber!=null && $scope.ssn!=null && $scope.aptNum!=null)){
+        	$scope.signUpError="please enter all the field contents";
+        }
+        else if(!validZip){
+        	$scope.signUpError="Zip should be in these formats - 12345 or 12345-1111";
+        }
+        else if(!validSSN){
+        	$scope.signUpError="SSN is invalid. Correct format - 123-123-123";
+        }
+        else{
+        	$http({
                 method:"POST",
                 url:"/api/auth/signUpUser",
                 data:{
@@ -24,19 +39,18 @@ app.controller('loginSignupController',function($scope,$http){
             }).success(function(data){
                 if (data.status_code=="200") {
                     $('.modal-backdrop').remove();
-                    //$rootScope.user_dtls = JSON.parse(data.user);
-                    //$state.go('home');
-                    // console.log("Sign Up successful");
                     window.location.assign("/api/auth/home");
                 }
                 else if(data.status_code=="400"){
                     $scope.signUpError="Email already registered please use different email";
                 }
+                else if(data.status_code=="402"){
+                    $scope.signUpError="Zip should be in these formats - 12345 or 12345-1111";
+                }
+                else if(data.status_code=="403"){
+                    $scope.signUpError="SSN is invalid. Correct format - 123-123-123";
+                }
             })
-        }
-        else{
-            console.log("reached");
-            $scope.signUpError="please enter all the field contents";
         }
     };
     $scope.logIn = function(){
@@ -56,5 +70,9 @@ app.controller('loginSignupController',function($scope,$http){
                 $scope.loginError="Wrong email address or password";
             }
         })
+    }
+    $scope.showSignUp = function () {
+        $('#myModal1').modal('hide');
+        $('#myModal').modal('show');
     }
 });

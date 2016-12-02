@@ -32,7 +32,7 @@ app.service('fileUpload', [ '$http' ,function ( $http) {
         })
 
             .success(function(){
-                document.getElementById("msg").innerHTML = "Success";
+                document.getElementById("msg").innerHTML = "Review Submitted";
                 window.location.reload();
             })
 
@@ -96,10 +96,18 @@ app.controller('myTripController',['$scope','fileUpload','$http', function($scop
         fileUpload.uploadFileToUrl(file, uploadUrl,property_id,trip_id,index);
     };
     $scope.editTrip = function(trip_id, property_id,price){
-        ///api/property/id/{{x.property_id}}/view
-        window.location.assign("/api/trip/id/"+property_id+"/"+price+"/edit/"+trip_id);
+        window.location.assign("/api/property/id/" + property_id +"/edit?tip="+trip_id );
+        //window.location.assign("/api/trip/id/"+property_id+"/"+price+"/edit/"+trip_id);
     }
     $scope.payNow = function(trip_id,trip_price){
     	window.location.assign("/api/property/paymentGateway/b/"+trip_id+"/"+trip_price);
+    }
+    $scope.searchByCity = function(){
+    	//alert(1);
+    	var whereTo = $scope.searchCity;
+    	if(whereTo)
+    	window.location.assign("/api/auth/home?c="+whereTo);
+    	else
+    		window.location.assign("/api/auth/home");	
     }
 }])

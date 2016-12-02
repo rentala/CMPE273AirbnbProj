@@ -142,13 +142,13 @@
 					<div class="panel panel-default">
 	                    <div class="panel-body">
 	                       <div class="col-sm-7">
-		                        <a href = ""><h3><label style="color:#c9302c"></label>{{host.first_name}} {{host.last_name}}</h3></a>
+		                        <a href = "/api/profile/getUserDetailsForProfile/{{host._id}}"><h3><label style="color:#c9302c"></label>{{host.first_name}} {{host.last_name}}</h3></a>
 		                        <h4><label style="color:#c9302c">City : </label>{{host.city}}</h4>
 		                        <h4><label style="color:#c9302c">Ph. No : </label>{{host.phone}}</h4>
 		                        <h4><label style="color:#c9302c">email : </label>{{host.email}}</h4>
 		                    </div>
 		                    <img src = "/uploads/{{host.picture_path[0].filename}}" style = "float:right;" width = "100px" height = "110px">
-	                        <button class = "btn btn-danger" style = "float:right; margin-top: 15px" ng-click = "deleteHost(host._id)">Delete Host</button>
+	                        <button class = "btn btn-danger" style = "position:relative; TOP:12px; LEFT:85px" ng-click = "deleteHost(host._id)">Delete Host</button>
 	                    </div>
 	                </div>
 				</div>

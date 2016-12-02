@@ -142,6 +142,35 @@ router.post('/getAllBills',function (req,res) {
         res.end();
 	});
 });
+
+router.get('/getUserDetailsForProfile/:user_id', function(req, res, next){
+	var user_id = req.param("user_id");
+	console.log("the user id:"+user_id);
+	var msg_payload = {
+		"user_id" : user_id
+	}
+	
+	mq_client.make_request('getUserDetails_queue',msg_payload, function(err,results){
+		if(err){
+			tool.logError(err);
+			json_responses = {
+				"status_code" : 400 
+			};
+		}
+		else{
+			if(results.code == "400"){
+				json_responses = {
+					"status_code" : 400
+				};
+			}
+			else if(results.code == "200"){
+				console.log("reached else");
+				res.render('./views/userProfile.ejs', {userDetails: results.user,userPropertyDetails:results.properties});
+			}
+		}  
+		
+	});
+})
 //End of admin routes.
 //One more comment.
 module.exports = router;

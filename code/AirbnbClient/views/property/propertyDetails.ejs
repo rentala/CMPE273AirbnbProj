@@ -10,7 +10,8 @@
 	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWlhSOzoAYUi3wmo6rbzJRBV4yohQvXBY&libraries=places&callback=initAutocomplete"
 	></script>
-	<script> var coordinates = {
+	<script>
+		var coordinates = {
 		x: '<%=property.coordinates.x%>', y: '<%=property.coordinates.y%>'
 		};
 
@@ -123,8 +124,8 @@
 
 	</style>
 </head>
-<body ng-app ="airbnbApp" ng-controller="propertyDetailsController">
-<nav class="navbar navbar-default" style="background-color:white; ">
+<body ng-app ="airbnbApp" ng-controller="propertySearchController" >
+<nav   class="navbar navbar-default" style="background-color:white; ">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
@@ -180,7 +181,7 @@
 						</div>
 					</div>
 					<%for(var i = 1; i < property.imagesPath.length; i++){%>
-					<div class="item active">
+					<div class="item">
 						<img class="img-responsive" src="<%="/uploads/"+ property.imagesPath[i].filename%>" alt="...">
 						<div class="carousel-caption">
 							One Image
@@ -230,7 +231,7 @@
 			</div>
 			<div class="col-sm-6" style="margin-top:10px">
 				<span style="float:left;font-size: 20px">Check in : <b>Flexible</b></span><br><br>
-				<span style="float:left;font-size: 20px">Price per day : <b><%=property.price.per_night%></b></span><br>
+				<span style="float:left;font-size: 20px">Price per day : <b><%=property.price%></b></span><br>
 			</div>
 		</div>
 	</div>
@@ -282,33 +283,21 @@
 	<div class="panel panel-default">
 		<div class="panel-heading" style="background-color:black;height:40px">
 			<font style="color:white;float:left;">
-				$<%=property.price%>
+				$<%=tripPrice%>
 			</font>
 		</div>
 		<div class="panel-body">
 		<%  if(property.is_auction==true) {%>
 			<!-- only for auction -->
-			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Minimum bid</font><font style="float:right;">$ <%=min_bid%></font></div>
-			<input placeholder="Bid Amount" class="form-control" type="integer"   name="bid_amount"  ng-model="bid_amount">
-			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.description%>',bid_amount,'<%=min_bid%>')" style="width:100%;margin-top:10px" value="Make Bid">
+			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Minimum bid</font><font style="float:right;">$ <%=tripPrice%></font></div>
+			<input placeholder="Bid Amount" class="form-control" type="number" value="<%=tripPrice% +1%>" min="<%=tripPrice% +1%>"  name="bid_amount"  ng-model="bid_amount">
+			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.description%>','<%=tripPrice%>')" style="width:100%;margin-top:10px" value="Make Bid">
 		<% } else {
-			var tripStart = new Date(start_date);
-	        var tripEnd = new Date(end_date);
-			var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000));
-			var tripPrice;
-			if(property.price.per_night!="")
-				tripPrice = eval(stayDuration * parseInt(property.price.per_night));
-			if(property.price.per_week!="")
-				tripPrice = eval(stayDuration * parseInt(property.price.per_week)/7);	
-			if(property.price.per_month!="")
-				tripPrice = eval(stayDuration * parseInt(property.price.per_month)/30);
 		%>
 			<form action="/api/property/paymentGateway"  method="post" novalidate>
 			<label>Check In</label><input class="form-control" type="text" name= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')"    value="<%=start_date%>" disabled>
 			<label>Check Out</label><input  class="form-control" type="text" name= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"   value="<%=end_date%>" disabled>
 
-			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">${{per_night}}*{{noOfdays}}</font><font style="float:right;">{{totalPrice}}12</font></div>
-			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Cleaning fee</font><font style="float:right;">- </font></div>
 			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;"><%=tripPrice %> $</font></div>
 			<input type="text" class="form-control" name = "total" value ="<%=tripPrice %>" style="display: none;">
 			<input type="text" class="form-control" name = "start_date" value ="<%=start_date%>" style="display: none;">
@@ -321,9 +310,7 @@
 			<input type="text" class="form-control" name = "country" value ="<%=property.address.country%>" style="display: none;">
 			<input type="text" class="form-control" name = "guests" value ="<%=guests%>" style="display: none;">
 			<input type="text" class="form-control" name = "flow" value ="<%=flow%>" style="display: none;">
-			<input type="text" class="form-control" name = "per_week" value ="<%=property.price.per_week%>" style="display: none;">
-			<input type="text" class="form-control" name = "per_night" value ="<%=property.price.per_night%>" style="display: none;">
-			<input type="text" class="form-control" name = "per_month" value ="<%=property.price.per_month%>" style="display: none;">		
+			<input type="text" class="form-control" name = "price" value ="<%=property.price%>" style="display: none;">
 			<input type="submit" class="btn btn-primary" value="Book">
 			</form>
 		<%}%>
@@ -332,9 +319,6 @@
 <%} else if(flow=='edit') {%>
 			<label>Check In</label><input class="form-control" type="date"  ng-model= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')" >
 			<label>Check Out</label><input  class="form-control" type="date"  ng-model= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"   >
-
-			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">${{per_night}}*{{noOfdays}}nights</font><font style="float:right;">{{totalPrice}}12</font></div>
-			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Cleaning fee</font><font style="float:right;">- </font></div>
 			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;">$<%=price %>  </font></div>
 			<input type="text" class="form-control" id = "property_id2" value ="<%=property._id%>" style="display: none;" ng-model="property_id">
 			<input type="text" class="form-control" id = "guests2" value ="<%=guests%>" style="display: none;" ng-model="guests">

@@ -47,11 +47,12 @@
     <nav class="navbar navbar-inverse" style="margin-top:-20px">
         <div class="container-fluid">
             <ul class="nav navbar-nav">
-                <li><a data-ng-click="dashboard()">Dashboard</a></li>
+                <li><a href="/api/profile/dashboard">Dashboard</a></li>
                 <li><a href="/api/inbox/inbox">Inbox</a></li>
                 <li><a href="/api/profile/yourListings">Your Listings</a></li>
                 <li><a href="/api/profile/myTrips">Your Trips</a></li>
                 <li><a href="/api/profile/editProfile">Profile</a></li>
+            </ul>
         </div>
     </nav>
 </div>
@@ -67,8 +68,8 @@
                         <div class="col-sm-3"><img src="/images/profile.jpg" width="100%" height="100%"></img></div>
                         <div class="col-sm-9" style="float:left">
                             <label style="color: #1b6d85">Property:</label> <a href="/api/property/id/{{x.property_id}}/view">{{x.property_name}}</a><br>
-                            
-                            Guest Name: {{x.guest_name}}<br>
+                            <a href="/api/profile/getUserDetailsForProfile/{{x.user_id}}"><img src="/uploads/{{x.user_id}}.JPG" width="50px" height="65px" alt=""></a>
+                            Guest Name: <a href="/api/profile/getUserDetailsForProfile/{{x.user_id}}"> {{x.guest_name}}</a><br>
                             Checkin Date: {{x.checkin_date}} &nbsp;&nbsp; Checkout Date: {{x.checkout_date}}<br>
                             Guests: {{x.no_of_guests}}<br>
                             Price: ${{x.trip_price}}<br>
@@ -98,7 +99,7 @@
                         <div class="col-sm-3"><img src="/images/profile.jpg" width="100%" height="100%"></img></div>
                         <div class="col-sm-9" style="float:left">
                             <label style="color: #1b6d85">Property:</label> <a href="/api/property/id/{{x.property_id}}/view">{{x.property_name}}</a><br>
-                            
+                            <a href="/api/profile/getUserDetailsForProfile/{{x.user_id}}"><img src="/uploads/{{x.user_id}}.JPG" width="50px" height="65px" alt=""></a>
                             Bidder Name: {{x.bidder_name}}<br>
                             User: {{x.max_bid_user_id}} Make this a link <br>
                             Minimum Bid: ${{x.host_min_amt}}<br>

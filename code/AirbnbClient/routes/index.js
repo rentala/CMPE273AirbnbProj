@@ -16,18 +16,7 @@ const eventlogger = new (winston.Logger)({
   ejs.render('./views/views/login.ejs');
 });*/
 router.get('/', function(req, res, next) {
-  ejs.renderFile('./views/views/login.ejs', function (err, result) {
-// render on success
-    if (!err) {
-      res.end(result);
-    }
-// render or error
-    else {
-     // tool.logError(err);
-      res.end('An error occurred');
-      console.log(err);
-    }
-  });
+  res.render('./views/login.ejs', { loggedOut : req.query.error == "1"});
 });
 
 router.post('/log', function(req, res, next) {

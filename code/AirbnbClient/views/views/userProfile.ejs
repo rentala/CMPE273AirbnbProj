@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/angularjs/userProfileController.js"></script>
     <style type="text/css">
         .image {
             position: relative;
@@ -21,30 +22,21 @@
             width: 100%;
         }
     </style>
-    <script>
-        var app = angular.module('hostProfileApp',[]);
-        app.controller('hostProfileController',function($scope,$http){
-            $http({
-                method:"POST",
-                url:"/api/userProfile/profile",
-            })
-        })
-    </script>
 </head>
 <body ng-app="hostProfileApp" ng-controller="hostProfileController">
 <nav class="navbar navbar-default" style="background-color:white; ">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#" ><img src="airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
+            <a class="navbar-brand" href="#" ><img src="/images/airbnb-logo.png" width="100" height="70" style="margin-top:-25px;margin-left:-30px"></img></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
             <form class="navbar-form navbar-left" style="border-left:solid;border-width:0.5px;border-color:#D3D3D9">
                 <div class="form-group">
-                    <input type="text" placeholder="Where to?" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px"></span></input>
+                    <input type="text" placeholder="Where to?" ng-model="searchCity" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px" ng-click="searchByCity()"></span></input>
                 </div>
-                <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
+                <button type="button" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="searchByCity()">Search</button>
                 <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ng-click="hostPage()">Host</button>
                 <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ng-click="trips()">Trips<span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
                 <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
@@ -69,7 +61,7 @@
 <div class="col-sm-1"></div>
 <div class="col-sm-3">
     <div class="col-sm-12" style="margin-top:20px">
-        <img src="tokiyo.jpg" width="100%" height="200px" />
+        <img src="/uploads/<%=userDetails.picture_path[0].filename%>" width="100%" height="200px" />
     </div>
     <div class="col-sm-12" style="margin-top:20px">
         <div class="panel panel-default">
@@ -94,23 +86,75 @@
 
     <div class="col-sm-12" style="margin-top:10px">
         <h2>Listings</h2><br>
+        <% userPropertyDetails.forEach(function(item, index){ %>
         <div class="image">
-            <img src="tokiyo.jpg" width="100%" height="200px" style="margin-top:5px" alt="" />
-            <b><p id="heading" style="color:white">Text you want to display over the image</p></b>
+        <% if(item.imagesPath!=null || item.imagesPath!=undefined){ %>
+            <img src="/uploads/<%=item.imagesPath[0].filename%>" width="100%" height="200px" style="margin-top:5px" alt="" />
+            <b><p id="heading" style="color:white" align="center"><%=item.description%></p></b>
+        <% }else { %>    
+            <b><p id="heading" style="color:white" align="center"><%=item.description%></p></b>
+            <% }%>    
         </div>
-        <div class="image">
-            <img src="tokiyo.jpg" width="100%" height="200px" style="margin-top:5px" alt="" />
-            <b><p id="heading" style="color:white">Text you want to display over the image</p></b>
-        </div>
-
+        <% }); %>
+            <!--  div class="col-sm-12" style="margin-top:10px">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-sm-5"><img src="/uploads/<%=userDetails.picture_path[0].filename%>" class="panel-image-preview" width="" height="150px"></div>
+                       <div class="col-sm-7"> <h2><a href="/api/property/id/{{x._id}}/view">{{x.description}}</a></h2>
+                        <h4><label style="color:#c9302c">Start Date:</label>{{x.start_date}}</h4>
+                        <h4><label style="color:#c9302c">End Date:</label>{{x.end_date}}</h4></div>
+                    </div>
+                </div>
+            </div -->
     </div>
 
 </div>
 <div class="col-sm-7">
-    <h1>Hey, I'm {{firstname}}</h1>
-    <b><p>{{city}}san Jose{{state}}{{country}}{{zipcode}}</p></b><br>
-    <p>{{firstname}} enjoy's sports, music and movies. Like to travel and go to new restaurants.</p><br>
+    <h1>Hey, I'm <%=userDetails.first_name%> </h1>
+    <b><p><%=userDetails.street%>, <%=userDetails.city%>, <%=userDetails.state%>, <%=userDetails.zipcode%></p></b><br>
+    <p>I'm a very sociable man, I love to travel and meet people from different cultures, religions, customs and lifestyles. 
+I always have with me my inseparable camera, which prompts me to observe the world from a different perspective. 
+I love to laugh and smile, I think I'm a positive person and I like to surround myself with positive people equally. 
+I live a one of the most beautiful city in the world and I can definitely tell you some twists on little known it. 
+When I can't go around the world I'd like to host a part of it in my house, to feel always on the go.</p><br>
 
+<% var length = 0;
+if(userDetails.reviews !=undefined){
+length = 0; }
+else{
+length = userDetails.reviews.length;} %>
+
+	<div class="col-sm-12">
+		<h1>Reviews(<%=length%>)</h1>
+		<h2>Reviews from Guests</h2>
+		 <% var reviews = userDetails.reviews;
+		 if(length>0){
+		 reviews.forEach(function(item, index){ %>
+        <div class="col-sm-12" style="border-bottom:0.5px solid #f5f5f5;margin-bottom:5px">
+            <div class="col-sm-2"><img src="/uploads/<%=item.user_id%>.JPG" width="50px" height="65px" alt="/images/user.jpg"><br><font style="color: #767676"><%= item.user_name%></font><br></div>
+            <div class="col-sm-10">
+                <font style="font-family: Helvetica Neue; font-size: 14px; color: #484848">Ratings:<%= item.rating %></font><br>
+                <font style="font-family: Helvetica Neue; font-size: 14px; color: #484848"><%= item.comment %></font><br>
+            </div>
+        </div>
+        <% });} else {%>
+        	No reviews for this user
+        <% } %>
+        
+        <h2 style="margin-top:20px">Reviews from Hosts</h2>
+		  <% userPropertyDetails.forEach(function(item, index){ 
+		  	var reviews = item.reviews;
+		  	reviews.forEach(function(item2, index2){ 
+		  %>
+            <div class="col-sm-12" style="border-bottom:0.5px solid #f5f5f5;margin-bottom:5px">
+                <div class="col-sm-2"><img src="/uploads/<%=item2.user_id%>.JPG" width="50px" height="65px" alt="/images/user.jpg"><br><font style="color: #767676"><%= item2.user_name%></font><br></div>
+                <div class="col-sm-10">
+                   <font style="font-family: Helvetica Neue; font-size: 14px; color: #484848"> Ratings:<%= item2.rating %>/5</font><br>
+                    <font style="font-family: Helvetica Neue; font-size: 14px; color: #484848"><%= item2.comment %></font><br>
+                </div>
+            </div>
+        <% }); }); %>
+	</div>
 
 </div>
 <div class="col-sm-1"></div>

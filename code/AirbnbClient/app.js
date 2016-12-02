@@ -55,6 +55,7 @@ app.use('/', index);
 
 //USE '/api/routName' for all JSON response apis
 app.use('/api/auth', authentication);
+app.use('*', assertAuthentication);
 app.use('/host', host);
 app.use('/api/profile', profile);
 app.use('/api/property',property);
@@ -64,7 +65,13 @@ app.use('/api/analytics',analytics);
 app.use('/api/billing',billing);
 app.use('/api/inbox', inbox);
 
-
+function assertAuthentication(req, res, next) {
+   if(req.session.user != null && req.session.user != undefined){
+        next();
+   } else{
+     res.redirect('/?error=1')
+   }
+}
 
 
 // catch 404 and forward to error handler
