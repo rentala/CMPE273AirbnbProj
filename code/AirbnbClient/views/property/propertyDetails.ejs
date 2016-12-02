@@ -295,7 +295,7 @@
 			<!-- only for auction -->
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Minimum bid</font><font style="float:right;">$ <%=tripPrice%></font></div>
 			<input placeholder="Bid Amount" class="form-control" type="number" value="<%=tripPrice% +1%>" min="<%=tripPrice% +1%>"  name="bid_amount"  ng-model="bid_amount">
-			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.description%>','<%=tripPrice%>')" style="width:100%;margin-top:10px" value="Make Bid">
+			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.property_title%>','<%=tripPrice%>')" style="width:100%;margin-top:10px" value="Make Bid">
 		<% } else {
 		%>
 			<form action="/api/property/paymentGateway"  method="post" novalidate>
