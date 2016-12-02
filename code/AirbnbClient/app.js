@@ -54,7 +54,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 
 //USE '/api/routName' for all JSON response apis
+
+//comment below line when testing
+app.use('*', homePageExcl);
+
 app.use('/api/auth', authentication);
+//comment below line when testing
 app.use('*', assertAuthentication);
 app.use('/host', host);
 app.use('/api/profile', profile);
@@ -73,6 +78,13 @@ function assertAuthentication(req, res, next) {
    }
 }
 
+function homePageExcl(req, res, next) {
+    if(req.baseUrl == "/api/auth/home"){
+        assertAuthentication(req, res, next)
+    } else{
+        next();
+    }
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

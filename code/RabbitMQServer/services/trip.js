@@ -319,7 +319,7 @@ var acceptBid = {
 	                            }
                         	},sql_queries.ACCEPT_BID, [msg.bid_id]);
                         }
-                	},sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, record.description, record.host_id, record.start_date, record.end_date, record.guests, 'PENDINGPAYMENT', msg.bidPrice, msg.guest_name]);
+                	},sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, record.property_title, record.host_id, record.start_date, record.end_date, record.guests, 'PENDINGPAYMENT', msg.bidPrice, msg.guest_name]);
                 }
                 else{
                 	res = {"statusCode":400,"invalid":"invalid"};
