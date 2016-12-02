@@ -190,5 +190,12 @@
                     return table;
                 }
 
-
+                $scope.searchByCity = function(){
+                	//alert(1);
+                	var whereTo = $scope.searchCity;
+                	if(whereTo)
+                	window.location.assign("/api/auth/home?c="+whereTo);
+                	else
+                		window.location.assign("/api/auth/home");	
+                }
         });

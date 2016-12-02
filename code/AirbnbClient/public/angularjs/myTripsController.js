@@ -102,4 +102,12 @@ app.controller('myTripController',['$scope','fileUpload','$http', function($scop
     $scope.payNow = function(trip_id,trip_price){
     	window.location.assign("/api/property/paymentGateway/b/"+trip_id+"/"+trip_price);
     }
+    $scope.searchByCity = function(){
+    	//alert(1);
+    	var whereTo = $scope.searchCity;
+    	if(whereTo)
+    	window.location.assign("/api/auth/home?c="+whereTo);
+    	else
+    		window.location.assign("/api/auth/home");	
+    }
 }])
