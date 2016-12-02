@@ -6,7 +6,7 @@
  */
 var tool = require("../utili/common");
 var ObjectId = require('mongodb').ObjectID;
-var propertyService = require("./property")
+var propertyService = require("./property");
 var deleteHost = {
 
     handle_request : function(connection, msg, callback) {

@@ -31,6 +31,33 @@ router.post('/approveHost', function (req, res)  {
 	});
 });
 
+router.post('/rejectHost', function (req, res)  {
+    
+	console.log("Request Data  : " + JSON.stringify(req.body));
+	
+	var host_id = req.body.host_id;
+
+	console.log("In AirbnbClient : admin.js : rejectHost: Host_ID :"+ host_id);
+	
+	var msg_payload = { "host_id" : host_id };
+	
+	mq_client.make_request('reject_host_queue',msg_payload, function(err,results){
+		if(err){
+			tool.logError(err);
+			var json_resp = {
+					"status_code" : 400 
+			};
+			res.send(json_resp);
+			res.end();
+		}
+		else{
+			
+			res.send(results.json_resp);
+			res.end();
+		}  
+	});
+});
+
 //POST method for getting pending host approval request
 
 
