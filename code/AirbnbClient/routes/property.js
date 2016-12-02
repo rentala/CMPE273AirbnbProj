@@ -168,11 +168,6 @@ router.get('/propList',function (req,res) {
 
 
 router.post('/list', function (req, res, next)  {
-    var tripStart = new Date(req.body.start_date);
-    var tripEnd = new Date(req.body.end_date);
-    var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000));
-    if(stayDuration>1)
-    {
     var storage = multer.diskStorage({
         destination: function (req, file, cb) {
             cb(null, '../AirbnbClient/public/uploads');
@@ -235,13 +230,6 @@ router.post('/list', function (req, res, next)  {
         }
 
     });
-	}	
-    else{
-    	 json_responses = {
-                 "failed" : "failed"
-             };
-             res.redirect('/host?err=3');
-    }
 });
 
 function mapReqToPayLoad(req) {
