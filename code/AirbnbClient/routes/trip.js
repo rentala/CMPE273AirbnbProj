@@ -232,6 +232,21 @@ function buildPayLoad(req) {
     return msg_payload;
 }
 
+function buildHostReviewPayLoad(req) {
+    var msg_payload = {};
+    msg_payload.user_id = req.body.user_id;
+    msg_payload.review = {
+        rating: req.body.rating,
+        comment: req.body.comment,
+        images: req.files,
+        time: new Date().toDateString(),
+        user_id: req.session.user_id, //stub get from session
+        user_name: req.session.user.first_name,  //stub
+        trip_id: req.body.trip_id //stub get from session
+    }
+    return msg_payload;
+}
+
 router.post('/editTrip',function (req,res) {
     var json_responses;
 
@@ -505,5 +520,70 @@ router.post('/rejectBid', function(req, res){
 	    });
 	});
 
+router.get('/reservations',function (req,res) {
 
+    var json_responses;
+    var msg_payload;
+
+        msg_payload = {"host_id":req.session.user_id};
+        mq_client.make_request('reservations_queue',msg_payload,function (err,results) {
+            console.log(results);
+           if(err){
+               //Need to add tool to log error.
+               json_responses = {"status_code":400};
+               res.send(json_responses);
+               res.end();
+           }
+           else {
+        	   console.log("inside");
+               if(results.status_code == 200){
+                   console.log("inside 200"+ JSON.stringify(results.reservations));
+                   json_responses = {"status_code":results.status_code, "reservations":results.reservations};
+               }
+               else {
+                   json_responses = {"status_code":results.status_code};
+               }
+               res.send(json_responses);
+               res.end();
+           }
+        });
+});
+
+router.post('/submitHostReview', function (req, res, next)  {
+    var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, '../AirbnbClient/public/uploads');
+        },
+        filename: function (req, file, cb) {
+            var datetimestamp = Date.now();
+            imagePath = getID() + '.'
+                + file.originalname.split('.')[file.originalname.split('.').length -1];
+            console.log("file.originalname"+ file.originalname);
+            cb(null, imagePath);
+        }
+    });
+    var upload = multer({ storage: storage}).array('file');
+    var json_responses;
+    upload(req,res,function(err) {
+        if (err) {
+      	 // tool.logError(err);
+            res.json({error_code: 1, err_desc: err});
+            return;
+        }
+        
+        var msg_payload = buildHostReviewPayLoad(req);
+        mq_client.make_request('create_host_review_queue', msg_payload, function(err,results){
+        	var json_responses;
+        	if(results.statusCode == 200){
+                 json_responses = {"status_code":results.statusCode};
+             }
+             else {
+                 json_responses = {"status_code":results.statusCode};
+             }
+             res.send(json_responses);
+             res.end();
+        });
+    });
+
+});
 module.exports = router;

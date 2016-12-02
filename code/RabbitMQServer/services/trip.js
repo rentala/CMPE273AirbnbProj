@@ -347,6 +347,64 @@ var rejectBid = {
     	},sql_queries.REJECT_BID, [msg.bid_id]);
 }};
 
+var reservations = {
+	    handle_request: function (connection, msg, callback) {
+        var res = {};
+        mysql.execute_query(function (err, results) {
+            console.log("results"+JSON.stringify(results));
+            if (err) {
+             	res = {
+		                	"status_code":400,
+		                	"reservations" : []
+		            	};
+                 callback(null, res);
+             }
+            else{
+            	if(results.length>0){
+	               res = {
+	                	"status_code":200,
+	                	"reservations" : results
+	            	};
+            	}
+            	else{
+            		 res = {
+     	                	"status_code":400
+     	            	};
+            	}
+	                callback(null, res);
+         	}
+         	 },sql_queries.FETCH_HOST_RESERVATIONS,[msg.host_id]);
+        
+}};
+var createHostReview ={
+	    handle_request : function(connection, msg, callback) {
+	        var res = {};
+	        try {
+	            var coll = connection.mongoConn.collection('users');
+	            coll.update({"_id": ObjectID(msg.user_id) }, {$push : { reviews: msg.review}}, function(err, results) {
+	                if (err) {
+	                    tool.logError(err);
+	                    res.statusCode = 400;
+	                    callback(null, res);
+	                } else {
+	                	mysql.execute_query(function (err, result) {
+	                    res.statusCode=200;
+	                    callback(null, res);
+	                	 },sql_queries.TRIP_HOST_REVIEWED,[msg.review.trip_id]);
+	                }
+
+	            });
+	        } catch (err) {
+	            res.code = 400;
+	            tool.logError(err);
+	            callback(null, res);
+	        }
+
+	    }
+	}
+
+
+exports.reservations = reservations;
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
 exports.createTrip = createTrip;
@@ -357,3 +415,4 @@ exports.pendingTripsForApproval = pendingTripsForApproval;
 exports.user_completed_trips = user_completed_trips;
 exports.acceptBid = acceptBid;
 exports.rejectBid = rejectBid;
+exports.createHostReview=createHostReview;

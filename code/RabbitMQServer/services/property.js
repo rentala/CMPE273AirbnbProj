@@ -22,7 +22,7 @@ var listProperty = {
 	                {
 	                	if(msg.is_auction == true){
 	                	console.log("property_id"+prop.insertedIds[0]);
-	                	var options = {host_min_amt:msg.bid_price, max_bid_price: msg.bid_price, property_name: msg.description,property_id:prop.insertedIds[0]};
+	                	var options = {host_min_amt:msg.bid_price, max_bid_price: msg.bid_price, property_name: msg.property_title,property_id:prop.insertedIds[0]};
 	                	mysql.execute_query(function (err,result) {
 	                         if(err){
 	                        	 tool.logError(err);

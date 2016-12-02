@@ -5,7 +5,8 @@ var myProfile = angular.module('myProfile',[]);
 			};
 		}]);
     	myProfile.controller('myProfileController',function($scope,$http){
-    		
+    		$scope.signUpError ="";
+    		$scope.msg ="";
     		$http({
 	            method:"POST",
 	            url:"/api/profile/loadProfile"
@@ -56,6 +57,14 @@ var myProfile = angular.module('myProfile',[]);
     		}
     		
     		$scope.submitProfile = function(){
+    			
+    			var zipPatt = new RegExp("^[0-9]{5}(-[0-9]{4})?$");
+    	        var validZip = zipPatt.test($scope.zipcode);	
+    	        
+    	        if($scope.zipcode != undefined && !validZip){
+    	        	$scope.signUpError="Zip should be in these formats - 12345 or 12345-1111";
+    	        }
+    	        else{
     			$http({
     	            method:"POST",
     	            url:"/api/profile/updateProfile",
@@ -76,5 +85,6 @@ var myProfile = angular.module('myProfile',[]);
     	        	$scope.data=data.user;
 					$scope.msg = "Updated Successfully";
     	        })
+    	        }
     		}
     	});

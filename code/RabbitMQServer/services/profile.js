@@ -16,7 +16,7 @@ var updateProfile = {
 				"aptNum":msg.aptNum,
 				"city":msg.city,
 				"state":msg.state,
-				"zipcode":msg.zipCode,
+				"zipcode":msg.zipcode,
 				"phone":msg.phoneNumber,
 				"ssn":msg.ssn,
 				"last_update_date":new Date()
@@ -153,25 +153,58 @@ var uploadvideo = {
 	}
 };
 var reloadUser = {
-		handle_request : function (connection, msg, callback){
-			var res = {};
-			console.log(msg);
-			var obj_id = new ObjectID(msg.user_id);
-			
-			var coll = connection.mongoConn.collection('users');
-			coll.findOne({"_id" :obj_id},
-			function(err, user, id){
-				if(err){
-					tool.logError(err);
-				}
-				else {
-					res.code = "200";
-					res.value = user;
-				}
+	handle_request : function (connection, msg, callback){
+		var res = {};
+		console.log(msg);
+		var obj_id = new ObjectID(msg.user_id);
+		
+		var coll = connection.mongoConn.collection('users');
+		coll.findOne({"_id" :obj_id},
+		function(err, user, id){
+			if(err){
+				tool.logError(err);
+			}
+			else {
+				res.code = "200";
+				res.value = user;
+			}
+			callback(null, res);
+		});
+	}
+};
+
+var getUserDetails = {
+	handle_request : function (connection, msg, callback){
+		var res = {};
+		var obj_id = new ObjectID(msg.user_id);
+		
+		var users = connection.mongoConn.collection('users');
+		var property = connection.mongoConn.collection('property');
+		users.findOne({"_id" :obj_id}, function(err, user, id1){
+			if(err){
+				tool.logError(err);
+				res.code = "400";
 				callback(null, res);
-			});
-		}
-	};
+			}
+			else {
+				res.user = user;
+				property.find({host_id : msg.user_id}).toArray(function(error, properties, id2){
+					if(error){
+						tool.logError(err);
+						res.code = "400";
+						callback(null, res);
+					}
+					else{
+						res.code = "200";
+						res.properties = properties;
+						res.user = user;
+						callback(null, res);
+					}
+				})
+			}
+		});
+	}
+}
 
 exports.uploadvideo = uploadvideo;
 exports.updateProfile = updateProfile;
@@ -179,3 +212,4 @@ exports.userInfo =userInfo ;
 exports.deleteUser = deleteUser;
 exports.uploadPic =uploadPic;
 exports.reloadUser = reloadUser;
+exports.getUserDetails = getUserDetails;

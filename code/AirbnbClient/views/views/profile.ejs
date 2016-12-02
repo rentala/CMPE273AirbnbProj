@@ -72,13 +72,13 @@
 			    <div class="form-group">
 				    <label class="control-label col-sm-2" for="firstName">First Name</label>
 				    <div class="col-sm-10">
-				    	<input type="text" class="form-control" id="firstName"  ng-model="first_name" placeholder="First Name">
+				    	<input type="text" class="form-control" id="firstName"  ng-model="first_name" placeholder="First Name" disabled>
 					</div>
 			    </div>
 			    <div class="form-group">
 			      	<label class="control-label col-sm-2" for="lastName">Last Name</label>
 			      	<div class="col-sm-10">
-			        	<input type="text" class="form-control" id="lastName" ng-model = "last_name" placeholder="Last Name">
+			        	<input type="text" class="form-control" id="lastName" ng-model = "last_name" placeholder="Last Name" disabled>
 			      	</div>
 			    </div>
 			    <div class="form-group">
@@ -120,7 +120,7 @@
 			    <div class="form-group">
 			      	<label class="control-label col-sm-2" for="zipCode">zipCode</label>
 			      	<div class="col-sm-10">
-			        	<input type="number" class="form-control" id="zipcode"  placeholder="zipcode" ng-model = "zipcode">
+			        	<input type="text" class="form-control" id="zipcode"  placeholder="zipcode" ng-model = "zipcode">
 			      	</div>
 			    </div>
 			    <div class="form-group">
@@ -139,6 +139,7 @@
 			    </div>
 			</form>
 			<p style="color:green">{{msg}}</p>
+			<p style="color:red">{{signUpError}}</p>
 		</div>
 	</div>
 	<div data-ng-hide="card1">
@@ -161,7 +162,7 @@
 					<form action="/api/profile/uploadvideo"  enctype = "multipart/form-data" method="post">
 						<div style="background-color:#f9f9f9;border-bottom:0.5px solid black"><h2>Profile Video</h2></div><br>
 						<center><div class="col-sm-12">
-							<video src="{{path | trustUrl}}" videoplayer controls></video>
+							<video src="{{path | trustUrl}}" videoplayer controls width="300px"> </video>
 						</div></center>
 
 						<div class="col-sm-12"><p style="margin-top:15px">Clear frontal face photos are an important way for hosts and guests to learn about each other. It’s not much fun to host a landscape! Please upload a photo that clearly shows your face.</p><br>
