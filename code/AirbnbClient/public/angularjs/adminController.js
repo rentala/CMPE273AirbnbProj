@@ -107,7 +107,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 method : "POST",
                 url : "/api/admin/pendingHostsForApproval",
                 data : {
-                    "host_status" : "NA",
+                    "host_status" : "REQUESTED",
                     "city" : $scope.cityForInbox
                 }
             }).success(function(data){
