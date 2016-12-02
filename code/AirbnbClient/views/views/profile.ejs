@@ -28,7 +28,7 @@
                     <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
                     <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ><a href = "/host" title = "You could earn $539 sharing your home in San Jose in a week. Become a host."> Become a host</a></button>
                     <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;"><a href="/api/profile/myTrips" title = "shows your trip">Trips</a><span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
-                    <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
+                    <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;"><a href="/api/profile/inbox">Messages</a><span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
        
 				</form>
     
@@ -62,6 +62,7 @@
 	<div class="col-sm-2">
 		<a class="active" href = "" data-ng-click="profile()"><h4>Edit Profile</h4></a>
 		<a href="" data-ng-click="profileImage()"><h4>Photos, Symbol, and Video</h4></a>
+		<a href="/api/profile/deleteAccount"><h4>Delete Your Account</h4></a>
 		<h4>Trust and Verification</h4>
 		<h4>Reviews</h4>
 		<h4>References</h4>
