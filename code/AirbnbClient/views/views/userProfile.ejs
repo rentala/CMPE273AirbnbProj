@@ -88,8 +88,12 @@
         <h2>Listings</h2><br>
         <% userPropertyDetails.forEach(function(item, index){ %>
         <div class="image">
+        <% if(item.imagesPath!=null || item.imagesPath!=undefined){ %>
             <img src="/uploads/<%=item.imagesPath[0].filename%>" width="100%" height="200px" style="margin-top:5px" alt="" />
             <b><p id="heading" style="color:white" align="center"><%=item.description%></p></b>
+        <% }else { %>    
+            <b><p id="heading" style="color:white" align="center"><%=item.description%></p></b>
+            <% }%>    
         </div>
         <% }); %>
             <!--  div class="col-sm-12" style="margin-top:10px">
@@ -114,13 +118,17 @@ I love to laugh and smile, I think I'm a positive person and I like to surround 
 I live a one of the most beautiful city in the world and I can definitely tell you some twists on little known it. 
 When I can't go around the world I'd like to host a part of it in my house, to feel always on the go.</p><br>
 
-<% var length = userDetails.reviews.length; %>
+<% var length = 0;
+if(userDetails.reviews !=undefined){
+length = 0; }
+else{
+length = userDetails.reviews.length;} %>
 
 	<div class="col-sm-12">
 		<h1>Reviews(<%=length%>)</h1>
 		<h2>Reviews from Guests</h2>
 		 <% var reviews = userDetails.reviews;
-		 
+		 if(length>0){
 		 reviews.forEach(function(item, index){ %>
         <div class="col-sm-12" style="border-bottom:0.5px solid #f5f5f5;margin-bottom:5px">
             <div class="col-sm-2"><img src="/uploads/<%=item.user_id%>.JPG" width="50px" height="65px" alt="/images/user.jpg"><br><font style="color: #767676"><%= item.user_name%></font><br></div>
@@ -129,7 +137,9 @@ When I can't go around the world I'd like to host a part of it in my house, to f
                 <font style="font-family: Helvetica Neue; font-size: 14px; color: #484848"><%= item.comment %></font><br>
             </div>
         </div>
-        <% }); %>
+        <% });} else {%>
+        	No reviews for this user
+        <% } %>
         
         <h2 style="margin-top:20px">Reviews from Hosts</h2>
 		  <% userPropertyDetails.forEach(function(item, index){ 
