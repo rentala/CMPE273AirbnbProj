@@ -1,0 +1,67 @@
+Property Click logger:
+(can be invoked when a user clicks on a property to check its details)
+
+Syntax:
+
+var common = require(‘common’);
+
+common.logPropertyCicks(data);
+
+JSON format
+
+data{
+	host_id:
+	property_id:
+	property_name:
+}
+
+--------------------------------------------------------------------------------------------
+Page Clicks:  should be logged when a page loads
+
+var common = require(‘common’);
+
+common.logPageClicks(data)
+
+JSON format
+
+data{
+	page_url
+}
+--------------------------------------------------------------------------------------------
+User Activity: The logging starts from the point user clicks on a property to the point he stops doing activity related to that property
+
+var common = require(‘common’);
+
+common.logUserActivity(data)
+
+JSON format
+
+data{
+	user_id
+	user_name
+	property_id
+city
+event: (some desc of the activity.)
+}
+
+--------------------------------------------------------------------------------------------
+Bidding Activity:
+
+var common = require(‘common’);
+
+common.logBiddingDtls(data)
+
+JSON format
+
+data{
+	user_id
+	user_name
+	property_id
+	property_name
+	event: (some desc about the bidding activity
+          for host: listed property for bidding with minimum amount ‘x’
+          for user: bidded the property with amount ‘x’)
+}
+
+
+
