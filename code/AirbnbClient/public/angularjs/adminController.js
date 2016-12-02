@@ -85,6 +85,14 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
 
     $scope.showPendingRequests = false;
 
+  /*  $scope.getProfile = function(host_id){
+        console.log("reached getPRofiel = " + host_id);
+        $http({
+            method: "GET",
+            url: "/api/admin/getUserDetailsForProfile/" + host_id
+        })
+    }*/
+
     $scope.dashboard = function(){
         console.log("reached");
         $rootScope.showDashboard = true;
@@ -351,7 +359,6 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
             }
         })
     }
-    
     
     var display2DGraph = function(data,svg){
         

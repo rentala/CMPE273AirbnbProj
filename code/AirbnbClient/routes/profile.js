@@ -323,6 +323,7 @@ router.get('/viewProfile', function(req, res, next){
 
 router.get('/getUserDetailsForProfile/:user_id', function(req, res, next){
 	var user_id = req.param("user_id");
+	console.log("the user id:"+user_id);
 	var msg_payload = {
 		"user_id" : user_id
 	}
