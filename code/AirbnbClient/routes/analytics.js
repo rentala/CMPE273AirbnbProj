@@ -192,13 +192,30 @@ router.get('/pageClicks',function (req,res) {
 router.get('/userTrace',function (req,res) {
    fs.readFile("./logs/userTraceDummy.tsv", "utf8", function (error, data) {
       var procData = d3.tsvParse(data);
+       console.log("data to be changed: " + JSON.stringify(procData[0].User_id));
+       console.log(JSON.stringify((procData)));
+       console.log("array size"+ procData.length);
+
+       var session_user_id = 1; /*stubbed user in session, add req.session.user_id;*/
+
+
+        var finalData=[];
+       for(var i =0;i<procData.length;i++){
+           if(procData[i].User_id == session_user_id)
+           {
+               console.log("valid user : "+ procData[i].User_id);
+               console.log("index : "+ i );
+               finalData.push(procData[i]);
+           }
+       }
+       console.log("changed data : "+JSON.stringify(finalData));
 
        /*var procData = d3.nest()
            .key(function (d) {
                return d.User_id;
            }).entries(data);*/
 
-       res.send(procData);
+       res.send(finalData);
        res.end();
    });
 });
@@ -206,6 +223,7 @@ router.get('/userTrace',function (req,res) {
 router.get('/biddingTrace',function (req,res) {
    fs.readFile("./logs/biddingTraceDummy.tsv", "utf8", function (error, data) {
        var procData = d3.tsvParse(data);
+
 
 
        /*var procData = d3.nest()
