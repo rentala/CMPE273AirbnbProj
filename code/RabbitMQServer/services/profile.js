@@ -16,7 +16,7 @@ var updateProfile = {
 				"aptNum":msg.aptNum,
 				"city":msg.city,
 				"state":msg.state,
-				"zipcode":msg.zipCode,
+				"zipcode":msg.zipcode,
 				"phone":msg.phoneNumber,
 				"ssn":msg.ssn,
 				"last_update_date":new Date()
