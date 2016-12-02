@@ -63,4 +63,12 @@ app.controller('yourReservationsController',['$scope','fileUpload','$http', func
         var uploadUrl = "/api/trip/submitHostReview";
         fileUpload.uploadFileToUrl(file, uploadUrl,user_id,trip_id,index);
     };
+    $scope.searchByCity = function(){
+    	//alert(1);
+    	var whereTo = $scope.searchCity;
+    	if(whereTo)
+    	window.location.assign("/api/auth/home?c="+whereTo);
+    	else
+    		window.location.assign("/api/auth/home");	
+    }
 }])
