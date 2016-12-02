@@ -92,6 +92,21 @@
             }
 
         }
+        
+        function validateForm() {
+            //var x = document.forms["myForm"]["fname"].value;
+            var tripStart = new Date(document.getElementById("start_date").value);
+   			 var tripEnd = new Date(document.getElementById("end_date").value);
+		    var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000));
+		    alert(stayDuration);		    
+            if(stayDuration>0){
+            	return true;
+            }
+            else{
+                alert("End Date should be greater than start date");
+                return false;
+            }
+        }
     </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKK8lh9l9TDfumALLS6Ko3vJr9addjfQs&callback=initMap">
@@ -146,7 +161,7 @@
         </div>
     <%}%>
     <div class="col-sm-7">
-        <form action="/api/property/list"  enctype = "multipart/form-data" method="post" >
+        <form id="host" action="/api/property/list"  onsubmit="return validateForm()" enctype = "multipart/form-data" method="post" novalidate="novalidate">
             <div class="col-sm-9">
                 <h2>Hi, Username! Lets get you ready to become a host.</h2>
                 <br>
@@ -203,9 +218,9 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <h4>Start Date</h4>
-                        <input placeholder="start Date" required class="form-control" type="text" name= "start_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="start_date"  ng-model="start_date">
+                        <input id="start_date" placeholder="start Date" required class="form-control" type="text" name= "start_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" >
                         <h4>End Date</h4>
-                        <input placeholder="end Date" required class="form-control" type="text" name= "end_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" name="end_date"  ng-model="end_date">
+                        <input id = "end_date" placeholder="end Date" required class="form-control" type="text" name= "end_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" >
                     </div>
                 </div>
                 <h3 style="margin-top:10px">Give your property a title !</h3>
@@ -220,7 +235,7 @@
                 <h3>Where is your place located?</h3>
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="country" placeholder="Country" required ></input>
+                        <input type="text" class="form-control" name="country" placeholder="Country"  required ></input>
                         <input type="text" class="form-control" name="address" placeholder="Street Address" style="margin-top:5px" required></input>
                         <input type="text" class="form-control" name="city" placeholder="City" style="margin-top:5px" required></input>
                         <div class="row">
