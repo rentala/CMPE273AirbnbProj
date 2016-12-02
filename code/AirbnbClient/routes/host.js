@@ -9,12 +9,12 @@ var tool = require("../utili/common");
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     var error = req.flash('hostError').length >0 ? true : false;
-    res.render('./host/becomeHost.ejs', { error: error } );
+    res.render('./host/becomeHost.ejs', { user_dtls: req.session.user, error: error } );
 });
 router.get('/confirmation', function(req, res, next) {
     console.log("in confirmation");
     if(req.flash('hostConfirmation')){
-        res.render('./host/confirmation.ejs', { url: "/api/property/id/"+req.flash('propertyId')+"/view"});
+        res.render('./host/confirmation.ejs', { url: "/api/property/id/"+req.flash('propertyId')+"/view",user_dtls: req.session.user});
     } else{
         req.redirect('/host?err=1');
     }

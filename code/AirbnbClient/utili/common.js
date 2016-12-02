@@ -119,7 +119,7 @@ var getID = function () {
 
 var logPropertyCicks = function(data){
 	
-	propClick_logger.log('info' , data.host_id + "\t" + data.user_id + "\t" + data.property_id + "\t" +data.property_name); 
+	propClick_logger.log('info' , data.host_id + "\t" + data.property_id + "\t" +data.property_name + "\t" + "1"); 
 };
 
 var logBiddingDtls = function(data){
@@ -129,12 +129,12 @@ var logBiddingDtls = function(data){
 
 var logPageClicks = function(data){
 	
-	pageClick_logger.log('info', data.page + "\t" + data.user_id + "\t" + data.element);
+	pageClick_logger.log('info', data.page_url + "\t" + "1");
 };
 
 var logUserActivity = function(data){
 	
-	userInfo_logger.log('info' , data.user_id + "\t" + data.event);
+	userInfo_logger.log('info' , data.user_id + "\t" + data.user_name +  "\t" + data.city + "\t" + data.propery_id + "\t"+data.event);
 };
 
 

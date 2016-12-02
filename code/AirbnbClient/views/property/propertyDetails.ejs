@@ -14,14 +14,21 @@
 		var coordinates = {
 		x: '<%=property.coordinates.x%>', y: '<%=property.coordinates.y%>'
 		};
-
+		var address= '<%=property.address.city%>';
+		var title = '<%=property.property_title%>';
+		var price = '<%=property.price%>';
+	var country = '<%=property.address.country%>';
 		var map;
 		var infoWindow;
 		// markersData variable stores the information necessary to each marker
 		var markersData = [
 			{
 				lat: coordinates.x,
-				lng: coordinates.y
+				lng: coordinates.y,
+				name:title,
+				price:price,
+				address1:address,
+				address2:country
 			}
 		];
 
@@ -61,11 +68,12 @@
 
 				var latlng = new google.maps.LatLng(markersData[i].lat, markersData[i].lng);
 				var name = markersData[i].name;
+				var price = markersData[i].price;
 				var address1 = markersData[i].address1;
 				var address2 = markersData[i].address2;
 				var postalCode = markersData[i].postalCode;
 
-				createMarker(latlng, name, address1, address2, postalCode);
+				createMarker(latlng, name,price , address1, address2, postalCode);
 
 				// marker position is added to bounds variable
 				bounds.extend(latlng);
@@ -77,7 +85,7 @@
 		}
 
 		// This function creates each marker and it sets their Info Window content
-		function createMarker(latlng, name, address1, address2, postalCode){
+		function createMarker(latlng, name, price ,address1, address2, postalCode){
 			var marker = new google.maps.Marker({
 				map: map,
 				position: latlng,
@@ -91,10 +99,10 @@
 
 				// Creating the content to be inserted in the infowindow
 				var iwContent = '<div id="iw_container">' +
-						'<div class="iw_title">' + name + '</div>' +
-						'<div class="iw_content">' + address1 + '<br />' +
-						address2 + '<br />' +
-						postalCode + '</div></div>';
+						'<div class="iw_title">Property Name:'+ name + '</div>' +
+						'<div class="iw_content">Price:'+ price + '$</div>' +
+						'<div class="iw_content">City:' + address1 + '<br />' +
+						'<div class="iw_content">Country:'+address2 + '<br /></div></div>';
 
 				// including content to the Info Window.
 				infoWindow.setContent(iwContent);
@@ -140,17 +148,16 @@
 				</div>
 				<button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="search()">Search</button>
 				<button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ng-click="hostPage()">host</button>
-				<button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ng-click="trips()">Trips<span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
-				<button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
+				<button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ><a href="/api/profile/myTrips" title = "shows your trip">Trips</a><span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
+                <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
 
 			</form>
 
 			<ul class="nav navbar-nav navbar-right" style="margin-top:1px">
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">firstName <span class="caret"></span></a>
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=user_dtls.first_name%><span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a ng-click="profile()">Edit Profile</a></li>
-						<li><a ng-click="logout()">Logout</a></li>
+						<li><a href="/api/auth/logout">Logout</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -160,7 +167,7 @@
 	<!-- /.container-fluid -->
 </nav>
 <div style="margin-top:-18px" id="img_container">
-	<img src="<%="/uploads/"+ property.imagesPath[0].filename%>" width="100%" height="550px">
+	<img src="<%="/uploads/"+ property.imagesPath[0].filename%>" width="100%" height="400px">
 	<button class="button" data-toggle="modal" data-target=".bs-example-modal-lg">view photos</button>
 </div>
 
@@ -177,14 +184,14 @@
 					<div class="item active">
 						<img class="img-responsive" src="<%="/uploads/"+ property.imagesPath[0].filename%>" alt="...">
 						<div class="carousel-caption">
-							One Image
+							<%=property.property_title%>
 						</div>
 					</div>
 					<%for(var i = 1; i < property.imagesPath.length; i++){%>
 					<div class="item">
 						<img class="img-responsive" src="<%="/uploads/"+ property.imagesPath[i].filename%>" alt="...">
 						<div class="carousel-caption">
-							One Image
+							<%=property.property_title%>
 						</div>
 					</div>
 					<%}%>
@@ -209,8 +216,13 @@
 <!--start of property details-->
 <div class="col-sm-1"></div>
 <div class="col-sm-7">
-	<div class="col-sm-12" ><h1><%=property.description%></h1></div>
-	<div class="col-sm-12" style="border-bottom:solid;border-width:0.5px;border-color:black"><%=property.address.city%> <%=property.address.state%><span style="float:right">Rating:<%=property.avg_ratings%></span></div>
+	<% var length = 0;
+	if(property.reviews ==undefined){
+	length = 0; }
+	else{
+	length = property.reviews.length;} %>
+	<div class="col-sm-12"><h1><p style="word-wrap:break-word"><%=property.property_title%></p></h1></div>
+	<div class="col-sm-12" style="border-bottom:solid;border-width:0.5px;border-color:black"><%=property.address.city%> <%=property.address.state%> &#149;&nbsp;&nbsp; <%=length%> reviews<span style="float:right">Rating:<%=property.avg_ratings%></span></div>
 
 	<div class="col-sm-6" style="margin-top:25px;border-bottom:solid;border-width:0.5px;border-color:black" >
 		<center><span class="glyphicon glyphicon-home" style="font-size:30px"></span></center><br>
@@ -251,7 +263,7 @@
 	<div class="col-sm-12" style="margin-top:10px;">
 		<div class="col-sm-2" style="float:left;"><h3>About</h3></div>
 		<div class="col-sm-10">
-			<span style="float:left;font-size: 20px">very well maintained place and has all the required amenities. It is near to light station, shark tank, children's discovery museum and airport </span>
+			<span style="float:left;font-size: 20px"><%=property.description%></span>
 		</div>
 	</div>
 	<%if(property.reviews.length > 0){%>
@@ -273,7 +285,7 @@
 		<br>
 		<br>
 		<div class="col-sm-12">
-			<h4>Nooo Reviews available for this property !</h4>
+			<h4>No Reviews available for this property !</h4>
 		</div>
 	</div>
 	<%}%>
@@ -291,7 +303,7 @@
 			<!-- only for auction -->
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Minimum bid</font><font style="float:right;">$ <%=tripPrice%></font></div>
 			<input placeholder="Bid Amount" class="form-control" type="number" value="<%=tripPrice% +1%>" min="<%=tripPrice% +1%>"  name="bid_amount"  ng-model="bid_amount">
-			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.description%>','<%=tripPrice%>')" style="width:100%;margin-top:10px" value="Make Bid">
+			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.property_title%>','<%=tripPrice%>')" style="width:100%;margin-top:10px" value="Make Bid">
 		<% } else {
 		%>
 			<form action="/api/property/paymentGateway"  method="post" novalidate>
