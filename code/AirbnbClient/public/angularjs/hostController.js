@@ -9,7 +9,9 @@
         	if(queries.err=='3'||queries.err==3){
         		alert("End date should be greater than start date");
         	}
-            
+        	else if(queries.err=='InvalidHost'){
+        		alert("You are not allowed to host any property");
+        	}
             $scope.searchByCity = function(){
             	//alert(1);
             	var whereTo = $scope.city;
@@ -17,5 +19,14 @@
             	window.location.assign("/api/auth/home?c="+whereTo);
             	else
             		window.location.assign("/api/auth/home");	
+            }
+            $scope.logout = function(){
+            	window.location.assign("/api/auth/logout");
+            }
+            $scope.home = function(){
+            	window.location.assign("/api/auth/home");
+            }
+            $scope.trips = function(){
+            	window.location.assign("/api/profile/myTrips");
             }
         });

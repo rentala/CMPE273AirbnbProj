@@ -147,10 +147,9 @@
 
 			<ul class="nav navbar-nav navbar-right" style="margin-top:1px">
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">firstName <span class="caret"></span></a>
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=user_dtls.first_name%><span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a ng-click="profile()">Edit Profile</a></li>
-						<li><a ng-click="logout()">Logout</a></li>
+						<li><a href="/api/auth/logout">Logout</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -209,8 +208,13 @@
 <!--start of property details-->
 <div class="col-sm-1"></div>
 <div class="col-sm-7">
-	<div class="col-sm-12" ><h1><%=property.description%></h1></div>
-	<div class="col-sm-12" style="border-bottom:solid;border-width:0.5px;border-color:black"><%=property.address.city%> <%=property.address.state%><span style="float:right">Rating:<%=property.avg_ratings%></span></div>
+	<% var length = 0;
+	if(property.reviews !=undefined){
+	length = 0; }
+	else{
+	length = property.reviews.length;} %>
+	<div class="col-sm-12"><h1><p style="word-wrap:break-word"><%=property.description%></p></h1></div>
+	<div class="col-sm-12" style="border-bottom:solid;border-width:0.5px;border-color:black"><%=property.address.city%> <%=property.address.state%> &#149;&nbsp;&nbsp; <%=length%> reviews<span style="float:right">Rating:<%=property.avg_ratings%></span></div>
 
 	<div class="col-sm-6" style="margin-top:25px;border-bottom:solid;border-width:0.5px;border-color:black" >
 		<center><span class="glyphicon glyphicon-home" style="font-size:30px"></span></center><br>
@@ -273,7 +277,7 @@
 		<br>
 		<br>
 		<div class="col-sm-12">
-			<h4>Nooo Reviews available for this property !</h4>
+			<h4>No Reviews available for this property !</h4>
 		</div>
 	</div>
 	<%}%>

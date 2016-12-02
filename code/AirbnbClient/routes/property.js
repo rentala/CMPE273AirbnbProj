@@ -94,7 +94,8 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                                     start_date:start_date,
                                     end_date:end_date,
                                     guests:msg.guests,
-                                    tripPrice: property.is_auction ? results.bidding[0].max_bid_price : tripPrice
+                                    tripPrice: property.is_auction ? results.bidding[0].max_bid_price : tripPrice,
+                                    		user_dtls: req.session.user
                                 });
                         } else{
                             res.render('./property/propertyDetails.ejs',
@@ -103,7 +104,8 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                                     flow:flow,
                                     min_bid:min_bid,
                                     guests:msg.guests,
-                                    tripPrice: property.price
+                                    tripPrice: property.price,
+                                    user_dtls: req.session.user
                                 });
                         }
 
@@ -120,7 +122,8 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                             flow:flow,
                             price: property.price,
                             guests:2,
-                            trip_id:trip_id});
+                            trip_id:trip_id,
+                            user_dtls: req.session.user});
                         break;
                     default:
                         //view
@@ -128,7 +131,7 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                         var end_date = "";
                         flow = "view";
                         property.avg_ratings = avg_ratings;
-                        res.render('./property/propertyDetails.ejs', {property: property,flow:flow});
+                        res.render('./property/propertyDetails.ejs', {property: property,flow:flow,user_dtls: req.session.user});
 
                 }
             }
@@ -190,6 +193,7 @@ router.post('/list', function (req, res, next)  {
         var msg_payload = mapReqToPayLoad(req);
         var queue = "";
         var validHost = true;
+        
         switch(req.session.user.host_status)
         {
             case "ACCEPTED":
@@ -209,6 +213,7 @@ router.post('/list', function (req, res, next)  {
                 break;
 
         }
+        console.log("queue"+queue);
         if(validHost){
             mq_client.make_request(queue, msg_payload, function(err,results){
                 res.statusCode = results.code;
