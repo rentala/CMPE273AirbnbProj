@@ -187,6 +187,9 @@ cnn.on('ready', function(){
     cnn.queue('create_host_review_queue', function(q){
     	subscriber(q, trip.createHostReview);
     });
+    cnn.queue('getUserDetails_queue', function(q){
+    	subscriber(q, profile.getUserDetails);
+    });
 });
 
 var subscriber = function(q, module) {
