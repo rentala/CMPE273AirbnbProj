@@ -74,4 +74,7 @@ var app = angular.module('airbnbApp',[]);
 		        })
 				}
 			}
+			$scope.hostPage = function(){
+				window.location.assign("/host");
+			}
 		})

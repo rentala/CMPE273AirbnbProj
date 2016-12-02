@@ -118,11 +118,11 @@ I love to laugh and smile, I think I'm a positive person and I like to surround 
 I live a one of the most beautiful city in the world and I can definitely tell you some twists on little known it. 
 When I can't go around the world I'd like to host a part of it in my house, to feel always on the go.</p><br>
 
-<% var length = 0;
-if(userDetails.reviews !=undefined){
-length = 0; }
-else{
-length = userDetails.reviews.length;} %>
+	<% var length = 0;
+	if(userDetails.reviews ==undefined){
+	length = 0; }
+	else{
+	length = userDetails.reviews.length;} %>
 
 	<div class="col-sm-12">
 		<h1>Reviews(<%=length%>)</h1>

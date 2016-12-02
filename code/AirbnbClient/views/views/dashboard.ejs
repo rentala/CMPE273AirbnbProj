@@ -10,6 +10,7 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="/angularjs/listingsController.js"></script>
+    <link rel='stylesheet' href='/css/style.css' />
 </head>
 <body ng-app="myListing" ng-controller="myListingController">
 <nav class="navbar navbar-default" style="background-color:white; ">
@@ -33,7 +34,7 @@
 
             <ul class="nav navbar-nav navbar-right" style="margin-top:1px">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=user_dtls.first_name%> <span class="caret"></span></a><!--Add first Name-->
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=user_dtls.first_name%><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a data-ng-click="editProfile()">Edit Profile</a></li>
                         <li><a data-ng-click="logout()">Logout</a></li>
