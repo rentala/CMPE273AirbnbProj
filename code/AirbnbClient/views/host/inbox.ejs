@@ -69,7 +69,7 @@
                         <div class="col-sm-9" style="float:left">
                             <label style="color: #1b6d85">Property:</label> <a href="/api/property/id/{{x.property_id}}/view">{{x.property_name}}</a><br>
                             
-                            Guest Name: {{x.guest_name}}<br>
+                            Guest Name: <a href="/api/profile/getUserDetailsForProfile/{{x.user_id}}"> {{x.guest_name}}</a><br>
                             Checkin Date: {{x.checkin_date}} &nbsp;&nbsp; Checkout Date: {{x.checkout_date}}<br>
                             Guests: {{x.no_of_guests}}<br>
                             Price: ${{x.trip_price}}<br>

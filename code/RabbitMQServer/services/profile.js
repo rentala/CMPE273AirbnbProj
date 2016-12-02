@@ -175,9 +175,7 @@ var reloadUser = {
 
 var getUserDetails = {
 	handle_request : function (connection, msg, callback){
-		console.log("reached user details");
 		var res = {};
-		console.log(msg);
 		var obj_id = new ObjectID(msg.user_id);
 		
 		var users = connection.mongoConn.collection('users');
@@ -186,27 +184,25 @@ var getUserDetails = {
 			if(err){
 				tool.logError(err);
 				res.code = "400";
-				//callback(null, res);
+				callback(null, res);
 			}
 			else {
 				res.user = user;
-				console.log("user = " + user);
 				property.find({host_id : msg.user_id}).toArray(function(error, properties, id2){
 					if(error){
 						tool.logError(err);
 						res.code = "400";
-						//callback(null, res);
+						callback(null, res);
 					}
 					else{
-						console.log("reached else");
 						res.code = "200";
 						res.properties = properties;
+						res.user = user;
+						callback(null, res);
 					}
 				})
 			}
-			callback(null, res);
 		});
-		//callback(null, res);
 	}
 }
 

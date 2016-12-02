@@ -307,6 +307,7 @@ router.get('/dashboard', function (req, res, next)  {
 });
 
 router.get('/viewProfile', function(req, res, next){
+	console.log(req.param("u"));
 	ejs.renderFile('./views/views/userProfile.ejs', {user_dtls : req.session.user}, function(err, result){
 		if(!err){
 			res.end(result);
@@ -319,40 +320,35 @@ router.get('/viewProfile', function(req, res, next){
 	})
 })
 
-router.post('/getUserDetailsForProfile', function(req, res, next){
-	var json_responses;
-	var user_id = req.body.user_id;
+router.get('/getUserDetailsForProfile/:user_id', function(req, res, next){
+	var user_id = req.param("user_id");
 	var msg_payload = {
 		"user_id" : user_id
 	}
-
+	
 	mq_client.make_request('getUserDetails_queue',msg_payload, function(err,results){
 		if(err){
-			console.log("reached err");
 			tool.logError(err);
 			json_responses = {
 				"status_code" : 400 
 			};
 		}
 		else{
-			console.log("reached haha");
 			if(results.code == "400"){
-				console.log("reached 400");
 				json_responses = {
 					"status_code" : 400
 				};
 			}
 			else if(results.code == "200"){
-				console.log("reached 200");
 				json_responses = {
 					"status_code" : 200,
 					"userDetails" : results.user,
 					"userPropertyDetails" : results.properties
 				};
+				res.render('./views/userProfile.ejs', {userDetails: results.user,userPropertyDetails:results.properties});
 			}
 		}  
-		res.send(json_responses);
-        res.end();
+		
 	});
 })
 
