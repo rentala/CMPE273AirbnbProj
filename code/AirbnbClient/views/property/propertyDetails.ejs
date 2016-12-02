@@ -102,8 +102,7 @@
 						'<div class="iw_title">Property Name:'+ name + '</div>' +
 						'<div class="iw_content">Price:'+ price + '$</div>' +
 						'<div class="iw_content">City:' + address1 + '<br />' +
-						'<div class="iw_content">Country:'+address2 + '<br />' +
-						postalCode + '</div></div>';
+						'<div class="iw_content">Country:'+address2 + '<br /></div></div>';
 
 				// including content to the Info Window.
 				infoWindow.setContent(iwContent);
@@ -168,7 +167,7 @@
 	<!-- /.container-fluid -->
 </nav>
 <div style="margin-top:-18px" id="img_container">
-	<img src="<%="/uploads/"+ property.imagesPath[0].filename%>" width="100%" height="550px">
+	<img src="<%="/uploads/"+ property.imagesPath[0].filename%>" width="100%" height="400px">
 	<button class="button" data-toggle="modal" data-target=".bs-example-modal-lg">view photos</button>
 </div>
 
