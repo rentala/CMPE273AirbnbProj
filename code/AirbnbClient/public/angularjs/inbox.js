@@ -55,7 +55,7 @@ app.controller('myInboxController',function($scope,$http){
             }
         }).success(function(data){
             if(data.status_code==200){
-                alert('Bidding accepted');
+                alert('Bid accepted');
                 window.location.reload();
             }
         })

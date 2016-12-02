@@ -14,14 +14,21 @@
 		var coordinates = {
 		x: '<%=property.coordinates.x%>', y: '<%=property.coordinates.y%>'
 		};
-
+		var address= '<%=property.address.city%>';
+		var title = '<%=property.property_title%>';
+		var price = '<%=property.price%>';
+	var country = '<%=property.address.country%>';
 		var map;
 		var infoWindow;
 		// markersData variable stores the information necessary to each marker
 		var markersData = [
 			{
 				lat: coordinates.x,
-				lng: coordinates.y
+				lng: coordinates.y,
+				name:title,
+				price:price,
+				address1:address,
+				address2:country
 			}
 		];
 
@@ -61,11 +68,12 @@
 
 				var latlng = new google.maps.LatLng(markersData[i].lat, markersData[i].lng);
 				var name = markersData[i].name;
+				var price = markersData[i].price;
 				var address1 = markersData[i].address1;
 				var address2 = markersData[i].address2;
 				var postalCode = markersData[i].postalCode;
 
-				createMarker(latlng, name, address1, address2, postalCode);
+				createMarker(latlng, name,price , address1, address2, postalCode);
 
 				// marker position is added to bounds variable
 				bounds.extend(latlng);
@@ -77,7 +85,7 @@
 		}
 
 		// This function creates each marker and it sets their Info Window content
-		function createMarker(latlng, name, address1, address2, postalCode){
+		function createMarker(latlng, name, price ,address1, address2, postalCode){
 			var marker = new google.maps.Marker({
 				map: map,
 				position: latlng,
@@ -91,9 +99,10 @@
 
 				// Creating the content to be inserted in the infowindow
 				var iwContent = '<div id="iw_container">' +
-						'<div class="iw_title">' + name + '</div>' +
-						'<div class="iw_content">' + address1 + '<br />' +
-						address2 + '<br />' +
+						'<div class="iw_title">Property Name:'+ name + '</div>' +
+						'<div class="iw_content">Price:'+ price + '$</div>' +
+						'<div class="iw_content">City:' + address1 + '<br />' +
+						'<div class="iw_content">Country:'+address2 + '<br />' +
 						postalCode + '</div></div>';
 
 				// including content to the Info Window.
@@ -295,7 +304,7 @@
 			<!-- only for auction -->
 			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Minimum bid</font><font style="float:right;">$ <%=tripPrice%></font></div>
 			<input placeholder="Bid Amount" class="form-control" type="number" value="<%=tripPrice% +1%>" min="<%=tripPrice% +1%>"  name="bid_amount"  ng-model="bid_amount">
-			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.description%>','<%=tripPrice%>')" style="width:100%;margin-top:10px" value="Make Bid">
+			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.property_title%>','<%=tripPrice%>')" style="width:100%;margin-top:10px" value="Make Bid">
 		<% } else {
 		%>
 			<form action="/api/property/paymentGateway"  method="post" novalidate>

@@ -87,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `airbnb`.`trip` (
   `rating` INT(1) NULL DEFAULT NULL,
   `review_comment` VARCHAR(256) NULL DEFAULT NULL,
   `guest_name` VARCHAR(50) NULL DEFAULT NULL,
+  `host_reviewed` INT(1) NOT NULL DEFAULT 0,	
   PRIMARY KEY (`trip_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
@@ -121,7 +122,7 @@ DROP TRIGGER IF EXISTS `airbnb`.`bidding` ;
 create TRIGGER `airbnb`.`bidding` AFTER INSERT on airbnb.bidding_dtl
 FOR EACH ROW
 	update airbnb.bidding b set b.max_bid_price = new.bid_price, b.max_bid_user_id = new.bidder_id , b.bidder_name = new.bidder_name where 
-    b.max_bid_price < new.bid_price and b.property_id = new.property_id
+    b.max_bid_price < new.bid_price and b.property_id = new.property_id;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
