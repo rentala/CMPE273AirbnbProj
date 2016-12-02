@@ -8,6 +8,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/angularjs/homeController.js"></script>
+    <script type="text/javascript">
+        window.onload=function(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            if(dd<10){
+                dd='0'+dd
+            }
+            if(mm<10){
+                mm='0'+mm
+            }
+
+            today = yyyy+'-'+mm+'-'+dd;
+            document.getElementById("datefield").setAttribute("min", today);
+            document.getElementById("datefield1").setAttribute("min", today);
+        }
+    </script>
 
     <title>Sign in or Register | AirBnb</title>
 </head>
@@ -61,10 +79,10 @@
     <div class="col-sm-4" style="height:100px;border-top:1px solid #000;border-bottom:1px solid #000">
         <div class="col-sm-12"><h4>When</h4></div>
         <div class="col-sm-6">
-            <input placeholder="From" type="text" style="border-color:transparent;margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" ng-model="start_date">
+            <input placeholder="From" type="text" style="border-color:transparent;margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield" min='1900-01-01' ng-model="start_date">
         </div>
         <div class="col-sm-6">
-            <input placeholder="To" type="text" style="border-color:transparent;margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" ng-model="end_date">
+            <input placeholder="To" type="text" style="border-color:transparent;margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" id="datefield1" min='1900-01-01' ng-model="end_date">
         </div>
     </div>
     <div class="col-sm-4" style="height:100px;border:1px solid #000">
