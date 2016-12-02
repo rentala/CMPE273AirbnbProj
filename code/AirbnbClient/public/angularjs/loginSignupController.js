@@ -71,4 +71,8 @@ app.controller('loginSignupController',function($scope,$http){
             }
         })
     }
+    $scope.showSignUp = function () {
+        $('#myModal1').modal('hide');
+        $('#myModal').modal('show');
+    }
 });

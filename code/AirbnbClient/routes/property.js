@@ -94,7 +94,7 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                                     start_date:start_date,
                                     end_date:end_date,
                                     guests:msg.guests,
-                                    tripPrice: property.price
+                                    tripPrice: property.is_auction ? results.bidding[0].max_bid_price : property.price
                                 });
                         } else{
                             res.render('./property/propertyDetails.ejs',

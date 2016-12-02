@@ -200,12 +200,6 @@ var editTrip = {
                     	newTripPrice = eval(stayDuration * parseInt(record.price));
                     	var propStart = new Date(record.start_date);
             	        var propEnd = new Date(record.end_date);
-            			if(record.price.per_night!="")
-            				newTripPrice = eval(stayDuration * parseInt(record.price.per_night));
-            			if(record.price.per_week!="")
-            				newTripPrice = eval(stayDuration * parseInt(record.price.per_week)/7);	
-            			if(record.price.per_month!="")
-            				newTripPrice = eval(stayDuration * parseInt(record.price.per_month)/30);
             	        //Verifying if new trip duration falls under the property listing dates, return back without performing any operations if dates are out of listing dates
                     	if(propStart<= tripStart && propEnd >= tripEnd){
 	                    	mysql.execute_query(function (err, result) {

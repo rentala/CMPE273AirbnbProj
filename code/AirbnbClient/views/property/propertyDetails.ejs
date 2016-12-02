@@ -124,8 +124,8 @@
 
 	</style>
 </head>
-<body ng-app ="airbnbApp" ng-controller="propertyDetailsController">
-<nav class="navbar navbar-default" style="background-color:white; ">
+<body ng-app ="airbnbApp" ng-controller="propertySearchController" >
+<nav   class="navbar navbar-default" style="background-color:white; ">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
@@ -181,7 +181,7 @@
 						</div>
 					</div>
 					<%for(var i = 1; i < property.imagesPath.length; i++){%>
-					<div class="item active">
+					<div class="item">
 						<img class="img-responsive" src="<%="/uploads/"+ property.imagesPath[i].filename%>" alt="...">
 						<div class="carousel-caption">
 							One Image
@@ -231,7 +231,7 @@
 			</div>
 			<div class="col-sm-6" style="margin-top:10px">
 				<span style="float:left;font-size: 20px">Check in : <b>Flexible</b></span><br><br>
-				<span style="float:left;font-size: 20px">Price per day : <b><%=property.price.per_night%></b></span><br>
+				<span style="float:left;font-size: 20px">Price per day : <b><%=property.price%></b></span><br>
 			</div>
 		</div>
 	</div>
@@ -283,15 +283,15 @@
 	<div class="panel panel-default">
 		<div class="panel-heading" style="background-color:black;height:40px">
 			<font style="color:white;float:left;">
-				$<%=property.price%>
+				$<%=tripPrice%>
 			</font>
 		</div>
 		<div class="panel-body">
 		<%  if(property.is_auction==true) {%>
 			<!-- only for auction -->
-			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Minimum bid</font><font style="float:right;">$ <%=min_bid%></font></div>
-			<input placeholder="Bid Amount" class="form-control" type="integer"   name="bid_amount"  ng-model="bid_amount">
-			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.description%>',bid_amount,'<%=min_bid%>')" style="width:100%;margin-top:10px" value="Make Bid">
+			<div class="col-sm-12" style="margin-top:10px;border-bottom:0.5px solid black"><font style="float:left;">Minimum bid</font><font style="float:right;">$ <%=tripPrice%></font></div>
+			<input placeholder="Bid Amount" class="form-control" type="number" value="<%=tripPrice% +1%>" min="<%=tripPrice% +1%>"  name="bid_amount"  ng-model="bid_amount">
+			<input type="button" class="btn btn-danger" ng-click="makeBid('<%=property._id%>','<%=property.description%>','<%=tripPrice%>')" style="width:100%;margin-top:10px" value="Make Bid">
 		<% } else {
 		%>
 			<form action="/api/property/paymentGateway"  method="post" novalidate>
