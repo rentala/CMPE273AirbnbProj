@@ -54,8 +54,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 
 //USE '/api/routName' for all JSON response apis
+
+//comment below line when testing
 app.use('*', homePageExcl);
+
 app.use('/api/auth', authentication);
+//comment below line when testing
 app.use('*', assertAuthentication);
 app.use('/host', host);
 app.use('/api/profile', profile);
