@@ -32,3 +32,9 @@ a {
 .axis--x path {
   display: none;
 }
+
+
+td, th {
+	padding: 1px 4px;
+	border: 1px black solid;
+}

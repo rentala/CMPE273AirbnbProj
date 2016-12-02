@@ -28,6 +28,10 @@
 	        })
 
             $scope.propertyClicks = function () {
+
+                var svgPropertyClicksDiv = d3.select('#propertyClicksDiv').select("svg");
+                if(svgPropertyClicksDiv){ svgPropertyClicksDiv.remove();}
+
                 $scope.showPropertyClicks = true;
                 $scope.showPageClicks = false;
                 $scope.showUserTrace = false;
@@ -50,6 +54,10 @@
             };
 
             $scope.pageClicks = function () {
+
+                var svgPageClicksDiv = d3.select('#pageClicksDiv').select("svg");
+                if(svgPageClicksDiv){ svgPageClicksDiv.remove();}
+
                 $scope.showPageClicks = true;
                 $scope.showUserTrace = false;
                 $scope.showBiddingTrace = false;
@@ -69,6 +77,11 @@
             };
 
             $scope.userTrace = function () {
+
+
+                var tableUserTrace = d3.select('#userTraceDiv').select("table");
+                if(tableUserTrace){ tableUserTrace.remove();}
+
                 $scope.showUserTrace = true;
                 $scope.showBiddingTrace = false;
                 $scope.showPropertyClicks = false;
@@ -85,10 +98,14 @@
                     var table = d3.select('#userTraceDiv') .append('table');
                     tabulate($scope.user_trace_data, table,['Timestamp', 'User_id', 'Event']);
                 });
-            }
+            };
 
 
             $scope.biddingTrace = function(){
+
+                var tableBiddingTrace = d3.select('#biddingTraceDiv').select("table");
+                if(tableBiddingTrace ){ tableBiddingTrace.remove();}
+
                 $scope.showBiddingTrace = true;
                 $scope.showPropertyClicks = false;
                 $scope.showPageClicks = false;
@@ -103,26 +120,20 @@
 
                     $scope.bid_trace_data = data;
                     console.log("Bar chart data : " + JSON.stringify($scope.bid_trace_data));
-                    var table = d3.select('#biddingTraceDiv') .append('table');
-                    tabulate($scope.bid_trace_data, table,['Timestamp','User_id','User_Name','Property_Id','Property_Name','Event']);
+                    var table = d3.select('#biddingTraceDiv') .append('table').attr("style", "margin-left: 200px").style("border", "2px black solid");
+                    tabulate($scope.bid_trace_data, table,['Timestamp','User_Id','User_Name','Property_Id','Property_Name','Event']);
                 });
             };
 
             var display2DGraph = function(data,svg){
 
                 console.log("display graph");
-                //var data =$scope.dataForPropClicks;
-
-
-                //var svg = d3.select('#propertyClicksDiv') .append('svg') .attr('height', 200) .attr('width', 300);
+                
                 var margin = {top: 20, right: 20, bottom: 30, left: 40},
                     width = +svg.attr("width") - margin.left - margin.right,
-                    height = +svg.attr("height") - margin.top - margin.bottom;
-
-                /*var svg = d3.select("svg"),
-                 margin = {top: 20, right: 20, bottom: 30, left: 40},
-                 width = +svg.attr("width") - margin.left - margin.right,
-                 height = +svg.attr("height") - margin.top - margin.bottom;*/
+                    height = +svg.attr("height") - margin.top - margin.bottom,
+                    barPadding = 2,
+                    barWidth = (width / data.length) - barPadding;
 
                 var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
                     y = d3.scaleLinear().rangeRound([height, 0]);
@@ -156,20 +167,21 @@
                     .attr("y", function(d) { return y(d.value); })
                     .attr("width", x.bandwidth())
                     .attr("height", function(d) { return height - y(d.value); });
-
             };
 
                 var tabulate = function(data,table, columns) {
 
                     var thead = table.append('thead');
-                    var	tbody = table.append('tbody');
+                    var tbody = table.append('tbody');
 
                     // append the header row
                     thead.append('tr')
                         .selectAll('th')
                         .data(columns).enter()
                         .append('th')
-                        .text(function (column) { return column; });
+                        .text(function (column) {
+                            return column;
+                        });
 
                     // create a row for each object in the data
                     var rows = tbody.selectAll('tr')
@@ -186,9 +198,15 @@
                         })
                         .enter()
                         .append('td')
-                        .text(function (d) { return d.value; });
+                        .text(function (d) {
+                            return d.value;
+                        });
                     return table;
-                }
+                };
 
+            function pause(milliseconds) {
+                var dt = new Date();
+                while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
+            }
 
         });
