@@ -185,7 +185,8 @@ router.post('/uploadPic', function (req, res, next)  {
         },
         filename: function (req, file, cb) {
             var datetimestamp = Date.now();
-            imagePath = getID() + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
+            /*imagePath = getID() + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];*/
+            imagePath = req.session.user_id + '.'+ file.originalname.split('.')[file.originalname.split('.').length -1];
             console.log("imagePath"+imagePath);
             console.log("file.originalname"+ file.originalname);
             cb(null, imagePath);

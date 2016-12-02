@@ -53,6 +53,7 @@ var myProfile = angular.module('myProfile',[]);
     	        }).success(function(data){
     	        	$scope.data=data.user;
 					$scope.msg = "Updated Successfully";
+					$scope.signUpError="";
     	        })
     		}
     		
@@ -63,6 +64,7 @@ var myProfile = angular.module('myProfile',[]);
     	        
     	        if($scope.zipcode != undefined && !validZip){
     	        	$scope.signUpError="Zip should be in these formats - 12345 or 12345-1111";
+    	        	$scope.msg ="";
     	        }
     	        else{
     			$http({

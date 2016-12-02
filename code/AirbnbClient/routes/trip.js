@@ -187,6 +187,7 @@ router.post('/review/:propertyId', function (req, res, next)  {
             var datetimestamp = Date.now();
             imagePath = getID() + '.'
                 + file.originalname.split('.')[file.originalname.split('.').length -1];
+//            imagePath = req.session.user_id;
             cb(null, imagePath);
         }
     });
