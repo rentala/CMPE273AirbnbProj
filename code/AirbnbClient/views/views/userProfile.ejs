@@ -115,7 +115,7 @@ When I can't go around the world I'd like to host a part of it in my house, to f
 
 	<div class="col-sm-12">
 		<h1>Reviews(<%=length%>)</h1>
-		<h2>Reviews from Guests</h2>
+		<h2>Reviews from Hosts</h2>
 		 <% var reviews = userDetails.reviews;
 		 if(length>0){
 		 reviews.forEach(function(item, index){ %>
@@ -127,10 +127,10 @@ When I can't go around the world I'd like to host a part of it in my house, to f
             </div>
         </div>
         <% });} else {%>
-        	No reviews for this user
+        	No reviews for this host	
         <% } %>
         
-        <h2 style="margin-top:20px">Reviews from Hosts</h2>
+        <h2 style="margin-top:20px">Reviews from Guests</h2>
 		  <% userPropertyDetails.forEach(function(item, index){ 
 		  	var reviews = item.reviews;
 		  	reviews.forEach(function(item2, index2){ 

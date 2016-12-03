@@ -226,7 +226,10 @@ router.post('/list', function (req, res, next)  {
                 } else {
                     req.flash('hostConfirmation', true);
                     req.flash('propertyId', results.propertyIds[0]);
-                    res.redirect('/host/confirmation');
+                    if(req.session.user.host_status == "NA")
+                    	req.session.user.host_status = "REQUESTED";
+                    //res.redirect('/host/confirmation');
+                    res.render('./host/confirmation.ejs', { url: "/api/property/id/"+results.propertyIds[0]+"/view",user_dtls: req.session.user});
                 }
             });
         }
