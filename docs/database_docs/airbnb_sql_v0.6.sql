@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `airbnb`.`bidding` (
   `property_id` VARCHAR(50) NOT NULL,
   `property_name` VARCHAR(256) NULL DEFAULT NULL,
   `bidder_name` VARCHAR(50) NULL DEFAULT NULL,
+  `is_approved` INT(1) NOT NULL DEFAULT 0,		
   PRIMARY KEY (`bid_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1

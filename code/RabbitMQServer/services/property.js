@@ -30,9 +30,19 @@ var listProperty = {
 	                             callback(null, res);
 	                         }
 	                         else {
-                                 res.propertyIds = prop.insertedIds;
-                                 res.code ="200";
-                                 callback(null, res);
+	                        	 var coll = connection.mongoConn.collection('users');
+	                        	 coll.updateOne({_id: new ObjectId(msg.id) }, {$set :{host_status: "REQUESTED"}}, function(err, result){
+	                        		 if (err) {
+	                        			 tool.logError(err);
+	    	                             res.code ="400";
+	    	                             callback(null, res);
+	                        		 }
+	                        		 else{
+	                        		 res.propertyIds = prop.insertedIds;
+	                                 res.code ="200";
+	                                 callback(null, res);
+	                        		 }
+	                        	 });
 	                             }
 	                     },sql_queries.INSERT_PRODUCT_IN_BIDDING,options);
 	                	}

@@ -90,9 +90,11 @@
 						<div>
 							<span>There is a request from <b>{{p.first_name}} {{p.last_name}}</b>. What do you think, shall we Approve?</span><br><br>
 						</div>
-							<img src = "/uploads/{{p.picture_path[0].filename}}" width = "90px" height = "90px">
+							<img onerror="this.src='/images/user.jpg'" src = "/uploads/{{p.picture_path[0].filename}}" width = "90px" height = "90px">
 							<div style = "float:right">Email_id : {{p.email}}</div><br>
 							<button class="btn btn-success" style = "margin-top:-50px; float:right" ng-click = "approveHost(p._id)">Approve</button><br><br>
+							<button class="btn btn-danger" style = "margin-top:-90px; margin-right: 90px; float:right" ng-click = "rejectHost(p._id)">Reject</button><br><br>
+
 					</div>
 				</div>
 			</div>
