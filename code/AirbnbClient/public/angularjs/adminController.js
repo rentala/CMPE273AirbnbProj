@@ -275,10 +275,9 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
         $scope.showCityWiseRevenues = false;
         $scope.showTopHost = false;
         //Delete the 'svg' tag if it exists
-        var svgCityWiseRevenueDiv = d3.select('#cityWiseRevenueDiv').select("svg");
-        if(svgCityWiseRevenueDiv){ svgCityWiseRevenueDiv.remove();}
-        var svgTopHostDiv = d3.select('#topHostDiv').select("svg");
-        if(svgTopHostDiv){ svgTopHostDiv.remove();}
+
+        var svgTopPropertiesDiv = d3.select('#topPropertiesDiv').select("svg");
+        if(svgTopPropertiesDiv){ svgTopPropertiesDiv.remove();}
 
         $http({
             method : "POST",
@@ -293,7 +292,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 $scope.topProperties = data.top_property;
                 console.log("Angular Top Properties : " + JSON.stringify($scope.topProperties) );
                 var svg = d3.select('#topPropertiesDiv') .append('svg') .attr('height', 200) .attr('width', 300);
-                display2DGraph( $scope.topProperties,svg)
+                displayBar( $scope.topProperties,svg,"Property Name","Revenue")
             }
             else if(data.status_code == 400){
                 console.log("error on service side");
@@ -311,10 +310,9 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
         $scope.showCityWiseRevenues = true;
         $scope.showTopHost = false;
         
-        var svgTopPropertiesDiv = d3.select('#topPropertiesDiv').select("svg");
-        if(svgTopPropertiesDiv){ svgTopPropertiesDiv.remove();}
-        var svgTopHostDiv = d3.select('#topHostDiv').select("svg");
-        if(svgTopHostDiv){ svgTopHostDiv.remove();}
+
+        var svgCityWiseRevenueDiv = d3.select('#cityWiseRevenueDiv').select("svg");
+        if(svgCityWiseRevenueDiv){ svgCityWiseRevenueDiv.remove();}
 
         $scope.getCityRevenue = function(){
             //console.log($scope.cityForRevenue);
@@ -329,7 +327,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 if(data.status_code == 200){
                     $scope.cityWiseRevenue = data.city_wise_data;
                     var svg = d3.select('#cityWiseRevenueDiv') .append('svg') .attr('height', 200) .attr('width', 300);
-                    display2DGraph( $scope.cityWiseRevenue,svg)
+                    displayBar( $scope.cityWiseRevenue,svg,"City","Revenue");
                 }
                 else if(data.status_code == 400){
                     console.log("error on service");
@@ -349,11 +347,10 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
         $scope.showTopHost = true;
         
         
-        var svgTopPropertiesDiv = d3.select('#topPropertiesDiv').select("svg");
-        if(svgTopPropertiesDiv){ svgTopPropertiesDiv.remove();}
-        
-        var svgCityWiseRevenueDiv = d3.select('#cityWiseRevenueDiv').select("svg");
-        if(svgCityWiseRevenueDiv){ svgCityWiseRevenueDiv.remove();}
+
+
+        var svgTopHostDiv = d3.select('#topHostDiv').select("svg");
+        if(svgTopHostDiv){ svgTopHostDiv.remove();}
         
         $http({
             method : "POST",
@@ -365,7 +362,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
             if(data.status_code == 200){
                 $scope.topHost = data.top_host;
                 var svg = d3.select('#topHostDiv') .append('svg') .attr('height', 200) .attr('width', 300);
-                display2DGraph( $scope.topHost,svg)
+                displayBar( $scope.topHost,svg,"Host Name","Revenue")
             }
             else if(data.status_code == 400){
                 console.log("error on service");
@@ -374,57 +371,152 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 console.log("no data received");
             }
         })
+    };
+
+
+    var displayBar = function (data,svg,xname,yname) {
+        console.log("X name"+xname);
+        console.log("Y name"+yname);
+        console.log("inside displayBar : "+JSON.stringify(data));
+        cast(data);
+        main(data,svg,xname,yname);
+    };
+
+    function cast(d) {
+        console.log("inside cast function");
+        d.value = +d.value;
+        return d;
     }
-    
-    
-    var display2DGraph = function(data,svg){
-        
-        //var data =$scope.dataForPropClicks;
-        
-        
-        //var svg = d3.select('#propertyClicksDiv') .append('svg') .attr('height', 200) .attr('width', 300);
-        var margin = {top: 20, right: 20, bottom: 30, left: 40},
-         width = +svg.attr("width") - margin.left - margin.right,
-        height = +svg.attr("height") - margin.top - margin.bottom;
-        
-        /*var svg = d3.select("svg"),
-        margin = {top: 20, right: 20, bottom: 30, left: 40},
-        width = +svg.attr("width") - margin.left - margin.right,
-        height = +svg.attr("height") - margin.top - margin.bottom;*/
 
-        var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-        y = d3.scaleLinear().rangeRound([height, 0]);
+    function main(data,svg,xname,yname) {
+        console.log("inside main function");
+        console.log("X name"+xname);
+        console.log("Y name"+yname);
+        setSize(data,svg,xname,yname);
+    }
 
-        var g = svg.append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    function setSize(data,svg,xname,yname) {
+        console.log("X name"+xname);
+        console.log("Y name"+yname);
+        console.log("inside setsize function");
+        var chartWidth, chartHeight;
+        var width, height;
+        var axisLayer = svg.append("g").classed("axisLayer", true);
+        var chartLayer = svg.append("g").classed("chartLayer", true);
+        var margin;
+        var xScale = d3.scaleBand();
+        var yScale = d3.scaleLinear();
 
-        x.domain(data.map(function(d) { return d.key; }));
-          y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
-          g.append("g")
-              .attr("class", "axis axis--x")
-              .attr("transform", "translate(0," + height + ")")
-              .call(d3.axisBottom(x));
+        width = 600;
+        height = 600;
 
-          g.append("g")
-              .attr("class", "axis axis--y")
-              .call(d3.axisLeft(y).ticks(10))
-            .append("text")
-              .attr("transform", "rotate(-90)")
-              .attr("y", 6)
-              .attr("dy", "0.71em")
-              .attr("text-anchor", "end")
-              .text("Clicks");
+        margin = {top: 0, left: 100, bottom: 40, right: 0};
 
-          g.selectAll(".bar")
-            .data(data)
-            .enter().append("rect")
-              .attr("class", "bar")
-              .attr("x", function(d) { return x(d.key); })
-              .attr("y", function(d) { return y(d.value); })    
-              .attr("width", x.bandwidth())
-              .attr("height", function(d) { return height - y(d.value); });
-        
-    }; 
-})
 
+        chartWidth = width - (margin.left + margin.right);
+        chartHeight = height - (margin.top + margin.bottom);
+
+        svg.attr("width", width).attr("height", height);
+
+        axisLayer.attr("width", width).attr("height", height);
+
+        chartLayer
+            .attr("width", chartWidth)
+            .attr("height", chartHeight)
+            .attr("transform", "translate(" + [margin.left, margin.top] + ")");
+
+
+        xScale.domain(data.map(function (d) {
+            return d.key
+        })).range([0, chartWidth])
+            .paddingInner(0.1)
+            .paddingOuter(0.5);
+
+        yScale.domain([0, d3.max(data, function (d) {
+            return d.value
+        })]).range([chartHeight, 0]);
+
+        drawAxis(xScale,yScale,chartWidth,chartHeight,margin,axisLayer,chartLayer,xname,yname);
+        drawChart(data,chartLayer,xScale,yScale,chartHeight,yname);
+
+    }
+
+    function drawChart(data,chartLayer,xScale,yScale,chartHeight,yname) {
+
+        var tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function(d) {
+                return "<strong>"+ d.key +":</strong> <span style='color:#708cff'>$" + d.value + "</span>";
+            });
+
+        chartLayer.call(tip);
+
+        var t = d3.transition()
+            .duration(1000)
+            .ease(d3.easeLinear)
+            .on("start", function (d) {
+                console.log("transiton start")
+            })
+            .on("end", function (d) {
+                console.log("transiton end")
+            });
+
+        var bar = chartLayer.selectAll(".bar").data(data);
+
+        bar.exit().remove();
+
+        bar.enter().append("rect").classed("bar", true)
+            .merge(bar)
+            .attr("fill", function (d, i) {
+                return 'rgb(256, ' + Math.round(i / 8) + ', ' + i + ')'
+            })
+            .attr("width", xScale.bandwidth())
+            .attr("height", 0)
+            .attr("transform", function (d) {
+                return "translate(" + [xScale(d.key), chartHeight] + ")"
+            })
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
+
+
+        chartLayer.selectAll(".bar").transition(t)
+            .attr("height", function (d) {
+                return chartHeight - yScale(d.value)
+            })
+            .attr("transform", function (d) {
+                return "translate(" + [xScale(d.key), yScale(d.value)] + ")"
+            })
+    }
+
+    function drawAxis(xScale,yScale,chartWidth,chartHeight,margin,axisLayer,chartLayer,xname,yname) {
+        var yAxis = d3.axisLeft(yScale)
+            .tickSizeInner(-chartWidth)
+
+        axisLayer.append("g")
+            .attr("transform", "translate(" + [margin.left, margin.top] + ")")
+            .attr("class", "axis y")
+            .call(yAxis);
+
+        chartLayer.append("text")
+            .attr("transform", "translate(" + (chartWidth/ 2) + " ," + (chartHeight + margin.bottom) + ")")
+            .style("text-anchor", "middle")
+            .text(xname);
+
+        var xAxis = d3.axisBottom(xScale);
+
+        axisLayer.append("g")
+            .attr("class", "axis x")
+            .attr("transform", "translate(" + [margin.left, chartHeight] + ")")
+            .call(xAxis);
+
+        chartLayer.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x",0 - (chartHeight / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text(yname);
+    }
+});

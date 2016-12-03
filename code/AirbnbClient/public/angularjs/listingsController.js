@@ -44,7 +44,7 @@
                     $scope.prop_clicks_data = data;
                     console.log("prop lcicks data : " + $scope.prop_clicks_data );
                     var svg = d3.select('#propertyClicksDiv') .append('svg') .attr('height', 200) .attr('width', 300);
-                    displayBar( $scope.prop_clicks_data,svg);
+                    displayBar( $scope.prop_clicks_data,svg,"Property Name","Clicks");
                 }).error(function (data) {
 
                 });
@@ -68,7 +68,7 @@
                     $scope.page_clicks_data = data;
                     console.log("page clicks data : " + JSON.stringify($scope.page_clicks_data));
                     var svg = d3.select('#pageClicksDiv') .append('svg') .attr('height', 200) .attr('width', 300);
-                    displayBar( $scope.page_clicks_data,svg);
+                    displayBar( $scope.page_clicks_data,svg,"Page URL","Clicks");
                 }).error(function (data) {
 
                 });
@@ -123,58 +123,12 @@
                 });
             };
 
-            /*var display2DGraph = function(data,svg){
-
-                console.log("display graph");
-                
-                var margin = {top: 20, right: 20, bottom: 30, left: 40},
-                    width = +svg.attr("width") - margin.left - margin.right,
-                    height = +svg.attr("height") - margin.top - margin.bottom,
-                    barPadding = 2,
-                    barWidth = (width / data.length) - barPadding;
-
-                var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-                    y = d3.scaleLinear().rangeRound([height, 0]);
-
-                var g = svg.append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-                x.domain(data.map(function(d) { return d.key; }));
-                y.domain([0, d3.max(data, function(d) { return d.value; })]);
-
-                g.append("g")
-                    .attr("class", "axis axis--x")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(d3.axisBottom(x));
-
-                g.append("g")
-                    .attr("class", "axis axis--y")
-                    .call(d3.axisLeft(y).ticks(10))
-                    .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 6)
-                    .attr("dy", "0.71em")
-                    .attr("text-anchor", "end")
-                    .text("Clicks");
-
-                g.selectAll(".bar")
-                    .data(data)
-                    .enter().append("rect")
-                    .attr("class", "bar")
-                    .attr("x", function(d) { return x(d.key); })
-                    .attr("y", function(d) { return y(d.value); })
-                    .attr("width", x.bandwidth())
-                    .attr("height", function(d) { return height - y(d.value); });
-
-
-
-            };*/
-
-            var displayBar = function (data,svg) {
-
+            var displayBar = function (data,svg,xname,yname) {
+                console.log("X name"+xname);
+                console.log("Y name"+yname);
                 console.log("inside displayBar : "+JSON.stringify(data));
                 cast(data);
-                main(data,svg);
+                main(data,svg,xname,yname);
             };
 
             function cast(d) {
@@ -183,12 +137,16 @@
                 return d;
             }
 
-            function main(data,svg) {
+            function main(data,svg,xname,yname) {
                 console.log("inside main function");
-                setSize(data,svg);
+                console.log("X name"+xname);
+                console.log("Y name"+yname);
+                setSize(data,svg,xname,yname);
             }
 
-            function setSize(data,svg) {
+            function setSize(data,svg,xname,yname) {
+                console.log("X name"+xname);
+                console.log("Y name"+yname);
                 console.log("inside setsize function");
                 var chartWidth, chartHeight;
                 var width, height;
@@ -228,18 +186,18 @@
                     return d.value
                 })]).range([chartHeight, 0]);
 
-                drawAxis(xScale,yScale,chartWidth,chartHeight,margin,axisLayer,chartLayer);
-                drawChart(data,chartLayer,xScale,yScale,chartHeight);
+                drawAxis(xScale,yScale,chartWidth,chartHeight,margin,axisLayer,chartLayer,xname,yname);
+                drawChart(data,chartLayer,xScale,yScale,chartHeight,yname);
 
             }
 
-            function drawChart(data,chartLayer,xScale,yScale,chartHeight) {
+            function drawChart(data,chartLayer,xScale,yScale,chartHeight,yname) {
 
                 var tip = d3.tip()
                     .attr('class', 'd3-tip')
                     .offset([-10, 0])
                     .html(function(d) {
-                        return "<strong>"+ d.key +":</strong> <span style='color:#708cff'>" + d.value + " Clicks</span>";
+                        return "<strong>"+ d.key +":</strong> <span style='color:#708cff'>$" + d.value + "</span>";
                     });
 
                 chartLayer.call(tip);
@@ -281,7 +239,7 @@
                     })
             }
 
-            function drawAxis(xScale,yScale,chartWidth,chartHeight,margin,axisLayer,chartLayer) {
+            function drawAxis(xScale,yScale,chartWidth,chartHeight,margin,axisLayer,chartLayer,xname,yname) {
                 var yAxis = d3.axisLeft(yScale)
                     .tickSizeInner(-chartWidth)
 
@@ -293,7 +251,7 @@
                 chartLayer.append("text")
                     .attr("transform", "translate(" + (chartWidth/ 2) + " ," + (chartHeight + margin.bottom) + ")")
                     .style("text-anchor", "middle")
-                    .text("Property Name");
+                    .text(xname);
 
                 var xAxis = d3.axisBottom(xScale);
 
@@ -308,7 +266,7 @@
                     .attr("x",0 - (chartHeight / 2))
                     .attr("dy", "1em")
                     .style("text-anchor", "middle")
-                    .text("Clicks");
+                    .text(yname);
             }
 
 

@@ -3,3 +3,6 @@
 11/29/2016, 12:50:08 AM	Error Id: 0bcdc93a-b24f-4cf9-8b29-5a78551db2b9 Error: {"path":"./views/views/dashboard.ejs"}
 11/29/2016, 12:54:32 AM	Error Id: c6601b16-6264-45cb-80a0-0227e3ab756f Error: {"path":"./views/host/inbox.ejs"}
 11/29/2016, 10:39:01 PM	Error Id: 5116af0e-d366-4e87-9e2d-4a56129e9240 Error: {"path":"./views/views/dashboard.ejs"}
+12/3/2016, 1:37:41 AM	Error Id: 3aa3fe4e-31fc-4f28-b841-afb5708a9999 Error: {"path":"./views/views/dashboard.ejs"}
+12/3/2016, 1:41:15 AM	Error Id: bd5e9e70-355c-4152-bcdf-12f71b5f705a Error: {"path":"./views/views/dashboard.ejs"}
+12/3/2016, 1:42:34 AM	Error Id: b60af6fe-2537-4e03-bdc0-5019ec63dd9c Error: {"path":"./views/views/dashboard.ejs"}
