@@ -1,5 +1,6 @@
 var tool = require("../utili/common");
 ObjectID = require('mongodb').ObjectID;
+var redis = require('../db/redis');
 
 var updateProfile = {
 		handle_request : function (connection, msg, callback){
@@ -46,22 +47,33 @@ var userInfo = {
 		var obj_id = new ObjectID(msg.user_id);
 		var coll = connection.mongoConn.collection('users');
 		try{
-			coll.findOne({"_id":obj_id}, function(err, user){
-				if(err){
-					res.code ="401";
-					callback(null, res);
-		    			}
-				else if(user != null)
-	    			{
-					res.code ="200";
-					res.user = user;
-					callback(null, res);
-		    			}
+
+			redis.getJsonFromRedis(msg.user_id, function(error, results){
+				if(error || results == null){
+					coll.findOne({"_id":obj_id}, function(err, user){
+						if(err){
+							res.code ="401";
+							callback(null, res);
+				    	}
+						else if(user != null){
+							redis.storeJsonInRedis(msg.user_id, user);
+							res.code ="200";
+							res.user = user;
+							callback(null, res);
+				    	}
+						else{
+							res.code ="500";
+							callback(null, res);
+						}
+		    		});
+				}
 				else{
-					res.code ="500";
+					res.code ="200";
+					res.user = results;
 					callback(null, res);
 				}
-    		});
+			})
+			
 		}
 		catch(err){
 			res.statusCode = "400";
@@ -83,10 +95,21 @@ var deleteUser = {
 					res.code= "400";
 					callback(null, res);
 				}
+				else{
+				var coll2 = connection.mongoConn.collection('property');
+				coll2.update({"host_id" :msg.user_id},{$set:{
+					isHostActive: false},
+				}, { multi: true },function(err, results){
+				if(err){
+					res.code= "400";
+					callback(null, res);
+				}
 				else
 				{
 					res.code= "200";
 					callback(null, res);
+				}
+				});
 				}
 			});
 		}

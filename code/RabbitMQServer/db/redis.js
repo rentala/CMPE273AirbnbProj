@@ -8,6 +8,15 @@ client.on('connect', function(){
 	console.log("Connected");
 })
 //client.set("email", "admin", redis.print);
+
+var adminUsers = {
+	"admin1" : "adminpwd1",
+	"admin2" : "adminpwd2",
+	"admin3" : "adminpwd3",
+	"admin4" : "adminpwd4",
+	"admin5" : "adminpwd5"
+}
+
 client.set("admin1", "adminpwd1", redis.print);
 client.set("admin2", "adminpwd2", redis.print);
 client.set("admin3", "adminpwd3", redis.print);
@@ -19,11 +28,17 @@ client.set("admin8", "adminpwd8", redis.print);
 client.set("admin9", "adminpwd9", redis.print);
 client.set("admin10", "adminpwd10", redis.print);
 
-client.hmset('frameworks', 'javascript', 'AngularJS', 'css', 'Bootstrap', 'node', 'Express');
 
-client.hgetall('frameworks', function(err, object) {
-    console.log(object);
-});
+exports.storeJsonInRedis = function(key, jsonArray){
+	client.hmset(key, jsonArray);	
+}
+
+exports.getJsonFromRedis = function(key, callback){
+	client.hgetall(key, function(err, object) {
+	    //console.log(object.name);
+	    callback(err, object);
+	});
+}
 
 
 exports.setInRedis = function(key, value){

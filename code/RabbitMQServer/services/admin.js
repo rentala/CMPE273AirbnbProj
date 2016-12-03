@@ -13,6 +13,7 @@ var approveHost = {
 		try {
 
 			var coll = connection.mongoConn.collection('users');
+			var productsColl = connection.mongoConn.collection('property');
 
 			console.log("In RabbitMQ Server : admin.js : host_id : " + msg.host_id);
 			var searchCriteria = {
@@ -23,9 +24,9 @@ var approveHost = {
 						"host_status" : "ACCEPTED"
 					}
 			};
-
+			var callBackCount = 0;
 			coll.updateOne(searchCriteria, data , function(err, results) {
-
+				callBackCount++;
 				if (err) {
 					console.log("RabbitMQ server : admin.js : error :"+err);
 					tool.logError(err);
@@ -35,8 +36,13 @@ var approveHost = {
 					res = {
 						"json_resp" : json_resp
 					};
-					callback(null, res);
-				} else {
+
+					if(callBackCount == 2){
+						callback(null, res);
+					}
+
+				}
+				else {
 					console.log("Record after updating the host status : " + JSON.stringify(results));
 					if (results.modifiedCount == 1) {
 						json_resp = {
@@ -51,10 +57,52 @@ var approveHost = {
 					res = {
 						"json_resp" : json_resp
 					};
-					callback(null, res);
+					if(callBackCount == 2){
+						callback(null, res);
+					}
+					//callback(null, res);
 				}
 
 			});
+			productsColl.updateMany({"host_id": msg.host_id},data, function (err, results) {
+
+				callBackCount++;
+				if (err) {
+					console.log("RabbitMQ server : admin.js : error :"+err);
+					tool.logError(err);
+					json_resp = {
+						"status_code" : 400
+					};
+					res = {
+						"json_resp" : json_resp
+					};
+
+					if(callBackCount == 2){
+						callback(null, res);
+					}
+
+				}
+				else {
+					console.log("Record after updating the host status in products : " + JSON.stringify(results));
+					if (results.modifiedCount > 0) {
+						json_resp = {
+							"status_code" : 200
+						};
+					} else {
+						console.log("RabbitMQ server : admin.js : No erro but record was not updated : host_id : " +msg.host_id);
+						json_resp = {
+							"status_code" : 401
+						};
+					}
+					res = {
+						"json_resp" : json_resp
+					};
+					if(callBackCount == 2){
+						callback(null, res);
+					}
+					//callback(null, res);
+				}
+			})
 		} catch (err) {
 			tool.logError(err);
 			json_resp = {
@@ -200,34 +248,18 @@ var checkLogin = {
 		var res = {};
 		var json_resp = {};
 		console.log(msg);
-
-		//redis.setInRedis('something', 'something_value');
-    	redis.getFromRedis(msg.email, function(error, value){
-    		if(error){
-    			throw error;
-    			res.statusCode = 400;
-				res.message = "Username or Password is wrong!";
-				console.log("response message = " + res.message);
-				callback(null, res);
-    		}
-    		else{
-    			console.log('the key for something is = ' + value);
-    			if(msg.password == value){
-					res.statusCode = 200;
-					res.message = "Success";
-					res.adminEmailId = msg.email;
-					console.log("response message = " + res.message);
-			    	callback(null, res);
-				}
-				else{
-					res.statusCode = 400;
-					res.message = "Username or Password is wrong!";
-					console.log("response message = " + res.message);
-					callback(null, res);
-				}
-    		}
-    	})
-		
+		if(msg.password == 'admin' && msg.email == 'admin'){
+			res.statusCode = 200;
+			res.message = "Success";
+			res.adminEmailId = msg.email;
+			console.log("response message = " + res.message);
+			callback(null, res);
+		} else{
+			res.statusCode = 400;
+			res.message = "Username or Password is wrong!";
+			console.log("response message = " + res.message);
+			callback(null, res);
+		}
 	}
 };
 

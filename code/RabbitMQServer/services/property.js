@@ -30,19 +30,9 @@ var listProperty = {
 	                             callback(null, res);
 	                         }
 	                         else {
-	                        	 var coll = connection.mongoConn.collection('users');
-	                        	 coll.updateOne({_id: new ObjectId(msg.id) }, {$set :{host_status: "REQUESTED"}}, function(err, result){
-	                        		 if (err) {
-	                        			 tool.logError(err);
-	    	                             res.code ="400";
-	    	                             callback(null, res);
-	                        		 }
-	                        		 else{
-	                        		 res.propertyIds = prop.insertedIds;
-	                                 res.code ="200";
-	                                 callback(null, res);
-	                        		 }
-	                        	 });
+                                 res.propertyIds = prop.insertedIds;
+                                 res.code ="200";
+                                 callback(null, res);
 	                             }
 	                     },sql_queries.INSERT_PRODUCT_IN_BIDDING,options);
 	                	}
@@ -77,7 +67,8 @@ var searchProperty = {
 	                start_date: {$lte: msg.start_date},
 	                end_date: {$gte: msg.end_date},
 	                guests: {$gte: msg.guests},
-	                host_id: {$ne:msg.user_id}
+	                host_id: {$ne:msg.user_id},
+					host_status: "ACCEPTED"
 	            }).toArray(function (err, records) {
 	                if (err) {
 	                    res = {"statusCode": 400};
