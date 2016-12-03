@@ -77,7 +77,8 @@ var searchProperty = {
 	                start_date: {$lte: msg.start_date},
 	                end_date: {$gte: msg.end_date},
 	                guests: {$gte: msg.guests},
-	                host_id: {$ne:msg.user_id}
+	                host_id: {$ne:msg.user_id},
+	                isHostActive: {$ne:false}
 	            }).toArray(function (err, records) {
 	                if (err) {
 	                    res = {"statusCode": 400};

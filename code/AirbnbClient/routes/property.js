@@ -199,6 +199,7 @@ router.post('/list', function (req, res, next)  {
             case "ACCEPTED":
                 msg_payload.host_status = "ACCEPTED";
                 queue = "list_property_queue";
+                msg_payload.isHostActive = true;
                 break;
             case "REQUESTED":
                 msg_payload.host_status = "REQUESTED";
@@ -269,7 +270,7 @@ function mapReqToPayLoad(req) {
     } else{
         msg_payload.price = req.body.price;
     }
-
+    msg_payload.isHostActive = false;
 
     return msg_payload;
 }

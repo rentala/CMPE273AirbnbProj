@@ -38,20 +38,34 @@ var approveHost = {
 					callback(null, res);
 				} else {
 					console.log("Record after updating the host status : " + JSON.stringify(results));
-					if (results.modifiedCount == 1) {
-						json_resp = {
-							"status_code" : 200
-						};
+					if (results) {
+						console.log("inside after updating");
+						var coll2 = connection.mongoConn.collection('property');
+						coll2.update({"host_id" :msg.host_id},{$set:{
+							isHostActive: true},
+						}, { multi: true },function(err, results){
+						if(err){
+							json_resp = {
+									"status_code" : 400
+								};
+						}
+						else
+						{
+							json_resp = {
+									"status_code" : 200
+								};
+						}
+						res = {
+								"json_resp" : json_resp
+							};
+							callback(null, res);
+						});
 					} else {
 						console.log("RabbitMQ server : admin.js : No erro but record was not updated : host_id : " +msg.host_id);
 						json_resp = {
 							"status_code" : 401
 						};
 					}
-					res = {
-						"json_resp" : json_resp
-					};
-					callback(null, res);
 				}
 
 			});
@@ -102,20 +116,34 @@ var rejectHost = {
 					callback(null, res);
 				} else {
 					console.log("Record after updating the host status : " + JSON.stringify(results));
-					if (results.modifiedCount == 1) {
-						json_resp = {
-							"status_code" : 200
-						};
+					if (results) {
+						console.log("inside after updating");
+						var coll2 = connection.mongoConn.collection('property');
+						coll2.update({"host_id" :msg.host_id},{$set:{
+							isHostActive: false},
+						}, { multi: true },function(err, results){
+						if(err){
+							json_resp = {
+									"status_code" : 400
+								};
+						}
+						else
+						{
+							json_resp = {
+									"status_code" : 200
+								};
+						}
+						res = {
+								"json_resp" : json_resp
+							};
+							callback(null, res);
+						});
 					} else {
 						console.log("RabbitMQ server : admin.js : No erro but record was not updated : host_id : " +msg.host_id);
 						json_resp = {
 							"status_code" : 401
 						};
 					}
-					res = {
-						"json_resp" : json_resp
-					};
-					callback(null, res);
 				}
 
 			});
@@ -146,7 +174,8 @@ var pendingHostsForApproval = {
 				console.log("In RabbitMQ Server : admin.js : pendingHostsForApproval : host_status : " + msg.host_status);
 				var searchCriteria = {
 					"city" : msg.city,
-					"host_status" : msg.host_status
+					"host_status" : msg.host_status,
+					is_active:{$ne:"N"}
 				};
 			
 				coll.find(searchCriteria).toArray(function(err, userDtls) {
@@ -162,6 +191,7 @@ var pendingHostsForApproval = {
 						};
 						callback(null, res);
 					} else {
+						console.log("RabbitMQ server : admin.js : pendingHostsForApproval : userDtls :"+JSON.stringify(userDtls));
 						if (userDtls) {
 							json_resp = {
 								"status_code" : 200,
