@@ -46,33 +46,40 @@
 	</div>
 	<!-- /.container-fluid -->
 </nav>
-	<div style="margin-top:100px">
-	<div class="col-sm-2"></div>
-	<div class="col-sm-8">
-		<div class="panel panel-default">
+	<div style="margin-top:50px">
+	<div class="col-sm-4"></div>
+	<div class="col-sm-4">
+		<div class="panel panel-default" style="width:100%;">
+			<div class="panel-heading" style="height:80px">
+				<div class="col-sm-12">
+					<div class="col-sm-6" style="margin-top:15px"><font style="font-size:18px;margin-top:10px;"><b>Payment Details</b></font></div>
+					<div class="col-sm-6"><img src="/images/card.jpg" height="50px" style="float: right;"></img></div>
+				</div>
+			</div>
 			<div class="panel-body">
+
+				<div class="col-sm-12" style="margin-top:10px">
+					<label class="control-label col-sm-4" for="cNumber" style="margin-bottom:10px">Card Number</label>
+					<div class="col-sm-8">
+						<input type="number" class="form-control" id="cNumber"  ng-model="cNumber" style="margin-bottom:10px" placeholder="Card Number">
+					</div>
+					<label class="control-label col-sm-4" for="cvv" style="margin-bottom:10px">CVV number</label>
+					<div class="col-sm-8">
+						<input type="password" class="form-control" id="cvv"  ng-model="cvv" style="margin-bottom:10px" placeholder="CVV Number">
+					</div>
+					<label class="control-label col-sm-4" for="expDate" style="margin-bottom:10px">Expiration Date(YYYY-MM)</label>
+					<div class="col-sm-8">
+						<input type="month" class="form-control" id="expDate"  ng-model="expDate" style="margin-bottom:10px">
+					</div>
+				</div>
 				<div class="col-sm-12">
 					<% if(flow == "e") { %>
-					<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=diff%></label></div>
+					<div class="col-sm-12"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> <font style="float:right">$<%=diff%></font></label></div>
 					<% }else if(flow == "b") { %>
-					<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=amount%></label></div>
+					<div class="col-sm-12"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> <font style="float:right">$<%=amount%></font></label></div>
 					<% }else { %>
-					<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=data.total%></label></div>
+					<div class="col-sm-12"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> <font style="float:right">$<%=data.total%></font></label></div>
 					<%}%>
-				</div>
-				<div class="col-sm-12" style="margin-top:20px">
-					<label class="control-label col-sm-3" for="cNumber">Card Number</label>
-					<div class="col-sm-9">
-						<input type="number" class="form-control" id="cNumber"  ng-model="cNumber" placeholder="Card Number">
-					</div>
-					<label class="control-label col-sm-3" for="cvv">CVV number</label>
-					<div class="col-sm-9">
-						<input type="password" class="form-control" id="cvv"  ng-model="cvv" placeholder="CVV Number">
-					</div>
-					<label class="control-label col-sm-3" for="expDate">Expiration Date(YYYY-MM)</label>
-					<div class="col-sm-9">
-						<input type="month" class="form-control" id="expDate"  ng-model="expDate">
-					</div>
 				</div>
 				<% if(flow != "e" && flow != "b") { %>
 				<div style="display: none;">
@@ -109,7 +116,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-sm-2"></div>
+	<div class="col-sm-4"></div>
 
 	</div>
 </body>
