@@ -44,12 +44,10 @@
                     $scope.prop_clicks_data = data;
                     console.log("prop lcicks data : " + $scope.prop_clicks_data );
                     var svg = d3.select('#propertyClicksDiv') .append('svg') .attr('height', 200) .attr('width', 300);
-                    display2DGraph( $scope.prop_clicks_data,svg);
+                    displayBar( $scope.prop_clicks_data,svg);
                 }).error(function (data) {
 
                 });
-
-
 
             };
 
@@ -70,7 +68,7 @@
                     $scope.page_clicks_data = data;
                     console.log("page clicks data : " + JSON.stringify($scope.page_clicks_data));
                     var svg = d3.select('#pageClicksDiv') .append('svg') .attr('height', 200) .attr('width', 300);
-                    display2DGraph( $scope.page_clicks_data,svg);
+                    displayBar( $scope.page_clicks_data,svg);
                 }).error(function (data) {
 
                 });
@@ -167,7 +165,139 @@
                     .attr("y", function(d) { return y(d.value); })
                     .attr("width", x.bandwidth())
                     .attr("height", function(d) { return height - y(d.value); });
+
+
+
             };
+
+            var displayBar = function (data,svg) {
+
+                console.log("inside displayBar : "+JSON.stringify(data));
+                cast(data);
+                main(data,svg);
+            };
+
+            function cast(d) {
+                console.log("inside cast function");
+                d.value = +d.value;
+                return d;
+            }
+
+            function main(data,svg) {
+                console.log("inside main function");
+                setSize(data,svg);
+            }
+
+            function setSize(data,svg) {
+                console.log("inside setsize function");
+                var chartWidth, chartHeight;
+                var width, height;
+                var axisLayer = svg.append("g").classed("axisLayer", true);
+                var chartLayer = svg.append("g").classed("chartLayer", true);
+                var margin;
+                var xScale = d3.scaleBand();
+                var yScale = d3.scaleLinear();
+
+
+                width = 600;
+                height = 600;
+
+                margin = {top: 0, left: 100, bottom: 40, right: 0};
+
+
+                chartWidth = width - (margin.left + margin.right);
+                chartHeight = height - (margin.top + margin.bottom);
+
+                svg.attr("width", width).attr("height", height);
+
+                axisLayer.attr("width", width).attr("height", height);
+
+                chartLayer
+                    .attr("width", chartWidth)
+                    .attr("height", chartHeight)
+                    .attr("transform", "translate(" + [margin.left, margin.top] + ")");
+
+
+                xScale.domain(data.map(function (d) {
+                    return d.key
+                })).range([0, chartWidth])
+                    .paddingInner(0.1)
+                    .paddingOuter(0.5);
+
+                yScale.domain([0, d3.max(data, function (d) {
+                    return d.value
+                })]).range([chartHeight, 0]);
+
+                drawAxis(xScale,yScale,chartWidth,chartHeight,margin,axisLayer,chartLayer);
+                drawChart(data,chartLayer,xScale,yScale,chartHeight);
+
+            }
+
+            function drawChart(data,chartLayer,xScale,yScale,chartHeight) {
+
+                var t = d3.transition()
+                    .duration(1000)
+                    .ease(d3.easeLinear)
+                    .on("start", function (d) {
+                        console.log("transiton start")
+                    })
+                    .on("end", function (d) {
+                        console.log("transiton end")
+                    });
+
+                var bar = chartLayer.selectAll(".bar").data(data);
+
+                bar.exit().remove();
+
+                bar.enter().append("rect").classed("bar", true)
+                    .merge(bar)
+                    .attr("fill", "blue")
+                    .attr("width", xScale.bandwidth())
+                    .attr("height", 0)
+                    .attr("transform", function (d) {
+                        return "translate(" + [xScale(d.key), chartHeight] + ")"
+                    });
+
+
+                chartLayer.selectAll(".bar").transition(t)
+                    .attr("height", function (d) {
+                        return chartHeight - yScale(d.value)
+                    })
+                    .attr("transform", function (d) {
+                        return "translate(" + [xScale(d.key), yScale(d.value)] + ")"
+                    })
+            }
+
+            function drawAxis(xScale,yScale,chartWidth,chartHeight,margin,axisLayer,chartLayer) {
+                var yAxis = d3.axisLeft(yScale)
+                    .tickSizeInner(-chartWidth)
+
+                axisLayer.append("g")
+                    .attr("transform", "translate(" + [margin.left, margin.top] + ")")
+                    .attr("class", "axis y")
+                    .call(yAxis);
+
+                chartLayer.append("text")
+                    .attr("transform", "translate(" + (chartWidth/ 2) + " ," + (chartHeight + margin.bottom) + ")")
+                    .style("text-anchor", "middle")
+                    .text("Property Name");
+
+                var xAxis = d3.axisBottom(xScale);
+
+                axisLayer.append("g")
+                    .attr("class", "axis x")
+                    .attr("transform", "translate(" + [margin.left, chartHeight] + ")")
+                    .call(xAxis);
+
+                chartLayer.append("text")
+                    .attr("transform", "rotate(-90)")
+                    .attr("y", 0 - margin.left)
+                    .attr("x",0 - (chartHeight / 2))
+                    .attr("dy", "1em")
+                    .style("text-anchor", "middle")
+                    .text("Clicks");
+            }
+
 
                 var tabulate = function(data,table, columns) {
 
