@@ -157,9 +157,9 @@ router.get('/propertyClicks',function (req,res) {
        console.log(JSON.stringify(data));
 
        var procData = d3.nest()
-           .key(function(d) { return d.Property_Id;})
+           .key(function(d) { return d.property_name;})
            .rollup(function(d) {
-               return d3.sum(d, function(g) {return g.Clicks; });
+               return d3.sum(d, function(g) {return g.clicks; });
            }).entries(data);
 
        console.log("Cleaned data : " + JSON.stringify(procData));
