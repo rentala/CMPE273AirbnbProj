@@ -17,7 +17,7 @@ adminApp.controller('adminController',function($scope,$http,$rootScope){
                 $('.modal-backdrop').remove();
                 window.location = '/api/admin/adminHome';
             }
-            else if(data.status_code=="400"){
+            else{
                 $scope.loginError="Wrong email address or password";
             }
         })
@@ -107,7 +107,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 method : "POST",
                 url : "/api/admin/pendingHostsForApproval",
                 data : {
-                    "host_status" : "NA",
+                    "host_status" : "REQUESTED",
                     "city" : $scope.cityForInbox
                 }
             }).success(function(data){
@@ -145,7 +145,31 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 }
             })
         }
+
+        $scope.rejectHost = function(host_id){
+            console.log(host_id);
+            $http({
+                method : "POST",
+                url : "/api/admin/rejectHost",
+                data : {
+                    "host_id" : host_id
+                }
+            }).success(function(data){
+                if(data.status_code == 200){
+                    $scope.getPendingHostAppovals();
+                }
+                else if(data.status_code == 400){
+                    console.log("error on service side");
+                }
+                else if(data.status_code == 401){
+                    console.log("no error but record was not updated");
+                }
+            })
+        }
     }
+
+
+
 ////****************INBOX Ends Here***********
 
 

@@ -3,6 +3,7 @@ var tool = require("../utili/common");
 var ObjectID = require('mongodb').ObjectId;
 var mysql = require('../db/mysql');
 var sql_queries = require('../db/sql_queries');
+var redis = require('../db/redis');
 
 var approveHost = {
 
@@ -20,6 +21,70 @@ var approveHost = {
 			var data = {
 					$set : {		
 						"host_status" : "ACCEPTED"
+					}
+			};
+
+			coll.updateOne(searchCriteria, data , function(err, results) {
+
+				if (err) {
+					console.log("RabbitMQ server : admin.js : error :"+err);
+					tool.logError(err);
+					json_resp = {
+						"status_code" : 400
+					};
+					res = {
+						"json_resp" : json_resp
+					};
+					callback(null, res);
+				} else {
+					console.log("Record after updating the host status : " + JSON.stringify(results));
+					if (results.modifiedCount == 1) {
+						json_resp = {
+							"status_code" : 200
+						};
+					} else {
+						console.log("RabbitMQ server : admin.js : No erro but record was not updated : host_id : " +msg.host_id);
+						json_resp = {
+							"status_code" : 401
+						};
+					}
+					res = {
+						"json_resp" : json_resp
+					};
+					callback(null, res);
+				}
+
+			});
+		} catch (err) {
+			tool.logError(err);
+			json_resp = {
+				"status_code" : 400,
+			};
+			res = {
+				"json_resp" : json_resp
+			};
+			callback(null, res);
+		}
+
+	}
+};
+
+var rejectHost = {
+	handle_request : function(connection, msg, callback) {
+		console.log("reached rejecting");
+		var res = {};
+		var json_resp = {};
+		try {
+
+			var coll = connection.mongoConn.collection('users');
+
+			console.log("In RabbitMQ Server : admin.js : host_id : " + msg.host_id);
+			var searchCriteria = {
+				"_id" : ObjectID(msg.host_id)
+			};
+			var data = {
+					$set : {		
+						"host_status" : "REJECTED"
 					}
 			};
 
@@ -135,20 +200,34 @@ var checkLogin = {
 		var res = {};
 		var json_resp = {};
 		console.log(msg);
+
+		//redis.setInRedis('something', 'something_value');
+    	redis.getFromRedis(msg.email, function(error, value){
+    		if(error){
+    			throw error;
+    			res.statusCode = 400;
+				res.message = "Username or Password is wrong!";
+				console.log("response message = " + res.message);
+				callback(null, res);
+    		}
+    		else{
+    			console.log('the key for something is = ' + value);
+    			if(msg.password == value){
+					res.statusCode = 200;
+					res.message = "Success";
+					res.adminEmailId = msg.email;
+					console.log("response message = " + res.message);
+			    	callback(null, res);
+				}
+				else{
+					res.statusCode = 400;
+					res.message = "Username or Password is wrong!";
+					console.log("response message = " + res.message);
+					callback(null, res);
+				}
+    		}
+    	})
 		
-		if(msg.email == "admin" && msg.password == "admin"){
-			res.statusCode = 200;
-			res.message = "Success";
-			res.adminEmailId = msg.email;
-			console.log("response message = " + res.message);
-	    	callback(null, res);
-		}
-		else{
-			res.statusCode = 400;
-			res.message = "Username or Password is wrong!";
-			console.log("response message = " + res.message);
-			callback(null, res);
-		}
 	}
 };
 
@@ -239,3 +318,4 @@ exports.getAllBills = getAllBills;
 exports.pendingHostsForApproval = pendingHostsForApproval;
 exports.approveHost = approveHost;
 exports.checkLogin = checkLogin;
+exports.rejectHost = rejectHost;
