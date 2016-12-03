@@ -123,7 +123,7 @@
                 });
             };
 
-            var display2DGraph = function(data,svg){
+            /*var display2DGraph = function(data,svg){
 
                 console.log("display graph");
                 
@@ -168,7 +168,7 @@
 
 
 
-            };
+            };*/
 
             var displayBar = function (data,svg) {
 
@@ -235,6 +235,15 @@
 
             function drawChart(data,chartLayer,xScale,yScale,chartHeight) {
 
+                var tip = d3.tip()
+                    .attr('class', 'd3-tip')
+                    .offset([-10, 0])
+                    .html(function(d) {
+                        return "<strong>"+ d.key +":</strong> <span style='color:#708cff'>" + d.value + " Clicks</span>";
+                    });
+
+                chartLayer.call(tip);
+
                 var t = d3.transition()
                     .duration(1000)
                     .ease(d3.easeLinear)
@@ -251,12 +260,16 @@
 
                 bar.enter().append("rect").classed("bar", true)
                     .merge(bar)
-                    .attr("fill", "blue")
+                    .attr("fill", function (d, i) {
+                        return 'rgb(256, ' + Math.round(i / 8) + ', ' + i + ')'
+                    })
                     .attr("width", xScale.bandwidth())
                     .attr("height", 0)
                     .attr("transform", function (d) {
                         return "translate(" + [xScale(d.key), chartHeight] + ")"
-                    });
+                    })
+                    .on('mouseover', tip.show)
+                    .on('mouseout', tip.hide);
 
 
                 chartLayer.selectAll(".bar").transition(t)
