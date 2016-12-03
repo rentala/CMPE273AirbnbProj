@@ -9,14 +9,6 @@ client.on('connect', function(){
 })
 //client.set("email", "admin", redis.print);
 
-var adminUsers = {
-	"admin1" : "adminpwd1",
-	"admin2" : "adminpwd2",
-	"admin3" : "adminpwd3",
-	"admin4" : "adminpwd4",
-	"admin5" : "adminpwd5"
-}
-
 client.set("admin1", "adminpwd1", redis.print);
 client.set("admin2", "adminpwd2", redis.print);
 client.set("admin3", "adminpwd3", redis.print);
