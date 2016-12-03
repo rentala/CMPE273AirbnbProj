@@ -74,11 +74,11 @@
 				</div>
 				<div class="col-sm-12">
 					<% if(flow == "e") { %>
-					<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=diff%></label></div>
+					<div class="col-sm-12"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> <font style="float:right">$<%=diff%></font></label></div>
 					<% }else if(flow == "b") { %>
-					<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=amount%></label></div>
+					<div class="col-sm-12"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> <font style="float:right">$<%=amount%></font></label></div>
 					<% }else { %>
-					<div class="col-sm-2"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> $<%=data.total%></label></div>
+					<div class="col-sm-12"> <label  style="font-size:normal; font-weight: bold font-family: Helvetica neue,Helvetica,Arial,Sans-serif; font-size: 16px"><b>Amount:</b> <font style="float:right">$<%=data.total%></font></label></div>
 					<%}%>
 				</div>
 				<% if(flow != "e" && flow != "b") { %>
