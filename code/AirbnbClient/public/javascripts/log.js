@@ -15,6 +15,7 @@ var logEvent = function (e, text) {
 
 $(function () {
     var type;
+    logEvent("pageload", location.href.slice(21), "PAGELOAD")
     $("body").on("click", "a" , function(e) {
         type = e.target.href.indexOf('api/property/id') != -1 ? "PROPERTYCLICK": "PAGECLICK";
         logEvent(e.target.innerText + " link", "Id: " + e.target.id +" link clicked "+ e.target.href, type)
