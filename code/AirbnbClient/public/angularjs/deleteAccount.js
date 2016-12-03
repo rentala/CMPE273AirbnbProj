@@ -8,7 +8,6 @@ app.controller('deleteController',function($scope,$http){
         }).success(function (data) {
 
             if(data.status_code == "200"){
-                alert("Your account has been deactivated and you will no longer have access to your details")
                 setTimeout(function(){
                     window.location = '/api/auth/logout';
                 },5000);
