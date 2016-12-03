@@ -103,6 +103,9 @@ $scope.payBidAmount= function(trip_id, amount){
 	var patt = new RegExp("^\s*-?[0-9]{16}\s*$");
     var res = patt.test(cardNum);
 	
+    var cvvPatt = new RegExp("^\s*-?[0-9]{3}\s*$");
+    var res2 = cvvPatt.test(cvv);
+    
     if(cardNum == undefined || cardNum==null || cardNum=="")
 		alert("Enter Card Number");
     else if(!res)
@@ -111,6 +114,8 @@ $scope.payBidAmount= function(trip_id, amount){
 		alert("Enter Expiry date");
 	else if(cvv == undefined || cvv=="")
 		alert("Enter CVV");
+	else if(!res2)
+		alert("CVV should be 3 digit");
 	else{
 		var inputYear = expiryDate.getUTCFullYear();
 		var dateObj = new Date();

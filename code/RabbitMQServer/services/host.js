@@ -29,7 +29,9 @@ var deleteHost = {
             var counter = 2;
             coll.updateOne({_id: new ObjectId(msg.id) }, {$set :{host_status: "NA"}}, func);
             var propColl = connection.mongoConn.collection('property');
-            propColl.updateOne({host_id: msg.id }, {$set :{isHostActive: false}}, func);
+            propColl.update({"host_id" :msg.user_id},{$set:{
+				isHostActive: false},
+			}, { multi: true },func);
         } catch (err) {
             res.code = 400;
             tool.logError(err);

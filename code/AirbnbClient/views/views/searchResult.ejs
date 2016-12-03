@@ -34,7 +34,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
                 <form class="navbar-form navbar-left" style="border-left:solid;border-width:0.5px;border-color:#D3D3D9">
                     <div class="form-group">
-                                                <input type="text" placeholder="Where to?" ng-model="searchCity" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px" ng-click="searchByCity()"></span></input>
+                        <input type="text" placeholder="Where to?" ng-model="searchCity" style="background-color:transparent;border-color:transparent;width:450px "><span class="glyphicon glyphicon-search" style="margin-left:5px" ng-click="searchByCity()"></span></input>
                     </div>
                     <button type="button" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="searchByCity()">Search</button>
                     <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px" ><a href = "/host" title = "You could earn $539 sharing your home in San Jose in a week. Become a host."> Become a host</a></button>
@@ -86,7 +86,8 @@
         <center>Shared Room:<input type="checkbox" style="margin-bottom: 40px"></center>
       </div>
     </div>
-    <div class="col-sm-6" ng-repeat="x in valid_property"> 
+      <div ng-hide="myvar1" >
+    <div class="col-sm-6" ng-repeat="x in valid_property">
       <div class="panel panel-default">
         <div class="panel-body" style="background-color: #f9f9f9;">
           <div class="panel-image hide-panel-body" ><img src="/uploads/{{x.imagesPath[0].filename}}" class="panel-image-preview" width="100%" height="250"></div>
@@ -102,10 +103,19 @@
         </div>
       </div>
     </div>
+          </div>
+          <div ng-hide = "myvar"  style="margin-top:20px">
+              <b><font style="font-family:Calibri;font-size:30px"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;&nbsp;No results</font></b><br>
+              <font style="font-family:'Times New Roman';font-size:20px">Try adjusting your search. Here are some ideas:<br>
+              Change your filters or dates<br>
+              Zoom out on the map<br>
+              Search for a specific city, address, or landmark</font></div>
     <div class="col-sm-6" ng-repeat="y in results">
       
     </div>
   </div>
+  </div>
+
   <div class="col-sm-5"> 
     <div id="map-canvas" style="width: 100%; height: 800px;"></div>
   </div>
