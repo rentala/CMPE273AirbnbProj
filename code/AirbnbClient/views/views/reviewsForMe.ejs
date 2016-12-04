@@ -79,7 +79,7 @@
                     <div class="panel-body">
                         <div class="col-sm-5" style="margin-top:5px"><img src="/uploads/{{x.images[0].filename}}" class="panel-image-preview" width="250px" height="150px"></div>
                         <div class="col-sm-7">
-                            <h4><label style="color:#c9302c">user name:</label>{{x.user_name}}</h4>
+                            <h4><label style="color:#c9302c">user name:</label><a href="/api/profile/getUserDetailsForProfile/{{x.user_id}}"> {{x.user_name}}</a></h4>
                             <h4><label style="color:#c9302c">ratings:</label>{{x.rating}}/5</h4>
                         </div>
                     </div>

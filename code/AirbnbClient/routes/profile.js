@@ -372,7 +372,7 @@ router.get('/getUserDetailsForProfile/:user_id', function(req, res, next){
 					"userDetails" : results.user,
 					"userPropertyDetails" : results.properties
 				};
-				res.render('./views/userProfile.ejs', {userDetails: results.user,userPropertyDetails:results.properties});
+				res.render('./views/userProfile.ejs', {userDetails: results.user,userPropertyDetails:results.properties,user_dtls:req.session.user});
 			}
 		}
 
