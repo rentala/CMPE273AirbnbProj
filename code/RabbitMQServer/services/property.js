@@ -86,14 +86,14 @@ var searchProperty = {
 	                                callback(null, res);
 	                            }
 	                            else {
-	                                console.log("Trips for valid properties : " + result);
+	                                console.log("Trips for valid properties : " + JSON.stringify(result));
 	                                //result is from mysql - trip data
 	                                if (result.length > 0) {
 	                                    //Iterate the array of the valid trips
 	                                    for (var i = 0; i < result.length; i++) {
 	                                        //Get checkin and checkout dates for each trip
 	                                        var prop_index = available_property.indexOf(result[i].property_id);
-	                                        if (prop_index != -1) {
+	                                        if (prop_index == -1) {
 	                                            console.log("Valid property to consider!!! : " + result[i].property_id);
 	                                            var checkIn = new Date(result[i].checkin_date);
 	                                            var checkOut = new Date(result[i].checkout_date);
