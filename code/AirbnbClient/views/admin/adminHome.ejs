@@ -27,7 +27,7 @@
 		            </button>
 		            <a class="navbar-brand" href="#"><img src="/images/airbnb.png" width="150" height="100" style="margin-top:-40px"></img></a>
 		        </div>
-		        <span style = "position:absolute; LEFT: 47%; font-size: 35px;">ADMIN</span>
+		        <span style = "position:absolute; LEFT: 43%; font-size: 35px;"><%= adminDetails.first_name%></span>
 		        <div style="float:right; margin-top: 10px; margin-right: 5px">
 		        	<form role="form"> 
 					  <div class="form-group has-feedback">
@@ -78,11 +78,7 @@
 			</div>
 
 			<div id = "INBOX" ng-show = "showInbox">
-				<div class = "col-sm-1"></div>
-				<div class = "col-sm-4" style = "height:1000px">
-					<img src = "/images/admin_airbnb_logo.png" height = "150px" width = "500px" style = "margin-top:80px;">
-				</div>
-				<div class = "col-sm-1"></div>
+				<div class = "col-sm-4"></div>
 				<div class = "col-sm-4">
 					<input class = "form-control" ng-model = "cityForInbox" placeholder="City"></input>
 					<br>
@@ -91,7 +87,7 @@
 						<div>
 							<span>There is a request from <b>{{p.first_name}} {{p.last_name}}</b>. What do you think, shall we Approve?</span><br><br>
 						</div>
-							<img onerror="this.src='/images/user.jpg'" src = "/uploads/{{p.picture_path[0].filename}}" width = "90px" height = "90px">
+							<img src = "/uploads/{{p._id}}.jpg" width = "90px" height = "90px">
 							<div style = "float:right">Email_id : {{p.email}}</div><br>
 							<button class="btn btn-success" style = "margin-top:-50px; float:right" ng-click = "approveHost(p._id)">Approve</button><br><br>
 							<button class="btn btn-danger" style = "margin-top:-90px; margin-right: 90px; float:right" ng-click = "rejectHost(p._id)">Reject</button><br><br>

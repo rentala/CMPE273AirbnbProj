@@ -1,22 +1,6 @@
 var app = angular.module('airbnbApp',[]);
 		app.controller('propertySearchController',function($scope,$http){
 			
-			$scope.image = "paris.jpg";
-			$scope.profile = function(){
-				alert("krishna");
-			}
-			$scope.logout = function(){
-				alert("skdafhaskdjlfhksdjfhksdfhsfsdhf");
-			}
-			$scope.description = "Nice clean room in downtown San Jose";
-			var address = [{street:"Alameda",state:"CA",city:"San Jose"}];
-			$scope.address = address;
-			$scope.ratings = "3.5/5";
-			$scope.bedrooms = "2";
-			$scope.guests = "3";
-
-			$scope.bid_amount =0;
-			
 			$scope.makeBid = function(property_id,description,minBid){
 				if($scope.bid_amount <=minBid){
 					alert("Please bid higher than $"+minBid);

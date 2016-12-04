@@ -2,6 +2,7 @@
 var constants  =  require('node-constants');
 
 constants.define(exports, {
+    FETCH_ADMIN_DETAILS : "SELECT * FROM airbnb.admin where email = ?;",
     FETCH_BID_INFO:"select bidding_dtl.bidder_id,bidding_dtl.bid_price,bidding_dtl.bid_time,bidding_dtl.property_name from airbnb.bidding_dtl where property_id=?;",
     FETCH_BILLING_DTLS:"SELECT trip.user_id,trip.property_id,trip.property_name,billing.billing_id,trip.trip_price,trip.checkin_date,trip.checkout_date,trip.no_of_guests FROM airbnb.trip ,airbnb.billing WHERE trip.trip_id = ? and trip.trip_id = billing.trip_id and billing.bill_status = 'CREATED';",
     FETCH_ALL_BILLS : "SELECT trip.user_id,trip.property_id,trip.property_name,billing.billing_id,trip.trip_price,trip.checkin_date,trip.checkout_date,trip.no_of_guests,year(date(trip.trip_approved_time)) as year,month(date(trip.trip_approved_time)) as month,trip.trip_approved_time FROM airbnb.trip ,airbnb.billing WHERE billing.bill_status = 'CREATED';",
