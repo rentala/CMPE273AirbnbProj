@@ -14,6 +14,8 @@ adminApp.controller('adminController',function($scope,$http,$rootScope){
             }
         }).success(function(data){
             if(data.status_code=="200"){
+                $rootScope.adminDetails = data.adminDetails;
+                console.log("admin details = " + $rootScope.adminDetails[0].first_name);
                 $('.modal-backdrop').remove();
                 window.location = '/api/admin/adminHome';
             }
@@ -86,6 +88,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
     $scope.showPendingRequests = false;
 
     $scope.dashboard = function(){
+        //console.log("admin details = " + $rootScope.adminDetails[0].first_name);
         console.log("reached");
         $rootScope.showDashboard = true;
         $rootScope.showInbox = false;

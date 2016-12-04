@@ -3,6 +3,7 @@ var router = express.Router();
 var mq_client = require('../rpc/client');
 var passport = require('passport');
 var tool = require("../utili/common");
+var ejs = require('ejs');
 //POST method to approve host...making changes in this admin file...anudeep
 router.post('/approveHost', function (req, res)  {
     
@@ -109,10 +110,11 @@ router.post('/adminCheckLogin', function(req, res, next){
 	            if(err) {
 	            return next(err);
 	            }
-	            req.session.admin = admin.adminEmailId;
+	            req.session.admin = admin.adminDetails[0];
 	            console.log("session initialized = " + req.session.admin);
 	            return res.send({
-	            	"status_code" : 200
+	            	"status_code" : 200,
+	            	"adminDetails" : admin.adminDetails
 	            });
 		    });
 		}
@@ -124,8 +126,20 @@ router.get('/adminLogin', function(req, res){
 });
 
 router.get('/adminHome', function(req, res){
-	if(req.session.admin)
-		res.render('admin/adminHome');
+	if(req.session.admin){
+		ejs.renderFile('./views/admin/adminHome.ejs',{ adminDetails: req.session.admin},function(err, result) {
+			// render on success
+			if (!err) {
+				res.end(result);
+			}
+			// render or error
+			else {
+				tool.logError(err);
+				res.end('An error occurred');
+				console.log(err);
+			}
+		});
+	}
 	else
 		res.redirect('/');
 });
