@@ -49,4 +49,5 @@ constants.define(exports, {
     "  (select b.billing_id from airbnb.billing b where b.trip_id = trip.trip_id) as billing_id  "+
     " from airbnb.trip trip  where trip.host_id=? and trip.trip_status='ACCEPTED' ",
     TRIP_HOST_REVIEWED : "update airbnb.trip set host_reviewed=1 where trip_id=?",
+    FETCH_TRIP_DETAILS : "SELECT trip.trip_price, DATE_FORMAT(trip.checkin_date, '%Y-%m-%d') as checkin_date, DATE_FORMAT(trip.checkout_date, '%Y-%m-%d') as checkout_date from airbnb.trip trip where trip.trip_id = ?;",
 });
