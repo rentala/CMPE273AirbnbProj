@@ -98,7 +98,7 @@ var deleteUser = {
 				else{
 				var coll2 = connection.mongoConn.collection('property');
 				coll2.update({"host_id" :msg.user_id},{$set:{
-					isHostActive: false},
+					host_status: "REJECTED"},
 				}, { multi: true },function(err, results){
 				if(err){
 					res.code= "400";
