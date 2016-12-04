@@ -131,7 +131,7 @@ When I can't go around the world I'd like to host a part of it in my house, to f
             <div class="col-sm-10">
                 <font style="font-family: Helvetica Neue; font-size: 14px; color: #484848">Ratings:<%= item.rating %></font><br>
                 <font style="font-family: Helvetica Neue; font-size: 14px; color: #484848"><%= item.comment %></font><br>
-                <%if(item.images[0].filename==undefined){%>
+                <%if(item.images!=undefined){%>
                 <div class="col-sm-12">
                     <h4 style="border-bottom:0.5px solid black">trip Photos</h4>
                     <img src="<%=item.images[0].filename%>" width="50px" height="50px"></img>
