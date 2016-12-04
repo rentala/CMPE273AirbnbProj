@@ -343,7 +343,22 @@ router.get('/searchResult', function (req, res, next)  {
 		}
 		});
 });
+router.get('/confirmation', function (req, res, next)  {
 
+    var msg = req.session.msg;
+    ejs.renderFile('./views/views/confirmation.ejs',{ user_dtls: req.session.user},function(err, result) {
+        // render on success
+        if (!err) {
+            res.end(result);
+        }
+        // render or error
+        else {
+            tool.logError(err);
+            res.end('An error occurred');
+            console.log(err);
+        }
+    });
+});
 router.post('/getResults', function (req, res, next)  {
 	res.send({"valid_property":req.session.valid_property});
 });

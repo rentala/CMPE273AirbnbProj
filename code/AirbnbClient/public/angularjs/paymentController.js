@@ -57,7 +57,7 @@ $scope.submit= function(){
 		        }).success(function(data){
 		        	if(data.status_code == "200")
 		        		alert("Success");
-		        		window.location.assign("/api/auth/home");
+		        		window.location.assign("/api/property/confirmation");
 		        })
 		}
 	}
@@ -90,7 +90,7 @@ $scope.payDiff= function(){
 		}
 		else{
 			alert("Success Payment");
-			window.location.assign("/api/auth/home");
+			window.location.assign("/api/property/confirmation");
 		}
 		}	
 	}
@@ -139,11 +139,11 @@ $scope.payBidAmount= function(trip_id, amount){
 	        }).success(function(data){
 	            if(data.status_code==200){
 	                alert('Success! You can see this trip in your profile.');
-	                window.location.assign("/api/auth/home");
+	                window.location.assign("/api/property/confirmation");
 	            }
 	            else{
 	            	alert('Some error occurred! Please try again later');
-	                window.location.assign("/api/auth/home");
+	                window.location.assign("/api/property/confirmation");
 	            }
 	        })
 		}
