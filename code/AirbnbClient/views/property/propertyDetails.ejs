@@ -11,6 +11,7 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWlhSOzoAYUi3wmo6rbzJRBV4yohQvXBY&libraries=places&callback=initAutocomplete"
 	></script>
 	<script>
+		var propertyPrice = '<%=property.price%>';
 		var coordinates = {
 		x: '<%=property.coordinates.x%>', y: '<%=property.coordinates.y%>'
 		};
@@ -344,15 +345,25 @@
 		</div>
 	</div>
 <%} else if(flow=='edit') {%>
+	<div class="panel panel-default">
+		<div class="panel-heading" style="background-color:black;height:40px">
+			<font style="color:white;float:left;">
+				$ <%=property.price%> per night
+			</font>
+		</div>
+	<div class="panel-body">
 			<label>Check In</label><input class="form-control" type="date"  ng-model= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')" >
 			<label>Check Out</label><input  class="form-control" type="date"  ng-model= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"   >
-			<label>Current Price: ${{tripData.trip_price}}</label><br>
+			<label>Current Price: ${{tripPrice()}}</label><br>
 			
 			<input type="text" class="form-control" id = "property_id2" value ="<%=property._id%>" style="display: none;" ng-model="property_id">
 			<input type="text" class="form-control" id = "guests2" value ="<%=guests%>" style="display: none;" ng-model="guests">
 			<input type="text" class="form-control" id = "flow2" value ="<%=flow%>" style="display: none;" ng-model="flow">
 			<input type="text" class="form-control" id = "trip_id2" value ="<%=trip_id%>" style="display: none;" ng-model="trip_id">
-			<input type="submit" class="btn btn-primary" value="edit" ng-click="editTrip(tripData.trip_price)">		
+			<input type="submit" class="btn btn-primary" value="edit" ng-click="editTrip(tripData.trip_price)">
+		    <input type="button" class="btn btn-primary" value="test" ng-click="test()">
+	</div>
+	</div>
 <%}%>			
 			
 </div>
