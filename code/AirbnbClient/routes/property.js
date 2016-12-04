@@ -131,7 +131,8 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                         var end_date = "";
                         flow = "view";
                         property.avg_ratings = avg_ratings;
-                        res.render('./property/propertyDetails.ejs', {property: property,flow:flow,user_dtls: req.session.user});
+                        res.render('./property/propertyDetails.ejs', {property: property,flow:flow,user_dtls: req.session.user,
+                            tripPrice: property.is_auction ? results.bidding[0].max_bid_price : tripPrice});
 
                 }
             }
@@ -343,7 +344,22 @@ router.get('/searchResult', function (req, res, next)  {
 		}
 		});
 });
+router.get('/confirmation', function (req, res, next)  {
 
+    var msg = req.session.msg;
+    ejs.renderFile('./views/views/confirmation.ejs',{ user_dtls: req.session.user},function(err, result) {
+        // render on success
+        if (!err) {
+            res.end(result);
+        }
+        // render or error
+        else {
+            tool.logError(err);
+            res.end('An error occurred');
+            console.log(err);
+        }
+    });
+});
 router.post('/getResults', function (req, res, next)  {
 	res.send({"valid_property":req.session.valid_property});
 });
