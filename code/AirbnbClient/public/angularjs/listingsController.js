@@ -93,8 +93,8 @@
 
                     $scope.user_trace_data = data;
                     console.log("Bar chart data : " + JSON.stringify($scope.user_trace_data));
-                    var table = d3.select('#userTraceDiv') .append('table');
-                    tabulate($scope.user_trace_data, table,['Timestamp', 'User_id', 'Event']);
+                    var svg = d3.select('#userTraceDiv').append('svg');
+                    timeline($scope.user_trace_data,svg);
                 });
             };
 
@@ -118,8 +118,8 @@
 
                     $scope.bid_trace_data = data;
                     console.log("Bar chart data : " + JSON.stringify($scope.bid_trace_data));
-                    var table = d3.select('#biddingTraceDiv') .append('table').attr("style", "margin-left: 200px").style("border", "2px black solid");
-                    tabulate($scope.bid_trace_data, table,['Timestamp','User_Id','User_Name','Property_Id','Property_Name','Event']);
+                    var svg = d3.select('#biddingTraceDiv') .append('svg');
+                    timeline($scope.bid_trace_data, svg);
                 });
             };
 
@@ -269,8 +269,84 @@
                     .text(yname);
             }
 
+            var timeline = function(data,svg){
 
-                var tabulate = function(data,table, columns) {
+                // set the dimensions and margins of the graph
+                var margin = {top: 20, right: 20, bottom: 30, left: 50},
+                    height = 960 - margin.left - margin.right,
+                    width = 500 - margin.top - margin.bottom;
+
+// parse the date / time
+                var parseTime = d3.timeParse("%d-%b-%y");
+                var formatTime = d3.timeFormat("%e %B");
+
+                var x = d3.scaleTime().range([0, width]);
+                var y = d3.scaleLinear().range([height, 0]);
+
+                /*var div = d3.select("body").append("div")
+                    .attr("class", "tooltip")
+                    .style("opacity", 0);*/
+
+                var tip = d3.tip()
+                    .attr('class', 'd3-tip')
+                    .offset([-10, 0])
+                    .html(function(d) {
+                        return "<strong>"+ formatTime(d.Timestamp) +"</strong> <br/> <span style='color:#708cff'>" + d.User_id + "</span> <br/>" + d.Event +"";
+                    });
+
+
+
+                // append the svg obgect to the body of the page
+                    // appends a 'group' element to 'svg'
+                    // moves the 'group' element to the top left margin
+                        var svg = svg
+                            .attr("width", width + margin.left + margin.right)
+                            .attr("height", height + margin.top + margin.bottom)
+                            .append("g")
+                            .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+
+                        svg.call(tip);
+
+                    // Get the data
+                    console.log("after read : "+ JSON.stringify(data));
+                    // format the data
+                    data.forEach(function(d) {
+                        d.Timestamp = new Date(d.Timestamp);
+                        d.User_id  = d.User_id;
+                        d.Event = d.Event;
+                        console.log(formatTime(d.Timestamp));
+                    });
+
+                    console.log("after formatting : "+ JSON.stringify(data));
+
+                // Scale the range of the data
+                    x.domain(d3.extent(data, function(d) { return d.Timestamp; }));
+                    y.domain([0, height]);
+
+                var valueline = d3.line()
+                    .x(function(d) { return 0; })
+                    .y(function(d,i) { return i*50; });
+
+                    // Add the valueline path.
+                    svg.append("path")
+                        .data(data)
+                        .attr("class", "line")
+                        .attr("d", valueline);
+
+                    // Add the scatterplot
+                    svg.selectAll("dot")
+                        .data(data)
+                        .enter().append("circle")
+                        .attr("r", 5)
+                        .attr("cy", function(d,i) { return i*50; })
+                        .on('mouseover', tip.show)
+                        .on('mouseout', tip.hide);
+            }
+
+
+
+
+                /*var tabulate = function(data,table, columns) {
 
                     var thead = table.append('thead');
                     var tbody = table.append('tbody');
@@ -303,7 +379,7 @@
                             return d.value;
                         });
                     return table;
-                };
+                };*/
 
                 $scope.searchByCity = function(){
                 	//alert(1);
