@@ -29,4 +29,7 @@
             $scope.trips = function(){
             	window.location.assign("/api/profile/myTrips");
             }
+            $scope.host = function(){
+            	window.location.assign("/host");
+            }
         });
