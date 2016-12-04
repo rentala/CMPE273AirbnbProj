@@ -419,5 +419,4 @@ router.get('/paymentGateway/:flow/:trip_id/:amount', function (req, res, next)  
 		});
 });
 
-
 module.exports = router;

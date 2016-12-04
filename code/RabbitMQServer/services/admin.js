@@ -248,7 +248,39 @@ var checkLogin = {
 		var res = {};
 		var json_resp = {};
 		console.log(msg);
-		if(msg.password == 'admin' && msg.email == 'admin'){
+
+		mysql.execute_query(function (err,result) {
+            if(err){
+                tool.logError(err);
+                res = {"statusCode":400};
+                callback(null,res);
+            }
+            else{
+                if(result.length>0){
+                	if(result[0].password == msg.password){
+	                    res.statusCode = 200;
+						res.message = "Success";
+						res.adminDetails = result;
+						console.log("response message = " + res.message);
+						callback(null, res);
+	                }
+	                else{
+	                	res.statusCode = 400;
+						res.message = "Username or Password is wrong!";
+						console.log("response message = " + res.message);
+						callback(null, res);
+	                }
+                }
+                else{
+                    res.statusCode = 400;
+					res.message = "No Such Admin Exists";
+					console.log("response message = " + res.message);
+					callback(null, res);
+                }
+            }
+        },sql_queries.FETCH_ADMIN_DETAILS, [msg.email]);
+
+		/*if(msg.password == 'admin' && msg.email == 'admin'){
 			res.statusCode = 200;
 			res.message = "Success";
 			res.adminEmailId = msg.email;
@@ -259,7 +291,7 @@ var checkLogin = {
 			res.message = "Username or Password is wrong!";
 			console.log("response message = " + res.message);
 			callback(null, res);
-		}
+		}*/
 	}
 };
 

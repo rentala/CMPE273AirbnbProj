@@ -6,10 +6,10 @@ var mysql = require('mysql');//importing module mysql
 var sqlPool;
 function getPool(connLimit) {
     var pool  = mysql.createPool({
-        connectionLimit : connLimit,
+        connectionLimit : 20000,
         host            : 'localhost',
         user            : 'root',
-        password        : 'root',
+        password        : '2994',
         database        : 'airbnb',
         multipleStatements : true
     });

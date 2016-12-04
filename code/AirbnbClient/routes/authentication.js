@@ -7,6 +7,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var tool = require("../utili/common");
+var mongo = require('./mongo');
+var mongoURL = "mongodb://localhost:27017/airbnb";
 
 router.post('/signInUser', function (req, res, next)  {
     var json_responses;
@@ -145,5 +147,56 @@ router.get('/logout', function (req, res, next)  {
 	req.session.destroy();
 	res.redirect('/');
 });
+
+
+/*router.post('/testAdd1000Users', function(req, res, next){
+
+    var email = "user1@gmail.com";
+    var password = "1111";
+    var first_name = "userFirstname1";
+    var last_name = "userLastname1";
+    var dob = "2016-12-04";
+    var street = "1334, The Alameda";
+    var address = "Apt #185";
+    var city = "san jose";
+    var state = "CA";
+    var zipcode = "95126";
+    var phone = 6692927191.0;
+    var ssn = "123-456-789";
+    var i = 10000;
+    while(i > 0){
+        user = false;
+        email = "user" + i + "@gmail.com";
+        first_name = "userFirstname" + i;
+        last_name = "userLastname" + i;
+
+        mongo.connect(mongoURL, function(){
+            console.log('Connected to mongo at: ' + mongoURL);
+            var users = mongo.collection('users');
+            users.insert({
+                "email": email, 
+                "password": password, 
+                "first_name": first_name, 
+                "last_name": last_name,
+                "dob": dob,
+                "street":street,
+                "address": address,
+                "city": city,
+                "state": state,
+                "zipcode": zipcode,
+                "phone": phone,
+                "ssn": ssn,
+                "host_status":"NA",
+                "date":new Date()
+            }, function(err, user){
+                if(err){
+                    throw err;
+                }
+            });
+        });
+        i--;
+    }
+    res.send({"status_code":200});
+})*/
 
 module.exports = router;
