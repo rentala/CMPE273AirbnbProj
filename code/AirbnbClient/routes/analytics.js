@@ -215,7 +215,7 @@ router.get('/userTrace',function (req,res) {
                return d.User_id;
            }).entries(data);*/
 
-       res.send(finalData);
+       res.send(finalData.reverse());
        res.end();
    });
 });
@@ -231,7 +231,7 @@ router.get('/biddingTrace',function (req,res) {
                return d.Property_Id;
            }).entries(data);*/
 
-       res.send(procData);
+       res.send(procData.reverse());
        res.end();
    });
 });
