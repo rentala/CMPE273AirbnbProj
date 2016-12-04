@@ -11,7 +11,7 @@ constants.define(exports, {
     FETCH_TRIP_DATES : "SELECT trip.property_id,trip.checkin_date,trip.checkout_date from airbnb.trip where property_id IN (?);",
     //FETCH_USER_TRIP_DETAILS : "SELECT trip.*, (select b.billing_id from airbnb.billing b where b.trip_id = trip.trip_id) as billing_id" + " from airbnb.trip trip  where trip.user_id=?;",
     FETCH_USER_TRIP_DETAILS: " SELECT "+
-    " case when trip.trip_status ='ACCEPTED' and DATEDIFF(CURRENT_TIMESTAMP, CAST(trip.checkout_date AS DATETIME)) >4 "+
+    " case when trip.trip_status ='ACCEPTED' and DATEDIFF(CURRENT_TIMESTAMP, CAST(trip.checkout_date AS DATETIME)) >0 "+
     " then 'COMPLETED' "+
     " else trip.trip_status "+
     " end as trip_status, "+
@@ -36,7 +36,7 @@ constants.define(exports, {
     FETCH_ALL_BILLS_BY_DATE : "SELECT * FROM airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (date(trip.trip_approved_time)) = (date(?)) and bill_status != 'DELETED';",
     FETCH_ALL_BILLS_BY_MONTH : "SELECT * from airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (month(trip.trip_approved_time)) = (month(?)) and bill_status != 'DELETED';",
     FETCH_ALL_BILLS_BY_YEAR : "SELECT * from airbnb.trip, airbnb.billing where trip.trip_id = billing.trip_id and (year(trip.trip_approved_time)) = ? and bill_status != 'DELETED';",
-    FETCH_BID_WINNERS : "SELECT bid_id, created_time, max_bid_days, expiry_date, host_min_amt, max_bid_price, max_bid_user_id, property_id, property_name, bidder_name from airbnb.bidding where DATEDIFF(CURRENT_TIMESTAMP, CAST(created_time AS DATETIME)) >4 and is_approved =0 and property_id IN (?);",
+    FETCH_BID_WINNERS : "SELECT bid_id, created_time, max_bid_days, expiry_date, host_min_amt, max_bid_price, max_bid_user_id, property_id, property_name, bidder_name from airbnb.bidding where DATEDIFF(CURRENT_TIMESTAMP, CAST(created_time AS DATETIME)) >0 and is_approved =0 and property_id IN (?);",
     ACCEPT_BID : "update airbnb.bidding set is_approved = 1 where bid_id=?",
     REJECT_BID : "update airbnb.bidding set is_approved = 2 where bid_id=?",
     FETCH_HOST_RESERVATIONS: " SELECT "+
