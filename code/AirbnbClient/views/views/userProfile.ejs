@@ -45,7 +45,7 @@
 
             <ul class="nav navbar-nav navbar-right" style="margin-top:1px">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=userDetails.first_name%> <span class="caret"></span></a><!--Add first Name-->
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=user_dtls.first_name%> <span class="caret"></span></a><!--Add first Name-->
                     <ul class="dropdown-menu">
                         <li><a href="/api/auth/logout">Logout</a></li>
                     </ul>
@@ -88,7 +88,7 @@
         <% userPropertyDetails.forEach(function(item, index){ %>
         <div class="image">
         <% if(item.imagesPath!=null || item.imagesPath!=undefined){ %>
-            <img src="/uploads/<%=item.imagesPath[0].filename%>" width="100%" height="200px" style="margin-top:5px" alt="" />
+            <a href="/api/property/id/<%=item._id%>/view"><img src="/uploads/<%=item.imagesPath[0].filename%>" width="100%" height="200px" style="margin-top:5px" alt="" /></a>
             <b><p id="heading" style="color:white" align="center"><%=item.description%></p></b>
         <% }else { %>    
             <b><p id="heading" style="color:white" align="center"><%=item.description%></p></b>
@@ -106,6 +106,14 @@ I always have with me my inseparable camera, which prompts me to observe the wor
 I love to laugh and smile, I think I'm a positive person and I like to surround myself with positive people equally. 
 I live a one of the most beautiful city in the world and I can definitely tell you some twists on little known it. 
 When I can't go around the world I'd like to host a part of it in my house, to feel always on the go.</p><br>
+    <% if(userDetails.video_path!=undefined){%>
+    <div class ="col-sm-12">
+        <u><h2>Introductory Video</h2></u>
+        <video src="/uploads/<%=userDetails.video_path[0].filename%>" videoplayer controls width="100%" height="400px"></video>
+    </div>
+    <%}else{%>
+        <div>No profile video for this user</div>
+    <%}%>
 
 	<% var length = 0;
 	if(userDetails.reviews ==undefined){
@@ -124,6 +132,24 @@ When I can't go around the world I'd like to host a part of it in my house, to f
             <div class="col-sm-10">
                 <font style="font-family: Helvetica Neue; font-size: 14px; color: #484848">Ratings:<%= item.rating %></font><br>
                 <font style="font-family: Helvetica Neue; font-size: 14px; color: #484848"><%= item.comment %></font><br>
+                <%if(item.images!=undefined){%>
+                <div class="col-sm-12">
+                    <h4 style="border-bottom:0.5px solid black">trip Photos</h4>
+                    <a data-toggle="modal" data-target="#myModal"><img src="/uploads/<%=item.images[0].filename%>" width="50px" height="50px"></img></a>
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img src="/uploads/<%=item.images[0].filename%>" width="100%" height="100%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%}else{%>
+                <div></div>
+                <%}%>
             </div>
         </div>
         <% });} else {%>
@@ -144,6 +170,7 @@ When I can't go around the world I'd like to host a part of it in my house, to f
             </div>
         <% }); }); %>
 	</div>
+
 
 </div>
 <div class="col-sm-1"></div>

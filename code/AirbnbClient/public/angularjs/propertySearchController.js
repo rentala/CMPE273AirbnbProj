@@ -1,5 +1,11 @@
 var app = angular.module('airbnbApp',[]);
-		app.controller('propertySearchController',function($scope,$http){
+
+app.config(['$locationProvider', function($locationProvider) {
+	   $locationProvider.html5Mode(true);
+	}]);
+
+
+		app.controller('propertySearchController',function($scope,$http,$location){
 			
 			$scope.makeBid = function(property_id,description,minBid){
 				if($scope.bid_amount <=minBid){
@@ -44,7 +50,7 @@ var app = angular.module('airbnbApp',[]);
 		            }
 		        }).success(function(data){
 		        	if(data.status_code == "200"){
-		        		var diff = eval(data.newTripPrice-price);
+		        		var diff = eval(data.newTripPrice-parseInt(price));
 		        		if(diff>0){
 		        			alert("you will have to pay more");
 		        			window.location.assign("/api/property/paymentGateway/e/"+diff);
@@ -61,4 +67,20 @@ var app = angular.module('airbnbApp',[]);
 			$scope.hostPage = function(){
 				window.location.assign("/host");
 			}
+			
+			var queries = $location.search();
+			var trip_id = queries.tip;
+			$http({
+	            method:"POST",
+	            url:"/api/trip/fetchTripDetails",
+	            data:{"trip_id":trip_id}
+	        }).success(function(data){
+	        	if(data.status_code == "200" ){
+		        	$scope.tripData=data.tripData;
+		        	$scope.check_in = new Date(data.tripData.checkin_date);
+		        	$scope.check_out = new Date(data.tripData.checkout_date);
+	        	}
+	        	else{
+	        	}
+	        })
 		})
