@@ -106,6 +106,13 @@ I always have with me my inseparable camera, which prompts me to observe the wor
 I love to laugh and smile, I think I'm a positive person and I like to surround myself with positive people equally. 
 I live a one of the most beautiful city in the world and I can definitely tell you some twists on little known it. 
 When I can't go around the world I'd like to host a part of it in my house, to feel always on the go.</p><br>
+    <% if(userDetails.video_path!=undefined){%>
+    <div class ="col-sm-12">
+        <video src="/uploads/<%=userDetails.video_path[0].filename%>" videoplayer controls width="100%" height="400px"></video>
+    </div>
+    <%}else{%>
+        <div>No profile video for this user</div>
+    <%}%>
 
 	<% var length = 0;
 	if(userDetails.reviews ==undefined){
