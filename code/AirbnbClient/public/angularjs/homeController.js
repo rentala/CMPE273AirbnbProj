@@ -11,34 +11,41 @@ app.controller('homeController',function($scope,$http,$location){
     		alert("Please fill all search criterias");
     	}
     	else{
-	        $http({
-	            "method":"POST",
-	            "url":"/api/property/search",
-	            data : {
-					"city" : $scope.whereTo,
-					"guests" : $scope.guests,
-					"start_date": $scope.start_date,
-					"end_date": $scope.end_date
-				}
-	        }).success(function(data){
-	            if(data.status_code=="200"){
-	                $('.modal-backdrop').remove();
-	               // $rootScope.user_dtls = JSON.parse(data.user);
-	               // alert("inside"+ data.valid_property);
-	                //console.log("Login successful");
-	                window.location.assign("/api/property/searchResult");
-	            }
-	            else if(data.status_code=="401"){
-	            	window.location.assign("/api/property/searchResult");
-	            }
-	            else{
-	            	$rootScope.valid_property = "";
-	            	window.location.assign("/api/property/searchResult");
-	            }
-	        })
+			if(isValidDate($scope.start_date, $scope.end_date)){
+				$http({
+					"method":"POST",
+					"url":"/api/property/search",
+					data : {
+						"city" : $scope.whereTo,
+						"guests" : $scope.guests,
+						"start_date": $scope.start_date,
+						"end_date": $scope.end_date
+					}
+				}).success(function(data){
+					if(data.status_code=="200"){
+						$('.modal-backdrop').remove();
+						// $rootScope.user_dtls = JSON.parse(data.user);
+						// alert("inside"+ data.valid_property);
+						//console.log("Login successful");
+						window.location.assign("/api/property/searchResult");
+					}
+					else if(data.status_code=="401"){
+						window.location.assign("/api/property/searchResult");
+					}
+					else{
+						$rootScope.valid_property = "";
+						window.location.assign("/api/property/searchResult");
+					}
+				})
+			} else {
+				alert("Start date must be greater than end date");
+			}
+
     	}
     }
-    
+    function isValidDate(start , end) {
+    	return new Date(start)<new Date(end);
+	}
     $scope.searchByCity = function(){
     	$scope.whereTo = $scope.city;
     }
