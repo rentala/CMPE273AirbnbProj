@@ -403,6 +403,31 @@ var createHostReview ={
 	    }
 	}
 
+var fetchTripDetails = {
+	    handle_request:function (connection,msg,callback) {
+	        var res = {};
+	        
+
+	        mysql.execute_query(function (err,result) {
+	           if(err){
+	               tool.logError(err);
+	               res = {"statusCode":400};
+	               callback(null,res);
+	           }
+	           else{
+	               if(result.length>0){
+	                    res = {"statusCode":200,"tripData":result[0]};
+	                    callback(null,res);
+	               }
+	               else
+	               {
+	                   res = {"statusCode":400};
+	                   callback(null,res);
+	               }
+	           }
+	        },sql_queries.FETCH_TRIP_DETAILS,[msg.trip_id]);
+	    }
+	};
 
 exports.reservations = reservations;
 exports.deleteTrip = deleteTrip;
@@ -416,3 +441,4 @@ exports.user_completed_trips = user_completed_trips;
 exports.acceptBid = acceptBid;
 exports.rejectBid = rejectBid;
 exports.createHostReview=createHostReview;
+exports.fetchTripDetails = fetchTripDetails;

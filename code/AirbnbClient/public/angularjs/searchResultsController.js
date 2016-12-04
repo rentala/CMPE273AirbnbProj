@@ -57,10 +57,10 @@ var app = angular.module('searchApp',[]);
                         console.log("entered description = " + ((valid_property1[i].description)));
                         var name = valid_property1[i].description;
                         var address1 = valid_property1[i].address.city;
-                        var address2 = valid_property1[i].address.state;
+                        var price = valid_property1[i].price;
                         var postalCode = valid_property1[i].address.zipcode;
 
-                        createMarker(latlng, name, address1, address2, postalCode);
+                        createMarker(latlng, name, address1, price, postalCode);
 
                         // marker position is added to bounds variable
                         bounds.extend(latlng);
@@ -72,7 +72,7 @@ var app = angular.module('searchApp',[]);
                 }
 
                 // This function creates each marker and it sets their Info Window content
-                function createMarker(latlng, name, address1, address2, postalCode) {
+                function createMarker(latlng, name, address1, price, postalCode) {
                     var marker = new google.maps.Marker({
                         map: map,
                         position: latlng,
@@ -88,7 +88,7 @@ var app = angular.module('searchApp',[]);
                         var iwContent = '<div id="iw_container">' +
                             '<div class="iw_title">' + name + '</div>' +
                             '<div class="iw_content">' + address1 + '<br />' +
-                            address2 + '<br />' +
+                            '<div class="iw_content"> Price :$ ' + price + '<br />' +
                             postalCode + '</div></div>';
 
                         // including content to the Info Window.
@@ -151,10 +151,10 @@ var app = angular.module('searchApp',[]);
                         console.log("entered description = " + ((valid_property1[i].description)));
                         var name = valid_property1[i].description;
                         var address1 = valid_property1[i].address.city;
-                        var address2 = valid_property1[i].address.state;
+                        var price = valid_property1[i].price;
                         var postalCode = valid_property1[i].address.zipcode;
 
-                        createMarker(latlng, name, address1, address2, postalCode);
+                        createMarker(latlng, name, address1, price, postalCode);
 
                         // marker position is added to bounds variable
                         bounds.extend(latlng);
@@ -166,7 +166,7 @@ var app = angular.module('searchApp',[]);
                 }
 
                 // This function creates each marker and it sets their Info Window content
-                function createMarker(latlng, name, address1, address2, postalCode) {
+                function createMarker(latlng, name, address1, price, postalCode) {
                     var marker = new google.maps.Marker({
                         map: map,
                         position: latlng,
@@ -182,7 +182,7 @@ var app = angular.module('searchApp',[]);
                         var iwContent = '<div id="iw_container">' +
                             '<div class="iw_title">' + name + '</div>' +
                             '<div class="iw_content">' + address1 + '<br />' +
-                            address2 + '<br />' +
+                            '<div class="iw_content">price:' + price + '<br />' +
                             postalCode + '</div></div>';
 
                         // including content to the Info Window.

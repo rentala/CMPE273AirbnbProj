@@ -193,6 +193,9 @@ cnn.on('ready', function(){
     cnn.queue('getUserDetails_queue', function(q){
     	subscriber(q, profile.getUserDetails);
     });
+    cnn.queue('fetch_tripDetails_queue', function(q){
+    	subscriber(q, trip.fetchTripDetails);
+    });
 });
 
 var subscriber = function(q, module) {
