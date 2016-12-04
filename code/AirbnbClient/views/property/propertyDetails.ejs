@@ -12,6 +12,10 @@
 	></script>
 	<script>
 		var propertyPrice = '<%=property.price%>';
+		var propertyDates = {
+			start_date : '<%=property.start_date%>',
+			end_date : '<%=property.end_date%>'
+		}
 		var coordinates = {
 		x: '<%=property.coordinates.x%>', y: '<%=property.coordinates.y%>'
 		};
@@ -352,16 +356,17 @@
 			</font>
 		</div>
 	<div class="panel-body">
-			<label>Check In</label><input class="form-control" type="date"  ng-model= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')" >
-			<label>Check Out</label><input  class="form-control" type="date"  ng-model= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"   >
+			<label>Check In</label><input class="form-control" type="date" min="{{minDate | date: 'yyyy-MM-dd'}}" max="{{MaxCheckOut | date: 'yyyy-MM-dd'}}" ng-change="checkDateValidity()" ng-model= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')" >
+			<label>Check Out</label><input  class="form-control" type="date" min="{{minDate | date: 'yyyy-MM-dd'}}" max="{{MaxCheckOut | date: 'yyyy-MM-dd'}}"  ng-change="checkDateValidity()" ng-model= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"   >
 			<label>Current Price: ${{tripPrice()}}</label><br>
 			
 			<input type="text" class="form-control" id = "property_id2" value ="<%=property._id%>" style="display: none;" ng-model="property_id">
 			<input type="text" class="form-control" id = "guests2" value ="<%=guests%>" style="display: none;" ng-model="guests">
 			<input type="text" class="form-control" id = "flow2" value ="<%=flow%>" style="display: none;" ng-model="flow">
 			<input type="text" class="form-control" id = "trip_id2" value ="<%=trip_id%>" style="display: none;" ng-model="trip_id">
-			<input type="submit" class="btn btn-primary" value="edit" ng-click="editTrip(tripData.trip_price)">
-		    <input type="button" class="btn btn-primary" value="test" ng-click="test()">
+			<input type="submit" class="btn btn-primary" value="edit" ng-click="editTrip()">
+		<span ng-show="hasErrors" class="" style="color: red; font-size: 11px"> Check In Date must be greater than Check Out Date </span>
+
 	</div>
 	</div>
 <%}%>			
