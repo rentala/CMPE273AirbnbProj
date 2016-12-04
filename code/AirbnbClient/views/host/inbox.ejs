@@ -65,7 +65,7 @@
             <div class="col-sm-12" style="margin-top:10px">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <div class="col-sm-3"><a href="/api/profile/getUserDetailsForProfile/{{x.user_id}}"><img src="/uploads/{{x.user_id}}.JPG" onerror="this.src='/images/user.jpg'" width="100%" height="100%" alt=""></img></a>
+                        <div class="col-sm-3"><a href="/api/profile/getUserDetailsForProfile/{{x.user_id}}"><img ng-src="/uploads/{{x.user_id}}.jpeg"  onerror="this.src='/images/user.jpg'" width="100%" height="100%" alt="no profile image"></img></a>
                             </div>
                         <div class="col-sm-9" style="float:left">
                             <label style="color: #1b6d85">Property:</label> <a href="/api/property/id/{{x.property_id}}/view">{{x.property_name}}</a><br>
@@ -87,7 +87,7 @@
 </div>
 <div class="col-sm-2"></div>
 </div>
-<div class="col-sm-12" style="margin-top:50px">
+<div class="col-sm-12" style="margin-top:20px;margin-bottom:30px">
 <div class="col-sm-2"></div>
 <div class="col-sm-8">
     <div class="col-sm-12" style="border:0.5px solid black">
@@ -99,7 +99,7 @@
                         <div class="col-sm-3"><img src="/images/home12.png" width="100%" height="100%"></img></div>
                         <div class="col-sm-9" style="float:left">
                             <label style="color: #1b6d85">Property:</label> <a href="/api/property/id/{{x.property_id}}/view">{{x.property_name}}</a><br>
-                            <a href="/api/profile/getUserDetailsForProfile/{{x.max_bid_user_id}}"><img  onerror="this.src='/images/user.jpg'" src="/uploads/{{x.max_bid_user_id}}.JPG" width="50px" height="65px" ></a>
+                            <a href="/api/profile/getUserDetailsForProfile/{{x.max_bid_user_id}}"><img  onerror="this.src='/images/user.jpg'" ng-src="/uploads/{{x.max_bid_user_id}}.JPG" width="50px" height="65px" ></a>
                             Bidder Name: <a href="/api/profile/getUserDetailsForProfile/{{x.max_bid_user_id}}"> {{x.bidder_name}}</a><br>
                             Minimum Bid: ${{x.host_min_amt}}<br>
                             User Bid: ${{x.max_bid_price}}<br>
@@ -116,6 +116,7 @@
 </div>
 <div class="col-sm-2"></div>
 </div>
+<br><br>
 
 </body>
 </html>
