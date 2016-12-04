@@ -134,6 +134,20 @@ router.post('/deleteUser', function (req, res, next)  {
 	});
 });
 
+router.get('/getReviews', function (req, res, next)  {
+	ejs.renderFile('./views/views/reviewsForMe.ejs',{ user_dtls: req.session.user},function(err, result) {
+		// render on success
+		if (!err) {
+			res.end(result);
+		}
+		// render or error
+		else {
+			tool.logError(err);
+			res.end('An error occurred');
+			console.log(err);
+		}
+	});
+});
 router.get('/editProfile', function (req, res, next)  {
 	ejs.renderFile('./views/views/profile.ejs',{ user_dtls: req.session.user},function(err, result) {
 		// render on success
@@ -172,7 +186,7 @@ router.post('/loadProfile', function (req, res, next)  {
 			else {
 				return done(null, "error");
 			}
-			res.send({user:req.session.user});
+			res.send({user:req.session.user,status_code:"200"});
 			res.end();
 		}
 	});
