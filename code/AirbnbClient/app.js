@@ -1,4 +1,4 @@
-	var express = require('express');
+var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -21,7 +21,7 @@ var analytics = require('./routes/analytics');
 var billing = require("./routes/billing");
 var inbox = require('./routes/inbox');
 var appLogger = require('./utili/common');
-
+var mongo = require('./routes/mongo');
 var app = express();
 
 app.use(session({
@@ -56,11 +56,11 @@ app.use('/', index);
 //USE '/api/routName' for all JSON response apis
     app.use('/api/admin',admin);
 //comment below line when testing
-app.use('*', homePageExcl);
+//app.use('*', homePageExcl);
 
 app.use('/api/auth', authentication);
 //comment below line when testing
-app.use('*', assertAuthentication);
+//app.use('*', assertAuthentication);
 app.use('/host', host);
 app.use('/api/profile', profile);
 app.use('/api/property',property);

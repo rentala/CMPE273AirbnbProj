@@ -6,7 +6,21 @@ var MongoClient = require('mongodb').MongoClient;
 var db;
 var connected = false; /**Connects to the MongoDB Database with the provided URL**/
 exports.connect = function(url, callback){
-    MongoClient.connect(url, function(err, _db){
+    var options = {
+        db : {
+            numberOfRetries : 5
+        },
+        server : {
+            auto_reconnect : true,
+            poolSize : 20000,
+            socketOptions : {
+                connectTimeoutMS : 5000
+            }
+        },
+        replSet : {},
+        mongos : {}
+    };
+    MongoClient.connect(url, options, function(err, _db){
         if (err) {
             throw new Error('Could not connect: '+err);
         }
