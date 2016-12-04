@@ -63,8 +63,6 @@ router.get('/tripDetails',function (req,res) {
     }
 });
 
-
-
 router.post('/delete',function (req,res) {
     var json_responses;
 
@@ -87,6 +85,34 @@ router.post('/delete',function (req,res) {
             }
             else {
                 json_responses = {"status_code":401};
+            }
+            res.send(json_responses);
+            res.end();
+        }
+    });
+});
+
+router.post('/fetchTripDetails',function  (req,res,next)  {
+    var json_responses;
+
+    var trip_id = req.body.trip_id;
+
+    var msg_payload = {"trip_id":trip_id};
+    mq_client.make_request('fetch_tripDetails_queue',msg_payload,function (err,results) {
+        if(err){
+            //Need to add tool to log error.
+            tool.logError(err);
+            json_responses = {"status_code":400};
+            res.send(json_responses);
+            res.end();
+        }
+        else {
+            if(results.statusCode == 200)
+            {
+                json_responses = {"status_code":200,"tripData":results.tripData};
+            }
+            else {
+                json_responses = {"status_code":400};
             }
             res.send(json_responses);
             res.end();

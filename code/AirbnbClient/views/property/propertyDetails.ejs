@@ -112,6 +112,20 @@
 			});
 		}
 
+		
+		function calculate() {
+            //var x = document.forms["myForm"]["fname"].value;
+            var tripStart = new Date(document.getElementById("start_date").value);
+   			 var tripEnd = new Date(document.getElementById("end_date").value);
+		    var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000));
+            if(stayDuration>0){
+            	return true;
+            }
+            else{
+                alert("End Date should be greater than start date");
+                return false;
+            }
+        }
 	</script>
 	<script src="/angularjs/propertySearchController.js"></script>
 	<style>
@@ -133,6 +147,7 @@
 	</style>
 </head>
 <body ng-app ="airbnbApp" ng-controller="propertySearchController" >
+<base href="/api/property/id">
 <nav   class="navbar navbar-default" style="background-color:white; ">
 	<div class="container-fluid">
 		<!-- Brand and toggle get grouped for better mobile display -->
@@ -331,12 +346,13 @@
 <%} else if(flow=='edit') {%>
 			<label>Check In</label><input class="form-control" type="date"  ng-model= "check_in" onfocus="(this.type='date')" onblur="(this.type='text')" >
 			<label>Check Out</label><input  class="form-control" type="date"  ng-model= "check_out" onfocus="(this.type='date')" onblur="(this.type='text')" name="check_out"   >
-			<div class="col-sm-12" style="margin-top:10px;"><font style="float:left;">Total</font><font style="float:right;">$<%=price %>  </font></div>
+			<label>Current Price: ${{tripData.trip_price}}</label><br>
+			
 			<input type="text" class="form-control" id = "property_id2" value ="<%=property._id%>" style="display: none;" ng-model="property_id">
 			<input type="text" class="form-control" id = "guests2" value ="<%=guests%>" style="display: none;" ng-model="guests">
 			<input type="text" class="form-control" id = "flow2" value ="<%=flow%>" style="display: none;" ng-model="flow">
 			<input type="text" class="form-control" id = "trip_id2" value ="<%=trip_id%>" style="display: none;" ng-model="trip_id">
-			<input type="submit" class="btn btn-primary" value="edit" ng-click="editTrip(<%=price%>)">		
+			<input type="submit" class="btn btn-primary" value="edit" ng-click="editTrip(tripData.trip_price)">		
 <%}%>			
 			
 </div>
