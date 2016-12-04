@@ -88,7 +88,7 @@
         <% userPropertyDetails.forEach(function(item, index){ %>
         <div class="image">
         <% if(item.imagesPath!=null || item.imagesPath!=undefined){ %>
-            <img src="/uploads/<%=item.imagesPath[0].filename%>" width="100%" height="200px" style="margin-top:5px" alt="" />
+            <a href="/api/property/id/<%=item._id%>/view"><img src="/uploads/<%=item.imagesPath[0].filename%>" width="100%" height="200px" style="margin-top:5px" alt="" /></a>
             <b><p id="heading" style="color:white" align="center"><%=item.description%></p></b>
         <% }else { %>    
             <b><p id="heading" style="color:white" align="center"><%=item.description%></p></b>
@@ -108,6 +108,7 @@ I live a one of the most beautiful city in the world and I can definitely tell y
 When I can't go around the world I'd like to host a part of it in my house, to feel always on the go.</p><br>
     <% if(userDetails.video_path!=undefined){%>
     <div class ="col-sm-12">
+        <u><h2>Introductory Video</h2></u>
         <video src="/uploads/<%=userDetails.video_path[0].filename%>" videoplayer controls width="100%" height="400px"></video>
     </div>
     <%}else{%>
@@ -134,7 +135,17 @@ When I can't go around the world I'd like to host a part of it in my house, to f
                 <%if(item.images!=undefined){%>
                 <div class="col-sm-12">
                     <h4 style="border-bottom:0.5px solid black">trip Photos</h4>
-                    <img src="<%=item.images[0].filename%>" width="50px" height="50px"></img>
+                    <a data-toggle="modal" data-target="#myModal"><img src="/uploads/<%=item.images[0].filename%>" width="50px" height="50px"></img></a>
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img src="/uploads/<%=item.images[0].filename%>" width="100%" height="100%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <%}else{%>
                 <div></div>
@@ -159,6 +170,7 @@ When I can't go around the world I'd like to host a part of it in my house, to f
             </div>
         <% }); }); %>
 	</div>
+
 
 </div>
 <div class="col-sm-1"></div>
