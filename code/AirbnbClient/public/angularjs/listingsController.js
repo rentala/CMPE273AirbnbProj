@@ -141,7 +141,7 @@
             $scope.userTrace = function () {
 
 
-                var tableUserTrace = d3.select('#userTraceDiv').select("table");
+                var tableUserTrace = d3.select('#userTraceDiv').select("svg");
                 if(tableUserTrace){ tableUserTrace.remove();}
 
                 $scope.showUserTrace = true;
