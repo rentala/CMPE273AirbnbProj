@@ -19,6 +19,7 @@ $(function () {
         logEvent( { url : e.target.href, type: "PAGECLICK" })
 
     });
+    logEvent({ url : window.location.href, type: "PAGECLICK" })
     function propertyClick (data) {
         data.type = "PROPERTYCLICK";
         logEvent(data);

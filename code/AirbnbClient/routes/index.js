@@ -46,6 +46,16 @@ router.post('/log', function(req, res, next) {
         event: req.body.event
       });
       break;
+    case "BIDACTIVITY":
+       common.logBiddingDtls({
+        user_id : req.session.user._id,
+        user_name: req.session.user.first_name + " " + req.session.user.last_name,
+        property_id: req.body.property_id,
+        property_name : req.body.property_name,
+        host_id : req.body.host_id,
+        event: req.body.event
+      });
+      break;
 
 
   }

@@ -429,4 +429,21 @@
 
 </script>
 
+<%if(flow=='book' && property.is_auction){%>
+    <script>
+        var logEvent = function (data) {
+            $.ajax({
+                method: "POST",
+                url: "/log",
+                data: data
+            }).done(function(res) {
+                console.log(res)
+            });
+
+        }
+        logData.type = "BIDACTIVITY";
+        logData.event = "User considering bidding"
+        logEvent(logData)
+    </script>
+<%}%>
 </html>

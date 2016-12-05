@@ -9,6 +9,7 @@ app.controller('myInboxController',function($scope,$http){
         url: "/api/inbox/inboxContent"
     }).success(function (data) {
     if (data.status_code == "200") {
+        $scope.host_id = data.host_id;
         if (data.result.length>0){
             $scope.data1=true;
             $scope.data2=false;
@@ -60,7 +61,7 @@ app.controller('myInboxController',function($scope,$http){
             }
         })
     }
-    $scope.acceptBid = function(property_id, bidPrice,bidder_name,max_bid_user_id,bid_id){
+    $scope.acceptBid = function(property_id, bidPrice,bidder_name,max_bid_user_id,bid_id, property_name){
         $http({
             method:"POST",
             url:"/api/trip/acceptBid",
@@ -73,12 +74,23 @@ app.controller('myInboxController',function($scope,$http){
             }
         }).success(function(data){
             if(data.status_code==200){
+                var logEvent = function (data) {
+                    $.ajax({
+                        method: "POST",
+                        url: "/log",
+                        data: data
+                    }).done(function(res) {
+                        console.log(res)
+                    });
+
+                };
+                logEvent({ host_id: $scope.host_id, property_id: property_id,property_name : property_name, event: "Bid accepted by host for amount" + bidPrice,  type : "BIDACTIVITY"})
                 alert('Bid accepted');
                 window.location.reload();
             }
         })
     }
-    $scope.rejectBid = function(bid_id){
+    $scope.rejectBid = function(property_id, bidPrice,bidder_name,max_bid_user_id,bid_id, property_name){
         $http({
             method:"POST",
             url:"/api/trip/rejectBid",
@@ -87,6 +99,7 @@ app.controller('myInboxController',function($scope,$http){
             }
         }).success(function(data){
             if(data.status_code==200){
+                logEvent({ host_id: $scope.host_id, property_id: property_id,property_name : property_name, event: "Bid rejected by host for amount" + bidPrice,  type : "BIDACTIVITY"})
                 alert('Bidding rejected');
                 window.location.reload();
             }

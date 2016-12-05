@@ -39,7 +39,8 @@ router.post('/inboxContent', function(req, res){
 	            json_responses = { 
 	            	"result":results.results,
 	            	"status_code" : 200,
-	            	"biddings" : results.biddings
+	            	"biddings" : results.biddings,
+					host_id: host_id
 	            };
         	}
         	else if(results.status_code == 400){

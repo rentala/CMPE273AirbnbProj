@@ -8,6 +8,16 @@ app.config(['$locationProvider', function($locationProvider) {
 		app.controller('propertySearchController',function($scope,$http,$location){
 			
 			$scope.makeBid = function(property_id,description,minBid){
+                var logEvent = function (data) {
+                    $.ajax({
+                        method: "POST",
+                        url: "/log",
+                        data: data
+                    }).done(function(res) {
+                        console.log(res)
+                    });
+
+                }
 				if($scope.bid_amount <=minBid){
 					alert("Please bid higher than $"+minBid);
 				}
@@ -22,6 +32,9 @@ app.config(['$locationProvider', function($locationProvider) {
 		            }
 		        }).success(function(data){
 		        	if(data.status_code == "200")
+                        logData.type = "BIDACTIVITY";
+                        logData.event = "User successfully bid an amount of " + $scope.bid_amount;
+                        logEvent(logData)
 		        		alert("Bid Submitted");
 		        		window.location.reload();
 		        })
