@@ -7,6 +7,7 @@ var myProfile = angular.module('myProfile',[]);
     	myProfile.controller('myProfileController',function($scope,$http){
     		$scope.signUpError ="";
     		$scope.msg ="";
+			$scope.errormsg = "";
     		$http({
 	            method:"POST",
 	            url:"/api/profile/loadProfile"
@@ -84,8 +85,16 @@ var myProfile = angular.module('myProfile',[]);
                         "ssn":$scope.ssn
     	            }
     	        }).success(function(data){
-    	        	$scope.data=data.user;
-					$scope.msg = "Updated Successfully";
+    	        	if(data.status_code == "200" ){
+    	        		$scope.data=data.user;
+    					$scope.msg = "Updated Successfully";
+    					$scope.errormsg = "";
+    	        	}
+    	        	else{
+    	        		$scope.msg = "";
+    	        		$scope.errormsg = "Error while updating";
+    	        		window.location.reload();
+    	        	}
     	        })
     	        }
     		}

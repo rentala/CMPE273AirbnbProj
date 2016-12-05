@@ -71,16 +71,19 @@
 <div data-ng-hide="card">
 	<div class="col-sm-7" style="border:0.5px solid black">
 		<form class="form-horizontal" style="margin-top: 20px">
+		<p style="color:green">{{msg}}</p>
+		<p style="color:red">{{signUpError}}</p>
+		<p style="color:red">{{errormsg}}</p>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="firstName">First Name</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="firstName"  ng-model="first_name" placeholder="First Name" disabled>
+					<input type="text" class="form-control" id="firstName"  ng-model="first_name" placeholder="First Name" >
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-sm-2" for="lastName">Last Name</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" id="lastName" ng-model = "last_name" placeholder="Last Name" disabled>
+					<input type="text" class="form-control" id="lastName" ng-model = "last_name" placeholder="Last Name" >
 				</div>
 			</div>
 			<div class="form-group">
@@ -140,8 +143,7 @@
 				</div>
 			</div>
 		</form>
-		<p style="color:green">{{msg}}</p>
-		<p style="color:red">{{signUpError}}</p>
+		
 	</div>
 </div>
 <div data-ng-hide="card1">

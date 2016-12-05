@@ -1,7 +1,8 @@
 var tool = require("../utili/common");
 ObjectID = require('mongodb').ObjectID;
 var redis = require('../db/redis');
-
+var mysql = require('../db/mysql');
+var sql_queries = require('../db/sql_queries');
 var updateProfile = {
 		handle_request : function (connection, msg, callback){
 		var res = {};
@@ -29,8 +30,20 @@ var updateProfile = {
 				}
 				else
 				{
-					res.code= "200";
-					callback(null, res);
+					mysql.execute_query(function (err, result) {
+		                if(err){
+		                	res.code= "400";
+		                	tool.logError(err);
+							callback(null, res);
+		                }
+		                else {
+		                	JSON.stringify("In RabbitMQ : trip.js : updateTrip :result of creating a new bill : " + JSON.stringify(res)) ;
+		                	res.code= "200";
+							callback(null, res);
+		                }
+		            },sql_queries.UPDATE_GUESTNAME_IN_TRIP,[ msg.firstName, msg.user_id]);
+					
+					
 				}
 			});
 		}
