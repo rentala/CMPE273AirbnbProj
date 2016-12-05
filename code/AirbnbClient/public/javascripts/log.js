@@ -15,9 +15,9 @@ var logEvent = function (data) {
 
 $(function () {
     $("body").on("click", "a" , function(e) {
-
-        logEvent( { url : e.target.href, type: "PAGECLICK" })
-
+        if(e.target.href != undefined && e.target.href != ""){
+            logEvent( { url : e.target.href, type: "PAGECLICK" })
+        }
     });
     logEvent({ url : window.location.href, type: "PAGECLICK" })
     function propertyClick (data) {

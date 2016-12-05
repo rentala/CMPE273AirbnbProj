@@ -168,15 +168,29 @@
                     </div>
                     <div class="panel-footer">
                   	  <div ng-if= "x.trip_status === 'ACCEPTED'" ng-controller="myTripController">
-                  	  	<input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">
+                          <div ng-if= "x.bill_status === 'CREATED'" >
+                              <input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">
+                          </div>
+                          <div ng-if= "x.bill_status === 'DELETED'" >
+                              <label> Bill Deleted </label>
+                          </div>
+
                   	  </div>
                   	  <div ng-if= "x.trip_status === 'PENDING'" >
                   	  	<input type = "button" value= "EDIT TRIP" ng-click="editTrip(x.trip_id,x.property_id,x.trip_price)">
                   	  	<button  value= "Delete Trip" ng-click="deleteTrip(x.trip_id)">Delete Trip</button>
                   	  </div>
                 	  <div ng-if= "x.trip_status === 'COMPLETED'" ng-controller="myTripController">
-                  	  	 <input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">
-                  	  	 <button  value= "Delete Trip" ng-click="deleteTrip(x.trip_id)">Delete Trip</button>
+                          <div ng-if= "x.bill_status === 'CREATED'" >
+                              <input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">
+                              &nbsp;<button  value= "Delete Trip" ng-click="deleteTrip(x.trip_id)">Delete Trip</button>
+                          </div>
+                          <div ng-if= "x.bill_status === 'DELETED'" >
+                              <label> Bill Deleted </label>
+                              &nbsp; <button  value= "Delete Trip" ng-click="deleteTrip(x.trip_id)">Delete Trip</button>
+                          </div>
+
+
                   	  </div>
                   	  <div ng-if= "x.trip_status === 'PENDINGPAYMENT'" ng-controller="myTripController">
                   	  	 <input type = "button" value= "Pay Now" ng-click="payNow(x.trip_id,x.trip_price)">
