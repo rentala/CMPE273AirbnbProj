@@ -12,7 +12,7 @@ app.controller('loginSignupController',function($scope,$http){
         
         if(!($scope.firstName!= null && $scope.lastName!=null && $scope.email!=null && $scope.password!=null && $scope.Dob!=null && $scope.street!=null && $scope.city!=null && $scope.state!=null && $scope.zipCode!=null && $scope.phoneNumber!=null && $scope.ssn!=null && $scope.aptNum!=null
             && $scope.firstName!= "" && $scope.lastName!="" && $scope.email!="" && $scope.password!="" && $scope.Dob!="" && $scope.street!="" && $scope.city!="" && $scope.state!="" && $scope.zipCode!="" && $scope.phoneNumber!="" && $scope.ssn!="" && $scope.aptNum!="")){
-        	$scope.signUpError="please enter all the field contents";
+        	$scope.signUpError="please enter all the field contents correctly";
         }
         else if(!validZip){
         	$scope.signUpError="Zip should be in these formats - 12345 or 12345-1111";
