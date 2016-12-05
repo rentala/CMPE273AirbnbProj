@@ -87,7 +87,7 @@ var createTrip = {
             }
             else{
             	if(result.length > 0 && result[0].stayDuration > 0){
-            		trip_price = (result[0].stayDuration) * Number(msg.price);
+            		trip_price = Number(msg.price);
             		console.log("Trip Price = " + trip_price);
             		mysql.execute_query(function(err, result){
                         if(err){
