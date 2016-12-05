@@ -301,8 +301,8 @@
 	<%for(var i=0; i < property.reviews.length; i++){%>
 		<div class="col-sm-12" style="margin-top:10px">
 		<div class="panel panel-default">
-			<div class="panel-heading" style="background-color:transparent;">property.reviews[i].guest_email_id</div>
-			<div class="panel-body">property.reviews[i].rating_comments</div>
+			<div class="panel-heading" style="background-color:transparent;"><%=property.reviews[i].user_name%></div>
+			<div class="panel-body"><%=property.reviews[i].comment%></div>
 		</div>
 	</div>
 	<%} } else {%>
