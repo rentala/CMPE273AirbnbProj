@@ -1,12 +1,30 @@
 var app = angular.module('myInbox',[]);
 app.controller('myInboxController',function($scope,$http){
+    $scope.data1=false;
+    $scope.data2=false;
+    $scope.data3=false;
+    $scope.data4=false;
     $http({
         method: "POST",
         url: "/api/inbox/inboxContent"
     }).success(function (data) {
     if (data.status_code == "200") {
+        if (data.result.length>0){
+            $scope.data1=true;
+            $scope.data2=false;
         $scope.details = data.result;
-        $scope.biddings = data.biddings;
+        }else{
+            $scope.data1=false;
+            $scope.data2=true;
+        }
+        if(data.biddings.length>0){
+            $scope.data3=true;
+            $scope.data4=false;
+            $scope.biddings = data.biddings;
+        }else{
+            $scope.data3=false;
+            $scope.data4=true;
+        }
     }
      else {
         console.log("vhhvnv");
