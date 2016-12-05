@@ -56,6 +56,24 @@
             width: 345px;
         }
     </style>
+    <script type="text/javascript">
+        window.onload=function(){
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            if(dd<10){
+                dd='0'+dd
+            }
+            if(mm<10){
+                mm='0'+mm
+            }
+
+            today = yyyy+'-'+mm+'-'+dd;
+            document.getElementById("start_date").setAttribute("min", today);
+            document.getElementById("end_date").setAttribute("min", today);
+        }
+    </script>
     <script>
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
@@ -216,10 +234,10 @@
                 <h3>When can guests check in?</h3>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <h4>Start Date</h4>
-                        <input id="start_date" placeholder="start Date" required class="form-control" type="text" name= "start_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" >
-                        <h4>End Date</h4>
-                        <input id = "end_date" placeholder="end Date" required class="form-control" type="text" name= "end_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" >
+                        <h4>Check In Date</h4>
+                        <input id="start_date" placeholder="Check In Date" required class="form-control" type="text" name= "start_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" >
+                        <h4>Check Out Date</h4>
+                        <input id = "end_date" placeholder="Check Out Date" required class="form-control" type="text" name= "end_date" style="margin-top:10px" onfocus="(this.type='date')" onblur="(this.type='text')" >
                     </div>
                 </div>
                 <h3 style="margin-top:10px">Give your property a title !</h3>
