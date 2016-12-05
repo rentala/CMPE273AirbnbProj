@@ -253,6 +253,8 @@ function mapReqToPayLoad(req) {
     }
     //msg_payload.host_id = 1; //stub
     msg_payload.host_id = req.session.user_id; 
+    msg_payload.host_name = req.session.user.last_name + " "+ req.session.user.first_name;
+    
     msg_payload.category = req.body.category
     msg_payload.coordinates = {
         x: req.body.coordinatesX,
