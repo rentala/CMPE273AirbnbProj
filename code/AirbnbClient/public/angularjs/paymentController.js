@@ -81,7 +81,12 @@ $scope.submit= function(){
 		        })
 		}
 	}
-}	
+}
+$scope.userActivityClick = function  (data, event) {
+	data.type = "USERACTIVITY";
+	data.event = event;
+	logEvent(data);
+}
 $scope.payDiff= function(){
 	
 	var cardNum = $scope.cNumber;
@@ -117,6 +122,10 @@ $scope.payDiff= function(){
 	            }
 	        }).success(function(data){
 	        	if(data.status_code == "200"){
+                    $scope.userActivityClick({
+                        property_id: document.getElementById("property_id").defaultValue,
+                        property_name : "Property"
+                    }, "Trip Update Payment Done")
 	        		alert("Success Payment");
 					window.location.assign("/api/property/confirmation");
 					}

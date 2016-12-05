@@ -382,7 +382,7 @@
 			<input type="text" class="form-control" id = "flow2" value ="<%=flow%>" style="display: none;" ng-model="flow">
 			<input type="text" class="form-control" id = "trip_id2" value ="<%=trip_id%>" style="display: none;" ng-model="trip_id">
 			<input type="submit" class="btn btn-primary" value="edit" ng-click="editTrip()">
-		<span ng-show="hasErrors" class="" style="color: red; font-size: 11px"> Check In Date must be greater than Check Out Date </span>
+		<span ng-show="hasErrors" class="" style="color: red; font-size: 11px"> Check In Date must be before the Check Out Date </span>
 
 	</div>
 	</div>
@@ -421,6 +421,10 @@
 		}
 		propertyClick(logData);
 		userActivityClick(logData, "User views the property page")
+		if(window.location.href.indexOf('api/property/id') != -1
+				&& window.location.href.indexOf('edit') != -1 ){
+			userActivityClick(logData, "User considers editing the trip")
+		}
 	});
 
 </script>

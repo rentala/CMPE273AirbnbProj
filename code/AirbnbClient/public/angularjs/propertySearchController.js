@@ -84,16 +84,17 @@ app.config(['$locationProvider', function($locationProvider) {
 							}
 						}).success(function(data){
 							if(data.status_code == "200"){
+                                $scope.userActivityClick("User edits the trip");
 								var diff = eval(data.newTripPrice-parseInt($scope.OldTripPrice));
 								if(diff>0){
-									alert("you will have to pay more");
-									window.location.assign("/api/property/paymentGateway/e/"+diff);
+									alert("You will have to pay an additional amount.");
+									window.location.assign("/api/property/paymentGateway/e/"+diff+"?pid=" + property_id);
 								}
 								else
 									alert("Trip updated. No extra charges")
 							}
 							else{
-								alert("Sorry cannot update trip for following dates");
+								alert("Sorry, we cannot update trip for input dates");
 							}
 						})
 					}

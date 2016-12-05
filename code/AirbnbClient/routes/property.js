@@ -134,6 +134,7 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                         res.render('./property/propertyDetails.ejs', {property: property,flow:flow,user_dtls: req.session.user,
                             tripPrice: property.is_auction ? results.bidding[0].max_bid_price : tripPrice});
                 }
+                //req.session.logData = {} property._id
             }
             else {
                 json_responses = {"status_code":results.statusCode};
@@ -388,7 +389,7 @@ router.get('/myListings', function (req, res, next)  {
 
 router.post('/paymentGateway', function (req, res, next)  {
 	var msg = mapCheckoutRequest(req)	;
-	
+	//msg.name = req.session.user.first_name;
 	ejs.renderFile('./views/views/cardDetails.ejs',{ data:msg, flow:req.body.flow},function(err, result) {
 		// render on success
 		if (!err) {
@@ -405,7 +406,9 @@ router.post('/paymentGateway', function (req, res, next)  {
 });
 
 router.get('/paymentGateway/:flow/:diff', function (req, res, next)  {
-	ejs.renderFile('./views/views/cardDetails.ejs',{ diff:req.param("diff"),flow:req.param("flow")},function(err, result) {
+	ejs.renderFile('./views/views/cardDetails.ejs',{ diff:req.param("diff"),
+        flow:req.param("flow"),
+        property_id: req.query.pid},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);
