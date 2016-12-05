@@ -389,8 +389,12 @@ router.get('/myListings', function (req, res, next)  {
 
 router.post('/paymentGateway', function (req, res, next)  {
 	var msg = mapCheckoutRequest(req)	;
+    var id = req.query.pid;
+    if (req.query.pid == undefined){
+        id = "";
+    }
 	//msg.name = req.session.user.first_name;
-	ejs.renderFile('./views/views/cardDetails.ejs',{ data:msg, flow:req.body.flow},function(err, result) {
+	ejs.renderFile('./views/views/cardDetails.ejs',{ data:msg, flow:req.body.flow,  property_id: id},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);
@@ -406,9 +410,13 @@ router.post('/paymentGateway', function (req, res, next)  {
 });
 
 router.get('/paymentGateway/:flow/:diff', function (req, res, next)  {
+    var id = req.query.pid;
+    if (req.query.pid == undefined){
+        id = "";
+    }
 	ejs.renderFile('./views/views/cardDetails.ejs',{ diff:req.param("diff"),
         flow:req.param("flow"),
-        property_id: req.query.pid},function(err, result) {
+        property_id: id},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);
@@ -424,7 +432,12 @@ router.get('/paymentGateway/:flow/:diff', function (req, res, next)  {
 });
 
 router.get('/paymentGateway/:flow/:trip_id/:amount', function (req, res, next)  {
-	ejs.renderFile('./views/views/cardDetails.ejs',{ trip_id:req.param("trip_id"),flow:req.param("flow"),amount:req.param("amount")},function(err, result) {
+    var id = req.query.pid;
+    if (req.query.pid == undefined){
+        id = "";
+    }
+	ejs.renderFile('./views/views/cardDetails.ejs',{ trip_id:req.param("trip_id"),flow:req.param("flow"),
+        amount:req.param("amount"),  property_id: id},function(err, result) {
 		// render on success
 		if (!err) {
 		res.end(result);
