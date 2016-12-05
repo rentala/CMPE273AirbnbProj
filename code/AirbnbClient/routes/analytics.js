@@ -94,13 +94,14 @@ router.post('/topHost',function (req,res) {
 
 });
 
-router.post('/propRatings',function (req,res) {
-    var host_id= req.param("host_id");
+router.get('/propRatings',function (req,res) {
+    //var host_id= req.param("host_id");
+    //var host_id="1";
+    var host_id = req.session.user._id;
     console.log("In AirbnbClient  : analytics.js  : propRatings : "+host_id);
     var msg_payload = {"host_id":host_id};
 
     mq_client.make_request('prop_ratings_queue',msg_payload,function (err,results) {
-
         if(err){
             console.log("In AirbnbClient : analytics.js : Property ratings : Error : " +err);
             tool.logError(err);
@@ -111,7 +112,6 @@ router.post('/propRatings',function (req,res) {
             res.end();
 
         }else{
-
             res.send(results.json_resp);
             res.end();
         }
@@ -150,27 +150,43 @@ router.get('/bidInfo',function (req,res) {
 });
 
 router.get('/propertyClicks',function (req,res) {
-
-   fs.readFile("./logs/propClicksDummy.tsv", "utf8", function(error, data) {
+    var host_id  = req.session.user._id;
+    var json_responses;
+   fs.readFile("./logs/propClicks.tsv", "utf8", function(error, data) {
        console.log("data"+JSON.stringify(data));
        data = d3.tsvParse(data);
        console.log(JSON.stringify(data));
 
-       var procData = d3.nest()
+       var procData=[];
+       for(var i =0;i<data.length;i++){
+           if(data[i].host_id == host_id)
+           {
+               console.log("valid property : "+ data[i].property_id);
+               console.log("index : "+ i );
+               procData.push(data[i]);
+           }
+       }
+
+       var finalData = d3.nest()
            .key(function(d) { return d.property_name;})
            .rollup(function(d) {
                return d3.sum(d, function(g) {return g.clicks; });
            }).entries(data);
 
-       console.log("Cleaned data : " + JSON.stringify(procData));
-       res.send(procData);
+       console.log("Cleaned data : " + JSON.stringify(finalData));
+       json_responses = {
+           "status_code":200,
+           "finalData":finalData
+       };
+       res.send(json_responses);
        res.end();
     });
 });
 
 
 router.get('/pageClicks',function (req,res) {
-   fs.readFile("./logs/pageClicksDummy.tsv", "utf8", function (error, data) {
+    var json_responses;
+   fs.readFile("./logs/pageClicks.tsv", "utf8", function (error, data) {
        console.log("data" + JSON.stringify(data));
        data = d3.tsvParse(data);
        console.log(JSON.stringify(data));
@@ -184,26 +200,32 @@ router.get('/pageClicks',function (req,res) {
            }).entries(data);
 
        console.log("Cleaned data : " + JSON.stringify(procData));
-       res.send(procData);
+
+       json_responses={
+           "status_code":200,
+           "finalData":procData
+       };
+
+       res.send(json_responses);
        res.end();
    });
 });
 
 router.get('/userTrace',function (req,res) {
-   fs.readFile("./logs/userTraceDummy.tsv", "utf8", function (error, data) {
+    //var prop_id = req.param("prop_id");
+    var host_id = req.session.user._id;
+    //var prop_id = 1;
+   fs.readFile("./logs/userTrace.tsv", "utf8", function (error, data) {
       var procData = d3.tsvParse(data);
-       console.log("data to be changed: " + JSON.stringify(procData[0].User_id));
+       console.log("data to be changed: " + JSON.stringify(procData[0].user_id));
        console.log(JSON.stringify((procData)));
        console.log("array size"+ procData.length);
 
-       var session_user_id = 1; /*stubbed user in session, add req.session.user_id;*/
-
-
-        var finalData=[];
+       var finalData=[];
        for(var i =0;i<procData.length;i++){
-           if(procData[i].User_id == session_user_id)
+           if(procData[i].host_id == host_id)
            {
-               console.log("valid user : "+ procData[i].User_id);
+               console.log("valid property : "+ procData[i].property_id);
                console.log("index : "+ i );
                finalData.push(procData[i]);
            }
@@ -221,9 +243,22 @@ router.get('/userTrace',function (req,res) {
 });
 
 router.get('/biddingTrace',function (req,res) {
+    var host_id = req.session.user._id;
+    //var host_id=1;
    fs.readFile("./logs/biddingTraceDummy.tsv", "utf8", function (error, data) {
        var procData = d3.tsvParse(data);
+       console.log(JSON.stringify(procData));
 
+       var finalData=[];
+       for(var i =0;i<procData.length;i++){
+           if(procData[i].host_id == host_id)
+           {
+               console.log("valid property : "+ procData[i].property_id);
+               console.log("index : "+ i );
+               finalData.push(procData[i]);
+           }
+       }
+       console.log("changed data : "+JSON.stringify(finalData));
 
 
        /*var procData = d3.nest()
@@ -231,7 +266,7 @@ router.get('/biddingTrace',function (req,res) {
                return d.Property_Id;
            }).entries(data);*/
 
-       res.send(procData.reverse());
+       res.send(finalData.reverse());
        res.end();
    });
 });
