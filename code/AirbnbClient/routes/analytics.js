@@ -95,9 +95,8 @@ router.post('/topHost',function (req,res) {
 });
 
 router.get('/propRatings',function (req,res) {
-    //var host_id= req.param("host_id");
-    //var host_id="1";
-    var host_id = req.session.user._id;
+	var host_id = req.param("host_id");
+    //var host_id = req.session.user._id;
     console.log("In AirbnbClient  : analytics.js  : propRatings : "+host_id);
     var msg_payload = {"host_id":host_id};
 
@@ -245,7 +244,7 @@ router.get('/userTrace',function (req,res) {
 router.get('/biddingTrace',function (req,res) {
     var host_id = req.session.user._id;
     //var host_id=1;
-   fs.readFile("./logs/biddingTraceDummy.tsv", "utf8", function (error, data) {
+   fs.readFile("./logs/biddingTrace.tsv", "utf8", function (error, data) {
        var procData = d3.tsvParse(data);
        console.log(JSON.stringify(procData));
 

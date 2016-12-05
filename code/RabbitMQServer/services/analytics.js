@@ -175,10 +175,16 @@ var propertyRatings = {
                     if (results.length>0) {
                   	  console.log("Property rating records : " + JSON.stringify(results));
                   	  property_ratings = calculateAverageRating(results);
-                  	
+                      var propertyRatingsArray = [];
+                      for(var i = 0;  i < property_ratings.length; i++){
+                        if(property_ratings[i].value != 0){
+                          propertyRatingsArray.push(property_ratings[i]);
+                        }
+                      }
+                  	console.log("got it = " + JSON.stringify(propertyRatingsArray));
                         json_resp = {
                             "status_code" : 200,
-                            "property_ratings_dtls" : property_ratings
+                            "property_ratings_dtls" : propertyRatingsArray
                         };
                     } else {
                         console.log("RabbitMQ server : analytics.js :propertyRatings: No record to fetch");
@@ -226,9 +232,10 @@ var calculateAverageRating= function(results){
 			avg_rating +=parseInt(property.reviews[i].rating);
 		}
 		//Calculate the average
-		avg_rating = avg_rating/property.reviews.length;
-		console.log("Average Ratings : " + avg_rating);
-		
+		if(avg_rating!=0){
+			avg_rating = avg_rating/property.reviews.length;
+			console.log("Average Ratings : " + avg_rating);
+		}
 		prop.value = avg_rating;
 		avgPropRating.push(prop);
 	}

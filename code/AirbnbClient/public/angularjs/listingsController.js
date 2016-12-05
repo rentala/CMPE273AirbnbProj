@@ -102,7 +102,7 @@
                 $scope.showPropertyClicks = false;
                 $scope.showPropertyRatings=false;
                 $scope.showError = false;
-
+                var leastSeenPageArray = [];
                 $http({
                     method: "GET",
                     url: '/api/analytics/pageClicks'
@@ -110,6 +110,15 @@
                     if(data.status_code==200){
                         if(data.finalData.length>0)
                         {
+                            var minimum = data.finalData[0].value;
+                            for(var i = 0; i < data.finalData.length; i++){
+                                if(data.finalData[i].value < minimum){
+                                    minimum = data.finalData[i].key
+                                    leastSeenPageArray.push(minimum);
+                                }
+                                console.log("minimum = " + minimum + JSON.stringify(leastSeenPageArray));
+                            }
+                            $scope.leastSeenPage = leastSeenPageArray;
                             $scope.page_clicks_data = data.finalData;
                             console.log("page clicks data : " + JSON.stringify($scope.page_clicks_data));
                             var svg = d3.select('#pageClicksDiv') .append('svg') .attr('height', 200) .attr('width', 300);
@@ -203,10 +212,16 @@
                         //checking the response data for statusCode
                         console.log(data);
                         if(data.status_code == 200){
-                            $scope.prop_ratings_data = data.property_ratings_dtls;
-                            console.log("Bar chart data : " + JSON.stringify($scope.prop_ratings_data));
-                            var svg = d3.select('#propertyRatingDiv').append('svg');
-                            displayBar( $scope.prop_ratings_data,svg,"Property","Ratings");
+                            if(data.property_ratings_dtls.length > 0){
+                                $scope.prop_ratings_data = data.property_ratings_dtls;
+                                console.log("Bar chart data : " + JSON.stringify($scope.prop_ratings_data));
+                                var svg = d3.select('#propertyRatingDiv').append('svg');
+                                displayBar( $scope.prop_ratings_data,svg,"Property","Ratings");
+                            }
+                            else{
+                                console.log("no matching data");
+                                $scope.showError=true;    
+                            }
                         }
                         else{
                             console.log("no matching data");

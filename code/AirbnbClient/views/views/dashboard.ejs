@@ -68,34 +68,47 @@
     <div class="col-sm-12">
         <div class = "col-sm-1"></div>
         <div class = "col-sm-2">
-            <h2>DASHBOARD</h2>
+            <h2>Your Analytics</h2>
             <p><a href = "" ng-click = "propertyClicks()">Property Clicks</a></p>
             <p><a href = "" ng-click = "pageClicks()">Page Clicks</a></p>
             <p><a href = "" ng-click = "userTrace()">User Trace</a></p>
             <p><a href = "" ng-click = "biddingTrace()">Bidding Trace</a></p>
+            <p><a href = "" ng-click = "propertyRatings()">Property Ratings</a></p>
         </div>
-        <div class = "col-sm-4">
+        <div class = "col-sm-4" style="margin-top: 20px">
             <div ng-show = "showPropertyClicks">
-                <h2>Property Clicks</h2>
+                <h4>Your Property Clicks</h4>
                 <div id = "propertyClicksDiv"></div>
             </div>
 
             <div ng-show = "showPageClicks">
+                <div ng-repeat = "x in leastSeenPage">
+                    <p><b>Least Seen Area: </b><a href = "">{{x}}</a></p>
+                </div>
                 <div id = "pageClicksDiv">
-                    <h2>Page Clicks</h2>
+                    <h4>Your Page Clicks</h4>
                 </div>
             </div>
 
             <div ng-show = "showUserTrace">
-                <h2>user trace</h2>
+                <h4>Your User trace</h4>
                 <div id = "userTraceDiv"></div>
             </div>
 
 
             <div ng-show = "showBiddingTrace">
-                <h2>biddingTrace</h2>
+                <h4>Your Bidding Trace</h4>
                 <div id = "biddingTraceDiv"></div>
             </div>
+            <div ng-show = "showPropertyRatings">
+                <h4>Your Property Ratings</h4>
+                <div id = "propertyRatingDiv"></div>
+            </div>
+
+            <div ng-show="showError">
+                <p>There are no Analytics for you yet!</p>
+            </div>
+
         </div>
 
 

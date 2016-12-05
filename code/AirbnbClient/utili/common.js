@@ -50,21 +50,21 @@ winston.loggers.add('user_info_title_logger', {
 //-----------------Data Loggers---------------------
 winston.loggers.add('prop_click_logger', {
    file: {
-      filename: './logs/prop_click.tsv',
+      filename: './logs/propClicks.tsv',
       formatter  : customFileFormatter,
       json:false
      }
   });
 winston.loggers.add('page_click_logger', {
    file: {
-      filename: './logs/page_click.tsv',
+      filename: './logs/pageClicks.tsv',
       formatter  : customFileFormatter,
       json:false
      }
   });
 winston.loggers.add('user_info_logger', {
    file: {
-      filename: './logs/user_info.tsv',
+      filename: './logs/userTrace.tsv',
       formatter  : customFileFormatter,
       json:false
      }
@@ -79,7 +79,7 @@ winston.loggers.add('error_logger', {
   });
 winston.loggers.add('bidding_dtl_logger', {
    file: {
-      filename: './logs/bidding_dtls.log',
+      filename: './logs/biddingTrace.tsv',
       formatter  : customFileFormatter,
       json:false
      }

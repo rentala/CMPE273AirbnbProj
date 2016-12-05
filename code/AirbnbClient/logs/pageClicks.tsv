@@ -1,26 +1,34 @@
 Timestamp	Page	clicks
-12/4/2016, 8:10:51 PM	Home	1
-12/4/2016, 8:18:53 PM	Property	1
-12/4/2016, 8:18:53 PM	Property Search	1
-12/4/2016, 8:18:53 PM	Trip Serach	1
-12/4/2016, 8:18:53 PM	Admin Dashboard	1
-12/4/2016, 8:18:53 PM	Host Dashboard	1
-12/4/2016, 8:18:53 PM	Confirm Trip	1
-12/4/2016, 8:18:53 PM	User Profile	1
-12/4/2016, 8:18:53 PM	Update Profile	1
-12/4/2016, 8:18:53 PM	Home	1
-12/4/2016, 8:18:53 PM	Property	1
-12/4/2016, 8:18:53 PM	Property Search	1
-12/4/2016, 8:18:53 PM	Property	1
-12/4/2016, 8:18:53 PM	Trip Serach	1
-12/4/2016, 8:18:53 PM	Confirm Trip	1
-12/4/2016, 8:18:53 PM	Property	1
-12/4/2016, 8:18:53 PM	Home	1
-12/4/2016, 8:18:53 PM	User Profile	1
-12/4/2016, 8:18:53 PM	Update Profile	1
-12/4/2016, 8:18:53 PM	User Profile	1
-12/4/2016, 8:18:53 PM	Property Search	1
-12/4/2016, 8:18:53 PM	Confirm Trip	1
-12/4/2016, 8:18:53 PM	User Profile	1
-12/4/2016, 8:18:53 PM	Trip Serach	1
-12/4/2016, 8:18:53 PM	Property	1
+12/5/2016, 12:50:03 PM	http://localhost:8000/api/property/searchResult	1
+12/5/2016, 12:50:45 PM	http://localhost:8000/api/profile/myTrips	1
+12/5/2016, 12:50:52 PM	http://localhost:8000/api/profile/editProfile	1
+12/5/2016, 12:50:55 PM	http://localhost:8000/host	1
+12/5/2016, 12:51:40 PM	http://localhost:8000/api/property/list	1
+12/5/2016, 12:51:42 PM	http://localhost:8000/api/property/id/5845d35c84ef7093109779f4/view	1
+12/5/2016, 12:51:43 PM	http://localhost:8000/api/property/id/5845d35c84ef7093109779f4/view	1
+12/5/2016, 12:51:49 PM	http://localhost:8000/api/auth/logout	1
+12/5/2016, 12:52:10 PM	http://localhost:8000/api/property/searchResult	1
+12/5/2016, 12:53:11 PM	http://localhost:8000/api/property/searchResult	1
+12/5/2016, 12:53:54 PM	http://localhost:8000/api/property/searchResult	1
+12/5/2016, 12:54:09 PM	http://localhost:8000/api/property/searchResult	1
+12/5/2016, 12:54:15 PM	http://localhost:8000/api/property/id/5845d35c84ef7093109779f4/book	1
+12/5/2016, 12:54:15 PM	http://localhost:8000/api/property/id/5845d35c84ef7093109779f4/book	1
+12/5/2016, 12:54:38 PM	http://localhost:8000/api/property/id/5845d35c84ef7093109779f4/book	1
+12/5/2016, 12:54:47 PM	http://localhost:8000/api/profile/myTrips	1
+12/5/2016, 12:54:47 PM	http://localhost:8000/api/profile/myTrips	1
+12/5/2016, 12:54:49 PM	http://localhost:8000/api/profile/myTrips	1
+12/5/2016, 12:54:49 PM	http://localhost:8000/api/profile/myTrips	1
+12/5/2016, 12:54:51 PM	http://localhost:8000/api/profile/yourListings	1
+12/5/2016, 12:54:51 PM	http://localhost:8000/api/profile/yourListings	1
+12/5/2016, 12:54:53 PM	http://localhost:8000/api/inbox/inbox	1
+12/5/2016, 12:54:53 PM	http://localhost:8000/api/inbox/inbox	1
+12/5/2016, 12:56:48 PM	http://localhost:8000/api/property/searchResult	1
+12/5/2016, 12:56:50 PM	http://localhost:8000/api/property/id/5845d35c84ef7093109779f4/book	1
+12/5/2016, 12:56:51 PM	http://localhost:8000/api/property/id/5845d35c84ef7093109779f4/book	1
+12/5/2016, 12:57:07 PM	http://localhost:8000/api/property/id/5845d35c84ef7093109779f4/book	1
+12/5/2016, 1:01:02 PM		1
+12/5/2016, 1:01:03 PM	http://localhost:8000/api/auth/logout	1
+12/5/2016, 1:01:12 PM	http://localhost:8000/api/profile/myTrips	1
+12/5/2016, 1:01:16 PM	http://localhost:8000/api/profile/yourListings	1
+12/5/2016, 1:01:17 PM	http://localhost:8000/api/profile/yourListings	1
+12/5/2016, 1:01:19 PM	http://localhost:8000/api/profile/dashboard	1
