@@ -117,8 +117,8 @@
                             </div>
                         </div>
                         <div class="col-sm-12" style="background-color: #9d9d9d">
-                            <input type="button" class="btn btn-danger" style="float:left" value="Reject" data-ng-click="rejectBid(x.bid_id)">
-                            <input type="button" class="btn btn-success" style="float:right" value="Accept" data-ng-click="acceptBid(x.property_id,x.max_bid_price,x.bidder_name,x.max_bid_user_id,x.bid_id)">
+                            <input type="button" class="btn btn-danger" style="float:left" value="Reject" data-ng-click="rejectBid(x.property_id,x.max_bid_price,x.bidder_name,x.max_bid_user_id,x.bid_id, x.property_name)">
+                            <input type="button" class="btn btn-success" style="float:right" value="Accept" data-ng-click="acceptBid(x.property_id,x.max_bid_price,x.bidder_name,x.max_bid_user_id,x.bid_id, x.property_name)">
                         </div>
                     </div>
                 </div>
@@ -137,4 +137,5 @@
 <br><br>
 
 </body>
+<script src="/javascripts/log.js"></script>
 </html>

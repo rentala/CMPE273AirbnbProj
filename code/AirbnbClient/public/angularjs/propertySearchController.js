@@ -8,6 +8,16 @@ app.config(['$locationProvider', function($locationProvider) {
 		app.controller('propertySearchController',function($scope,$http,$location){
 			
 			$scope.makeBid = function(property_id,description,minBid){
+                var logEvent = function (data) {
+                    $.ajax({
+                        method: "POST",
+                        url: "/log",
+                        data: data
+                    }).done(function(res) {
+                        console.log(res)
+                    });
+
+                }
 				if($scope.bid_amount <=minBid){
 					alert("Please bid higher than $"+minBid);
 				}
@@ -22,6 +32,9 @@ app.config(['$locationProvider', function($locationProvider) {
 		            }
 		        }).success(function(data){
 		        	if(data.status_code == "200")
+                        logData.type = "BIDACTIVITY";
+                        logData.event = "User successfully bid an amount of " + $scope.bid_amount;
+                        logEvent(logData)
 		        		alert("Bid Submitted");
 		        		window.location.reload();
 		        })
@@ -46,6 +59,17 @@ app.config(['$locationProvider', function($locationProvider) {
 				+ mon + "-" +
 				$scope.minDate.getDate();
 				*/
+			$scope.userActivityClick = function (event) {
+				logData.type = "USERACTIVITY";
+				logData.event = event;
+				$.ajax({
+					method: "POST",
+					url: "/log",
+					data: logData
+				}).done(function(res) {
+					console.log(res)
+				});
+			}
 			$scope.editTrip = function(){
 				var property_id = document.getElementById("property_id2").defaultValue;
 				var trip_id = document.getElementById("trip_id2").defaultValue;
@@ -73,16 +97,17 @@ app.config(['$locationProvider', function($locationProvider) {
 							}
 						}).success(function(data){
 							if(data.status_code == "200"){
+                                $scope.userActivityClick("User edits the trip");
 								var diff = eval(data.newTripPrice-parseInt($scope.OldTripPrice));
 								if(diff>0){
-									alert("you will have to pay more");
-									window.location.assign("/api/property/paymentGateway/e/"+diff);
+									alert("You will have to pay an additional amount.");
+									window.location.assign("/api/property/paymentGateway/e/"+diff+"?pid=" + property_id);
 								}
 								else
 									alert("Trip updated. No extra charges")
 							}
 							else{
-								alert("Sorry cannot update trip for following dates");
+								alert("Sorry, we cannot update trip for input dates");
 							}
 						})
 					}

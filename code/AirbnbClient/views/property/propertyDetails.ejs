@@ -12,6 +12,13 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBWlhSOzoAYUi3wmo6rbzJRBV4yohQvXBY&libraries=places&callback=initAutocomplete"
 	></script>
 	<script>
+		var airbnb = {};
+		var OnPropertyFlow = true;
+		var logData = {
+			host_id : '<%=property.host_id%>',
+			property_id: '<%=property._id%>',
+			property_name : '<%=property.property_title%>',
+		}
 		var propertyPrice = '<%=property.price%>';
 		var propertyDates = {
 			start_date : '<%=property.start_date%>',
@@ -151,6 +158,7 @@
 		}
 
 	</style>
+	<script src="/javascripts/log.js"></script>
 </head>
 <body ng-app ="airbnbApp" ng-controller="propertySearchController" >
 <base href="/api/property/id">
@@ -189,7 +197,7 @@
 </nav>
 <div style="margin-top:-18px" id="img_container">
 	<img src="<%="/uploads/"+ property.imagesPath[0].filename%>" width="100%" height="400px">
-	<button class="button" data-toggle="modal" data-target=".bs-example-modal-lg">view photos</button>
+	<button class="button" ng-click="userActivityClick('Photos are viewed')" data-toggle="modal" data-target=".bs-example-modal-lg">view photos</button>
 </div>
 
 <!-- Start of coroussal-->
@@ -352,7 +360,7 @@
 			<input type="text" class="form-control" name = "guests" value ="<%=guests%>" style="display: none;">
 			<input type="text" class="form-control" name = "flow" value ="<%=flow%>" style="display: none;">
 			<input type="text" class="form-control" name = "price" value ="<%=property.price%>" style="display: none;">
-			<input type="submit" class="btn btn-primary" value="Book">
+			<input type="submit" class="btn btn-primary" ng-click="userActivityClick('Proceeds to Payment')" value="Book">
 			</form>
 		<%}%>
 		</div>
@@ -374,7 +382,7 @@
 			<input type="text" class="form-control" id = "flow2" value ="<%=flow%>" style="display: none;" ng-model="flow">
 			<input type="text" class="form-control" id = "trip_id2" value ="<%=trip_id%>" style="display: none;" ng-model="trip_id">
 			<input type="submit" class="btn btn-primary" value="edit" ng-click="editTrip()">
-		<span ng-show="hasErrors" class="" style="color: red; font-size: 11px"> Check In Date must be greater than Check Out Date </span>
+		<span ng-show="hasErrors" class="" style="color: red; font-size: 11px"> Check In Date must be before the Check Out Date </span>
 
 	</div>
 	</div>
@@ -390,4 +398,52 @@
 	<div class="col-sm-1"></div>
 </div>
 </body>
+<script>
+	$(function () {
+		var logEvent = function (data) {
+			$.ajax({
+				method: "POST",
+				url: "/log",
+				data: data
+			}).done(function(res) {
+				console.log(res)
+			});
+
+		}
+		function propertyClick (data) {
+			data.type = "PROPERTYCLICK";
+			logEvent(data);
+		}
+		function userActivityClick (data, event) {
+			data.type = "USERACTIVITY";
+			data.event = event;
+			logEvent(data);
+		}
+		propertyClick(logData);
+		userActivityClick(logData, "User views the property page")
+		if(window.location.href.indexOf('api/property/id') != -1
+				&& window.location.href.indexOf('edit') != -1 ){
+			userActivityClick(logData, "User considers editing the trip")
+		}
+	});
+
+</script>
+
+<%if(flow=='book' && property.is_auction){%>
+    <script>
+        var logEvent = function (data) {
+            $.ajax({
+                method: "POST",
+                url: "/log",
+                data: data
+            }).done(function(res) {
+                console.log(res)
+            });
+
+        }
+        logData.type = "BIDACTIVITY";
+        logData.event = "User considering bidding"
+        logEvent(logData)
+    </script>
+<%}%>
 </html>

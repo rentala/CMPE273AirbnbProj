@@ -2,6 +2,7 @@ var express = require('express');
 var ejs = require('ejs');
 var router = express.Router();
 var winston = require('winston');
+var common = require('../utili/common.js');
 const eventlogger = new (winston.Logger)({
   transports: [
     // colorize the output to the console
@@ -22,18 +23,43 @@ router.get('/', function(req, res, next) {
 router.post('/log', function(req, res, next) {
   switch(req.body.type){
     case "PAGECLICK":
-      //pageclick func call
+      common.logPageClicks({
+        page_url: req.body.url,
+        clicks : 1
+      })
       break;
     case "PROPERTYCLICK":
-      //prop click func call
+      common.logPropertyCicks({
+        host_id : req.body.host_id,
+        property_id: req.body.property_id,
+        property_name: req.body.property_name,
+        clicks: 1
+      });
       break;
-    //default
-    default:
-      //user activity func call
+    case "USERACTIVITY":
+      common.logUserActivity({
+        user_id : req.session.user._id,
+        user_name: req.session.user.first_name + " " + req.session.user.last_name,
+        property_id: req.body.property_id,
+        property_name : req.body.property_name,
+        city: req.session.user.city,
+        event: req.body.event
+      });
+      break;
+    case "BIDACTIVITY":
+       common.logBiddingDtls({
+        user_id : req.session.user._id,
+        user_name: req.session.user.first_name + " " + req.session.user.last_name,
+        property_id: req.body.property_id,
+        property_name : req.body.property_name,
+        host_id : req.body.host_id,
+        event: req.body.event
+      });
       break;
 
 
   }
+
   //eventlogger.info('User Id: '+req.session.user._id+', '+ req.body.event+ ', '+ req.body.text);
   res.send(JSON.stringify({ result: true }));
 });

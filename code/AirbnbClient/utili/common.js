@@ -124,7 +124,7 @@ var logPropertyCicks = function(data){
 
 var logBiddingDtls = function(data){
 	
-	biddingDtl_logger.log('info' , data.user_id + "\t" + data.user_name + "\t" + data.property_id + "\t" +data.property_name+ "\t" +data.event); 
+	biddingDtl_logger.log('info' , data.host_id + "\t" +data.user_id + "\t" + data.user_name + "\t" + data.property_id + "\t" +data.property_name+ "\t" +data.event);
 };
 
 var logPageClicks = function(data){
@@ -134,7 +134,7 @@ var logPageClicks = function(data){
 
 var logUserActivity = function(data){
 	
-	userInfo_logger.log('info' , data.user_id + "\t" + data.user_name +  "\t" + data.city + "\t" + data.propery_id + "\t"+data.event);
+	userInfo_logger.log('info' , data.user_id + "\t" + data.user_name +  "\t" + data.city + "\t" + data.property_id + "\t"+data.event);
 };
 
 
@@ -180,3 +180,4 @@ exports.logUserActivity = logUserActivity;
 exports.logPropClickTitle = logPropClickTitle;
 exports.logPageClickTitle = logPageClickTitle;
 exports.logUserActivityTitle = logUserActivityTitle;
+exports.logBiddingDtls = logBiddingDtls;
