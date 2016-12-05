@@ -613,4 +613,33 @@ router.post('/submitHostReview', function (req, res, next)  {
     });
 
 });
+
+
+router.post('/deleteTrip',function (req,res) {
+    var json_responses;
+
+    var trip_id = req.param("trip_id");
+
+    var msg_payload = {"trip_id":trip_id};
+
+    mq_client.make_request('delete_trip_queue',msg_payload,function (err,results) {
+        if(err){
+            //Need to add tool to log error.
+            //tool.logError(err);
+            json_responses = {"status_code":400};
+        }
+        else {
+            if(results.statusCode == 200)
+            {
+              console.log("success");
+                json_responses = {"status_code":200};
+            }
+            else {
+                json_responses = {"status_code":400};
+            }
+            res.send(json_responses);
+            res.end();
+        }
+    });
+});
 module.exports = router;

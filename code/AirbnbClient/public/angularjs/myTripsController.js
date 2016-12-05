@@ -110,4 +110,22 @@ app.controller('myTripController',['$scope','fileUpload','$http', function($scop
     	else
     		window.location.assign("/api/auth/home");	
     }
+    
+ $scope.deleteTrip = function(trip_id){
+    	
+    	$http({
+            method:"POST",
+            url:"/api/trip/deleteTrip",
+            data:{trip_id:trip_id}
+        }).success(function(data){
+            if(data.status_code == "200" ){
+            	window.location.assign("/api/profile/myTrips");
+            }
+            else{
+            	alert("error");
+            	window.location.assign("/api/auth/home");	
+            }
+        })
+    	
+    }
 }])

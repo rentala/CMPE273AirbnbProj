@@ -429,6 +429,25 @@ var fetchTripDetails = {
 	    }
 	};
 
+
+var deleteTrip = {
+        handle_request: function (connection, msg, callback) {
+            var res = {};
+            mysql.execute_query(function (err, result) {
+                if(err){
+                    res = {"statusCode":400,"errMsg":err};
+                    tool.logError(err);
+                    callback(null, res);
+                }
+                else {
+                	JSON.stringify("In RabbitMQ : trip.js : updateTrip :result of creating a new bill : " + JSON.stringify(res)) ;
+           			res = {"statusCode":200};
+           			 callback(null,res);
+                }
+            },sql_queries.DELETE_TRIP,[msg.trip_id]);
+        }
+    };
+
 exports.reservations = reservations;
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
@@ -442,3 +461,4 @@ exports.acceptBid = acceptBid;
 exports.rejectBid = rejectBid;
 exports.createHostReview=createHostReview;
 exports.fetchTripDetails = fetchTripDetails;
+exports.deleteTrip = deleteTrip;
