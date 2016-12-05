@@ -18,7 +18,8 @@ constants.define(exports, {
     " end as trip_status, "+
     " trip.trip_id, trip.user_id, trip.property_id, trip.host_id, DATE_FORMAT(trip.checkin_date, '%Y-%m-%d') as checkin_date, DATE_FORMAT(trip.checkout_date, '%Y-%m-%d') as checkout_date, trip.no_of_guests, trip.trip_approved_time, "+
     " trip.property_name, trip.trip_price, trip.host_name, trip.is_reviewed, trip.rating, trip.review_comment, trip.guest_name, "+
-    "  (select b.billing_id from airbnb.billing b where b.trip_id = trip.trip_id) as billing_id  "+
+    "  (select b.billing_id from airbnb.billing b where b.trip_id = trip.trip_id) as billing_id," +
+    " (select b.bill_status from airbnb.billing b where b.trip_id = trip.trip_id) as bill_status  "+
     " from airbnb.trip trip  where trip.user_id=?; ",
     FETCH_HOST_TRIP_DETAILS : "SELECT trip.trip_id as trip_id,trip.user_id as user_id,trip.property_id as property_id,trip.host_id as host_id,DATE_FORMAT(trip.checkin_date, '%Y-%m-%d') as checkin_date,DATE_FORMAT(trip.checkout_date, '%Y-%m-%d') as checkout_date,trip.no_of_guests as no_of_guests,trip.trip_status as trip_status,  (select b.billing_id from airbnb.billing b where b.trip_id = trip.trip_id) as billing_id from airbnb.trip where trip.host_id=?;",
     DELETE_TRIP : "delete from airbnb.trip where trip.trip_id=?;",
