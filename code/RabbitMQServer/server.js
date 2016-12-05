@@ -199,6 +199,9 @@ cnn.on('ready', function(){
     cnn.queue('delete_trip_queue', function(q){
     	subscriber(q, trip.deleteTrip);
     });
+    cnn.queue('updateCardDetails_queue', function(q){
+    	subscriber(q, profile.updateCardDetails);
+    });
 });
 
 var subscriber = function(q, module) {

@@ -133,7 +133,6 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                         property.avg_ratings = avg_ratings;
                         res.render('./property/propertyDetails.ejs', {property: property,flow:flow,user_dtls: req.session.user,
                             tripPrice: property.is_auction ? results.bidding[0].max_bid_price : tripPrice});
-
                 }
             }
             else {

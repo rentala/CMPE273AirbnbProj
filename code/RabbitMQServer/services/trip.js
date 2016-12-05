@@ -95,8 +95,22 @@ var createTrip = {
                             callback(null, res);
                         }
                         else{
-                            res = {"statusCode" : 200};
-                            callback(null, res);
+                        	var coll = connection.mongoConn.collection('users');
+                        	var obj_id = new ObjectID(msg.user_id);
+                        	coll.update({"_id" :obj_id},{$set:{
+                				"payment_details": msg.payment_details
+                				}
+                			}, function(err, user){
+                				if(err){
+                					res = {"statusCode" : 400};
+                                    callback(null, res);
+                				}
+                				else
+                				{
+                					res = {"statusCode" : 200};
+                                    callback(null, res);
+                				}
+                			});
                         }
                     }, sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, msg.property_name, msg.host_id, msg.start_date, msg.end_date, msg.guest, 'PENDING', trip_price, msg.guest_name]);
             	}
