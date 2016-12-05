@@ -18,7 +18,10 @@ app.config(['$locationProvider', function($locationProvider) {
                     });
 
                 }
-				if($scope.bid_amount <=minBid){
+				if($scope.bid_amount ==undefined || $scope.bid_amount ==""){
+					alert("Please enter a bid amount");
+				}
+				else if($scope.bid_amount <=minBid){
 					alert("Please bid higher than $"+minBid);
 				}
 				else{
