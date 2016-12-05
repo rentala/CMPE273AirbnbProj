@@ -105,7 +105,7 @@
                                     <option value="WY">Wyoming</option>
                             </select>
                             <input type="text" class="form-control" placeholder="Zip Code" style="margin-top:10px"  name= "zipCode" ng-model="zipCode"></input>
-                            <input type="number" class="form-control" placeholder="Phone Number" max="9999999999" style="margin-top:10px" name= "phoneNumber"  ng-model="phoneNumber"></input>
+                            <input type="number" class="form-control" placeholder="Phone Number" pattern="[0-9]{10}" style="margin-top:10px" title="Enter a valid Phone number" name= "phoneNumber"  ng-model="phoneNumber"></input>
                             <input type="text" class="form-control" placeholder="SSN" min="100000000" max="999999999" style="margin-top:10px" name= "ssn"  ng-model="ssn"></input>
                             <p style="color:red">{{signUpError}}</p>
                             <span>By signing up, I agree to Airbnb’s Terms of Service, Nondiscrimination Policy, Payments Terms of Service, Privacy Policy, Guest Refund Policy, and Host Guarantee Terms.</span>
