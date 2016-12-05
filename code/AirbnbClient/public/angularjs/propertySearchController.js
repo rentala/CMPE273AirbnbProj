@@ -46,6 +46,17 @@ app.config(['$locationProvider', function($locationProvider) {
 				+ mon + "-" +
 				$scope.minDate.getDate();
 				*/
+			$scope.userActivityClick = function (event) {
+				logData.type = "USERACTIVITY";
+				logData.event = event;
+				$.ajax({
+					method: "POST",
+					url: "/log",
+					data: logData
+				}).done(function(res) {
+					console.log(res)
+				});
+			}
 			$scope.editTrip = function(){
 				var property_id = document.getElementById("property_id2").defaultValue;
 				var trip_id = document.getElementById("trip_id2").defaultValue;

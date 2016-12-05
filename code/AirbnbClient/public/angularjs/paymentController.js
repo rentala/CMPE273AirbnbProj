@@ -3,6 +3,21 @@ var payment = angular.module('payment', []);
 
 payment.controller('paymentController', function($scope, $http) {
 $scope.submit= function(){
+	var logEvent = function (data) {
+		$.ajax({
+			method: "POST",
+			url: "/log",
+			data: data
+		}).done(function(res) {
+			console.log(res)
+		});
+
+	}
+	function userActivityClick (data, event) {
+		data.type = "USERACTIVITY";
+		data.event = event;
+		logEvent(data);
+	}
 	var cardNum = $scope.cNumber;
 	var expiryDate = $scope.expDate;
 	var cvv = $scope.cvv;
@@ -56,6 +71,10 @@ $scope.submit= function(){
 		            }
 		        }).success(function(data){
 		        	if(data.status_code == "200")
+						userActivityClick({
+							property_id: document.getElementById("property_id").defaultValue,
+							property_name : document.getElementById("description").defaultValue
+						}, "Property Booking Done")
 		        		alert("Success");
 		        		window.location.assign("/api/auth/home");
 		        })

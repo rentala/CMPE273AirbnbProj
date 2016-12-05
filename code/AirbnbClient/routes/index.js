@@ -30,21 +30,21 @@ router.post('/log', function(req, res, next) {
       break;
     case "PROPERTYCLICK":
       common.logPropertyCicks({
-        host_id : 1,
-        property_id: 1,
-        property_name: "asd",
+        host_id : req.body.host_id,
+        property_id: req.body.property_id,
+        property_name: req.body.property_name,
         clicks: 1
       });
       break;
     case "USERACTIVITY":
       common.logUserActivity({
-        user_id : 1,
-        user_name: 1,
-        property_id: 1,
-        property_name : "sd",
-        city: 1,
-        event: "Some event"
-      })
+        user_id : req.session.user._id,
+        user_name: req.session.user.first_name + " " + req.session.user.last_name,
+        property_id: req.body.property_id,
+        property_name : req.body.property_name,
+        city: req.session.user.city,
+        event: req.body.event
+      });
       break;
 
 

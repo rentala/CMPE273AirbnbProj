@@ -15,7 +15,19 @@ var logEvent = function (data) {
 
 $(function () {
     $("body").on("click", "a" , function(e) {
-        //type = e.target.href.indexOf('api/property/id') != -1 ? "PROPERTYCLICK": "PAGECLICK";
+
         logEvent( { url : e.target.href, type: "PAGECLICK" })
+
     });
+    function propertyClick (data) {
+        data.type = "PROPERTYCLICK";
+        logEvent(data);
+    }
+    function userActivityClick (data, event) {
+        data.type = "USERACTIVITY";
+        data.event = event;
+        logEvent(data);
+    }
+
+
 })

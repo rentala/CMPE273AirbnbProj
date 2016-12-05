@@ -134,7 +134,7 @@ var logPageClicks = function(data){
 
 var logUserActivity = function(data){
 	
-	userInfo_logger.log('info' , data.user_id + "\t" + data.user_name +  "\t" + data.city + "\t" + data.propery_id + "\t"+data.event);
+	userInfo_logger.log('info' , data.user_id + "\t" + data.user_name +  "\t" + data.city + "\t" + data.property_id + "\t"+data.event);
 };
 
 
