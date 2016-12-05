@@ -206,7 +206,7 @@ router.get('/getUserDetailsForProfile/:user_id', function(req, res, next){
 			}
 			else if(results.code == "200"){
 				console.log("reached else");
-				res.render('./views/userProfile.ejs', {userDetails: results.user,userPropertyDetails:results.properties});
+				res.render('./views/userProfile.ejs', {userDetails: results.user,userPropertyDetails:results.properties,user_dtls:req.session.admin});
 			}
 		}  
 		

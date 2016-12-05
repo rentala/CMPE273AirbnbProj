@@ -264,8 +264,9 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
             })
         }
 
-        $scope.viewBill = function(billing_id, trip_id){
-            window.open("/api/billing/viewBill?trip_id="+trip_id+"&bill_id="+billing_id,'Bill',directories=0);
+        $scope.viewBill = function(billing_id, trip_id, guest_name){
+            //window.open("/api/billing/viewBill?trip_id="+trip_id+"&bill_id="+billing_id,'Bill',directories=0);
+            window.open("/api/billing/viewBill1?trip_id="+trip_id+"&bill_id="+billing_id+"&guest_name="+guest_name,'Bill',directories=0);
         }
     }
 //***************BILLS End here*****************

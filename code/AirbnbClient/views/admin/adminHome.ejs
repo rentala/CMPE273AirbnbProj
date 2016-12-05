@@ -127,7 +127,7 @@
 				                        <h4><label style="color:#c9302c">Trip Price: $</label>{{x.trip_price}}</h4>
 				                    </div>
 			                        <button class = "btn btn-danger" ng-click = "deleteBill(x.billing_id)">Delete Bill</button>
-			                        <button class = "btn btn-success" ng-click = "viewBill(x.billing_id, x.trip_id)">View Bill</button>
+			                        <button class = "btn btn-success" ng-click = "viewBill(x.billing_id, x.trip_id, x.guest_name)">View Bill</button>
 			                    </div>
 			                </div>
 						</div>
@@ -142,7 +142,7 @@
 					<div class="panel panel-default">
 	                    <div class="panel-body">
 	                       <div class="col-sm-7">
-		                        <a href = "/api/profile/getUserDetailsForProfile/{{host._id}}"><h3><label style="color:#c9302c"></label>{{host.first_name}} {{host.last_name}}</h3></a>
+		                        <a href = "/api/admin/getUserDetailsForProfile/{{host._id}}"><h3><label style="color:#c9302c"></label>{{host.first_name}} {{host.last_name}}</h3></a>
 		                        <h4><label style="color:#c9302c">City : </label>{{host.city}}</h4>
 		                        <h4><label style="color:#c9302c">Ph. No : </label>{{host.phone}}</h4>
 		                        <h4><label style="color:#c9302c">email : </label>{{host.email}}</h4>

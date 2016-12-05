@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bill</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/angularjs/billControllerAdmin.js"></script>
+    <script>
+    </script>
+</head>
+<body ng-app="billAppAdmin" ng-controller="billControllerAdmin">
+	<br><br>
+	<div class="col-sm-1"></div>
+	<div class="col-sm-10" style="background-color:#f9f9f9">
+		<div class="col-sm-12">
+			<div class="col-sm-6">
+				<div class="col-sm-12"><b><h1 style="float:left;">Customer Receipt</h1></b></div>
+				<div class="col-sm-12"><p>confirmation code: 3WAM4Y<br>Receipt # {{bill_dtls[0].billing_id}}</p></div>
+			</div>
+			<div class="col-sm-3"></div>
+			<div class="col-sm-3">
+				<div class="col-sm-12"><p style="float:left;margin-top:25px">AIRBNB<br>+1(415)-800-5959<br>WWW.AIRBNB.COM/CONTACT</p></div>
+			</div>
+		</div>
+
+		<div class="col-sm-12" style="border-top:0.5px solid black;margin-top:15px">
+			<div class="col-sm-6" style="border-right:0.5px solid black">
+				<div class="col-sm-12" style="margin-top:20px; border-bottom:0.5px solid black">
+					<div class="col-sm-2">
+						<span class="glyphicon glyphicon-user" style="font-size:40px"></span>
+					</div>
+					<div class="col-sm-10">
+						{{user_dtls.first_name}}<br>
+						NAME
+					</div>
+				</div>
+				<div class="col-sm-12" style="margin-top:20px; border-bottom:0.5px solid black">
+					<div class="col-sm-2">
+						<span class="glyphicon glyphicon-road" style="font-size:40px"></span>
+					</div>
+					<div class="col-sm-10">
+						{{property_dtls[0].address.street}},{{property_dtls[0].address.city}},{{property_dtls[0].address.state}},{{property_dtls[0].address.zipcode}}<br>
+						ACCOMMODATION ADDRESS
+					</div>
+				</div>
+				<div class="col-sm-12" style="margin-top:20px; border-bottom:0.5px solid black">
+					<div class="col-sm-2">
+						<span class="glyphicon glyphicon-calendar" style="font-size:40px"></span>
+					</div>
+					<div class="col-sm-10">
+						{{property_dtls[0].start_date}}<br>
+						CHECK IN
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-sm-6">
+				<div class="col-sm-12" style="margin-top:20px; border-bottom:0.5px solid black">
+					<div class="col-sm-2">
+						<span class="glyphicon glyphicon-map-marker" style="font-size:40px"></span>
+					</div>
+					<div class="col-sm-10">
+						{{property_dtls[0].address.city}},{{property_dtls[0].address.state}}<br>
+						TRAVEL DESTINATION
+					</div>
+				</div>
+				<div class="col-sm-12" style="margin-top:20px; border-bottom:0.5px solid black">
+					<div class="col-sm-2">
+						<span class="glyphicon glyphicon-user" style="font-size:40px"></span>
+					</div>
+					<div class="col-sm-10">
+						{{bill_dtls[0].no_of_guests}}<br>
+						GUESTS
+					</div>
+				</div>
+				<div class="col-sm-12" style="margin-top:20px; border-bottom:0.5px solid black">
+					<div class="col-sm-2">
+						<span class="glyphicon glyphicon-calendar" style="font-size:40px"></span>
+					</div>
+					<div class="col-sm-10">
+						{{property_dtls[0].end_date}}<br>
+						CHECK OUT
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12" style="margin-top:15px">
+			<div class="col-sm-12">
+				<h1 style="float:left;">Payment Details</h1><br>
+				<div class="col-sm-12" style="border:0.5px solid black">
+					<div class="col-sm-8" style="border-right:0.5px solid black;border-bottom:0.5px solid black">
+						<font style="float:left;"><h4>ACCOMMODATIONS</h4></font>
+					</div>
+					<div class="col-sm-4" style="border-bottom:0.5px solid black">
+						<font style="float:left;"><h4>${{bill_dtls[0].trip_price}}</h4></font>
+					</div>
+					<div class="col-sm-8" style="border-right:0.5px solid black;border-bottom: 0.5px solid black">
+						<font style="float:left;"><h4>AIRBNB SERVICE FEE</h4></font>
+					</div>
+					<div class="col-sm-4" style="border-bottom:0.5px solid black">
+						<font style="float:left;"><h4>-</h4></font>
+					</div>
+					<div class="col-sm-8" style="border-right:0.5px solid black">
+						<font style="float:left;"><h4>Total</h4></font>
+					</div>
+					<div class="col-sm-4">
+						<font style="float:left;"><h4>${{bill_dtls[0].trip_price}}</h4></font>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<div class="col-sm-4"></div>
+			<div class="col-sm-4">
+
+			</div>
+			<div class="col-sm-4"></div>
+		</div>
+	</div>
+	<div class="col-sm-1"></div>
+</body>
+</html>
