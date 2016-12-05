@@ -379,8 +379,6 @@ router.get('/getUserDetailsForProfile/:user_id', function(req, res, next){
 	});
 })
 
-module.exports = router;
-
 router.get('/yourReservations', function (req, res, next)  {
 	ejs.renderFile('./views/views/yourReservations.ejs',{ user_dtls: req.session.user},function(err, result) {
 		// render on success
@@ -393,6 +391,41 @@ router.get('/yourReservations', function (req, res, next)  {
 			res.end('An error occurred');
 			console.log(err);
 		}
+	});
+});
+router.post('/updateCardDetails', function (req, res, next)  {
+	var user_id = req.session.user_id;
+	var payment_details = {
+		    "card_number" : ""+req.body.cardNum
+		  };
+	var msg_payload = {
+		"user_id" : user_id,
+		"payment_details":payment_details
+	}
+	mq_client.make_request('updateCardDetails_queue',msg_payload, function(err,results){
+		if(err){
+			tool.logError(err);
+			json_responses = {
+				"status_code" : 400
+			};
+		}
+		else{
+			if(results.statusCode == "400"){
+				json_responses = {
+					"status_code" : 400
+				};
+				res.send(json_responses);
+				res.end();
+			}
+			else if(results.statusCode == "200"){
+				json_responses = {
+					"status_code" : 200,
+				};
+				res.send(json_responses);
+				res.end();
+			}
+		}
+
 	});
 });
 

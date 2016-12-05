@@ -133,12 +133,9 @@ router.post('/createTrip', function(req, res){
   var guest = req.body.guests;
   var country = req.body.country;
   var guest_name = req.session.user.first_name;
-  /*var payment_details = {
-    "mode" : req.body.mode,
-    "card_number" : req.body.card_number,
-    "cvv" : req.body.cvv,
-    "expiry_date" : req.body.expiry_date
-  };*/
+  var payment_details = {
+    "card_number" : ""+req.body.cardNum,
+  };
   var msg_payload = {
     "property_id" : property_id,
     "host_id" : host_id,
@@ -151,8 +148,8 @@ router.post('/createTrip', function(req, res){
     "price" : price,
     "guest" : guest,
     "country" : country,
-    "guest_name":guest_name
-    // ,"payment_details" : payment_details
+    "guest_name":guest_name,
+    "payment_details" : payment_details
   };
   mq_client.make_request('createTrip_queue', msg_payload, function (err,results) {
         if(err){
@@ -612,5 +609,34 @@ router.post('/submitHostReview', function (req, res, next)  {
         });
     });
 
+});
+
+
+router.post('/deleteTrip',function (req,res) {
+    var json_responses;
+
+    var trip_id = req.param("trip_id");
+
+    var msg_payload = {"trip_id":trip_id};
+
+    mq_client.make_request('delete_trip_queue',msg_payload,function (err,results) {
+        if(err){
+            //Need to add tool to log error.
+            //tool.logError(err);
+            json_responses = {"status_code":400};
+        }
+        else {
+            if(results.statusCode == 200)
+            {
+              console.log("success");
+                json_responses = {"status_code":200};
+            }
+            else {
+                json_responses = {"status_code":400};
+            }
+            res.send(json_responses);
+            res.end();
+        }
+    });
 });
 module.exports = router;

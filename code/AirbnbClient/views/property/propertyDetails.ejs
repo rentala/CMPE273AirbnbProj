@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="shortcut icon" href="http://jazzihomestay.com/wp-content/uploads/2015/08/Airbnb_Logo_B%C3%A9lo.svg_.png"  />
 	<title>Airbnb</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -249,8 +250,10 @@
 	length = 0; }
 	else{
 	length = property.reviews.length;} %>
-	<div class="col-sm-12"><h1><p style="word-wrap:break-word"><%=property.property_title%></p></h1></div>
-	<div class="col-sm-12" style="border-bottom:solid;border-width:0.5px;border-color:black"><%=property.address.city%> <%=property.address.state%> &#149;&nbsp;&nbsp; <%=length%> reviews<span style="float:right">Rating:<%=property.avg_ratings%></span></div>
+	<div class="col-sm-10"><h1><p style="word-wrap:break-word"><%=property.property_title%></p></h1></div><br><div class="col-sm-2"><a href="/api/profile/getUserDetailsForProfile/<%=property.host_id%>"><img  onerror="this.src='/images/user.jpg'" ng-src="/uploads/<%=property.host_id%>.JPG" width="70px" height="70px" style="border-radius: 500px;"></a><br>
+                                <a href="/api/profile/getUserDetailsForProfile/<%=property.host_id%>"> <%=property.host_name%></a></div>
+	
+	<div class="col-sm-12" style="border-bottom:solid;border-width:0.5px;border-color:black"><%=property.address.city%> <%=property.address.state%> &#149;&nbsp;&nbsp; <%=length%> reviews<span style="float:right"></span></div>
 
 	<div class="col-sm-6" style="margin-top:25px;border-bottom:solid;border-width:0.5px;border-color:black" >
 		<center><span class="glyphicon glyphicon-home" style="font-size:30px"></span></center><br>
@@ -271,7 +274,11 @@
 			</div>
 			<div class="col-sm-6" style="margin-top:10px">
 				<span style="float:left;font-size: 20px">Check in : <b>Flexible</b></span><br><br>
+				<%if(property.is_auction!=true){%>
 				<span style="float:left;font-size: 20px">Price per day : <b><%=property.price%></b></span><br>
+				<%}else{%>
+				<span style="float:left;font-size: 20px">Minimum Bid Price : <b><%=tripPrice%></b></span><br>
+				<%}%>
 			</div>
 		</div>
 	</div>
@@ -291,7 +298,9 @@
 	<div class="col-sm-12" style="margin-top:10px;">
 		<div class="col-sm-2" style="float:left;"><h3>About</h3></div>
 		<div class="col-sm-10">
-			<span style="float:left;font-size: 20px"><%=property.description%></span>
+			<div class="col-sm-12">
+				<span style="float:left;font-size: 20px;margin-top:8px"><%=property.description%></span>
+			</div>
 		</div>
 	</div>
 	<%if(property.reviews.length > 0){%>
@@ -303,8 +312,8 @@
 	<%for(var i=0; i < property.reviews.length; i++){%>
 		<div class="col-sm-12" style="margin-top:10px">
 		<div class="panel panel-default">
-			<div class="panel-heading" style="background-color:transparent;">property.reviews[i].guest_email_id</div>
-			<div class="panel-body">property.reviews[i].rating_comments</div>
+			<div class="panel-heading" style="background-color:transparent;"><%=property.reviews[i].user_name%></div>
+			<div class="panel-body"><%=property.reviews[i].comment%></div>
 		</div>
 	</div>
 	<%} } else {%>
@@ -343,7 +352,7 @@
 			<input type="text" class="form-control" name = "start_date" value ="<%=start_date%>" style="display: none;">
 			<input type="text" class="form-control" name = "end_date" value ="<%=end_date%>" style="display: none;">
 			<input type="text" class="form-control" name = "property_id" value ="<%=property._id%>" style="display: none;">
-			<input type="text" class="form-control" name = "description" value ="<%=property.description%>" style="display: none;">
+			<input type="text" class="form-control" name = "description" value ="<%=property.property_title%>" style="display: none;">
 			<input type="text" class="form-control" name = "host_id" value ="<%=property.host_id%>" style="display: none;">
 			<input type="text" class="form-control" name = "city" value ="<%=property.address.city%>" style="display: none;">
 			<input type="text" class="form-control" name = "state" value ="<%=property.address.state%>" style="display: none;">

@@ -68,7 +68,7 @@
                  <button type="button" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px " ng-click="searchByCity()">Search</button>
                 <button type="submit" class="btn btn-default" style="background-color:transparent;border:solid;border-color:#c4c4c4;margin-left:20px;width:200px"  ><a href = "/host" title = "You could earn $539 sharing your home in San Jose in a week. Become a host."> Become a host</a></button>
                 <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:40px;" ><a href="/api/profile/myTrips" title = "shows your trip">Trips</a><span class="glyphicon glyphicon-lock" style="margin-left:10px"></span></button>
-                <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;" ng-click="messages()">Messages<span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
+                <button type="submit" class="btn btn-default" style="background-color:transparent;border-color:transparent;margin-left:30px;"><a href="/api/inbox/inbox">Messages</a><span class="glyphicon glyphicon-envelope" style="margin-left:10px"></span></button>
 
             </form>
 
@@ -127,7 +127,7 @@
                             <div class="col-sm-12" ng-if="x.trip_status==='COMPLETED'"><h4><label>Trip Status:</label> <span style="color: green">{{x.trip_status}}</span></h4></div>
                             <div class="col-sm-12" ng-if="x.trip_status==='ACCEPTED'"><h4><label>Trip Status:</label> <span style="color: blue">{{x.trip_status}}</span></h4></div>
                             <div class="col-sm-12" ng-if="x.trip_status==='REJECTED'"><h4><label>Trip Status:</label> <span style="color:red">{{x.trip_status}}</span></h4></div>
-                            <div class="col-sm-12" ng-if="x.trip_status==='PENDINGPAYMENT'"><h4><label>Trip Status:</label> <span style="color:navy">{{x.trip_status}}</span></h4></div>
+                            <div class="col-sm-12" ng-if="x.trip_status==='PENDINGPAYMENT'"><h4><label>Trip Status:</label> <span style="color:navy">PENDING PAYMENT</span></h4></div>
                             <div class="col-sm-12">{{x.checkin_date}} to {{x.checkout_date}}</div>
                             <div ng-if= "x.trip_status === 'COMPLETED'" ng-controller="myTripController">
                             <div ng-if= "x.is_reviewed === 0" ng-controller="myTripController">
@@ -172,9 +172,11 @@
                   	  </div>
                   	  <div ng-if= "x.trip_status === 'PENDING'" >
                   	  	<input type = "button" value= "EDIT TRIP" ng-click="editTrip(x.trip_id,x.property_id,x.trip_price)">
+                  	  	<button  value= "Delete Trip" ng-click="deleteTrip(x.trip_id)">Delete Trip</button>
                   	  </div>
                 	  <div ng-if= "x.trip_status === 'COMPLETED'" ng-controller="myTripController">
                   	  	 <input type = "button" value= "View Bill" ng-click="viewBill(x.trip_id, x.billing_id)">
+                  	  	 <button  value= "Delete Trip" ng-click="deleteTrip(x.trip_id)">Delete Trip</button>
                   	  </div>
                   	  <div ng-if= "x.trip_status === 'PENDINGPAYMENT'" ng-controller="myTripController">
                   	  	 <input type = "button" value= "Pay Now" ng-click="payNow(x.trip_id,x.trip_price)">

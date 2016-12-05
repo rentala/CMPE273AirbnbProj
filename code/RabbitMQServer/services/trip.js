@@ -87,7 +87,7 @@ var createTrip = {
             }
             else{
             	if(result.length > 0 && result[0].stayDuration > 0){
-            		trip_price = (result[0].stayDuration) * Number(msg.price);
+            		trip_price = Number(msg.price);
             		console.log("Trip Price = " + trip_price);
             		mysql.execute_query(function(err, result){
                         if(err){
@@ -95,8 +95,22 @@ var createTrip = {
                             callback(null, res);
                         }
                         else{
-                            res = {"statusCode" : 200};
-                            callback(null, res);
+                        	var coll = connection.mongoConn.collection('users');
+                        	var obj_id = new ObjectID(msg.user_id);
+                        	coll.update({"_id" :obj_id},{$set:{
+                				"payment_details": msg.payment_details
+                				}
+                			}, function(err, user){
+                				if(err){
+                					res = {"statusCode" : 400};
+                                    callback(null, res);
+                				}
+                				else
+                				{
+                					res = {"statusCode" : 200};
+                                    callback(null, res);
+                				}
+                			});
                         }
                     }, sql_queries.CREATE_TRIP, [msg.user_id, msg.property_id, msg.property_name, msg.host_id, msg.start_date, msg.end_date, msg.guest, 'PENDING', trip_price, msg.guest_name]);
             	}
@@ -179,7 +193,7 @@ var editTrip = {
 	        var tripStart = new Date(msg.start_date);
 	        var tripEnd = new Date(msg.end_date);
 	        var newTripPrice;
-	        var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000));
+	        var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000))+1;
 	        //if new trip duration is less than 1, return back without performing any operations 
 	        if(stayDuration <1){
 	        	res = {"statusCode":400,"errMsg":"Sorry cannot update property"};
@@ -429,6 +443,25 @@ var fetchTripDetails = {
 	    }
 	};
 
+
+var deleteTrip = {
+        handle_request: function (connection, msg, callback) {
+            var res = {};
+            mysql.execute_query(function (err, result) {
+                if(err){
+                    res = {"statusCode":400,"errMsg":err};
+                    tool.logError(err);
+                    callback(null, res);
+                }
+                else {
+                	JSON.stringify("In RabbitMQ : trip.js : updateTrip :result of creating a new bill : " + JSON.stringify(res)) ;
+           			res = {"statusCode":200};
+           			 callback(null,res);
+                }
+            },sql_queries.DELETE_TRIP,[msg.trip_id]);
+        }
+    };
+
 exports.reservations = reservations;
 exports.deleteTrip = deleteTrip;
 exports.tripDetails = tripDetails;
@@ -442,3 +475,4 @@ exports.acceptBid = acceptBid;
 exports.rejectBid = rejectBid;
 exports.createHostReview=createHostReview;
 exports.fetchTripDetails = fetchTripDetails;
+exports.deleteTrip = deleteTrip;

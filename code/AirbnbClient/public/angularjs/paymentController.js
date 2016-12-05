@@ -67,7 +67,8 @@ $scope.submit= function(){
 		            	end_date:document.getElementById("end_date").defaultValue,
 		            	price:document.getElementById("total").defaultValue, 
 		            	guests:document.getElementById("guests").defaultValue, 
-		            	country:document.getElementById("country").defaultValue
+		            	country:document.getElementById("country").defaultValue,
+		            	cardNum:cardNum
 		            }
 		        }).success(function(data){
 		        	if(data.status_code == "200")
@@ -76,7 +77,7 @@ $scope.submit= function(){
 							property_name : document.getElementById("description").defaultValue
 						}, "Property Booking Done")
 		        		alert("Success");
-		        		window.location.assign("/api/auth/home");
+		        		window.location.assign("/api/property/confirmation");
 		        })
 		}
 	}
@@ -108,8 +109,18 @@ $scope.payDiff= function(){
 			alert("Date of expiry should be future date");
 		}
 		else{
-			alert("Success Payment");
-			window.location.assign("/api/auth/home");
+			$http({
+	            method:"POST",
+	            url:"/api/profile/updateCardDetails",
+	            data:{
+	            	cardNum:cardNum
+	            }
+	        }).success(function(data){
+	        	if(data.status_code == "200"){
+	        		alert("Success Payment");
+					window.location.assign("/api/property/confirmation");
+					}
+	        })
 		}
 		}	
 	}
@@ -158,11 +169,11 @@ $scope.payBidAmount= function(trip_id, amount){
 	        }).success(function(data){
 	            if(data.status_code==200){
 	                alert('Success! You can see this trip in your profile.');
-	                window.location.assign("/api/auth/home");
+	                window.location.assign("/api/property/confirmation");
 	            }
 	            else{
 	            	alert('Some error occurred! Please try again later');
-	                window.location.assign("/api/auth/home");
+	                window.location.assign("/api/property/confirmation");
 	            }
 	        })
 		}
