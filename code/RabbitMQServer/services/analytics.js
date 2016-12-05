@@ -10,7 +10,7 @@ var topProp = {
     handle_request: function (connection,msg,callback) {
         var res={};
         var year = msg.year;
-        var no_of_props = parseInt(msg.no_of_props);
+        var no_of_props = 10;
         console.log("No of properties : " + no_of_props);
         mysql.execute_query(function (err,result) {
             if(err){
@@ -113,7 +113,7 @@ var topHost = {
     handle_request: function (connection,msg,callback) {
         var res={};
         
-        var no_of_hosts = parseInt(msg.no_of_hosts);
+        var no_of_hosts = 10;
         mysql.execute_query(function (err,result) {
             if(err){
                 res = {"statusCode":400};
@@ -154,9 +154,9 @@ var propertyRatings = {
             console.log("In RabbitMQ Server : admin.js : propertyRatings : host_id : " + msg.host_id);
 
             var searchCriteria = {
-                "host_id" : ObjectID(msg.host_id)
+                "host_id" : msg.host_id
             };
-            var projection_para = {'_id' : 1 ,'property_name':1,'ratings' : 1};
+            var projection_para = {'_id' : 1 ,'property_title':1,'reviews' : 1};
 
             coll.find(searchCriteria,projection_para).toArray(function(err, results) {
 
@@ -209,30 +209,30 @@ var propertyRatings = {
 
 var calculateAverageRating= function(results){
 	
-	var avgPropRaating = [];
+	var avgPropRating = [];
 	//For each property
 	for(var index in results){
 		var property = results[index];
 		console.log("Property details : " +JSON.stringify(property));
 		var prop ={};
 		//prop.prop_id = property._id;
-		console.log("Property ID : " +prop.id);
-		prop.key = property.property_name;
+		//console.log("Property ID : " +prop.id);
+		prop.key = property.property_title;
 		var avg_rating = 0;
 		
 		//For each rating in a property
-		for(var i in property.ratings){
+		for(var i in property.reviews){
 			//Calculate the sum of all the ratings
-			avg_rating +=parseInt(property.ratings[i].rating_stars);
+			avg_rating +=parseInt(property.reviews[i].rating);
 		}
 		//Calculate the average
-		avg_rating = avg_rating/property.ratings.length;
+		avg_rating = avg_rating/property.reviews.length;
 		console.log("Average Ratings : " + avg_rating);
 		
 		prop.value = avg_rating;
-		avgPropRaating.push(prop);
+		avgPropRating.push(prop);
 	}
-	return avgPropRaating;
+	return avgPropRating;
 };
 
 var bidInfo = {

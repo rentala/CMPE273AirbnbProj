@@ -5,6 +5,8 @@
             $scope.showPageClicks = false;
             $scope.showUserTrace = false;
             $scope.showBiddingTrace = false;
+            $scope.showError = false;
+
 
         	$http({
 	            method:"GET",
@@ -25,7 +27,31 @@
 	        		$scope.data=null;
 					$scope.data=data.user;
 	        	}
-	        })
+	        });
+
+            $http({
+                method: "GET",
+                url: '/api/analytics/propertyClicks'
+            }).success(function (data) {
+                if(data.status_code==200){
+                    if(data.finalData.length>0) {
+                        $scope.prop_clicks_data = data.finalData;
+                        console.log("prop lcicks data : " + $scope.prop_clicks_data);
+                        var svg = d3.select('#propertyClicksDiv').append('svg').attr('height', 200).attr('width', 600);
+                        displayBar($scope.prop_clicks_data, svg, "Property Name", "Clicks");
+                    }
+                    else{
+                        console.log("no log entries yet!");
+                        $scope.showError = true;
+                    }
+                }
+                else {
+                    console.log("no log entries yet!");
+                    $scope.showError = true;
+                }
+            }).error(function (data) {
+
+            });
 
             $scope.propertyClicks = function () {
 
@@ -36,15 +62,29 @@
                 $scope.showPageClicks = false;
                 $scope.showUserTrace = false;
                 $scope.showBiddingTrace = false;
+                $scope.showPropertyRatings=false;
+                $scope.showError = false;
 
                 $http({
                     method: "GET",
                     url: '/api/analytics/propertyClicks'
                 }).success(function (data) {
-                    $scope.prop_clicks_data = data;
-                    console.log("prop lcicks data : " + $scope.prop_clicks_data );
-                    var svg = d3.select('#propertyClicksDiv') .append('svg') .attr('height', 200) .attr('width', 300);
-                    displayBar( $scope.prop_clicks_data,svg,"Property Name","Clicks");
+                    if(data.status_code==200){
+                        if(data.finalData.length>0) {
+                            $scope.prop_clicks_data = data.finalData;
+                            console.log("prop lcicks data : " + $scope.prop_clicks_data);
+                            var svg = d3.select('#propertyClicksDiv').append('svg').attr('height', 200).attr('width', 600);
+                            displayBar($scope.prop_clicks_data, svg, "Property Name", "Clicks");
+                        }
+                        else{
+                            console.log("no log entries yet!");
+                            $scope.showError = true;
+                        }
+                    }
+                    else {
+                        console.log("no log entries yet!");
+                        $scope.showError = true;
+                    }
                 }).error(function (data) {
 
                 });
@@ -60,15 +100,30 @@
                 $scope.showUserTrace = false;
                 $scope.showBiddingTrace = false;
                 $scope.showPropertyClicks = false;
+                $scope.showPropertyRatings=false;
+                $scope.showError = false;
 
                 $http({
                     method: "GET",
                     url: '/api/analytics/pageClicks'
                 }).success(function (data) {
-                    $scope.page_clicks_data = data;
-                    console.log("page clicks data : " + JSON.stringify($scope.page_clicks_data));
-                    var svg = d3.select('#pageClicksDiv') .append('svg') .attr('height', 200) .attr('width', 300);
-                    displayBar( $scope.page_clicks_data,svg,"Page URL","Clicks");
+                    if(data.status_code==200){
+                        if(data.finalData.length>0)
+                        {
+                            $scope.page_clicks_data = data.finalData;
+                            console.log("page clicks data : " + JSON.stringify($scope.page_clicks_data));
+                            var svg = d3.select('#pageClicksDiv') .append('svg') .attr('height', 200) .attr('width', 300);
+                            displayBar( $scope.page_clicks_data,svg,"Page URL","Clicks");
+                        }
+                        else {
+                            console.log("no log entries yet!");
+                            $scope.showError = true;
+                        }
+                    }
+                    else {
+                        console.log("no log entries yet!");
+                        $scope.showError = true;
+                    }
                 }).error(function (data) {
 
                 });
@@ -84,6 +139,8 @@
                 $scope.showBiddingTrace = false;
                 $scope.showPropertyClicks = false;
                 $scope.showPageClicks = false;
+                $scope.showPropertyRatings=false;
+                $scope.showError = false;
 
                 $http({
                     method: "GET",
@@ -101,26 +158,62 @@
 
             $scope.biddingTrace = function(){
 
-                var tableBiddingTrace = d3.select('#biddingTraceDiv').select("table");
+                var tableBiddingTrace = d3.select('#biddingTraceDiv').select("svg");
                 if(tableBiddingTrace ){ tableBiddingTrace.remove();}
 
                 $scope.showBiddingTrace = true;
                 $scope.showPropertyClicks = false;
                 $scope.showPageClicks = false;
                 $scope.showUserTrace = false;
-
+                $scope.showPropertyRatings=false;
+                $scope.showError = false;
+                
+                
+                console.log("Getting the bidding trace data !!");
 
                 $http({
                     method: "GET",
                     url: '/api/analytics/biddingTrace'
                 }).success(function (data) {
                     //checking the response data for statusCode
-
+                    console.log("Bidding trace : data : " + JSON.stringify(data));
                     $scope.bid_trace_data = data;
                     console.log("Bar chart data : " + JSON.stringify($scope.bid_trace_data));
-                    var svg = d3.select('#biddingTraceDiv') .append('svg');
+                    var svg = d3.select('#biddingTraceDiv').append('svg');
                     timeline($scope.bid_trace_data, svg);
                 });
+            };
+
+            $scope.propertyRatings = function () {
+
+                    var propertyRatingTrace = d3.select('#propertyRatingDiv').select("svg");
+                    if(propertyRatingTrace ){ propertyRatingTrace.remove();}
+
+                $scope.showBiddingTrace = false;
+                    $scope.showPropertyClicks = false;
+                    $scope.showPageClicks = false;
+                    $scope.showUserTrace = false;
+                    $scope.showPropertyRatings=true;
+                    $scope.showError = false;
+
+                    $http({
+                        method: "GET",
+                        url: '/api/analytics/propRatings'
+                    }).success(function (data) {
+                        //checking the response data for statusCode
+                        console.log(data);
+                        if(data.status_code == 200){
+                            $scope.prop_ratings_data = data.property_ratings_dtls;
+                            console.log("Bar chart data : " + JSON.stringify($scope.prop_ratings_data));
+                            var svg = d3.select('#propertyRatingDiv').append('svg');
+                            displayBar( $scope.prop_ratings_data,svg,"Property","Ratings");
+                        }
+                        else{
+                            console.log("no matching data");
+                            $scope.showError=true;
+                        }
+
+                    });
             };
 
             var displayBar = function (data,svg,xname,yname) {
@@ -145,9 +238,11 @@
             }
 
             function setSize(data,svg,xname,yname) {
+
                 console.log("X name"+xname);
                 console.log("Y name"+yname);
                 console.log("inside setsize function");
+                console.log(data);
                 var chartWidth, chartHeight;
                 var width, height;
                 var axisLayer = svg.append("g").classed("axisLayer", true);
@@ -197,7 +292,7 @@
                     .attr('class', 'd3-tip')
                     .offset([-10, 0])
                     .html(function(d) {
-                        return "<strong>"+ d.key +":</strong> <span style='color:#708cff'>$" + d.value + "</span>";
+                        return "<strong>"+ d.key +":</strong> <span style='color:#708cff'>" + d.value + "</span>";
                     });
 
                 chartLayer.call(tip);
@@ -271,115 +366,116 @@
 
             var timeline = function(data,svg){
 
-                // set the dimensions and margins of the graph
                 var margin = {top: 20, right: 20, bottom: 30, left: 50},
-                    height = 960 - margin.left - margin.right,
-                    width = 500 - margin.top - margin.bottom;
+                    width = 960 - margin.left - margin.right,
+                    height = 500 - margin.top - margin.bottom;
 
 // parse the date / time
                 var parseTime = d3.timeParse("%d-%b-%y");
                 var formatTime = d3.timeFormat("%e %B");
 
+// set the ranges
                 var x = d3.scaleTime().range([0, width]);
                 var y = d3.scaleLinear().range([height, 0]);
 
-                /*var div = d3.select("body").append("div")
-                    .attr("class", "tooltip")
-                    .style("opacity", 0);*/
+// define the line
+                var valueline = d3.line()
+                    .x(function(d) { return x(d.Timestamp); })
+                    .y(function(d) { return 0; });
+
+                svg = svg
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform",
+                        "translate(" + margin.left + "," + margin.top + ")");
+
+                console.log("after data : "+ JSON.stringify(data));
+
+                // format the data
+                data.forEach(function(d) {
+                    d.Timestamp = new Date(d.Timestamp);
+                    d.property_name  = d.property_name;
+                    d.clicks = d.clicks;
+                });
+
+                console.log("after forEach : "+ JSON.stringify(data));
 
                 var tip = d3.tip()
                     .attr('class', 'd3-tip')
                     .offset([-10, 0])
                     .html(function(d) {
-                        return "<strong>"+ formatTime(d.Timestamp) +"</strong> <br/> <span style='color:#708cff'>" + d.User_id + "</span> <br/>" + d.Event +"";
+                        return "<strong>"+ d.user_name +":</strong> <span style='color:#708cff'>" + d.Event + "</span>";
                     });
 
-
-
-                // append the svg obgect to the body of the page
-                    // appends a 'group' element to 'svg'
-                    // moves the 'group' element to the top left margin
-                        var svg = svg
-                            .attr("width", width + margin.left + margin.right)
-                            .attr("height", height + margin.top + margin.bottom)
-                            .append("g")
-                            .attr("transform","translate(" + margin.left + "," + margin.top + ")");
-
-                        svg.call(tip);
-
-                    // Get the data
-                    console.log("after read : "+ JSON.stringify(data));
-                    // format the data
-                    data.forEach(function(d) {
-                        d.Timestamp = new Date(d.Timestamp);
-                        d.User_id  = d.User_id;
-                        d.Event = d.Event;
-                        console.log(formatTime(d.Timestamp));
-                    });
-
-                    console.log("after formatting : "+ JSON.stringify(data));
+                svg.call(tip);
 
                 // Scale the range of the data
-                    x.domain(d3.extent(data, function(d) { return d.Timestamp; }));
-                    y.domain([0, height]);
-
-                var valueline = d3.line()
-                    .x(function(d) { return 0; })
-                    .y(function(d,i) { return i*50; });
-
-                    // Add the valueline path.
-                    svg.append("path")
-                        .data(data)
-                        .attr("class", "line")
-                        .attr("d", valueline);
-
-                    // Add the scatterplot
-                    svg.selectAll("dot")
-                        .data(data)
-                        .enter().append("circle")
-                        .attr("r", 5)
-                        .attr("cy", function(d,i) { return i*50; })
-                        .on('mouseover', tip.show)
-                        .on('mouseout', tip.hide);
-            }
+                x.domain(d3.extent(data, function(d) { return d.Timestamp; }));
+                //y.domain([0, d3.max(data, function(d) { return d.Event; })]);
 
 
+                // Add the valueline path.
+                svg.append("path")
+                    .data([data])
+                    .attr("class", "line")
+                    .attr("d", valueline);
+
+                // Add the scatterplot
+                svg.selectAll("dot")
+                    .data(data)
+                    .enter().append("circle")
+                    .attr("r", 5)
+                    .attr("cx", function(d,i) { return x(d.Timestamp); })
+                    .on('mouseover', tip.show)
+                    .on('mouseout', tip.hide);
+
+                // Add the X Axis
+                svg.append("g")
+                    .attr("transform", "translate(0," + height/8 + ")")
+                    .call(d3.axisBottom(x));
+            };
 
 
-                /*var tabulate = function(data,table, columns) {
 
-                    var thead = table.append('thead');
-                    var tbody = table.append('tbody');
 
-                    // append the header row
-                    thead.append('tr')
-                        .selectAll('th')
-                        .data(columns).enter()
-                        .append('th')
-                        .text(function (column) {
-                            return column;
+
+
+
+            /*var tabulate = function(data,table, columns) {
+
+                var thead = table.append('thead');
+                var tbody = table.append('tbody');
+
+                // append the header row
+                thead.append('tr')
+                    .selectAll('th')
+                    .data(columns).enter()
+                    .append('th')
+                    .text(function (column) {
+                        return column;
+                    });
+
+                // create a row for each object in the data
+                var rows = tbody.selectAll('tr')
+                    .data(data)
+                    .enter()
+                    .append('tr');
+
+                // create a cell in each row for each column
+                var cells = rows.selectAll('td')
+                    .data(function (row) {
+                        return columns.map(function (column) {
+                            return {column: column, value: row[column]};
                         });
-
-                    // create a row for each object in the data
-                    var rows = tbody.selectAll('tr')
-                        .data(data)
-                        .enter()
-                        .append('tr');
-
-                    // create a cell in each row for each column
-                    var cells = rows.selectAll('td')
-                        .data(function (row) {
-                            return columns.map(function (column) {
-                                return {column: column, value: row[column]};
-                            });
-                        })
-                        .enter()
-                        .append('td')
-                        .text(function (d) {
-                            return d.value;
-                        });
-                    return table;
-                };*/
+                    })
+                    .enter()
+                    .append('td')
+                    .text(function (d) {
+                        return d.value;
+                    });
+                return table;
+            };*/
 
                 $scope.searchByCity = function(){
                 	//alert(1);
@@ -387,6 +483,6 @@
                 	if(whereTo)
                 	window.location.assign("/api/auth/home?c="+whereTo);
                 	else
-                		window.location.assign("/api/auth/home");	
+                		window.location.assign("/api/auth/home");
                 }
         });

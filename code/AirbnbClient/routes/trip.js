@@ -177,7 +177,7 @@ router.post('/updateTrip',function (req,res) {
     var trip_id = req.param("trip_id");
     var status = req.param("status");
 
-    var msg_payload = {"trip_id":trip_id, "status": status};
+    var msg_payload = {"trip_id":trip_id, "status": status,"host_name" : req.session.user.first_name};
 
     mq_client.make_request('update_trip_queue',msg_payload,function (err,results) {
         if(err){
