@@ -38,8 +38,8 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=user_dtls.first_name%><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a data-ng-click="editProfile()">Edit Profile</a></li>
-                        <li><a data-ng-click="logout()">Logout</a></li>
+                        <li><a href="/api/profile/editProfile">Edit Profile</a></li>
+                        <li><a href="/api/auth/logout">Logout</a></li>
                     </ul>
                 </li>
             </ul>

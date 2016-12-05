@@ -3,6 +3,7 @@
  */
 var adminApp = angular.module('adminApp',[]);
 adminApp.controller('adminController',function($scope,$http,$rootScope){
+    $rootScope.showDashboard =true;
     $rootScope.showHostsByCity = false;
     $scope.logIn = function(){
         $http({
@@ -18,6 +19,7 @@ adminApp.controller('adminController',function($scope,$http,$rootScope){
                 console.log("admin details = " + $rootScope.adminDetails[0].first_name);
                 $('.modal-backdrop').remove();
                 window.location = '/api/admin/adminHome';
+
             }
             else{
                 $scope.loginError="Wrong email address or password";
@@ -76,6 +78,7 @@ adminApp.controller('adminController',function($scope,$http,$rootScope){
 });
 
 adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
+
     $rootScope.showHostsByCity = false;
     $rootScope.showDashboard = false;
     $rootScope.showInbox = false;
@@ -376,7 +379,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
         })
     };
 
-
+    $scope.inbox();
     var displayBar = function (data,svg,xname,yname) {
         console.log("X name"+xname);
         console.log("Y name"+yname);

@@ -43,36 +43,42 @@
 		    <nav class="navbar navbar-inverse" style="margin-top:-45px">
 				<div class="container-fluid">
 				    <ul class="nav navbar-nav">
-					    <li style = "position:absolute; LEFT:10%"><a href = "" data-ng-click="dashboard()">Dashboard</a></li>
+					    <li style = "position:absolute; LEFT:5%"><a href = "" data-ng-click="dashboard()">Dashboard</a></li>
 					    <li style = "position:absolute; LEFT:40%"><a href = "" data-ng-click="inbox()">Inbox</a></li>
 						<li style = "position:absolute; LEFT:70%"><a href = "" data-ng-click="bills()">Bills</a></li>
-						<li style = "position:absolute; LEFT:94%"><a href = "" data-ng-click="logOut()">Log Out</a></li>
+						<li style = "position:absolute; LEFT:90%"><a href = "" data-ng-click="logOut()">Log Out</a></li>
 					</ul>
 				</div>
 			</nav>
 
 			<div id = "DASHBOARD" ng-show = "showDashboard">
-				<div class = "col-sm-1"></div>
+				<div class="col-sm-1"></div>
 				<div class = "col-sm-2">
 					<h2>DASHBOARD</h2>
 					<p><a href = "" ng-click = "getTopProperties()">Top Properties</a></p>
 					<p><a href = "" ng-click = "getCityWiseRevenue()">City Wise Revenues</a></p>
 					<p><a href = "" ng-click = "getTopHost()">Top Host</a></p>
 				</div>
-				<div class = "col-sm-4">
+				<div class = "col-sm-9">
 					<div ng-show = "showTopProperties">
-					<h2>showTopProperties</h2>
+						<h2 style="margin-left:30%">Show Top Properties</h2>
 						<div id = "topPropertiesDiv"></div>
 					</div>
 
-					<div ng-show = "showCityWiseRevenues">
-						City: <input class = "form-control" type = "text" ng-model = "cityForRevenue" placeholder="City"><br>
-						<button class = "btn btn-success" ng-click = "getCityRevenue()">Get City Revenue</button>
+					<div ng-show = "showCityWiseRevenues" style="margin-top:25px">
+						<div class="input-group input-group-md">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+							<div class="icon-addon addon-md">
+								<input type="text" class="form-control" ng-model = "cityForRevenue" placeholder="Enter City Name" ></input>
+							</div>
+
+						</div>
+						<button class = "btn btn-success" ng-click = "getCityRevenue()" style="margin-top:5px">Get City Revenue</button>
 						<div id = "cityWiseRevenueDiv"></div>
 					</div>
 
 					<div ng-show = "showTopHost">
-					<h2>showTopHost</h2>
+					<h2 style="margin-left:30%">Show Top Host</h2>
 						<div id = "topHostDiv"></div>
 					</div>
 				</div>
