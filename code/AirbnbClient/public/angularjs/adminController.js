@@ -324,7 +324,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 url : "/api/analytics/cityWiseData",
                 data : {
                     //"city" : $scope.cityForRevenue
-                    "city" : "San Jose"
+                    "city" : $scope.cityForRevenue
                 }
             }).success(function(data){
                 if(data.status_code == 200){

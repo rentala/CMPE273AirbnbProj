@@ -10,7 +10,7 @@ var topProp = {
     handle_request: function (connection,msg,callback) {
         var res={};
         var year = msg.year;
-        var no_of_props = parseInt(msg.no_of_props);
+        var no_of_props = 10;
         console.log("No of properties : " + no_of_props);
         mysql.execute_query(function (err,result) {
             if(err){
@@ -113,7 +113,7 @@ var topHost = {
     handle_request: function (connection,msg,callback) {
         var res={};
         
-        var no_of_hosts = parseInt(msg.no_of_hosts);
+        var no_of_hosts = 10;
         mysql.execute_query(function (err,result) {
             if(err){
                 res = {"statusCode":400};
