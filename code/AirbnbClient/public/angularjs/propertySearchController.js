@@ -104,9 +104,13 @@ app.config(['$locationProvider', function($locationProvider) {
 	        	if(data.status_code == "200" ){
 		        	$scope.tripData=data.tripData;
 					//$scope.tripPrice = $scope.tripData.trip_price;
-		        	$scope.check_in = new Date(data.tripData.checkin_date);
-		        	$scope.check_out = new Date(data.tripData.checkout_date);
-					$scope.tripPrice = function(){ return Math.ceil(Math.abs($scope.check_out.getTime() - $scope.check_in.getTime()) / (1000 * 3600 * 24)) * propertyPrice ;};
+		        	var checkin = new Date(data.tripData.checkin_date);
+		        	checkin= new Date(checkin.getTime() + checkin.getTimezoneOffset()*60000);	
+		        	var checkout = new Date(data.tripData.checkout_date);
+		        	checkout= new Date(checkout.getTime() + checkout.getTimezoneOffset()*60000);	
+		        	$scope.check_in = checkin;
+		        	$scope.check_out = checkout;
+					$scope.tripPrice = function(){ return Math.ceil(Math.abs($scope.check_out.getTime() - $scope.check_in.getTime()+1) / (1000 * 3600 * 24)) * propertyPrice ;};
 	        	}
 	        	else{
 	        	}
