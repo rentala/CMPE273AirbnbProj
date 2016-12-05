@@ -73,7 +73,7 @@ app.config(['$locationProvider', function($locationProvider) {
 							}
 						}).success(function(data){
 							if(data.status_code == "200"){
-								var diff = eval(data.newTripPrice-parseInt($scope.tripPrice()));
+								var diff = eval(data.newTripPrice-parseInt($scope.OldTripPrice));
 								if(diff>0){
 									alert("you will have to pay more");
 									window.location.assign("/api/property/paymentGateway/e/"+diff);
@@ -103,7 +103,7 @@ app.config(['$locationProvider', function($locationProvider) {
 	        }).success(function(data){
 	        	if(data.status_code == "200" ){
 		        	$scope.tripData=data.tripData;
-					//$scope.tripPrice = $scope.tripData.trip_price;
+					$scope.OldTripPrice = $scope.tripData.trip_price;
 		        	var checkin = new Date(data.tripData.checkin_date);
 		        	checkin= new Date(checkin.getTime() + checkin.getTimezoneOffset()*60000);	
 		        	var checkout = new Date(data.tripData.checkout_date);
