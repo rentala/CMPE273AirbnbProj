@@ -179,7 +179,7 @@ var editTrip = {
 	        var tripStart = new Date(msg.start_date);
 	        var tripEnd = new Date(msg.end_date);
 	        var newTripPrice;
-	        var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000));
+	        var stayDuration = parseInt((tripEnd-tripStart)/(24*3600*1000))+1;
 	        //if new trip duration is less than 1, return back without performing any operations 
 	        if(stayDuration <1){
 	        	res = {"statusCode":400,"errMsg":"Sorry cannot update property"};
