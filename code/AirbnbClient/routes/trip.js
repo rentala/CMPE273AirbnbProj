@@ -133,12 +133,9 @@ router.post('/createTrip', function(req, res){
   var guest = req.body.guests;
   var country = req.body.country;
   var guest_name = req.session.user.first_name;
-  /*var payment_details = {
-    "mode" : req.body.mode,
-    "card_number" : req.body.card_number,
-    "cvv" : req.body.cvv,
-    "expiry_date" : req.body.expiry_date
-  };*/
+  var payment_details = {
+    "card_number" : ""+req.body.cardNum,
+  };
   var msg_payload = {
     "property_id" : property_id,
     "host_id" : host_id,
@@ -151,8 +148,8 @@ router.post('/createTrip', function(req, res){
     "price" : price,
     "guest" : guest,
     "country" : country,
-    "guest_name":guest_name
-    // ,"payment_details" : payment_details
+    "guest_name":guest_name,
+    "payment_details" : payment_details
   };
   mq_client.make_request('createTrip_queue', msg_payload, function (err,results) {
         if(err){

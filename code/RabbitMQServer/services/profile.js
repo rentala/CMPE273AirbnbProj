@@ -242,6 +242,29 @@ var getUserDetails = {
 	}
 }
 
+var updateCardDetails = {
+		handle_request : function (connection, msg, callback){
+			var res = {};
+			var coll = connection.mongoConn.collection('users');
+        	var obj_id = new ObjectID(msg.user_id);
+        	coll.update({"_id" :obj_id},{$set:{
+				"payment_details": msg.payment_details
+				}
+			}, function(err, user){
+				if(err){
+					res = {"statusCode" : 400};
+                    callback(null, res);
+				}
+				else
+				{
+					res = {"statusCode" : 200};
+                    callback(null, res);
+				}
+			});
+		}
+	}
+
+exports.updateCardDetails= updateCardDetails;
 exports.uploadvideo = uploadvideo;
 exports.updateProfile = updateProfile;
 exports.userInfo =userInfo ;

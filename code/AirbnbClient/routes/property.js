@@ -133,7 +133,6 @@ router.get('/id/:prop_id/:flow',function (req,res) {
                         property.avg_ratings = avg_ratings;
                         res.render('./property/propertyDetails.ejs', {property: property,flow:flow,user_dtls: req.session.user,
                             tripPrice: property.is_auction ? results.bidding[0].max_bid_price : tripPrice});
-
                 }
             }
             else {
@@ -254,6 +253,8 @@ function mapReqToPayLoad(req) {
     }
     //msg_payload.host_id = 1; //stub
     msg_payload.host_id = req.session.user_id; 
+    msg_payload.host_name = req.session.user.last_name + " "+ req.session.user.first_name;
+    
     msg_payload.category = req.body.category
     msg_payload.coordinates = {
         x: req.body.coordinatesX,

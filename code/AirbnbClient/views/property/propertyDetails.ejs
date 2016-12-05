@@ -242,8 +242,10 @@
 	length = 0; }
 	else{
 	length = property.reviews.length;} %>
-	<div class="col-sm-12"><h1><p style="word-wrap:break-word"><%=property.property_title%></p></h1></div>
-	<div class="col-sm-12" style="border-bottom:solid;border-width:0.5px;border-color:black"><%=property.address.city%> <%=property.address.state%> &#149;&nbsp;&nbsp; <%=length%> reviews<span style="float:right">Rating:<%=property.avg_ratings%></span></div>
+	<div class="col-sm-10"><h1><p style="word-wrap:break-word"><%=property.property_title%></p></h1></div><br><div class="col-sm-2"><a href="/api/profile/getUserDetailsForProfile/<%=property.host_id%>"><img  onerror="this.src='/images/user.jpg'" ng-src="/uploads/<%=property.host_id%>.JPG" width="70px" height="70px" style="border-radius: 500px;"></a><br>
+                                <a href="/api/profile/getUserDetailsForProfile/<%=property.host_id%>"> <%=property.host_name%></a></div>
+	
+	<div class="col-sm-12" style="border-bottom:solid;border-width:0.5px;border-color:black"><%=property.address.city%> <%=property.address.state%> &#149;&nbsp;&nbsp; <%=length%> reviews<span style="float:right"></span></div>
 
 	<div class="col-sm-6" style="margin-top:25px;border-bottom:solid;border-width:0.5px;border-color:black" >
 		<center><span class="glyphicon glyphicon-home" style="font-size:30px"></span></center><br>
@@ -342,7 +344,7 @@
 			<input type="text" class="form-control" name = "start_date" value ="<%=start_date%>" style="display: none;">
 			<input type="text" class="form-control" name = "end_date" value ="<%=end_date%>" style="display: none;">
 			<input type="text" class="form-control" name = "property_id" value ="<%=property._id%>" style="display: none;">
-			<input type="text" class="form-control" name = "description" value ="<%=property.description%>" style="display: none;">
+			<input type="text" class="form-control" name = "description" value ="<%=property.property_title%>" style="display: none;">
 			<input type="text" class="form-control" name = "host_id" value ="<%=property.host_id%>" style="display: none;">
 			<input type="text" class="form-control" name = "city" value ="<%=property.address.city%>" style="display: none;">
 			<input type="text" class="form-control" name = "state" value ="<%=property.address.state%>" style="display: none;">

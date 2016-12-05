@@ -52,7 +52,8 @@ $scope.submit= function(){
 		            	end_date:document.getElementById("end_date").defaultValue,
 		            	price:document.getElementById("total").defaultValue, 
 		            	guests:document.getElementById("guests").defaultValue, 
-		            	country:document.getElementById("country").defaultValue
+		            	country:document.getElementById("country").defaultValue,
+		            	cardNum:cardNum
 		            }
 		        }).success(function(data){
 		        	if(data.status_code == "200")
@@ -89,8 +90,18 @@ $scope.payDiff= function(){
 			alert("Date of expiry should be future date");
 		}
 		else{
-			alert("Success Payment");
-			window.location.assign("/api/property/confirmation");
+			$http({
+	            method:"POST",
+	            url:"/api/profile/updateCardDetails",
+	            data:{
+	            	cardNum:cardNum
+	            }
+	        }).success(function(data){
+	        	if(data.status_code == "200"){
+	        		alert("Success Payment");
+					window.location.assign("/api/property/confirmation");
+					}
+	        })
 		}
 		}	
 	}
