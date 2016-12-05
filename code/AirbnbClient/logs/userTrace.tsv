@@ -9,3 +9,34 @@ Timestamp	host_id	user_name	city	property_id	Event
 12/5/2016, 12:54:38 PM	5845b5c3053313b7c43f8d74	vishnu Pernapati	san jose	5845d35c84ef7093109779f4	User views the property page
 12/5/2016, 12:56:51 PM	5845b5c3053313b7c43f8d74	vishnu Pernapati	san jose	5845d35c84ef7093109779f4	User views the property page
 12/5/2016, 12:57:07 PM	5845b5c3053313b7c43f8d74	vishnu Pernapati	san jose	5845d35c84ef7093109779f4	User views the property page
+12/5/2016, 2:25:27 PM	5845e93d950029168430da71	Kelly test	Santa Clara	5845e833a778d91f34c7b41d	User views the property page
+12/5/2016, 2:25:28 PM	5845e93d950029168430da71	Kelly test	Santa Clara	5845e833a778d91f34c7b41d	Proceeds to Payment
+12/5/2016, 2:25:38 PM	5845e93d950029168430da71	Kelly test	Santa Clara	5845e833a778d91f34c7b41d	Property Booking Done
+12/5/2016, 2:26:44 PM	5845e93d950029168430da71	Kelly test	Santa Clara	5845e8eea778d91f34c7b420	User views the property page
+12/5/2016, 2:26:46 PM	5845e93d950029168430da71	Kelly test	Santa Clara	5845e8eea778d91f34c7b420	Proceeds to Payment
+12/5/2016, 2:26:53 PM	5845e93d950029168430da71	Kelly test	Santa Clara	5845e8eea778d91f34c7b420	Property Booking Done
+12/5/2016, 2:27:25 PM	5845e93d950029168430da71	Kelly test	Santa Clara	5845e875a778d91f34c7b41e	User views the property page
+12/5/2016, 2:27:27 PM	5845e93d950029168430da71	Kelly test	Santa Clara	5845e875a778d91f34c7b41e	Proceeds to Payment
+12/5/2016, 2:27:33 PM	5845e93d950029168430da71	Kelly test	Santa Clara	5845e875a778d91f34c7b41e	Property Booking Done
+12/5/2016, 2:37:47 PM	5845e93d950029168430da71	Kelly test	Santa Clara	5845ec3a950029168430da75	User views the property page
+12/5/2016, 2:38:29 PM	5844e31e5fd9b21fbcc0fabd	Mayank das	San Jose	5845e8a7a778d91f34c7b41f	User views the property page
+12/5/2016, 2:38:31 PM	5844e31e5fd9b21fbcc0fabd	Mayank das	San Jose	5845e8a7a778d91f34c7b41f	Proceeds to Payment
+12/5/2016, 2:38:37 PM	5844e31e5fd9b21fbcc0fabd	Mayank das	San Jose	5845e8a7a778d91f34c7b41f	Property Booking Done
+12/5/2016, 2:42:20 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845e8a7a778d91f34c7b41f	User views the property page
+12/5/2016, 2:42:22 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845e8a7a778d91f34c7b41f	Proceeds to Payment
+12/5/2016, 2:42:29 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845e8a7a778d91f34c7b41f	Property Booking Done
+12/5/2016, 2:43:31 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845eb2c950029168430da72	User views the property page
+12/5/2016, 2:43:33 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845eb2c950029168430da72	Proceeds to Payment
+12/5/2016, 2:43:44 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845eb2c950029168430da72	User views the property page
+12/5/2016, 2:44:02 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845eb2c950029168430da72	User views the property page
+12/5/2016, 2:44:34 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845eb2c950029168430da72	User views the property page
+12/5/2016, 2:44:36 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845eb2c950029168430da72	Proceeds to Payment
+12/5/2016, 2:44:45 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845eb2c950029168430da72	Property Booking Done
+12/5/2016, 2:49:34 PM	5844e31e5fd9b21fbcc0fabd	Mayank das	San Jose	5845e875a778d91f34c7b41e	User views the property page
+12/5/2016, 2:49:35 PM	5844e31e5fd9b21fbcc0fabd	Mayank das	San Jose	5845e875a778d91f34c7b41e	Proceeds to Payment
+12/5/2016, 2:49:43 PM	5844e31e5fd9b21fbcc0fabd	Mayank das	San Jose	5845e875a778d91f34c7b41e	Property Booking Done
+12/5/2016, 2:54:50 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845f01a950029168430da76	User views the property page
+12/5/2016, 2:54:52 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845f01a950029168430da76	Photos are viewed
+12/5/2016, 2:54:56 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845f01a950029168430da76	User views the property page
+12/5/2016, 2:54:58 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845f01a950029168430da76	Proceeds to Payment
+12/5/2016, 2:55:07 PM	5844eca05fd9b21fbcc0fabf	Krishnan KRK	San Jose	5845f01a950029168430da76	Property Booking Done

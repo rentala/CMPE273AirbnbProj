@@ -113,8 +113,8 @@
                             var minimum = data.finalData[0].value;
                             for(var i = 0; i < data.finalData.length; i++){
                                 if(data.finalData[i].value < minimum){
-                                    minimum = data.finalData[i].key
-                                    leastSeenPageArray.push(minimum);
+                                    minimum = data.finalData[i].value;
+                                    leastSeenPageArray[0] = data.finalData[i].key;
                                 }
                                 console.log("minimum = " + minimum + JSON.stringify(leastSeenPageArray));
                             }
