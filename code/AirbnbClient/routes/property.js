@@ -200,6 +200,7 @@ router.post('/list', function (req, res, next)  {
                 msg_payload.host_status = "ACCEPTED";
                 queue = "list_property_queue";
                 msg_payload.isHostActive = true;
+
                 break;
             case "REQUESTED":
                 msg_payload.host_status = "REQUESTED";

@@ -152,7 +152,7 @@ var updateTrip = {
                		 }
                	 });
                 }
-            },sql_queries.UPDATE_TRIP,[msg.status, msg.trip_id]);
+            },sql_queries.UPDATE_TRIP,[msg.status, msg.host_name, msg.trip_id]);
         }
     };
 
