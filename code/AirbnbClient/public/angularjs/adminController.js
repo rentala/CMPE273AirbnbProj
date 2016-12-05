@@ -3,8 +3,12 @@
  */
 var adminApp = angular.module('adminApp',[]);
 adminApp.controller('adminController',function($scope,$http,$rootScope){
-    $rootScope.showDashboard =true;
     $rootScope.showHostsByCity = false;
+    $rootScope.showDashboard = true;
+    $rootScope.showInbox = false;
+    $rootScope.showBills = false;
+    $rootScope.showError = false;
+
     $scope.logIn = function(){
         $http({
             method:"POST",
@@ -80,7 +84,7 @@ adminApp.controller('adminController',function($scope,$http,$rootScope){
 adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
 
     $rootScope.showHostsByCity = false;
-    $rootScope.showDashboard = false;
+    $rootScope.showDashboard = true;
     $rootScope.showInbox = false;
     $rootScope.showBills = false;
 
@@ -97,6 +101,35 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
         $rootScope.showInbox = false;
         $rootScope.showBills = false;
         $rootScope.showHostsByCity = false;
+
+        $scope.showTopProperties = true;
+        $scope.showCityWiseRevenues = false;
+        $scope.showTopHost = false;
+
+        $http({
+            method : "POST",
+            url : "/api/analytics/topProp",
+            data :{
+                "no_of_props" : 10,
+                "year" : "2016"
+            }
+        }).success(function(data){
+          console.log("Top Properites controller : " + JSON.stringify(data));
+            if(data.status_code == 200){
+                $scope.topProperties = data.top_property;
+                console.log("Angular Top Properties : " + JSON.stringify($scope.topProperties) );
+                var svg = d3.select('#topPropertiesDiv') .append('svg') .attr('height', 200) .attr('width', 300);
+                displayBar( $scope.topProperties,svg,"Property Name","Revenue")
+            }
+            else if(data.status_code == 400){
+                console.log("error on service side");
+            }
+            else if(data.status_code == 401){
+                $rootScope.showError = true;
+                console.log("no data recieved");
+            }
+        })
+
     }
 
 
@@ -277,6 +310,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
     $scope.getTopProperties = function(){
      
      console.log("Top Properties");
+     $rootScope.showError = false;
      
         $scope.showTopProperties = true;
         $scope.showCityWiseRevenues = false;
@@ -305,12 +339,14 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 console.log("error on service side");
             }
             else if(data.status_code == 401){
+                $rootScope.showError = true;
                 console.log("no data recieved");
             }
         })
     }
 
     $scope.getCityWiseRevenue = function(){
+        $rootScope.showError = false;
      
      console.log("City Wise Revenue");
         $scope.showTopProperties = false;
@@ -340,6 +376,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                     console.log("error on service");
                 }
                 else if(data.status_code == 401){
+                    $rootScope.showError = true;
                     console.log("no data received");
                 }
             })
@@ -347,7 +384,7 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
     } 
 
     $scope.getTopHost = function(){
-     
+     $rootScope.showError = false;
      console.log("Top Host");
         $scope.showTopProperties = false;
         $scope.showCityWiseRevenues = false;
@@ -375,12 +412,13 @@ adminApp.controller('adminHomeController', function($scope,$http,$rootScope){
                 console.log("error on service");
             }
             else if(data.status_code == 401){
+                $rootScope.showError = true;
                 console.log("no data received");
             }
         })
     };
 
-    $scope.inbox();
+    $scope.dashboard();
     var displayBar = function (data,svg,xname,yname) {
         console.log("X name"+xname);
         console.log("Y name"+yname);

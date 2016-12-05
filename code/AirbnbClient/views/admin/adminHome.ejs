@@ -54,14 +54,14 @@
 			<div id = "DASHBOARD" ng-show = "showDashboard">
 				<div class="col-sm-1"></div>
 				<div class = "col-sm-2">
-					<h2>DASHBOARD</h2>
+					<h2>Analytics Dashboard</h2>
 					<p><a href = "" ng-click = "getTopProperties()">Top Properties</a></p>
 					<p><a href = "" ng-click = "getCityWiseRevenue()">City Wise Revenues</a></p>
 					<p><a href = "" ng-click = "getTopHost()">Top Host</a></p>
 				</div>
-				<div class = "col-sm-9">
+				<div class = "col-sm-9" style = "margin-top: 20px">
 					<div ng-show = "showTopProperties">
-						<h2 style="margin-left:30%">Show Top Properties</h2>
+						<h4>Top 10 Property Analytics</h4>
 						<div id = "topPropertiesDiv"></div>
 					</div>
 
@@ -74,12 +74,15 @@
 
 						</div>
 						<button class = "btn btn-success" ng-click = "getCityRevenue()" style="margin-top:5px">Get City Revenue</button>
-						<div id = "cityWiseRevenueDiv"></div>
+						<div id = "cityWiseRevenueDiv" style = "margin-top: 20px"></div>
 					</div>
 
 					<div ng-show = "showTopHost">
-					<h2 style="margin-left:30%">Show Top Host</h2>
+					<h4>Top 10 Hosts Analytics</h4>
 						<div id = "topHostDiv"></div>
+					</div>
+					<div ng-show = "showError">
+						<p>There is no analytics available!</p>						
 					</div>
 				</div>
 			</div>
