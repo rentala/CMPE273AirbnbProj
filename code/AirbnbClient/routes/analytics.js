@@ -95,8 +95,7 @@ router.post('/topHost',function (req,res) {
 });
 
 router.get('/propRatings',function (req,res) {
-	var host_id = req.param("host_id");
-    //var host_id = req.session.user._id;
+    var host_id = req.session.user._id;
     console.log("In AirbnbClient  : analytics.js  : propRatings : "+host_id);
     var msg_payload = {"host_id":host_id};
 
